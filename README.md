@@ -1,5 +1,7 @@
 # 🧟 ROOFTOP ESCAPE — Outbreak
 
+> **▶ PLAY IT LIVE: https://bryan273.github.io/rooftop-escape/**
+
 A 3D first-person zombie survival escape game in **one single HTML file**. Inspired by *All of Us Are Dead* + PUBG-style audio indicators + escape-room puzzles.
 
 ## 🎭 Two game modes
