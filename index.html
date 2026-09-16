@@ -94,12 +94,20 @@
   #lobbyList{min-width:320px;margin:14px 0;font-size:15px;line-height:2}
   #lobbyList div:before{content:"▸ ";color:var(--red)}
 
-  /* ---------- prologue ---------- */
+  /* ---------- prologue / intro comic ---------- */
   #prologue{background:#000;display:none;align-items:center;justify-content:center;z-index:60;flex-direction:column;text-align:center;padding:30px}
   #prologue .story{max-width:680px;font-size:17px;line-height:2;color:#cfc8bb;text-align:left}
   #prologue .story em{color:var(--red);font-style:normal}
-  #prologue .go{margin-top:40px;font-size:15px;letter-spacing:4px;color:var(--amber);animation:pulse 1.6s infinite;cursor:pointer}
+  #prologue .go{margin-top:26px;font-size:15px;letter-spacing:4px;color:var(--amber);animation:pulse 1.6s infinite;cursor:pointer;min-height:22px}
   @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  #introWrap{position:relative;max-width:min(900px,92vw)}
+  #introCv{width:100%;display:block;background:#000;border:1px solid #1e1e22;box-shadow:0 24px 80px #000;cursor:pointer}
+  #introCap{min-height:56px;margin-top:16px;font-size:16px;line-height:1.75;color:#cfc8bb;max-width:740px;margin-left:auto;margin-right:auto;text-shadow:0 2px 6px #000}
+  #introCap em{color:var(--red);font-style:normal}
+  #introDots{margin-top:10px;letter-spacing:7px;color:#5c564e;font-size:12px;min-height:16px}
+  #introSkip{position:absolute;top:12px;right:12px;opacity:.75;z-index:2}
+  #livesLbl{margin-top:9px;font-size:12px;letter-spacing:2px;color:#ff9090;text-shadow:0 1px 2px #000}
+  #btnRespawn{border-left-color:#c9a227;animation:pulse 1.6s infinite}
 
   /* ---------- HUD ---------- */
   #hud{z-index:20;pointer-events:none;display:none}
@@ -122,7 +130,27 @@
   .card{display:inline-block;width:14px;height:9px;margin-right:4px;border:1px solid #000}
   #topL{position:fixed;left:22px;top:18px;max-width:420px}
   #floorLbl{font-size:13px;letter-spacing:4px;color:#b9b1a4;text-shadow:0 1px 3px #000}
-  #obj{margin-top:7px;font-size:14px;line-height:1.5;color:#ffd9a0;text-shadow:0 1px 3px #000;border-left:3px solid var(--red);padding-left:10px}
+  #missionTag{margin-top:5px;font-size:11px;letter-spacing:3px;color:#ff6b6b;text-shadow:0 1px 3px #000;font-weight:700}
+  #obj{margin-top:6px;font-size:14px;line-height:1.5;color:#ffd9a0;text-shadow:0 1px 3px #000;border-left:3px solid var(--red);padding-left:10px}
+  #objWhy{margin-top:5px;font-size:12px;line-height:1.55;color:#9a938a;text-shadow:0 1px 3px #000;border-left:3px solid rgba(193,39,45,.35);padding-left:10px;max-width:400px}
+  #objBanner{position:fixed;top:15%;left:50%;transform:translateX(-50%);text-align:center;z-index:22;pointer-events:none;opacity:0;transition:opacity .6s}
+  #objBanner h2{font-size:26px;letter-spacing:7px;color:#ffd9a0;text-shadow:0 0 20px rgba(193,39,45,.85),0 2px 4px #000}
+  #objBanner p{margin-top:8px;font-size:14px;color:#cfc8bb;text-shadow:0 2px 4px #000;max-width:560px}
+  #missionBrief{display:none;max-width:620px;background:var(--panel);border:1px solid #333;border-top:2px solid var(--red);padding:24px 32px;text-align:left;box-shadow:0 20px 60px #000}
+  #missionBrief h3{font-size:13px;letter-spacing:3px;color:#ffd9a0;margin-bottom:14px}
+  #missionBrief p{font-size:15px;line-height:1.9;color:#cfc8bb;margin-bottom:10px}
+  #missionBrief .main{color:#ff8a8a;letter-spacing:2px;font-weight:700;border-top:1px solid #333;padding-top:12px;margin-bottom:0}
+  #cctvLog{position:absolute;inset:0;background:rgba(1,6,3,.94);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:3}
+  #cctvLog .t{font:15px/2.1 Consolas,monospace;color:#59ff7a;white-space:pre-wrap;max-width:680px;text-align:left;text-shadow:0 0 8px rgba(89,255,122,.5)}
+
+  /* ---------- mid-game chapter comics ---------- */
+  #chapter{background:#000;display:none;align-items:center;justify-content:center;z-index:57;flex-direction:column;text-align:center;padding:24px}
+  #chapter .wrap{position:relative;max-width:min(900px,92vw)}
+  #chCv{width:100%;display:block;border:1px solid #1e1e22;box-shadow:0 24px 80px #000;cursor:pointer}
+  #chSkip{position:absolute;top:12px;right:12px;opacity:.75}
+  #chTitle{margin-top:18px;font-family:"Arial Black","Segoe UI",sans-serif;font-size:clamp(18px,2.6vw,26px);letter-spacing:5px;color:#e8e4da;text-shadow:0 0 18px rgba(193,39,45,.8)}
+  #chCap{margin-top:10px;font-size:15px;line-height:1.8;color:#cfc8bb;max-width:760px;margin-left:auto;margin-right:auto;min-height:48px}
+  #chDots{margin-top:8px;letter-spacing:7px;color:#5c564e;font-size:12px}
   #toasts{position:fixed;top:70px;left:50%;transform:translateX(-50%);text-align:center}
   .toast{background:rgba(0,0,0,.72);border:1px solid var(--edge);color:#ffd9a0;padding:9px 22px;margin:6px auto;
     font-size:15px;letter-spacing:1px;width:max-content;animation:toastIn .3s}
@@ -209,13 +237,16 @@
   <div id="topL">
     <div id="floorLbl">FLOOR 1 — ENTRANCE</div>
     <div id="squad" style="display:none"></div>
+    <div id="missionTag"></div>
     <div id="obj"></div>
+    <div id="objWhy"></div>
   </div>
   <div id="hintKey">[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals</div>
   <div id="bars">
     <div class="bar"><span class="ico" id="icoHp">HEALTH</span><div class="fill" id="hpFill"></div></div>
     <div class="bar"><span class="ico" id="icoSt">STAMINA</span><div class="fill" id="stFill"></div></div>
     <div class="bar"><span class="ico" id="icoBt">FLASHLIGHT</span><div class="fill" id="btFill"></div></div>
+  <div id="livesLbl"></div>
   </div>
   <div id="invRow">
     <div class="slot off" id="slotCrowbar"><div class="n">☰</div><span id="slotCrowbarL">CROWBAR</span></div>
@@ -225,6 +256,7 @@
     <div class="slot off" id="slotCards"><div class="n" id="cardIcons"></div><span id="slotCardsL">KEYCARDS</span></div>
   </div>
   <div id="toasts"></div>
+  <div id="objBanner"><h2 id="objBannerH">OBJECTIVE UPDATED</h2><p id="objBannerTxt"></p></div>
   <div id="subtitle"></div>
   <div id="prompt" class="hidden"><b>E</b><span id="promptTxt"></span></div>
   <div id="promptBar" class="hidden"><div class="fill" id="promptFill"></div></div>
@@ -302,10 +334,20 @@
   <button class="btn small" id="btnLobbyLeave">Leave</button>
 </div>
 
-<!-- PROLOGUE -->
+<!-- PROLOGUE / INTRO COMIC -->
 <div id="prologue" class="layer">
-  <div class="story" id="storyTxt"></div>
-  <div class="go" id="prologueGo">— CLICK TO WAKE UP —</div>
+  <div id="introWrap">
+    <button class="btn small" id="introSkip">SKIP ▶</button>
+    <canvas id="introCv" width="960" height="540"></canvas>
+    <div id="introCap"></div>
+    <div id="introDots"></div>
+  </div>
+  <div id="missionBrief">
+    <h3 id="briefH"></h3>
+    <div id="briefTxt"></div>
+    <p class="main" id="briefM"></p>
+  </div>
+  <div class="go hidden" id="prologueGo">— CLICK TO WAKE UP —</div>
 </div>
 
 <!-- GOALS OVERLAY -->
@@ -342,17 +384,30 @@
   <canvas id="cctvC" width="880" height="495"></canvas>
   <div id="cctvHint">◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal</div>
   <button class="btn hidden release" id="shutterBtn">RELEASE FLOOR 6 SHUTTER</button>
+  <div id="cctvLog"><div class="t" id="cctvLogTxt"></div></div>
 </div>
 
 <!-- NOTE -->
 <div id="note" class="layer"><div class="paper"><h3 id="noteTitle"></h3><div id="noteBody"></div>
   <div class="close" id="noteClose">[E] / [ESC] put it down</div></div></div>
 
+<!-- CHAPTER COMICS -->
+<div id="chapter" class="layer">
+  <div class="wrap">
+    <button class="btn small" id="chSkip">SKIP ▶</button>
+    <canvas id="chCv" width="960" height="540"></canvas>
+  </div>
+  <div id="chTitle"></div>
+  <div id="chCap"></div>
+  <div id="chDots"></div>
+</div>
+
 <!-- DEATH -->
 <div id="death" class="layer">
   <h1>YOU DIED</h1>
   <p id="deathTxt">The building keeps your bones.</p>
   <p id="respawnTxt" style="color:var(--amber)"></p>
+  <button class="btn hidden" id="btnRespawn">RESPAWN NOW</button>
   <button class="btn hidden" id="btnDeathMenu">Quit to menu</button>
 </div>
 
@@ -407,7 +462,9 @@ const MODES={
 let MD=MODES.scary;   // active mode params — set before world build
 /* scary sound name -> friendly replacement (used only when MD is lite) */
 const LMAP={growl1:'servo',growl2:'whir',growl3:'beep',scream:'boing',zstep:'rstep',
-  stinger:'boing',alarm:'happyAlarm',hurt:'pop',whisper:'whir',creak:'servo',clang:'pop'};
+  stinger:'boing',alarm:'happyAlarm',hurt:'pop',whisper:'whir',creak:'servo',clang:'pop',
+  snarl:'servo',zbreath:'whir',breath:'whir',pstepRun:'rstep',pstepWalk:'rstep',pstepSneak:'rstep',buzz:'whir',
+  zroar:'boing',eat:'pop',zmouth:'servo'};
 
 /* ---------------- i18n (EN / 简体中文) ---------------- */
 let LANG='en';
@@ -445,9 +502,12 @@ en:{
  death_h:'YOU DIED',death_l:'YOU GOT BONKED',death_p:'The building keeps your bones.',death_pl:'The bots gently roll you to a safe corner. Restarting…',
  respawn:'Respawning in {n}s…',down_h:'YOU ARE DOWN',down_hl:'TACKLED!',
  down_mp:'A friend can revive you — hold on!',down_mp_l:'A friend can un-bonk you — hold on!',down_sp:'Nobody left to help you…',down_sp_l:'The bots are politely waiting. Ow.',
+ down_help:'No retries left — a friend can hold [E] to help you up. Nobody coming? The run ends here.',
+ death_restart:'The run is over. You will start again from the beginning.',
  vic:'EXTRACTED',vic_p:'The helicopter lifts away from Seowon High. You made it.',vic_pl:'The rescue drone whisks you away from Seowon High. The bots wave goodbye. 🤖',
  st_time:'Time: ',st_kills:'Zombies put down: ',st_killsl:'Bots bounced: ',st_down:'Times down: ',st_squad:'Squad: {n} survivors',st_solo:'Solo escape',
- ring_a:'🟠 Orange arc = something is moving on that side (works through walls)',ring_al:'🔵 Colored arc = a bot is active on that side (it works through walls)',
+ ring_a:'🟠 A faint arc — something is moving on that side. Listen. Guess.',
+ ring_al:'🔵 A faint arc — a bot is active on that side',
  ring_b:'🔴 RED arc = it is CHASING you from that side! RUN.',ring_bl:'🔵 BRIGHT BLUE arc = the bot is coming straight for you!',
  p_hold:'HOLD POSITION…',p_wait:'Extraction — waiting for friends ({i}/{t})',
  lock_hint:'🖱️ CLICK THE GAME TO CAPTURE THE MOUSE',
@@ -510,7 +570,7 @@ en:{
  g_locked:'Locked. Requires the {c} keycard.',g_accept:'{c} keycard accepted.',
  g_shutter1:'Security shutter. No power — find the generator (Floor 2).',g_shutter2:'Powered. Release it from the CCTV terminal (Floor 2).',
  g_power:'Magnetic lock engaged. Reset the breaker on Floor 11.',
- sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_stairs_to:'STAIRS ➜',wp_up:'⬆ STAIRS — up to FLOOR {n}',wp_down:'⬇ STAIRS — back down to FLOOR {n}',wp_here:'OBJECTIVE · {d} m',radio_stairs:'The stairwell is the tower at the EAST end of the hall — walk through the archway. Follow the green arrows on the floor.',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_stairs_to:'STAIRS ➜',wp_up:'⬆ STAIRWELL — end of the hall (EAST) · to FLOOR {n}',wp_down:'⬇ STAIRWELL — end of the hall (EAST) · back to FLOOR {n}',wp_here:'OBJECTIVE · {d} m',radio_stairs:'The stairwell is the tower at the EAST end of the hall — follow the green arrows on the floor, through the glowing arch.',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_records:'RECORDS',sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_elev:'ELEVATOR — OUT OF ORDER',
  fl_roof:'ROOF',fl_floor:'F{n}',
@@ -526,6 +586,75 @@ en:{
  n6t:'INFIRMARY INTAKE',n6b:'Yellow card belongs to the head nurse. Bite victims don\'t turn for about an hour. She taped the card under the bed. She also stopped breathing yesterday. The tape is still there.',
  n7t:'TORN DIARY PAGE',n7b:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to 14 before the shouting started. If anyone reads this — RUN, don\'t count the dead.',
  n8t:'PAINTED ON THE WALL',n8b:'THE ROOF IS THE WAY OUT. THEY HATE THE LIGHT. HOLD AT THE SMOKE AND DON\'T LOOK DOWN THE STAIRWELL.',
+ lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW',death_left:'Retries left: {n}',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',l_talk:'Talk to {n}',
+ npc1_name:'Mr. Park (wounded)',
+ npc1_1:'Shh! Keep your voice down… I teach biology here. Room 312. It started in OUR lab, on Floor 12.',
+ npc1_2:'Take my flares — the dark floors eat flashlight batteries. And whatever you hear on Floor 12, do NOT open those doors.',
+ npc1_3:'My students ran up ahead of me. If you meet any of them and they are… different now — you do what you have to. Go.',
+ npc2_name:'Ji-eun (student)',
+ npc2_1:'You\'re not one of THEM. Okay. Okay okay okay. I\'m Ji-eun — I\'ve been hiding since the Floor 12 alarm.',
+ npc2_2:'The head nurse kept a YELLOW keycard taped under her bed in the infirmary, one floor up. She\'s… still in there. Don\'t make noise.',
+ npc2_3:'Take my medkits. When you reach the roof — wave something at the windows. I\'ll be watching for you. Good luck.',
+ mis:'MISSION: ESCAPE THE BUILDING',obj_upd:'OBJECTIVE UPDATED',q_arch:'Use the CCTV terminal — watch the evacuation record.',
+ ch2_t:'CHAPTER 2 — WHAT THE CAMERAS SAW',ch2_c:'Floor 2. The security room still has power — backup only. Whatever happened in this school tonight, the cameras recorded every minute of it.',
+ ch3_t:'CHAPTER 3 — THE DARK FLOORS',ch3_c:'The shutter groans open on Floor 6. Above it the building is dead: no lights, no cameras, no telling what is waiting on the landings. Flares first. Courage second.',
+ ch4_t:'CHAPTER 4 — THE BREACH',ch4_c:'Floor 12 is the bio lab. The alarms say containment failed hours ago. The doors below you are open now — and everything inside knows exactly where you are.',
+ ch5_t:'CHAPTER 5 — MIDNIGHT',ch5_c:'The roof. Cold air, green smoke, and the helicopter holding at the circle. Behind you the roof door slams against the wall. You made it this far. Hold the circle.',
+ objective_n:'OBJECTIVE {n}/{t} —',
+ w0:'The building is black. You can\'t survive what you can\'t see.',
+ w1:'Security controls this building. Find out what happened — and find a way up.',
+ w2:'The terminal runs on backup power. Its record will tell you what happened here.',
+ w3:'The log says the floor-gate keys were left on the security desk. This desk.',
+ w4:'Boarded rooms hide supplies — and worse. The janitor\'s closet on Floor 1 has a crowbar.',
+ w5:'The elevator is dead and the Floor 6 shutter has no power. The generator in this room can fix that.',
+ w6:'Power is on. Use the terminal to release the Floor 6 shutter — the only way further up.',
+ w7:'The Floor 3 stairwell gate takes the RED card. Climb.',
+ w8:'The shutter is open. Get back to the stairwell and climb past Floor 6.',
+ w9:'The boarded server room on Floor 6 hides the BLUE card.',
+ w10:'The Floor 8 gate takes the BLUE card.',
+ w11:'Floors 8–9 are dark. The GREEN card is in the records office on Floor 9.',
+ w12:'The Floor 11 gate takes the GREEN card.',
+ w13:'The alarm on Floor 12 is a containment breach. Get ABOVE it. Now.',
+ w14:'The breach killed the sub-breaker. Reset it — Electrical room, Floor 11 — to free the Floor 15 gate.',
+ w15:'Sub-power on. The Floor 15 gate is released. Climb.',
+ w16:'The infirmary on Floor 15 hides the YELLOW card.',
+ w17:'The Floor 17 gate takes the YELLOW card.',
+ w18:'The Floor 19 stairwell is boarded. Pry it.',
+ w19:'THE ROOF. The helicopter holds at the green smoke.',
+ w20:'Hold the circle. Do not let them reach you. The helicopter is coming.',
+ br_h:'DAY 1 — 23:47 · SEOWON HIGH SCHOOL',
+ br1:'Study camp. The city fell in a single night — you woke on the entrance-hall floor and the main doors are sealed.',
+ br2:'Ji-woo, a student who made it upstairs, is on the radio: a military helicopter reaches the ROOFTOP at midnight.',
+ br3:'Twenty floors. No elevator. And something is moving in the dark between you and the roof.',
+ br_m:'MAIN OBJECTIVE: ESCAPE — REACH THE ROOFTOP',
+ cl_h:'CCTV ARCHIVE — BACKUP POWER',cl_note:'A RED keycard sits on this desk. The generator in this room restores main power.',
+ cl1:'23:31 · CAM 12 — STUDENTS MOVING UP. STAIRWELL IS THE ONLY ROUTE.',cl2:'23:33 · CONTAINMENT FAILED — FLOOR 12 SEALED.',
+ cl3:'23:34 · ELEVATORS DISABLED — SECURITY PROTOCOL 7.',cl4:'23:35 · STAIRWELL GATES LOCKED. KEYCARDS HELD: SECURITY DESK (THIS ROOM).',cl5:'23:36 · SIGNAL LOST.',
+ l_cctv_bak:'Use CCTV terminal (backup power)',l_elev:'Try the elevator',
+ elev_dead:'ELEVATOR — NO POWER. Security cut it (Protocol 7). The stairwell at the end of the hall is the only way up.',
+ elev_jam:'ELEVATOR — OUT OF ORDER. Something is knocking on the other side of the doors. Don\'t.',
+ gw_red:'CCTV room, Floor 2',gw_blue:'server room, Floor 6',gw_green:'records office, Floor 9',gw_yellow:'infirmary, Floor 15',
+ g_locked2:'Locked. It takes the {c} keycard — {where}.',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',
+ rb1:'Good, a light. Keep the beam low — they notice it. The security room is upstairs, Floor 2.',
+ rb2:'That\'s the CCTV room. The terminal has backup power — watch the archive. It will tell you what happened.',
+ rb3:'You saw it. Everyone ran UP. The floor gates locked behind them — the keys are on the desk in front of you.',
+ rb4:'Red card. The Floor 3 gate takes it — but arm yourself first. The janitor\'s closet on Floor 1 has a crowbar.',
+ rb5:'A crowbar. Boards, doors, skulls — it handles all three. Now back to Floor 2 and restore the power.',
+ rb6:'Main power on! The shutter relay is still dead though — release Floor 6 from the CCTV terminal.',
+ rb7:'Shutter released. Get past Floor 6. Its server room is boarded from the INSIDE — the BLUE card is racked there.',
+ rb8:'Gate\'s open. Quietly now. They hunt by sound first, sight second.',
+ rb9:'The blue card is racked in the server room. Read the sign-in sheet — the last entry went up to the roof lab.',
+ rb10:'Blue card. The Floor 8 gate is yours. Beyond that it\'s pitch dark. Flares first, courage second.',
+ rb11:'Past Floor 8. If your light dies in there — stop. Listen. Then walk.',
+ rb12:'Dr. Moon\'s card. She locked herself in the records office. She never signed out.',
+ rb13:'Halfway. Floor 12 is the bio lab. If any alarm sounds up there — don\'t be on 12.',
+ rb14:'You\'re above the breach. Breathe. The alarm killed the sub-breaker on 11 — reset it for the 15 gate.',
+ rb15:'Sub-power on. The infirmary on 15 hides the yellow card — taped under the bed. She\'s still there too.',
+ rb16:'Floor 15 gate released. I\'m sorry about the nurse. Keep climbing.',
+ rb17:'Yellow card accepted. Two gates left. The stairwell smells like them now.',
+ rb18:'The 17 gate is open. They know your stairs now — don\'t stop on the landings.',
+ rb19:'Last boards pried. The roof door stands open. I\'ll see you in the sun.',
+ rb20:'The roof! Green smoke, hold the circle. Whatever crawls up after you — the helicopter is faster.',
 },
 zh:{
  sl0:'汽水洒在充电底座上，现在每台助手机器人都想要一个拥抱。无人机会到楼顶接你——快快快！',
@@ -559,9 +688,12 @@ zh:{
  death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。正在重启…',
  respawn:'{n} 秒后重生…',down_h:'你倒下了',down_hl:'被扑倒了！',
  down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地围观。哎哟。',
+ down_help:'没有重试机会了——队友可以按住 [E] 扶起你。没人来？本次逃亡就到此为止。',
+ death_restart:'逃亡失败。你将从头开始。',
  vic:'成功撤离',vic_p:'直升机载你飞离书元高中。你活下来了。',vic_pl:'救援无人机带你飞离书元高中。机器人向你挥手告别。🤖',
  st_time:'用时：',st_kills:'消灭丧尸：',st_killsl:'弹开的机器人：',st_down:'倒地次数：',st_squad:'小队：{n} 名幸存者',st_solo:'单人逃生',
- ring_a:'🟠 橙色光弧 = 那个方向有东西在移动（可穿墙感知）',ring_al:'🔵 光弧 = 那个方向有机器人活动（可穿墙感知）',
+ ring_a:'🟠 微弱的光弧——那个方向有东西在动。听。猜。',
+ ring_al:'🔵 微弱的光弧——那个方向有机器人活动',
  ring_b:'🔴 红色光弧 = 它正从那边追你！快跑！',ring_bl:'🔵 亮蓝色光弧 = 机器人正朝你冲来！',
  p_hold:'守住位置…',p_wait:'撤离中——等待队友（{i}/{t}）',
  lock_hint:'🖱️ 点击游戏画面以锁定鼠标',
@@ -624,7 +756,7 @@ zh:{
  g_locked:'已上锁。需要{c}钥匙卡。',g_accept:'{c}钥匙卡已验证。',
  g_shutter1:'安全卷帘门。没有电力——去2层找发电机。',g_shutter2:'已通电。请在2层监控终端解除。',
  g_power:'电磁锁锁定。请重置11层的断路器。',
- sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_stairs_to:'楼梯 ➜',wp_up:'⬆ 上楼 — 前往第 {n} 层',wp_down:'⬇ 下楼 — 返回第 {n} 层',wp_here:'目标 · {d} 米',radio_stairs:'楼梯间在大厅最东边的塔楼里——穿过拱门。跟着地上的绿色箭头走。',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_stairs_to:'楼梯 ➜',wp_up:'⬆ 楼梯间——大厅尽头（东侧）· 前往第 {n} 层',wp_down:'⬇ 楼梯间——大厅尽头（东侧）· 返回第 {n} 层',wp_here:'目标 · {d} 米',radio_stairs:'楼梯间在大厅最东边的塔楼里——跟着地上的绿色箭头，穿过发光的拱门。',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
  sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_records:'档案室',sg_infir:'医务室',sg_roof:'天台通道',sg_elev:'电梯 — 停用',
  fl_roof:'天台',fl_floor:'{n}层',
@@ -640,6 +772,75 @@ zh:{
  n6t:'医务室登记',n6b:'黄卡是护士长的。被咬的人大约一小时后才会转变。她把卡贴在了床底。她昨天也停止了呼吸。胶带还在。',
  n7t:'撕下的日记',n7b:'第3天？直升机午夜会来。他们说去楼顶。我们班爬到14层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
  n8t:'墙上的涂写',n8b:'天台是出路。它们怕光。守在烟雾旁，别朝楼梯间下面看。',
+ lives_lbl:'剩余重生',btn_respawn:'立即重生',death_left:'剩余重生次数：{n}',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',l_talk:'和 {n} 交谈',
+ npc1_name:'朴老师（受伤）',
+ npc1_1:'嘘……小声点。我在这教生物。312实验室——一切都是从12层我们的实验室开始的。',
+ npc1_2:'拿走我的照明弹——黑暗楼层最耗手电电量。在12层不管听到什么，都千万别开门。',
+ npc1_3:'我的学生们先跑上去了。如果你遇到他们，而他们已经……变了样——你只能做你该做的事。快走。',
+ npc2_name:'智恩（学生）',
+ npc2_1:'你不是“它们”。好。好好。我叫智恩——12层警报响起后我就一直躲在这里。',
+ npc2_2:'护士长在楼上的医务室里，床底下贴着一张黄色钥匙卡。她……她还在里面。千万别出声。',
+ npc2_3:'医疗包拿去。到了天台——朝窗户挥挥手里的东西，我会看着你。加油。',
+ mis:'任务：逃出大楼',obj_upd:'目标已更新',q_arch:'使用监控终端——查看撤离记录。',
+ ch2_t:'第二章 — 摄像头看到了什么',ch2_c:'2层。保安室还有电——只是备用电源。今晚学校里发生的一切，摄像头都记录了下来。',
+ ch3_t:'第三章 — 黑暗楼层',ch3_c:'6层的卷帘门嘎嘎开启。再往上，整栋楼死了：没有灯，没有摄像头，不知道平台上等着什么。先拿照明弹。再谈勇气。',
+ ch4_t:'第四章 — 收容失效',ch4_c:'12层是生物实验室。警报说收容几小时前就失败了。你身下的门全开了——里面的每一样东西都知道你在哪。',
+ ch5_t:'第五章 — 午夜',ch5_c:'天台。冷空气，绿色烟雾，直升机守在圆圈旁。身后天台的门撞在墙上。你走到了这里。守住圆圈。',
+ objective_n:'目标 {n}/{t} —',
+ w0:'大楼一片漆黑。看不见，就活不下去。',
+ w1:'保安室控制着整栋楼。搞清楚这里发生了什么——并找到上楼的路。',
+ w2:'终端用备用电源运行。它的记录会告诉你这里发生了什么。',
+ w3:'记录说楼层的门禁卡留在了保安桌上。就是这张桌。',
+ w4:'被木板封住的房间里藏着物资——还有更糟的东西。1层的杂物间有一根撬棍。',
+ w5:'电梯没电了，6层的卷帘门也断了电。这个房间里的发电机可以解决。',
+ w6:'来电了。用终端解除6层卷帘门——那是继续上楼唯一的路。',
+ w7:'3层楼梯间的门用红色门卡。爬上去。',
+ w8:'卷帘门开了。回到楼梯间，爬过6层。',
+ w9:'6层被木板封住的服务器室里藏着蓝色门卡。',
+ w10:'8层的门用蓝色门卡。',
+ w11:'8–9层一片漆黑。绿色门卡在9层档案室。',
+ w12:'11层的门用绿色门卡。',
+ w13:'12层的警报是收容失效。立刻到它上面去。',
+ w14:'警报烧毁了分断路器。去11层电气室合闸，15层的门才会开。',
+ w15:'分闸合上。15层的门已解锁。继续爬。',
+ w16:'15层医务室里藏着黄色门卡。',
+ w17:'17层的门用黄色门卡。',
+ w18:'19层楼梯口被木板封着。撬开它。',
+ w19:'天台。直升机守在绿色烟雾旁。',
+ w20:'守住圆圈。别让它们碰到你。直升机马上就到。',
+ br_h:'第一天 — 23:47 · 书元高中',
+ br1:'通宵自习。城市在一夜之间沦陷——你在门厅的地板上醒来，大门被封死了。',
+ br2:'逃到楼上的学生智宇在无线电里说：军用直升机午夜降落天台。',
+ br3:'二十层楼。电梯停用。而在你和天台之间的黑暗里，有什么东西在动。',
+ br_m:'主要目标：逃生——登上天台',
+ cl_h:'监控存档 — 备用电源',cl_note:'这张桌上有一张红色门卡。这个房间里的发电机可以恢复主电源。',
+ cl1:'23:31 · 12号镜头——学生正在向上撤离。楼梯间是唯一的路线。',cl2:'23:33 · 收容失败——12层已封闭。',
+ cl3:'23:34 · 电梯停用——保安协议7。',cl4:'23:35 · 楼层门已全部锁闭。门卡留存：保安桌（本房间）。',cl5:'23:36 · 信号中断。',
+ l_cctv_bak:'使用监控终端（备用电源）',l_elev:'试试电梯',
+ elev_dead:'电梯——没有电。保安把它切断了（协议7）。大厅尽头的楼梯间是唯一上楼的路。',
+ elev_jam:'电梯——停用。有东西在门的另一侧敲。别开。',
+ gw_red:'2层监控室',gw_blue:'6层服务器室',gw_green:'9层档案室',gw_yellow:'15层医务室',
+ g_locked2:'已上锁。需要{c}门卡——{where}。',sg_allfloors:'楼梯间 ➜ 通往所有楼层',
+ rb1:'有光了？好。光束压低——它们会注意到。保安室在楼上，2层。',
+ rb2:'这就是监控室。终端用备用电源运行——看看存档。它会告诉你发生了什么。',
+ rb3:'你看到了。所有人都往楼上跑。楼层门在他们身后锁上了——钥匙就在你面前的桌上。',
+ rb4:'红卡。3层的门认它——但先武装自己。1层的杂物间有撬棍。',
+ rb5:'撬棍。木板、门、还有头骨——它都能搞定。现在回2层恢复供电。',
+ rb6:'主电源恢复了！不过卷帘门的继电器还是断电——去监控终端解除6层。',
+ rb7:'卷帘门已解除。爬过6层。那里的服务器室是从里面封死的——蓝卡就在机架上。',
+ rb8:'门开了。保持安静。它们先靠听觉，再靠视觉。',
+ rb9:'蓝卡在服务器室的机架上。看看签到表——最后一条记录去了楼顶实验室。',
+ rb10:'蓝卡。8层的门归你了。再往上全黑。先拿照明弹，再谈勇气。',
+ rb11:'闯过8层了。手电要是灭了对——停下。听。再走。',
+ rb12:'文博士的卡。她把自己锁进了档案室，再没签到离开。',
+ rb13:'一半了。12层是生物实验室。上面警报一响——别待在12层。',
+ rb14:'你在失效区上方了。喘口气。警报烧掉了11层的分断路器——合上它，15层的门才会开。',
+ rb15:'分闸合上了。15层医务室的黄卡——贴在床底下。她也在那里。抱歉。',
+ rb16:'15层的门开了。护士的事我很难过。继续爬。',
+ rb17:'黄卡已验证。还剩两道门。楼梯间已经有它们的气味了。',
+ rb18:'17层的门开了。它们记住你的楼梯了——别在平台停留。',
+ rb19:'最后一批木板撬开了。天台的门开着。太阳下见。',
+ rb20:'天台！绿色烟雾，守住圆圈。不管什么爬上来——直升机更快。',
 }};
 function T(k,vars){
   let d=(I18N[LANG]&&I18N[LANG][k]!==undefined)?I18N[LANG][k]:I18N.en[k];
@@ -672,6 +873,7 @@ function applyLang(){
     set('btnResume',T('btn_resume'));set('btnQuit',T('btn_quit'));
     const cl=$('ctrlList');if(cl)cl.innerHTML=T('ctrl');
     set('goalsTitle',T('goals_title'));
+    set('missionTag',T('mis'));
     set('cctvHint',T('cctv_hint'));set('shutterBtn',T('shutter_btn'));
     set('noteClose',T('note_close'));setP('chatIn',T('chat_ph'));
     set('lockHint',T('lock_hint'));
@@ -691,10 +893,11 @@ const G={
   mode:'menu',            // menu | lobby | playing
   mp:false, host:true, started:false, paused:false,
   time:0, dt:0,
-  flags:{power:false,power2:false,shutter6:false,finale:false,victory:false,flashIntro:false},
+  flags:{power:false,power2:false,shutter6:false,finale:false,victory:false,flashIntro:false,cctvSeen:false},
   cards:{red:false,blue:false,green:false,yellow:false},
   gatesOpen:new Set(), boardsBroken:new Set(), taken:new Set(), notesRead:new Set(),
-  floorsSeen:new Set(),
+  floorsSeen:new Set(), chaptersSeen:new Set(),
+  dangerFloor:-1,
   stats:{kills:0,deaths:0,start:0},
   chatOpen:false, uiLock:null,   // 'cctv' | 'note' | null
 };
@@ -929,35 +1132,137 @@ function buildTextures(){
       x.fillStyle='#0e0a06';x.fillRect(0,ry+60,w,5);
     }
   });
+  /* ---- zombie flesh & cloth (procedural gore, shared across zombies) ---- */
+  const splatter=(x,w,h,n,rmin,rmax,a0,a1)=>{for(let i=0;i<n;i++){
+    x.fillStyle=`rgba(${irand(rmin,rmax)},8,10,${rand(a0,a1).toFixed(2)})`;
+    const r=rand(3,16),bx=rand(0,w),by=rand(0,h);x.beginPath();x.arc(bx,by,r,0,TAU);x.fill();
+    for(let k=0;k<5;k++){const a=rand(0,TAU),d=r+rand(2,14);x.beginPath();x.arc(bx+Math.cos(a)*d,by+Math.sin(a)*d,rand(1,4),0,TAU);x.fill();}}};
+  TEX.zskin=makeCanvas(128,128,(x,w,h)=>{
+    x.fillStyle='#8d9478';x.fillRect(0,0,w,h);
+    for(let i=0;i<400;i++){const v=irand(100,150);x.fillStyle=`rgba(${v-20},${v},${v-40},.25)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
+    // dark veins
+    x.strokeStyle='rgba(70,60,80,.4)';x.lineWidth=1;
+    for(let i=0;i<10;i++){x.beginPath();let px=rand(0,w),py=rand(0,h);x.moveTo(px,py);for(let k=0;k<5;k++){px+=rand(-14,14);py+=rand(-14,14);x.lineTo(px,py);}x.stroke();}
+    splatter(x,w,h,5,80,120,0.25,0.6);
+    // bruises
+    for(let i=0;i<6;i++){x.fillStyle=`rgba(${irand(40,70)},${irand(50,80)},${irand(35,55)},${rand(.15,.3)})`;
+      x.beginPath();x.arc(rand(0,w),rand(0,h),rand(6,18),0,TAU);x.fill();}
+  });
+  TEX.zclothA=makeCanvas(128,128,(x,w,h)=>{ // teacher clothes: dark suit + loose red tie
+    x.fillStyle='#2c2f36';x.fillRect(0,0,w,h);
+    for(let i=0;i<200;i++){x.fillStyle=`rgba(${irand(20,45)},${irand(22,48)},${irand(26,55)},.4)`;x.fillRect(rand(0,w),rand(0,h),rand(1,5),rand(1,5));}
+    x.fillStyle='#fff';x.fillRect(w/2-9,0,18,h*0.5); // shirt strip
+    x.fillStyle='#7a1418';x.fillRect(w/2-4,4,8,h*0.44); // the tie, pulled loose
+    x.fillStyle='#7a1418';x.fillRect(w/2-7,0,14,8); // knot
+    x.strokeStyle='rgba(5,5,6,.9)';x.lineWidth=2;
+    for(let i=0;i<6;i++){x.beginPath();const px=rand(0,w);x.moveTo(px,rand(0,h*0.4));x.lineTo(px+rand(-10,10),rand(h*0.5,h));x.stroke();}
+    splatter(x,w,h,7,90,130,0.3,0.7);
+  });
+  TEX.zclothB=makeCanvas(128,128,(x,w,h)=>{ // brute rags with exposed-rib shading
+    x.fillStyle='#23281e';x.fillRect(0,0,w,h);
+    for(let i=0;i<160;i++){x.fillStyle=`rgba(${irand(15,35)},${irand(20,40)},${irand(12,28)},.5)`;x.fillRect(rand(0,w),rand(0,h),rand(2,6),rand(1,4));}
+    x.fillStyle='rgba(190,180,160,.5)'; // ribs showing through the tear
+    for(let i=0;i<4;i++)x.fillRect(w*0.3+i*10,h*0.3,5,h*0.34);
+    x.fillStyle='rgba(0,0,0,.8)';x.fillRect(w*0.3-3,h*0.26,w*0.42,4);
+    splatter(x,w,h,9,80,110,0.35,0.75);
+  });
+  TEX.zuniform=makeCanvas(128,128,(x,w,h)=>{ // school uniform: white shirt + GREEN VEST (freshly turned student)
+    x.fillStyle='#e2ddd0';x.fillRect(0,0,w,h); // white shirt
+    for(let i=0;i<80;i++){x.fillStyle=`rgba(${irand(190,222)},${irand(185,215)},${irand(170,200)},.3)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
+    // green vest panels with a white V down the chest
+    x.fillStyle='#3f7a44';
+    x.fillRect(4,6,30,h-10);x.fillRect(w-34,6,30,h-10);
+    x.beginPath();x.moveTo(4,4);x.lineTo(w/2-14,4);x.lineTo(w/2,h*0.34);x.lineTo(w/2+14,4);x.lineTo(w-4,4);x.lineTo(w-4,16);x.lineTo(w/2+20,h*0.3);x.lineTo(w/2,h*0.5);x.lineTo(w/2-20,h*0.3);x.lineTo(4,16);x.closePath();x.fill();
+    x.fillStyle='#d8d3c6';x.fillRect(w/2-5,6,10,h-10); // shirt placket over the vest
+    x.strokeStyle='#1c2a4a';x.lineWidth=2;x.beginPath();x.moveTo(w/2-14,4);x.lineTo(w/2,h*0.34);x.lineTo(w/2+14,4);x.stroke(); // collar
+    splatter(x,w,h,7,110,150,0.45,0.85); // fresh blood across the uniform
+  });
+  TEX.zface=makeCanvas(128,128,(x,w,h)=>{ // painted infected face: sunken eyes, blood streak, grimy mouth
+    x.fillStyle='#a8937f';x.fillRect(0,0,w,h); // pale human skin
+    for(let i=0;i<220;i++){const v=irand(120,165);x.fillStyle=`rgba(${v-25},${v-35},${v-55},.2)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
+    // grime + bruises
+    for(let i=0;i<7;i++){x.fillStyle=`rgba(${irand(45,75)},${irand(40,65)},${irand(35,55)},${rand(.12,.28)})`;
+      x.beginPath();x.arc(rand(0,w),rand(0,h),rand(8,22),0,TAU);x.fill();}
+    // sunken eye sockets (mirror-friendly: face is drawn looking at you)
+    for(const ex of [40,88]){
+      x.fillStyle='rgba(20,12,12,.92)';x.beginPath();x.ellipse(ex,52,15,11,0,0,TAU);x.fill();
+      x.fillStyle='rgba(255,42,26,.85)';x.beginPath();x.arc(ex,52,3.6,0,TAU);x.fill(); // ember iris
+      x.strokeStyle='rgba(60,30,30,.5)';x.lineWidth=2;x.beginPath();x.moveTo(ex-16,64);x.lineTo(ex-4,70);x.stroke(); // eyebags
+    }
+    // the wound: bloody streak running down from the left eye (reference-style)
+    x.fillStyle='rgba(96,8,10,.9)';
+    x.beginPath();x.moveTo(88,46);x.quadraticCurveTo(102,74,96,108);x.quadraticCurveTo(88,84,78,52);x.closePath();x.fill();
+    for(let i=0;i<10;i++){x.fillStyle=`rgba(${irand(90,130)},8,10,${rand(.4,.85)})`;
+      x.beginPath();x.arc(88+rand(-14,16),46+rand(0,66),rand(1.5,5),0,TAU);x.fill();}
+    // torn, grimy mouth region (the jaw mesh + teeth sit over this)
+    x.fillStyle='rgba(50,8,10,.75)';x.beginPath();x.ellipse(64,102,17,10,0,0,TAU);x.fill();
+    x.fillStyle='rgba(200,190,170,.5)';for(let i=0;i<5;i++)x.fillRect(50+i*6,96,3,5); // teeth hints
+    // dirt
+    for(let i=0;i<26;i++){x.fillStyle='rgba(40,32,26,.28)';x.fillRect(rand(0,w),rand(0,h),rand(1,3),rand(1,3));}
+  });
+  TEX.zgown=makeCanvas(128,128,(x,w,h)=>{ // hospital gown — patient that never checked out
+    x.fillStyle='#b8bcb0';x.fillRect(0,0,w,h);
+    x.strokeStyle='rgba(120,124,116,.7)';x.lineWidth=1;
+    for(let i=0;i<6;i++){x.beginPath();x.moveTo(0,i*h/6);x.lineTo(w,i*h/6);x.stroke();}
+    splatter(x,w,h,5,90,125,0.25,0.6);
+  });
 }
 
 /* ================= AUDIO ================= */
-const AUD={ctx:null,master:null,loops:{},ready:false,heartT:0};
+const AUD={ctx:null,master:null,loops:{},ready:false,heartT:0,breathT:0.9,threat:0};
 function ensureAudio(){
   if(AUD.ready)return;
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  if(ctx.state==='suspended'&&ctx.resume)ctx.resume();
   AUD.ctx=ctx;
-  AUD.master=ctx.createGain();AUD.master.gain.value=SET.vol;AUD.master.connect(ctx.destination);
+  AUD.master=ctx.createGain();AUD.master.gain.value=SET.vol;
+  // gentle master compression: tames clipping crackle that made everything sound "like a radio"
+  AUD.comp=ctx.createDynamicsCompressor();
+  AUD.comp.threshold.value=-16;AUD.comp.knee.value=20;AUD.comp.ratio.value=4;
+  AUD.comp.attack.value=0.004;AUD.comp.release.value=0.22;
+  AUD.master.connect(AUD.comp);AUD.comp.connect(ctx.destination);
   const SR=ctx.sampleRate;
   const mk=(dur,fn)=>{const b=ctx.createBuffer(1,Math.max(1,Math.floor(dur*SR)),SR),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=fn(i/SR,i/d.length);return b;};
   const noiseBuf=mk(2,()=>Math.random()*2-1);
   const ND=noiseBuf.getChannelData(0);
   const R=Math.random;
-  function growl(dur,f0,f1){let ph=0;return mk(dur,(t,p)=>{
-    const vib=Math.sin(t*2*Math.PI*(6+R()*2))*8;
-    const f=lerp(f0,f1,p)+vib;ph+=f/SR;
-    const n=ND[Math.floor((t*SR*0.5)%ND.length)]*0.5;
-    const wob=0.55+0.45*Math.sin(p*Math.PI*(2+R()));
-    return (Math.sin(ph*Math.PI*2)*0.6+n*0.5)*Math.min(1,p*8)*(1-p)*wob;
+  function growl(dur,f0,f1){let ph=0,ph2=0,ph3=0;return mk(dur,(t,p)=>{
+    const vib=Math.sin(t*2*Math.PI*(5.5+R()*2))*7;
+    const f=lerp(f0,f1,p)+vib;ph+=f/SR;ph2+=f*1.98/SR;ph3+=f*2.98/SR;
+    const n=ND[Math.floor((t*SR*0.5)%ND.length)]*0.22; // less hiss, more throat
+    const wob=0.6+0.4*Math.sin(p*Math.PI*(2+R()*0.5));
+    const env=Math.min(1,p*10)*(1-p)*(1-p*0.3);
+    return (Math.sin(ph*Math.PI*2)*0.5+Math.sin(ph2*Math.PI*2)*0.28+Math.sin(ph3*Math.PI*2)*0.12+n)*env*1.25;
   });}
   const B=AUD.B={
     growl1:growl(1.0,85,55), growl2:growl(0.8,120,70), growl3:growl(1.3,65,40),
     scream:mk(1.1,(t,p)=>{const f=lerp(900,1400,p)+(R()*80);return (Math.sin(t*f*Math.PI*2)*0.5+Math.sin(t*f*1.5*Math.PI*2)*0.3)*(1-p)*0.8+ (R()*2-1)*0.25*(1-p);}),
-    zstep:mk(0.13,(t,p)=>(R()*2-1)*Math.pow(1-p,2)*0.7),
+    /* player footsteps: heel-then-toe double transient, weight matches the gait */
+    pstepRun:mk(0.2,(t,p)=>{const heel=p<0.3?Math.sin(t*88*Math.PI*2)*Math.pow(1-p/0.3,2)*0.8:0;
+      const toe=(p>0.42&&p<0.85)?Math.sin(t*70*Math.PI*2)*Math.pow(1-(p-0.42)/0.43,2)*0.55:0;
+      const sc=ND[Math.floor(t*SR*1.3)%ND.length]*0.28*Math.pow(1-p,2);return heel+toe+sc;}),
+    pstepWalk:mk(0.18,(t,p)=>{const heel=p<0.3?Math.sin(t*80*Math.PI*2)*Math.pow(1-p/0.3,2)*0.5:0;
+      const toe=(p>0.42&&p<0.85)?Math.sin(t*66*Math.PI*2)*Math.pow(1-(p-0.42)/0.43,2)*0.34:0;
+      const sc=ND[Math.floor(t*SR*1.1)%ND.length]*0.18*Math.pow(1-p,2);return heel+toe+sc;}),
+    pstepSneak:mk(0.13,(t,p)=>{const sc=ND[Math.floor(t*SR*0.9)%ND.length]*0.14*Math.pow(1-p,2.5);
+      return sc*Math.sin(p*Math.PI)+Math.sin(t*70*Math.PI*2)*Math.pow(1-p,3)*0.1;}),
+    /* infected footsteps: deep dragging thud with a wet shuffle tail */
+    zstep:mk(0.24,(t,p)=>{const th=Math.sin(t*52*Math.PI*2)*Math.pow(1-p,2.4)*0.85;
+      const dr=ND[Math.floor(t*SR*0.6)%ND.length]*0.3*Math.pow(1-p,1.3)*Math.sin(p*Math.PI);
+      return th+dr;}),
     pstep:mk(0.09,(t,p)=>(R()*2-1)*Math.pow(1-p,3)*0.5),
-    heart:mk(0.5,(t,p)=>{const th=p<0.18?Math.sin(t*55*Math.PI*2):(p>0.3&&p<0.45?Math.sin(t*52*Math.PI*2)*0.7:0);return th*Math.pow(1-p,1.5);}),
+    heart:mk(0.66,(t,p)=>{ // lub-dub, deep and close — the reference "you hear your own heart" feel
+      const a=p<0.16?Math.sin(t*46*Math.PI*2)*Math.pow(1-p/0.16,1.4):0;
+      const b=(p>0.27&&p<0.44)?Math.sin(t*40*Math.PI*2)*0.66*Math.pow(1-(p-0.27)/0.17,1.4):0;
+      return (a+b)*Math.pow(1-p,0.55);
+    }),
     stinger:mk(1.4,(t,p)=>{const e=Math.pow(1-p,1.2);const s=Math.sin(t*220*Math.PI*2*(1+p*1.5))+Math.sin(t*227*Math.PI*2*(1+p*1.5))+Math.sin(t*110*Math.PI*2);return (s*0.4+(R()*2-1)*0.5*p*3)*e;}),
-    creak:mk(1.2,(t,p)=>{const f=170-90*p+Math.sin(t*11)*30;return Math.sin(t*f*Math.PI*2)*Math.sin(p*Math.PI)*0.35+(R()*2-1)*0.06*Math.sin(p*Math.PI);}),
+    creak:mk(1.7,(t,p)=>{ // slow stick-slip door hinge: pitch sag + irregular catch
+      const sag=1-p*0.45;
+      const f=(150+Math.sin(t*9.3)*26+Math.sin(t*3.7)*18)*sag;
+      const slip=Math.pow(Math.abs(Math.sin(t*5.1+Math.sin(t*1.7)*1.2)),0.6);
+      return Math.sin(t*f*Math.PI*2)*0.3*slip*Math.sin(p*Math.PI)+(R()*2-1)*0.045*slip*Math.sin(p*Math.PI);
+    }),
     clang:mk(1.6,(t,p)=>{const e=Math.pow(1-p,3);let s=0;[523,677,911,1244].forEach((f,i)=>s+=Math.sin(t*f*Math.PI*2)*Math.pow(1-p,1+i*0.7));return s*0.12*e+(R()*2-1)*0.2*e;}),
     whisper:mk(1.5,(t,p)=>{const bp=Math.abs(Math.sin(t*3.1))*600+900;const n=ND[Math.floor(t*SR)%noiseBuf.length];return n*Math.sin(p*Math.PI)*0.16;}),
     pickup:mk(0.22,(t,p)=>{const f=p<0.5?880:1320;return Math.sin(t*f*Math.PI*2)*Math.pow(1-p,2)*0.3;}),
@@ -982,6 +1287,46 @@ function ensureAudio(){
     happyAlarm:mk(1.8,(t,p)=>{const notes=[523,659,784];const n=notes[Math.floor(t*3)%3];const on=(t*3%1)<0.55;return Math.sin(t*n*Math.PI*2)*on*0.28*Math.min(1,p*8)*(1-Math.pow(p,6)*0.7);}),
     ding:mk(0.9,(t,p)=>(Math.sin(t*1318*Math.PI*2)*0.4+Math.sin(t*2637*Math.PI*2)*0.15)*Math.pow(1-p,2.2)*0.5),
     shot:mk(0.3,(t,p)=>{const n=ND[Math.floor(t*SR*4)%ND.length];return (n*0.85+Math.sin(t*120*Math.PI*2)*0.5)*Math.pow(1-p,3)*0.9;}),
+    /* --- horror extras: zombie snarl, zombie breath, player breath --- */
+    snarl:mk(0.5,(t,p)=>{const f=lerp(190,80,p);const s=Math.sin(t*f*Math.PI*2)*0.5+Math.sin(t*f*2.7*Math.PI*2)*0.3+(R()*2-1)*0.3;
+      return s*Math.pow(1-p,1.4)*(0.3+0.7*Math.min(1,p*12));}),
+    zbreath:mk(1.1,(t,p)=>{const n=ND[Math.floor(t*SR*0.7)%ND.length];
+      return n*Math.sin(p*Math.PI)*0.22*(0.6+0.4*Math.sin(t*31*TAU));}),
+    breath:mk(1.5,(t,p)=>{const n=ND[Math.floor(t*SR*0.5)%ND.length];
+      const inh=p<0.42?Math.sin(p/0.42*Math.PI):0;
+      const exh=p>=0.5?Math.sin((p-0.5)/0.5*Math.PI):0;
+      const rasp=1+0.3*Math.sin(t*92)*Math.sin(t*37); // throat rasp
+      return n*0.34*(inh*0.75+exh)*rasp*(1+0.2*Math.sin(t*26*TAU));}),
+    buzz:mk(2.4,(t,p)=>{ // fluorescent hum — the building itself is nervous
+      const f=118+Math.sin(t*7)*3;
+      const fl=Math.sin(t*1.1)>-0.55?1:0.25;
+      return (Math.sin(t*f*TAU)*0.16+Math.sin(t*f*2.02*TAU)*0.08)*fl*Math.sin(Math.min(1,p*4)*Math.PI)*(1-Math.pow(p,2.5));
+    }),
+    /* close-range zombie roar: sub-bass + raspy harmonics + breath — INTENSE (near only) */
+    zroar:(()=>{let ph=0,ph2=0,ph3=0;return mk(1.8,(t,p)=>{
+      const f=lerp(58,34,p)+Math.sin(t*11)*4;
+      ph+=f/SR;ph2+=f*1.5/SR;ph3+=f*2.94/SR;
+      const n=ND[Math.floor(t*SR*0.7)%ND.length]*0.4;
+      const am=0.55+0.45*Math.sin(t*20.5+Math.sin(t*3.1)*2); // irregular roar pulse
+      const env=Math.min(1,p*6)*(1-p*p);
+      return (Math.sin(ph*TAU)*0.55+Math.sin(ph2*TAU)*0.3+Math.sin(ph3*TAU)*0.18+n*0.5)*am*env*1.3;
+    });})(),
+    /* wet feeding: irregular smacks + squelch (heard when they hunch over a body) */
+    eat:mk(1.6,(t,p)=>{let out=0;
+      const smacks=[[0.08,0.1],[0.24,0.08],[0.45,0.12],[0.62,0.07],[0.85,0.1],[1.1,0.09],[1.32,0.13]];
+      for(const[st,d]of smacks){
+        if(t>=st&&t<st+d){const q=(t-st)/d;
+          out+=(ND[Math.floor(t*SR*2)%ND.length]*0.5+Math.sin(t*lerp(220,90,q)*TAU)*0.3)*Math.sin(q*Math.PI)*0.5;}
+      }
+      return out;}),
+    /* mouth: dry clicks and lip smacks — they are always working their jaws */
+    zmouth:mk(1.3,(t,p)=>{let out=0;
+      const clicks=[[0.05,0.04],[0.3,0.05],[0.55,0.04],[0.8,0.06],[1.05,0.04]];
+      for(const[st,d]of clicks){
+        if(t>=st&&t<st+d){const q=(t-st)/d;
+          out+=(Math.sin(t*lerp(700,300,q)*TAU)*0.2+ND[Math.floor(t*SR*3)%ND.length]*0.25)*Math.sin(q*Math.PI);}
+      }
+      return out;}),
   };
   AUD.noise=noiseBuf;
   // spooky reverb (scary mode only)
@@ -992,17 +1337,20 @@ function ensureAudio(){
     const wet=ctx.createGain();wet.gain.value=0.3;
     AUD.master.connect(conv);conv.connect(wet);wet.connect(ctx.destination);
   }
-  // loops
+  // loops — the world is SILENT by design now: no music, no drone bed.
+  // The helicopter rotor is kept because it is diegetic (you can really hear it on the roof).
   function loop(name,buf,vol){const s=ctx.createBufferSource();s.buffer=buf;s.loop=true;
     const g=ctx.createGain();g.gain.value=vol;s.connect(g);g.connect(AUD.master);s.start();AUD.loops[name]=g;return g;}
-  const drone=mk(6,(t,p)=>{let s=Math.sin(t*55*Math.PI*2)+Math.sin(t*58.3*Math.PI*2)*0.7+Math.sin(t*110.7*Math.PI*2)*0.3;
-    const wind=ND[Math.floor(t*SR)%noiseBuf.length]*0.12*(0.6+0.4*Math.sin(t*0.9));return s*0.06+wind;});
-  loop('drone',drone,0.5);
-  const tens=mk(4,(t,p)=>{const tr=0.5+0.5*Math.sin(t*8*Math.PI);return Math.sin(t*46*Math.PI*2)*0.22*tr+Math.sin(t*1244*Math.PI*2)*0.015*(1-tr);});
-  const tg=loop('tension',tens,0.0);
   const chop=mk(1.0,(t,p)=>{const rot=(Math.sin(t*13*TAU)*0.5+0.5);const n=ND[Math.floor(t*SR)%noiseBuf.length];
     return (n*rot*0.5+Math.sin(t*41*Math.PI*2)*0.15)*0.8;});
-  const cg=loop('chopper',chop,0.0);
+  loop('chopper',chop,0.0);
+  // subtle room tone: the building breathes too (ventilation far above)
+  if(MD.jumpscares){
+    const vent=mk(4,(t,p)=>{const n=ND[Math.floor(t*SR*0.22)%ND.length];
+      const lfo=0.55+0.45*Math.sin(t*0.45+Math.sin(t*0.13)*2);
+      return n*lfo*0.5+Math.sin(t*63*Math.PI*2)*0.014;});
+    loop('vent',vent,0.06);
+  }
   AUD.ready=true;
 }
 function setLoop(name,v){if(!AUD.ready)return;const g=AUD.loops[name];if(g)g.gain.setTargetAtTime(v,AUD.ctx.currentTime,0.4);}
@@ -1013,7 +1361,8 @@ const _sv=new THREE.Vector3();
 function play(name,opts={}){
   if(!AUD.ready||G.mode!=='playing'&&!opts.force)return;
   const ctx=AUD.ctx;let vol=opts.vol??1,pan=0;
-  if(opts.pos&&camera){
+  if(opts.pan!==undefined){pan=clamp(opts.pan,-1,1);}          // fixed pan (L/R footfalls)
+  else if(opts.pos&&camera){
     _sv.copy(opts.pos).sub(camera.position);
     const d=_sv.length();
     vol*=clamp(1/(1+d*d*0.012),0.02,1)*(opts.ref??30);
@@ -1055,7 +1404,7 @@ renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.05;
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);sizeGrain();});
 
-const world={cols:Array.from({length:CFG.FLOORS+1},()=>[]),levels:[],layout:[],items:[],doors:[],gates:[],zombies:[],
+const world={cols:Array.from({length:CFG.FLOORS+1},()=>[]),levels:[],layout:[],items:[],doors:[],gates:[],zombies:[],npcs:[],
   terminal:null,breakers:{},extract:null,heli:null,roofGroup:null,burstDoor:null,moon:null,
   roomDoor:{}};
 let MAT={};
@@ -1244,6 +1593,12 @@ class GateC{
     }
     this.col={x0:gx-0.13,x1:gx+0.13,z0:z0,z1:z1,y0:y,y1:y+2.5,los:false,off:false};
     world.cols[f].push(this.col);
+    // lock status lamp: RED = sealed, GREEN = open. Readable from across the hall.
+    this.lampMat=new THREE.MeshStandardMaterial({color:0x220000,emissive:0xff2211,emissiveIntensity:1.8});
+    if(type!=='board'){
+      const lamp=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),this.lampMat);
+      lamp.position.set(0.16,2.44,0);this.g.add(lamp);
+    }
     this.baseY=base;
     this.locked=true;
     world.gates.push(this);
@@ -1258,7 +1613,7 @@ class GateC{
     if(g.type.startsWith('card')){
       const col=g.type.split('-')[1];
       if(G.cards[col]){g.unlock();toast(T('g_accept',{c:col.toUpperCase()}));}
-      else toast(T('g_locked',{c:col.toUpperCase()}));
+      else toast(T('g_locked2',{c:col.toUpperCase(),where:T('gw_'+col)}));
       return'done';
     }
     if(g.type==='shutter'){
@@ -1275,12 +1630,15 @@ class GateC{
     return'done';
   }
   unlock(){this.locked=false;this.setOpen(true);
+    if(this.lampMat){this.lampMat.emissive.setHex(0x22ff66);}
     if(G.mp&&!G.host)netSend({t:'ev',k:'gate',f:this.f});
     if(G.host&&G.mp)netBroadcast({t:'ev',k:'gate',f:this.f});
   }
   setOpen(o){
     this.open=o;this.col.off=o;this.locked=!o&&this.type!=='board';
     if(o){G.gatesOpen.add(this.f);play('rumble',{pos:this.g.position,vol:.9,ref:20});emitNoise(this.g.position.x,this.g.position.z,this.f,10);
+      // the tower notices: nearby zombies drift toward the opening gate
+      for(const z of world.zombies){if(z.dead)continue;if(z.f===this.f||z.f===this.f-1)z.hear(this.g.position.x,this.g.position.z);}
       if(G.host&&G.mp)netBroadcast({t:'ev',k:'gate',f:this.f});}
   }
   breakBoards(){
@@ -1426,6 +1784,21 @@ function pruneFurniture(){
     return true;
   });
 }
+/* carve out a small furniture-free spot (for NPC placements in already-furnished rooms) */
+function clearArea(f,x,z,r){
+  if(!world.furn)return;
+  const hit=[];
+  for(const b of world.furn){
+    if(b.f!==f)continue;
+    const cx=clamp(x,b.x0,b.x1),cz=clamp(z,b.z0,b.z1);
+    if(dist2(cx,cz,x,z)<r*r){
+      if(b.mesh&&b.mesh.parent)b.mesh.parent.remove(b.mesh);
+      if(b.col)b.col.off=true;
+      hit.push(b);
+    }
+  }
+  world.furn=world.furn.filter(b=>!hit.includes(b));
+}
 function boxHitsWall(f,x,z,sx,sz){ // does a furniture footprint overlap any wall/partition?
   for(const c of world.cols[f]){
     if(!c.los||c.off)continue;
@@ -1520,9 +1893,17 @@ function buildFloor(f){
   const L=new THREE.Group();world.levels.push(L);scene.add(L);
   const y=f*CFG.FH;
   const FH=CFG.FH,TOW=CFG.TOWER,LA=CFG.LANE;
-  // plate (4 boxes, leaving lane hole)
+  // plate (4 boxes, leaving lane hole) — the hole is cut WIDER than the stairs so the
+  // slab above can never read like a "roof" blocking the climb
+  const SHAFT={x0:LA.x0-0.12,x1:LA.x1+0.16,z0:LA.z0-0.16,z1:LA.z1+0.16};
   const pf=(x0,z0,x1,z1)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,0.22,z1-z0),MAT.floor);m.position.set((x0+x1)/2,y-0.11,(z0+z1)/2);m.receiveShadow=true;L.add(m);};
-  pf(-24,-10,LA.x0,10);pf(LA.x0,-10,LA.x1,LA.z0);pf(LA.x0,LA.z1,LA.x1,10);pf(LA.x1,-10,24,10);
+  pf(-24,-10,SHAFT.x0,10);pf(SHAFT.x0,-10,SHAFT.x1,SHAFT.z0);pf(SHAFT.x0,SHAFT.z1,SHAFT.x1,10);pf(SHAFT.x1,-10,24,10);
+  // glowing rim around the shaft opening + a light inside the stairwell
+  const rimM=new THREE.MeshStandardMaterial({color:0x0d2010,emissive:0x2fbf5f,emissiveIntensity:1.1});
+  const rim=(x,z,sx,sz)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(sx,0.05,sz),rimM);m.position.set(x,y+0.03,z);L.add(m);};
+  rim((SHAFT.x0+SHAFT.x1)/2,SHAFT.z0-0.07,SHAFT.x1-SHAFT.x0+0.26,0.14);
+  rim((SHAFT.x0+SHAFT.x1)/2,SHAFT.z1+0.07,SHAFT.x1-SHAFT.x0+0.26,0.14);
+  const shaftL=new THREE.PointLight(0xbfe8b0,5,9,1.8);shaftL.position.set(20.5,y+FH-0.5,1.2);L.add(shaftL);
   // ---- outer walls
   addWall(f,-24,-10,-24,10);            // west
   addWall(f,-24,10,16,10);              // north
@@ -1536,19 +1917,28 @@ function buildFloor(f){
   addWall(f,16,TOW.z0,16,-1.4);
   addWall(f,16,1.8,16,TOW.z1);
   addWall(f,16,-1.4,16,1.8,{y:y+2.3,h:FH-2.3});
-  // stairs (steps + analytic ground)
+  // stairs (steps + analytic ground). Steps are THIN TREADS (0.22 slabs at walking height):
+  // full-height boxes from the flight above used to wedge down to zero headroom over the
+  // flight below — the "invisible rooftop" that blocked the way to the next floor.
   const nSteps=Math.round((LA.x1-LA.x0)/CFG.STEP);
   for(let i=0;i<nSteps;i++){
     const h=(i+1)*FH/nSteps;
-    const m=new THREE.Mesh(new THREE.BoxGeometry(CFG.STEP+0.01,h+0.12,LA.z1-LA.z0),MAT.stair);
-    m.position.set(LA.x0+i*CFG.STEP+CFG.STEP/2,y+h/2-0.06,(LA.z0+LA.z1)/2);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(CFG.STEP+0.01,0.22,LA.z1-LA.z0),MAT.stair);
+    m.position.set(LA.x0+i*CFG.STEP+CFG.STEP/2,y+h-0.11,(LA.z0+LA.z1)/2);
     m.receiveShadow=true;L.add(m);
   }
   // stair shaft: visible full-height side walls.
   // They stop at x=22.25, leaving a 1.6 m opening at the top so the landing is easy to walk out of.
-  for(const zEdge of [LA.z0,LA.z1]){
+  for(const zEdge of [SHAFT.z0,SHAFT.z1]){
     addWall(f,17,zEdge-0.06,22.25,zEdge+0.06,{mat:MAT.wall,los:false});
   }
+  // EXIT signs on the shaft-wall end faces — visible while you climb; the landing is sideways
+  const exitSign=(zz)=>signOn(f,22.31,y+2.0,zz,Math.PI/2,TEX.sign(T('sg_exit'),'#06180a','#59ff7a'),0.9,0.26);
+  exitSign(SHAFT.z0);exitSign(SHAFT.z1);
+  // glowing arrow on the landing plate pointing out of the shaft
+  const landArrow=new THREE.Mesh(new THREE.PlaneGeometry(0.8,1.2),MAT.arrow);
+  landArrow.rotation.x=-Math.PI/2;landArrow.rotation.z=0; // point north, out of the shaft
+  landArrow.position.set(22.7,y+CFG.FH+0.02,1.2);L.add(landArrow);
   // bottom: "up" arrow. Top landing: which floor you reached + which way to walk out.
   signOn(f,17.02,y+2.05,1.2,-Math.PI/2,TEX.sign(T('sg_up'),'#06180a','#59ff7a'),1.1,0.3);
   signOn(f,22.75,y+CFG.FH+2.15,2.35,Math.PI,TEX.destLabel(f),1.25,0.6);
@@ -1561,8 +1951,8 @@ function buildFloor(f){
   for(let lx=-21,lidx=0;lx<16;lx+=6,lidx++){
     const li=new THREE.Mesh(new THREE.BoxGeometry(1.4,0.07,0.24),LITE?MAT.lamp:(Math.random()<0.8?MAT.lamp:MAT.lampOff));
     li.position.set(lx,y+FH-0.16,0);L.add(li);
-    if(LITE?lidx%2===0:Math.random()<0.55){
-      const pl=new THREE.PointLight(0xffe6b8,LITE?9.5:7,12,1.9);
+    if(LITE?lidx%2===0:Math.random()<(0.55-Math.min(f,19)*0.014)){
+      const pl=new THREE.PointLight(0xffe6b8,LITE?9.5:(7-Math.min(f,19)*0.1),12,1.9);
       pl.position.set(lx,y+FH-0.5,0);L.add(pl);
       if(!LITE&&Math.random()<0.35){pl.userData.flicker=true;pl.userData.base=7;world.flicker=world.flicker||[];world.flicker.push(pl);}
     }
@@ -1599,12 +1989,19 @@ function buildFloor(f){
     pp.rotation.x=-Math.PI/2;pp.rotation.z=rand(0,TAU);
     pp.position.set(rand(-22,14),y+0.015,rand(-1.4,1.4));L.add(pp);
   }
-  // wayfinding: painted floor arrows + "STAIRS ➜" wall signs pointing to the tower
-  for(const ax of [-18,-10,-2,6,12]){
-    const ar=new THREE.Mesh(new THREE.PlaneGeometry(0.8,1.4),MAT.arrow);
+  // wayfinding: a BRIGHT painted arrow trail leading to the stairwell arch
+  for(const ax of [-21,-16,-11,-6,-1,4,9,13]){
+    const ar=new THREE.Mesh(new THREE.PlaneGeometry(0.9,1.6),MAT.arrow);
     ar.rotation.x=-Math.PI/2;ar.rotation.z=Math.PI/2;   // point east (+x)
     ar.position.set(ax,y+0.02,0);L.add(ar);
   }
+  // glowing portal frame around the tower archway — the way up is impossible to miss
+  const archM=new THREE.MeshStandardMaterial({color:0x0d2010,emissive:0x2fbf5f,emissiveIntensity:1.3});
+  const archTop=new THREE.Mesh(new THREE.BoxGeometry(0.14,0.16,3.6),archM);archTop.position.set(16.06,y+2.32,0.2);L.add(archTop);
+  const archSide1=new THREE.Mesh(new THREE.BoxGeometry(0.14,2.3,0.16),archM);archSide1.position.set(16.06,y+1.15,-1.45);L.add(archSide1);
+  const archSide2=new THREE.Mesh(new THREE.BoxGeometry(0.14,2.3,0.16),archM);archSide2.position.set(16.06,y+1.15,1.85);L.add(archSide2);
+  const archL=new THREE.PointLight(0x59ff7a,6,8,1.8);archL.position.set(15.4,y+2.1,0.2);L.add(archL);
+  signOn(f,16.13,y+2.85,0.2,-Math.PI/2,TEX.sign(T('sg_allfloors'),'#06180a','#59ff7a'),2.4,0.5);
   for(const sx of [-20,-12,-4,4,11]){
     signOn(f,sx,y+2.15,1.46,Math.PI,TEX.sign(T('sg_stairs_to'),'#06180a','#59ff7a'),1.7,0.34);
   }
@@ -1708,13 +2105,22 @@ function buildFloor(f){
   if(Math.random()<MD.loot-0.9)new Pickup('medkit',f,rand(-20,12),y+0.09,rand(-8,8));
   if(f>=4)for(let i=0;i<Math.round(irand(1,2)*MD.loot);i++)new Pickup('flare',f,rand(-22,14),y+0.09,rand(-8,8));
   if(f>=2)for(let i=0;i<irand(1,2);i++)new Pickup('ammo',f,rand(-22,14),y+0.09,rand(-8,8));
-  // ---- zombies
-  const zCount=irand(3,4)+Math.floor(f*0.55);
+  // ---- zombies — encounter escalation: floors 1-2 keep a lone drifter each (plus the
+  // scripted first contact), then density climbs with height.
+  let zCount;
+  if(MD.jumpscares){
+    if(f<=1)zCount=1;
+    else if(f<=4)zCount=irand(1,2)+Math.floor(f*0.3);
+    else zCount=irand(4,5)+Math.floor(f*0.7);
+  }else zCount=irand(3,4)+Math.floor(f*0.55);
   for(let i=0;i<zCount;i++){
     const r=pick(rooms);
     let type='shambler';
-    if(f>=5&&Math.random()<0.3)type='runner';
-    if(f>=11&&Math.random()<0.1)type='brute';
+    const roll=Math.random();
+    if(f>=5&&roll<0.26)type='runner';
+    else if(f>=11&&roll<0.41)type='brute';
+    else if(f>=8&&roll<0.56)type='crawler';
+    else if(f>=7&&roll<0.68)type='screamer';
     const zx=rand(r.x0+1.5,r.x1-1.5),zz=rand(r.z0+1.5,r.z1-1.5);
     spawnZombie(f,zx,zz,type,r);
   }
@@ -1879,6 +2285,9 @@ function buildWorld(){
   for(const[k,type]of Object.entries(GATE_PLAN))new GateC(+k,type);
   // notes
   for(const n of notesList())new Pickup('note',n.f,n.x,n.y,n.z,{id:n.id});
+  // survivor NPCs you can meet along the climb (story + a small gift)
+  new SurvivorNPC(3,-20.5,7.2,'npc1_name',['npc1_1','npc1_2','npc1_3'],()=>{INV.flare+=2;hudInv();toast(T('t_flare'));});
+  new SurvivorNPC(13,-20.5,-7,'npc2_name',['npc2_1','npc2_2','npc2_3'],()=>{INV.medkit+=2;hudInv();toast(T('t_medkit'));});
   // flashlight spot (attached to camera later) is in player section
 }
 
@@ -1983,15 +2392,40 @@ function buildHumanoid(opts={}){
   const cloth=new THREE.MeshStandardMaterial({color:opts.cloth||0x2e3138,roughness:1});
   const parts={};
   const mk=(w,h,d,mat,x,y,z,parent)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);(parent||g).add(m);return m;};
-  parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
-  parts.head=mk(0.26,0.28,0.26,skin,0,1.68,0);
   if(opts.zombie){
-    const em=new THREE.MeshStandardMaterial({color:0x220000,emissive:0xff2a1a,emissiveIntensity:2.6});
-    parts.eyeL=mk(0.05,0.04,0.02,em,-0.06,1.7,-0.135);
-    parts.eyeR=mk(0.05,0.04,0.02,em,0.06,1.7,-0.135);
-    const mouth=mk(0.12,0.05,0.02,new THREE.MeshStandardMaterial({color:0x3a0004}),0,1.6,-0.135);
+    /* ---- infected human: mottled flesh, torn clothes, jaw & glowing sunken eyes ---- */
+    const lk=ZLOOK[opts.ztype]||ZLOOK.shambler;
+    const zm=TEX.zskin?zMats(lk):null;
+    const flesh=zm?zm.skin:skin, rag=zm?zm.cloth:cloth;
+    parts.torso=mk(0.5,0.6,0.28,rag,0,1.2,0.02);
+    mk(0.42,0.22,0.26,rag,0,0.86,0); // hips
+    mk(0.16,0.2,0.02,new THREE.MeshStandardMaterial({color:0x4a0508,roughness:.4}),0.09,1.14,-0.15); // abdominal wound
+    if(opts.ztype==='brute'){ // exposed ribs through the rags
+      const rib=new THREE.MeshStandardMaterial({color:0xcfc4a8,roughness:.8});
+      for(let i=0;i<3;i++)mk(0.3,0.03,0.02,rib,-0.05,1.02+i*0.09,-0.15);
+    }
+    // head: the front face is a PAINTED infected face (sunken ember eyes, blood streak, grimy mouth)
+    const headMats=(zm&&zm.face)?[zm.skin,zm.skin,zm.skin,zm.skin,zm.skin,zm.face]:flesh;
+    parts.head=new THREE.Mesh(new THREE.BoxGeometry(0.27,0.28,0.27),headMats);
+    parts.head.position.set(0,1.66,0);g.add(parts.head);
+    // jaw + open mouth + teeth + dried blood (children of head so they sway with it)
+    const jawM=mk(0.2,0.08,0.2,flesh,0,-0.1,0.015,parts.head);jawM.rotation.x=0.55;
+    mk(0.16,0.05,0.03,new THREE.MeshStandardMaterial({color:0x2a0004,roughness:1}),0,-0.075,-0.115,parts.head);
+    const toothM=new THREE.MeshStandardMaterial({color:0xd8d2b8,roughness:.6});
+    for(let i=0;i<4;i++)mk(0.024,0.034,0.015,toothM,-0.054+i*0.036,-0.06,-0.125,parts.head);
+    mk(0.15,0.075,0.012,new THREE.MeshStandardMaterial({color:0x5a070a,roughness:.5}),0,-0.115,-0.12,parts.head); // blood around mouth
+    const em=new THREE.MeshStandardMaterial({color:0x220000,emissive:lk.eye,emissiveIntensity:2.6});
+    parts.eyeL=mk(0.045,0.03,0.02,em,-0.062,0.05,-0.136,parts.head);
+    parts.eyeR=mk(0.045,0.03,0.02,em,0.062,0.05,-0.136,parts.head);
+    if(opts.ztype!=='screamer'){ // matted bowl cut with bangs over the eyes
+      const hairM=new THREE.MeshStandardMaterial({color:lk.hair,roughness:1});
+      mk(0.295,0.1,0.295,hairM,0,0.16,0.012,parts.head);
+      mk(0.295,0.075,0.05,hairM,0,0.105,-0.122,parts.head);
+    }
   }else if(opts.robot){
     // friendly helper-bot: screen face, round cyan eyes, antenna, chest panel
+    parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
+    parts.head=mk(0.26,0.28,0.26,skin,0,1.68,0);
     const face=mk(0.22,0.16,0.02,new THREE.MeshStandardMaterial({color:0x101418,roughness:.3}),0,1.69,-0.135);
     const em=new THREE.MeshStandardMaterial({color:0x081018,emissive:0x19c8ff,emissiveIntensity:2.8});
     parts.eyeL=mk(0.055,0.055,0.02,em,-0.055,1.71,-0.147);
@@ -2001,16 +2435,25 @@ function buildHumanoid(opts={}){
     bulb.position.set(0,2.0,0);g.add(bulb);
     const panel=mk(0.2,0.12,0.02,new THREE.MeshStandardMaterial({color:0x0a0e12,emissive:0x19c8ff,emissiveIntensity:.9}),0,1.3,-0.145);
   }else{
+    parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
+    parts.head=mk(0.26,0.28,0.26,skin,0,1.68,0);
     parts.face=mk(0.2,0.08,0.02,new THREE.MeshStandardMaterial({color:0x1a1a1a}),0,1.7,-0.135);
   }
-  parts.armL=new THREE.Group();parts.armL.position.set(-0.31,1.5,0);g.add(parts.armL);
-  parts.armR=new THREE.Group();parts.armR.position.set(0.31,1.5,0);g.add(parts.armR);
-  mk(0.13,0.62,0.15,opts.zombie?skin:cloth,0,-0.31,0,parts.armL);
-  mk(0.13,0.62,0.15,opts.zombie?skin:cloth,0,-0.31,0,parts.armR);
-  parts.legL=new THREE.Group();parts.legL.position.set(-0.13,0.92,0);g.add(parts.legL);
-  parts.legR=new THREE.Group();parts.legR.position.set(0.13,0.92,0);g.add(parts.legR);
-  mk(0.16,0.9,0.18,cloth,0,-0.45,0,parts.legL);
-  mk(0.16,0.9,0.18,cloth,0,-0.45,0,parts.legR);
+  const limbSkin=opts.zombie?(ZLOOK&&TEX.zskin?zMats(ZLOOK[opts.ztype]||ZLOOK.shambler).skin:skin):cloth;
+  parts.armL=new THREE.Group();parts.armL.position.set(-0.33,1.48,0);g.add(parts.armL);
+  parts.armR=new THREE.Group();parts.armR.position.set(0.33,1.48,0);g.add(parts.armR);
+  for(const arm of [parts.armL,parts.armR]){
+    mk(0.11,0.34,0.12,limbSkin,0,-0.17,0,arm);            // upper arm
+    const fore=mk(0.095,0.3,0.1,limbSkin,0,-0.46,0.03,arm);fore.rotation.x=-0.3; // forearm, reaching forward
+    mk(0.1,0.09,0.12,limbSkin,0,-0.63,0.06,arm);          // hand
+  }
+  parts.legL=new THREE.Group();parts.legL.position.set(-0.13,0.9,0);g.add(parts.legL);
+  parts.legR=new THREE.Group();parts.legR.position.set(0.13,0.9,0);g.add(parts.legR);
+  for(const leg of [parts.legL,parts.legR]){
+    mk(0.15,0.46,0.17,cloth,0,-0.23,0,leg);               // thigh
+    mk(0.13,0.42,0.15,opts.zombie?limbSkin:cloth,0,-0.64,0.01,leg); // shin
+    mk(0.14,0.07,0.22,cloth,0,-0.86,-0.03,leg);           // foot
+  }
   if(!opts.zombie){
     const pack=mk(0.34,0.42,0.16,new THREE.MeshStandardMaterial({color:0x4a3d2e,roughness:1}),0,1.3,0.2);
     const lightM=mk(0.07,0.07,0.22,new THREE.MeshStandardMaterial({color:0x333,metalness:.6,emissive:0xffdd88,emissiveIntensity:.4}),0.31,1.28,-0.2,parts.armR);
@@ -2171,10 +2614,31 @@ function setupPlayerBody(){
 
 /* ---------- zombies ---------- */
 const ZTYPES={
-  shambler:{speed:1.1,chase:3.0,hp:3,dmg:14,scale:1.0,skin:0x74805e,cloth:0x2c2f36,sight:10},
-  runner:{speed:2.2,chase:4.7,hp:2,dmg:18,scale:0.95,skin:0x80605a,cloth:0x3a2c2c,sight:13},
-  brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,skin:0x5d6a55,cloth:0x23281e,sight:9},
+  shambler:{speed:1.1,chase:3.3,hp:3,dmg:14,scale:1.0,sight:11,aimH:1.15},
+  runner:{speed:2.2,chase:4.9,hp:2,dmg:18,scale:0.95,sight:13,aimH:1.1},   // freshly turned — still wears the school uniform
+  brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:9,aimH:1.4},
+  screamer:{speed:1.3,chase:3.4,hp:2,dmg:10,scale:0.98,sight:14,aimH:1.15}, // hospital gown; screams in the whole floor
+  crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:8,aimH:0.5},   // drags itself, lunges at your ankles
 };
+/* per-type look: flesh/cloth textures + eye + hair colour */
+const ZLOOK={
+  shambler:{cloth:'zclothA',eye:0xff2a1a,hair:0x1a1814},
+  runner:{cloth:'zuniform',eye:0xff6a3a,hair:0x241c14},
+  brute:{cloth:'zclothB',eye:0xff1a10,hair:0x111008},
+  screamer:{cloth:'zgown',eye:0xcfe8ff,hair:0x201808},
+  crawler:{cloth:'zgown',eye:0xff2a1a,hair:0x141210},
+};
+const _ZMAT={};
+function zMats(lk){
+  if(_ZMAT[lk.cloth])return _ZMAT[lk.cloth];
+  const mkTex=c=>{const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;};
+  _ZMAT[lk.cloth]={
+    skin:new THREE.MeshStandardMaterial({map:mkTex(TEX.zskin),roughness:.92}),
+    cloth:new THREE.MeshStandardMaterial({map:mkTex(TEX[lk.cloth]),roughness:1}),
+    face:TEX.zface?new THREE.MeshStandardMaterial({map:mkTex(TEX.zface),roughness:.92}):null,
+  };
+  return _ZMAT[lk.cloth];
+}
 let ZID=0;
 class Zombie{
   constructor(f,x,z,type,room){
@@ -2187,12 +2651,16 @@ class Zombie{
       const tint=tints[this.id%tints.length];
       this.body=buildHumanoid({robot:true,skin:tint.skin,cloth:tint.cloth});
     }else{
-      this.body=buildHumanoid({zombie:true,skin:this.cfg.skin,cloth:this.cfg.cloth});
+      this.body=buildHumanoid({zombie:true,ztype:type,skin:this.cfg.skin,cloth:this.cfg.cloth});
     }
-    // clone torso/head materials so hit-flash is per-zombie
-    this.body.torso.material=this.body.torso.material.clone();
-    this.body.head.material=this.body.head.material.clone();
+    // clone torso/head materials so hit-flash is per-zombie (head uses a material ARRAY)
+    const cl=m=>Array.isArray(m)?m.map(x=>x.clone()):m.clone();
+    this.body.torso.material=cl(this.body.torso.material);
+    this.body.head.material=cl(this.body.head.material);
     this.g=this.body.g;this.g.scale.setScalar(this.cfg.scale);
+    // the tower gets meaner the higher you climb
+    const diff=1+Math.max(0,f-8)*0.022;
+    this.cfg.speed*=diff;this.cfg.chase*=Math.min(diff,1.25);
     this.g.position.set(x,f*CFG.FH,z);
     this.home=room?{x0:room.x0,x1:room.x1,z0:room.z0,z1:room.z1}:{x0:x-4,x1:x+4,z0:z-4,z1:z+4};
     this.wp=[{x:(this.home.x0+this.home.x1)/2,z:(this.home.z0+this.home.z1)/2}];
@@ -2202,9 +2670,12 @@ class Zombie{
     this.growlT=rand(3,10);this.stepT=0;this.attackCd=0;this.windup=-1;
     this.invest=null;this.investT=0;this.loseT=0;this.staggerT=0;this.stuckT=0;this.lastX=x;this.lastZ=z;
     this.hurtT=0;this.corpseT=0;this.doorT=0;this.trailAcc=0;this.hpMax=this.cfg.hp;
+    this.headTilt=rand(-0.3,0.3);this.twitchT=0;this.screamed=false;
+    this.lungeT=0;this.lungeCd=0;this.aggroCd=0;this.breathT=rand(0.5,2);
     world.zombies.push(this);world.levels[f].add(this.g);
   }
-  hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;}}
+  hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
+    if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
   hit(dmg,byRemote){
     if(this.dead)return;
     this.hp-=dmg;this.hurtT=0.25;
@@ -2253,6 +2724,7 @@ class Zombie{
     this.hurtT=Math.max(0,this.hurtT-dt);
     this.staggerT=Math.max(0,this.staggerT-dt);
     this.attackCd=Math.max(0,this.attackCd-dt);
+    this.aggroCd=Math.max(0,this.aggroCd-dt);
     const hum=this.nearestHuman();
     const sameFloor=hum&&hum.floor===this.f;
     const d=sameFloor?Math.sqrt(hum.d2):1e9;
@@ -2263,7 +2735,23 @@ class Zombie{
       const tox=(hum.x-g.position.x)*inv,toz=(hum.z-g.position.z)*inv;
       const facing=(-Math.sin(this.yaw))*tox+(-Math.cos(this.yaw))*toz;
       const seen=(d<sight&&(facing>-0.15||d<3)&&losClear(g.position.x,g.position.z,hum.x,hum.z,this.f))||d<2.2;
-      if(seen){this.state='chase';this.loseT=0;this.lastPX=hum.x;this.lastPZ=hum.z;}
+      if(seen){
+        this.state='chase';this.loseT=0;this.lastPX=hum.x;this.lastPZ=hum.z;
+        if(this.aggroCd<=0){ // aggro shriek when it first locks on
+          this.aggroCd=5;
+          const sc=this.type==='screamer';
+          play('scream',{pos:g.position,vol:sc?1.25:0.7,ref:sc?46:26,rate:sc?1.2:0.82});
+        }
+        if(this.type==='screamer'&&!this.screamed){ // the screamer summons the whole floor
+          this.screamed=true;
+          for(const z2 of world.zombies){
+            if(z2===this||z2.dead||z2.f!==this.f)continue;
+            if(dist2(z2.g.position.x,z2.g.position.z,g.position.x,g.position.z)<30*30)z2.hear(hum.x,hum.z);
+          }
+          if(d<12)player.shakeT=Math.max(player.shakeT,0.4);
+          showSub(MD.jumpscares?'<i style="color:#ff8080">A scream — the whole floor heard it.</i>':'<i>A bot squealed for its friends.</i>',3);
+        }
+      }
       else if(this.state==='chase'){this.loseT=(this.loseT||0)+dt;if(this.loseT>5){this.state='investigate';this.invest={x:this.lastPX,z:this.lastPZ};this.investT=6;}}
     }
     // flare attraction
@@ -2273,14 +2761,35 @@ class Zombie{
         if(fl.f===this.f&&dist2(g.position.x,g.position.z,fl.x,fl.z)<22*22){this.state='investigate';this.invest={x:fl.x,z:fl.z};this.investT=Math.max(this.investT,1.5);}
       }
     }
-    // ---- growls & steps
+    // ---- growls, wet breathing & twitches (audible even when it hasn't seen you)
     if(active){
       this.growlT-=dt;
       if(this.growlT<=0){
-        this.growlT=this.state==='chase'?rand(1.2,2.6):rand(4,10);
-        play(pick(['growl1','growl2','growl3']),{pos:g.position,vol:this.state==='chase'?1:0.6,ref:26});
+        const voiceRate=this.type==='brute'?0.75:(this.type==='runner'?1.15:1);
+        if(this.state==='chase'){
+          this.growlT=rand(1.1,2.4);
+          if(d<7&&Math.random()<0.6)play('zroar',{pos:g.position,vol:1.25,ref:30,rate:voiceRate}); // close: full roar
+          else play(pick(['growl1','growl2','growl3']),{pos:g.position,vol:1.1,ref:30,rate:voiceRate});
+        }else{
+          // idle: RARE and deliberate — one call in the dark, then nothing. Where is it?
+          this.growlT=rand(9,19);
+          if(d<18&&Math.random()<0.7)play(pick(['growl1','growl2','growl3']),{pos:g.position,vol:0.55,ref:24,rate:voiceRate});
+        }
       }
+      // wet jaw-work: clicks, smacks, feeding — only when it is RIGHT there
+      this.mouthT=(this.mouthT??rand(3,8))-dt;
+      if(this.mouthT<=0){
+        this.mouthT=rand(6,13);
+        if(d<4.5)play(Math.random()<0.5?'zmouth':'eat',{pos:g.position,vol:clamp(1.15-d/5,0.3,1),ref:11,rate:this.type==='brute'?0.8:1});
+      }
+      this.breathT-=dt;
+      if(this.breathT<=0){
+        this.breathT=rand(1.4,2.6);
+        if(sameFloor&&d<8)play('zbreath',{pos:g.position,vol:clamp(1-d/8,0.15,1)*0.85,ref:12,rate:this.type==='brute'?0.7:1});
+      }
+      if(Math.random()<dt*0.3)this.twitchT=0.16;
     }
+    this.twitchT=Math.max(0,this.twitchT-dt);
     // ---- movement
     let tx=null,tz=null,spd=0;
     if(this.state==='chase'&&hum){
@@ -2290,12 +2799,19 @@ class Zombie{
         else if(inLane(g.position.x,g.position.z)||g.position.x<23.5){tx=21.5;tz=1.2;}
         spd=this.cfg.chase*0.8;
       }
-      if(d<1.25*this.cfg.scale&&sameFloor&&this.attackCd<=0&&this.windup<0){this.windup=0.5;}
+      if(this.type==='crawler'){ // lunges at ankles when close
+        this.lungeCd=Math.max(0,this.lungeCd-dt);this.lungeT=Math.max(0,this.lungeT-dt);
+        if(sameFloor&&d<4.2&&this.lungeCd<=0){this.lungeT=0.7;this.lungeCd=3.2;play('snarl',{pos:g.position,vol:.9,ref:16,rate:1.2});}
+        if(this.lungeT>0)spd*=2.2;
+      }
+      if(d<1.25*this.cfg.scale&&sameFloor&&this.attackCd<=0&&this.windup<0){this.windup=this.type==='crawler'?0.28:0.5;}
     }else if(this.state==='investigate'&&this.invest){
       tx=this.invest.x;tz=this.invest.z;spd=this.cfg.speed*1.4;this.investT-=dt;
       if(dist2(g.position.x,g.position.z,tx,tz)<1||this.investT<=0){this.state='idle';this.waitT=rand(1,4);this.invest=null;}
     }else{ // idle/patrol
-      if(this.waitT>0){this.waitT-=dt;}
+      if(this.waitT>0){this.waitT-=dt;
+        if(this.type==='runner'&&Math.random()<dt*0.1)play('whisper',{pos:g.position,vol:.4,ref:10,rate:0.72}); // fresh ones still make sad human sounds
+      }
       else{
         const w=this.wp[this.wpI];tx=w.x;tz=w.z;spd=this.cfg.speed;
         if(dist2(g.position.x,g.position.z,tx,tz)<1.2){this.wpI=(this.wpI+1)%this.wp.length;this.waitT=rand(0.5,3.5);}
@@ -2320,7 +2836,10 @@ class Zombie{
       // keep zombies off the stair lane unless chasing across floors
       if(this.state!=='chase'&&inLane(nx,nz)){nx=g.position.x;nz=g.position.z;}
       const gy=groundAt(nx,nz,g.position.y);
-      if(gy<=g.position.y+0.75){g.position.x=nx;g.position.z=nz;g.position.y=lerp(g.position.y,gy,Math.min(1,dt*10));this.f=Math.round(g.position.y/CFG.FH);}
+      if(gy<=g.position.y+0.75){
+        const yOff=this.type==='crawler'?-0.34:0;
+        g.position.x=nx;g.position.z=nz;g.position.y=lerp(g.position.y,gy+yOff,Math.min(1,dt*10));this.f=Math.round(g.position.y/CFG.FH);
+      }
       // hunted enemies force closed doors open (knock first — scary!)
       if(this.state==='chase'||this.state==='investigate'){
         let nearDoor=null;
@@ -2363,27 +2882,38 @@ class Zombie{
       this.stepT-=dt;
       if(this.stepT<=0&&active){
         this.stepT=0.62/Math.max(0.5,spd*0.45);
-        if(d<18)play('zstep',{pos:g.position,vol:this.state==='chase'?0.85:0.5,ref:22,rate:this.type==='runner'?1.25:0.9});
+        if(d<24)play('zstep',{pos:g.position,vol:this.state==='chase'?1:0.7,ref:28,rate:this.type==='runner'?1.25:(this.type==='brute'?0.7:0.9)});
       }
     }
     g.rotation.y=this.yaw;
-    // ---- animation
+    // ---- animation: hunched shamble with head twitch / crawler low lurch
     const sw=Math.sin(this.phase);
     const chase=this.state==='chase'||this.windup>=0;
-    this.body.legL.rotation.x=sw*0.55;this.body.legR.rotation.x=-sw*0.55;
-    this.body.armL.rotation.x=chase?-1.25+sw*0.2:-sw*0.4;
-    this.body.armR.rotation.x=chase?-1.25-sw*0.2:sw*0.4;
-    this.body.torso.rotation.x=chase?0.22:0.07;
-    this.body.head.rotation.z=sw*0.12;
-    g.rotation.z=sw*0.05;
-    const hurt=this.hurtT>0?1:0;
-    if(hurt){
-      this.body.torso.material.emissive.setHex(this.robot?0x5a4400:0x551111);
-      this.body.head.material.emissive.setHex(this.robot?0x5a4400:0x551111);
-      this.body.torso.material.emissiveIntensity=0.9;
+    if(this.type==='crawler'){
+      this.body.torso.rotation.x=1.18+sw*0.05;
+      this.body.head.rotation.x=-0.8;this.body.head.rotation.z=sw*0.15;
+      this.body.armL.rotation.x=-1.55+sw*0.5;this.body.armR.rotation.x=-1.55-sw*0.5;
+      this.body.legL.rotation.x=0.85-sw*0.35;this.body.legR.rotation.x=0.85+sw*0.35;
+      g.rotation.z=sw*0.09;
     }else{
-      this.body.torso.material.emissiveIntensity=0;
-      this.body.head.material.emissiveIntensity=0;
+      const hunch=chase?0.34:0.16;
+      this.body.torso.rotation.x=hunch+sw*0.04;
+      this.body.head.rotation.x=-hunch*0.7+(this.twitchT>0?0.35:0);
+      this.body.head.rotation.z=this.headTilt+sw*0.14+(this.twitchT>0?0.3:0);
+      const reach=chase&&sameFloor&&d<3; // arms shoot out when it's about to grab you
+      const armBase=chase?(reach?-1.62:-1.35):-0.5;
+      this.body.armL.rotation.x=armBase+sw*(chase?0.22:0.3);
+      this.body.armR.rotation.x=armBase-sw*(chase?0.22:0.3);
+      this.body.armL.rotation.z=reach?0.3:0.1;
+      this.body.armR.rotation.z=reach?-0.3:-0.1;
+      this.body.legL.rotation.x=sw*0.55;this.body.legR.rotation.x=-sw*0.55;
+      g.rotation.z=sw*0.05;
+    }
+    const hurt=this.hurtT>0?1:0;
+    const flashMats=[].concat(this.body.torso.material).concat(this.body.head.material);
+    for(const mm of flashMats){
+      if(hurt){mm.emissive.setHex(this.robot?0x5a4400:0x551111);mm.emissiveIntensity=0.9;}
+      else mm.emissiveIntensity=0;
     }
     g.position.y+=hurt*0; // (kept simple)
   }
@@ -2408,6 +2938,42 @@ function spawnZombie(f,x,zz,type,room){
   world.zmap=world.zmap||new Map();
   world.zmap.set(z.id,z);
   return z;
+}
+
+/* ---------- friendly survivor NPCs you can meet and talk to ---------- */
+class SurvivorNPC{
+  constructor(f,x,z,nameKey,lineKeys,give){
+    this.f=f;this.name=T(nameKey);this.lineKeys=lineKeys;this.li=-1;this.gave=false;this.give=give;
+    this.parts=buildHumanoid({skin:0xb59a86,cloth:0x3a4a5c});
+    this.parts.name=nameSprite(this.name,'#ffd9a0');
+    this.parts.name.position.y=2.25;
+    this.parts.g.add(this.parts.name);
+    this.parts.g.position.set(x,f*CFG.FH,z);
+    world.levels[f].add(this.parts.g);
+    this.ph=rand(0,TAU);this.yaw=rand(0,TAU);
+    this.parts.g.rotation.y=this.yaw;
+    clearArea(f,x,z,1.5); // never let a desk overlap a survivor
+    world.npcs.push(this);
+  }
+  update(dt,t){
+    const g=this.parts.g;
+    if(player.floor===this.f&&dist2(g.position.x,g.position.z,player.pos.x,player.pos.z)<8*8){
+      const ty=Math.atan2(player.pos.x-g.position.x,player.pos.z-g.position.z);
+      this.yaw+=angDiff(this.yaw,ty)*Math.min(1,dt*3); // turn to face you
+    }
+    g.rotation.y=this.yaw;
+    const br=Math.sin(t*1.6+this.ph)*0.03; // breathing sway
+    this.parts.torso.rotation.x=0.05+br*0.5;
+    this.parts.armL.rotation.x=br;this.parts.armR.rotation.x=-br;
+  }
+  talk(){
+    this.li=(this.li+1)%this.lineKeys.length;
+    const key=this.lineKeys[this.li];
+    const line=T(key);
+    if(line&&line!==key)showSub('<b>'+this.name+':</b> '+line,6.5);
+    play('radio',{vol:.5,force:true});
+    if(!this.gave){this.gave=true;this.give();}
+  }
 }
 function dealZombieDamage(z){
   // choose damaged human (local player or remotes — host authoritative)
@@ -2444,6 +3010,7 @@ function damagePlayer(dmg,srcPos){
 
 /* ---------- player down / death / respawn ---------- */
 function downText(){
+  if(G.helpMode)return T('down_help')+' ('+Math.ceil(player.bleedT)+'s)';
   const base=MD.id==='lite'?(G.mp?T('down_mp_l'):T('down_sp_l')):(G.mp?T('down_mp'):T('down_sp'));
   return base+' ('+Math.ceil(player.bleedT)+'s)';
 }
@@ -2458,7 +3025,7 @@ function onPlayerDown(){
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'down',id:G.myId});
 }
 function reviveLocal(){
-  player.down=false;player.hp=50;player.bleedT=0;
+  player.down=false;player.hp=50;player.bleedT=0;G.helpMode=false;
   $('downedOv').style.display='none';
   toast(T('t_up'));
   play('pickup',{vol:1});
@@ -2466,24 +3033,54 @@ function reviveLocal(){
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'revive',id:G.myId});
 }
 function onPlayerDeath(){
-  player.down=false;player.dead=true;player.respawnT=G.mp?25:20;
+  player.down=false;
+  $('downedOv').style.display='none';
+  if(typeof G.lives==='number'&&G.lives>0){
+    // retries left: FAST, seamless respawn — brief dip to black, wake at the checkpoint
+    G.lives--;
+    G.respawnPending=true; // this death is paid for; the countdown must complete even at 0 lives
+    player.dead=true;player.respawnT=2.2;
+    $('death').style.display='flex';
+    $('death').querySelector('h1').textContent=MD.id==='lite'?T('death_l'):T('death_h');
+    $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
+    $('respawnTxt').textContent=T('death_left',{n:G.lives});
+    $('btnRespawn').classList.remove('hidden');
+    $('btnDeathMenu').classList.add('hidden');
+    // pointer stays locked — no menus, no friction, back in the fight in ~2s
+  }else{
+    // out of retries: HELP-TO-RESPAWN mode — only a friend can pick you up now
+    player.dead=false;player.down=true;player.bleedT=G.mp?45:12;
+    G.helpMode=true;
+    $('downedOv').style.display='flex';
+    $('downedOv').querySelector('h2').textContent=MD.id==='lite'?T('down_hl'):T('down_h');
+    $('downedTxt').textContent=downText();
+    play('scream',{vol:1});
+  }
+  if(player.dead)play('stinger',{vol:.9});
+  if(G.mp)netSend({t:'ev',k:player.dead?'dead':'down',id:G.myId});
+  if(G.host&&G.mp)netBroadcast({t:'ev',k:player.dead?'dead':'down',id:G.myId});
+}
+function gameOver(){
+  // nobody came to help: the run ends, restart from the very beginning
+  player.down=false;player.dead=true;G.helpMode=false;G.respawnPending=false;
+  clearSave();
   $('downedOv').style.display='none';
   $('death').style.display='flex';
   $('death').querySelector('h1').textContent=MD.id==='lite'?T('death_l'):T('death_h');
-  $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
-  $('respawnTxt').textContent='';
-  $('btnDeathMenu').classList.toggle('hidden',false);
+  $('deathTxt').textContent=T('death_out');
+  $('respawnTxt').textContent=T('death_restart');
+  $('btnRespawn').classList.add('hidden');
+  $('btnDeathMenu').classList.remove('hidden');
   document.exitPointerLock&&document.exitPointerLock();
-  play('stinger',{vol:.9});
-  if(G.mp)netSend({t:'ev',k:'dead',id:G.myId});
-  if(G.host&&G.mp)netBroadcast({t:'ev',k:'dead',id:G.myId});
+  play('stinger',{vol:1});
 }
 function respawnPlayer(){
   player.dead=false;player.hp=60;player.battery=Math.max(25,player.battery*0.7);
-  player.invulnT=3;
+  player.invulnT=3;G.respawnPending=false;
   const f=CHECK.floor;
   player.pos.set(15,f*CFG.FH+0.1,0);player.vy=0;
   $('death').style.display='none';
+  const fd=$('fade');fd.style.opacity='1';setTimeout(()=>{fd.style.opacity='0';},200);
   toast(T('t_respawn'));
   emitNoise(15,0,f,14);
   lockPointer();
@@ -2553,7 +3150,7 @@ function pistolHit(origin,dir){
   let best=null,bd=1e9;
   for(const z of world.zombies){
     if(z.dead)continue;
-    const to=_pv.set(z.g.position.x-origin.x,z.g.position.y+1.15*z.cfg.scale-origin.y,z.g.position.z-origin.z);
+    const to=_pv.set(z.g.position.x-origin.x,z.g.position.y+(z.cfg.aimH||1.15)*z.cfg.scale-origin.y,z.g.position.z-origin.z);
     const L=to.length();
     if(L>22||L<0.4)continue;
     if(to.normalize().dot(dir)>0.965&&L<bd){bd=L;best=z;}
@@ -2576,15 +3173,17 @@ function updatePlayer(dt,t){
   player.dmgFlash=Math.max(0,player.dmgFlash-dt*1.6);
   $('dmg').style.opacity=Math.min(1,player.dmgFlash*0.9+(player.hp<30?0.35+Math.sin(t*6)*0.1:0));
   if(player.dead){
-    player.respawnT-=dt;
-    $('respawnTxt').textContent=T('respawn',{n:Math.ceil(Math.max(0,player.respawnT))});
-    if(player.respawnT<=0)respawnPlayer();
+    if(G.respawnPending){
+      player.respawnT-=dt;
+      $('respawnTxt').textContent=T('respawn',{n:Math.ceil(Math.max(0,player.respawnT))})+' · '+T('death_left',{n:G.lives});
+      if(player.respawnT<=0)respawnPlayer();
+    }
     return;
   }
   if(player.down){
     player.bleedT-=dt;
     $('downedTxt').textContent=downText();
-    if(player.bleedT<=0)onPlayerDeath();
+    if(player.bleedT<=0){if(G.helpMode)gameOver();else onPlayerDeath();}
     camera.position.set(player.pos.x,player.pos.y+0.45,player.pos.z);
     camera.rotation.set(player.pitch,player.yaw,0.12,'YXZ');
     return;
@@ -2633,10 +3232,10 @@ function updatePlayer(dt,t){
   player.pos.y+=player.vy*dt;
   const g=groundAt(player.pos.x,player.pos.z,player.pos.y+0.4);
   if(player.pos.y<=g){
-    if(player.vy<-9)play('zstep',{vol:.4,rate:0.7});
+    if(player.vy<-9)play('pstepRun',{vol:.5,rate:0.85});
     player.pos.y=g;player.vy=0;player.grounded=true;
   }else player.grounded=false;
-  if(KEY.Space&&player.grounded){player.vy=CFG.JUMP;player.grounded=false;play('pstep',{vol:.4});}
+  if(KEY.Space&&player.grounded){player.vy=CFG.JUMP;player.grounded=false;play('pstepWalk',{vol:.4});}
   // floor tracking
   const nf=clamp(Math.round(player.pos.y/CFG.FH),0,CFG.FLOORS);
   if(nf!==player.floor){player.floor=nf;onFloorChange(nf);}
@@ -2645,13 +3244,15 @@ function updatePlayer(dt,t){
     player.pos.set(14.5,player.floor*CFG.FH+0.1,0);
     player.vy=0;
   }
-  // steps + noise
+  // steps + noise — each footfall is its own sound, weighted by gait, alternating L/R
   if(player.speed>0.5&&player.grounded){
     player.stepAcc+=player.speed*dt;
     player.bobT+=dt*player.speed*1.7;
-    if(player.stepAcc>(sprinting?2.4:2.0)){
+    if(player.stepAcc>(sprinting?2.3:2.0)){
       player.stepAcc=0;
-      play('pstep',{vol:sprinting?0.5:(player.crouch?0.08:0.25)});
+      player.stepSide=!player.stepSide;
+      const stepName=sprinting?'pstepRun':(player.crouch?'pstepSneak':'pstepWalk');
+      play(stepName,{vol:sprinting?0.9:(player.crouch?0.13:0.5),pan:player.stepSide?0.22:-0.22});
       emitNoise(player.pos.x,player.pos.z,player.floor,sprinting?13:(player.crouch?2:5));
     }
   }
@@ -2663,7 +3264,7 @@ function updatePlayer(dt,t){
   const dim=player.battery<20?(0.35+0.65*player.battery/20):1;
   const flick=(player.battery<18&&Math.random()<0.08)?rand(0.3,0.8):1;
   spot.intensity=player.on?60*dim*flick:0;
-  camFill.intensity=player.on?0.7*dim*flick:0;
+  camFill.intensity=player.on?0.45*dim*flick:0;
   muzzleT=Math.max(0,muzzleT-dt);
   if(muzzle)muzzle.intensity=muzzleT>0?50:0;
   // attack: pistol / crowbar / shove
@@ -2741,7 +3342,13 @@ function updatePlayer(dt,t){
       const sx=player.pos.x+fx*0.45*k,sz=player.pos.z+fz*0.45*k;
       if(pointBlocked(sx,player.pos.y+1.4,sz,player.floor)){back=0.45*(k-1);break;}
     }
-    camera.position.set(player.pos.x+fx*back,player.pos.y+eyeT+0.9+bobY,player.pos.z+fz*back);
+    let camY=player.pos.y+eyeT+0.9+bobY;
+    // keep the 3rd-person camera under the slab above (never inside the "rooftop")
+    if(player.floor<CFG.FLOORS&&!inLane(player.pos.x,player.pos.z)){
+      const base=Math.round(player.pos.y/CFG.FH)*CFG.FH;
+      camY=Math.min(camY,base+CFG.FH-0.28);
+    }
+    camera.position.set(player.pos.x+fx*back,camY,player.pos.z+fz*back);
   }
   // body
   playerBody.g.visible=player.third;
@@ -2751,13 +3358,43 @@ function updatePlayer(dt,t){
   playerBody.legL.rotation.x=sw;playerBody.legR.rotation.x=-sw;
   playerBody.armL.rotation.x=-sw*0.7;
   playerBody.armR.rotation.x=player.on?-1.3:sw*0.7;
-  // heartbeat when terrified (soft beepy pulse in lite)
-  const threat=nearestThreatDist();
-  if((threat<9&&threat>=0)||player.hp<30){
+  // === TENSION ENGINE ===
+  // A single 0..1 threat value drives YOUR body: heartbeat + breathing.
+  // Rises fast when danger appears, fades slowly when it passes — like real adrenaline.
+  if(MD.jumpscares){
+    const vis=nearestVisibleZombieDist();   // you can SEE it
+    const threat=nearestThreatDist();       // it is hunting/investigating
+    const prox=nearestZombieDist();         // it exists, close by
+    let target=0.06;                        // baseline: alive, uneasy
+    if(vis>0&&vis<15)target=Math.max(target,0.55+(15-vis)/15*0.35);
+    if(threat>=0)target=Math.max(target,threat<6?0.9:0.45+(12-threat)/12*0.4);
+    if(prox>0&&prox<5)target=Math.max(target,0.7);
+    if(player.hp<40)target=Math.max(target,0.4);
+    if(G.dangerFloor===player.floor)target=Math.max(target,0.45);
+    if(sprinting)target=Math.max(target,0.25);
+    target=clamp(target,0,1);
+    AUD.threat=lerp(AUD.threat,target,dt*(target>AUD.threat?2.4:0.32));
+    const th=AUD.threat;
+    // your own heartbeat: slow & quiet at rest, hammering in danger
     AUD.heartT-=dt;
-    if(AUD.heartT<=0){AUD.heartT=lerp(0.42,1.1,clamp(threat<0?0:threat/9,0,1));play('heart',{vol:MD.jumpscares?0.5:0.28});}
+    if(AUD.heartT<=0){
+      AUD.heartT=lerp(1.05,0.4,th);
+      play('heart',{vol:0.05+th*0.5,rate:lerp(0.88,1.3,th)});
+    }
+    // breathing: varies with fear and exertion — never a flat loop
+    AUD.breathT-=dt;
+    if(AUD.breathT<=0){
+      const f=clamp(th+(sprinting?0.3:0)+(player.st<25?0.2:0),0,1);
+      AUD.breathT=lerp(1.1,2.9,1-f)*rand(0.85,1.15);
+      play('breath',{vol:0.05+f*0.33,rate:lerp(1.3,0.82,f)});
+    }
+  }else{
+    const threat=nearestThreatDist();
+    if((threat<9&&threat>=0)||player.hp<30){
+      AUD.heartT-=dt;
+      if(AUD.heartT<=0){AUD.heartT=lerp(0.42,1.1,clamp(threat<0?0:threat/9,0,1));play('heart',{vol:0.28});}
+    }
   }
-  setLoop('tension',MD.jumpscares&&threat>=0&&threat<12?clamp((12-threat)/12,0,1)*0.5:0);
   updateViewModel(dt,t);
 }
 function nearestThreatDist(){
@@ -2766,6 +3403,29 @@ function nearestThreatDist(){
     if(z.dead||z.f!==player.floor)continue;
     if(z.state!=='chase'&&z.state!=='investigate')continue;
     const d=Math.sqrt(dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z));
+    if(best<0||d<best)best=d;
+  }
+  return best;
+}
+function nearestZombieDist(){ // any living zombie on this floor, any state
+  let best=-1;
+  for(const z of world.zombies){
+    if(z.dead||z.f!==player.floor)continue;
+    const d=Math.sqrt(dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z));
+    if(best<0||d<best)best=d;
+  }
+  return best;
+}
+function nearestVisibleZombieDist(){ // in your field of view AND unobstructed
+  let best=-1;
+  const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+  for(const z of world.zombies){
+    if(z.dead||z.f!==player.floor)continue;
+    const dx=z.g.position.x-player.pos.x,dz=z.g.position.z-player.pos.z;
+    const d=Math.hypot(dx,dz);
+    if(d<0.4||d>16)continue;
+    if((fx*dx+fz*dz)/d<0.35)continue;
+    if(!losClear(player.pos.x,player.pos.z,z.g.position.x,z.g.position.z,player.floor))continue;
     if(best<0||d<best)best=d;
   }
   return best;
@@ -2817,6 +3477,8 @@ function hudStats(){
   $('stFill').style.transform='scaleX('+(player.st/100)+')';
   $('btFill').style.transform='scaleX('+(player.battery/100)+')';
   $('btFill').style.background=player.battery<25?'linear-gradient(90deg,#7a1010,#ff5533)':'linear-gradient(90deg,#8d6e00,#ffd54f)';
+  const ll=$('livesLbl');
+  if(ll)ll.textContent=G.mode==='playing'?(T('lives_lbl')+'  '+'♥'.repeat(Math.max(0,G.lives||0))):'';
 }
 function hudInv(){
   $('slotCrowbar').classList.toggle('off',!INV.crowbar);
@@ -2837,15 +3499,16 @@ function hudInv(){
   $('slotCards').classList.toggle('off',icons.length===0);
 }
 
-/* ---------------- quest ---------------- */
+/* ---------------- quest (the mission chain) ---------------- */
 const QUEST=[
   {k:'q0',done:()=>INV.flashlight},
-  {k:'q1',done:()=>INV.crowbar},
   {k:'q2',done:()=>playerMaxFloor>=1},
+  {k:'q_arch',done:()=>G.flags.cctvSeen},
   {k:'q3',done:()=>G.cards.red},
-  {k:'q4',done:()=>G.gatesOpen.has(2)},
+  {k:'q1',done:()=>INV.crowbar},
   {k:'q5',done:()=>G.flags.power},
   {k:'q6',done:()=>G.flags.shutter6},
+  {k:'q4',done:()=>G.gatesOpen.has(2)},
   {k:'q7',done:()=>G.gatesOpen.has(5)},
   {k:'q8',done:()=>G.cards.blue},
   {k:'q9',done:()=>G.gatesOpen.has(7)},
@@ -2862,11 +3525,11 @@ const QUEST=[
 ];
 /* where the current objective lives (x,z,floor). Stairs/roof handled by the resolver below. */
 const QUEST_POS=[
-  {x:-22.6,z:1.15,f:0},{x:14.6,z:-8.6,f:0},{x:-4.0,z:-5.6,f:1},{x:-4.4,z:-4.0,f:1},
-  {x:17.6,z:1.2,f:2},{x:0.8,z:-8.8,f:1},{x:-5.0,z:-4.2,f:1},{x:17.6,z:1.2,f:5},
-  {x:-21,z:-8,f:5},{x:17.6,z:1.2,f:7},{x:-6,z:6,f:8},{x:17.6,z:1.2,f:10},
-  {x:17.6,z:1.2,f:12},{x:9,z:-8.9,f:10},{x:17.6,z:1.2,f:14},{x:12,z:5,f:14},
-  {x:17.6,z:1.2,f:16},{x:17.6,z:1.2,f:18},{x:16.8,z:1.2,f:19},{x:2,z:3.5,f:CFG.FLOORS},
+  {x:-22.6,z:1.15,f:0},{x:-4.0,z:-5.6,f:1},{x:-5.0,z:-4.2,f:1},{x:-4.4,z:-4.0,f:1},{x:14.6,z:-8.6,f:0},
+  {x:0.8,z:-8.8,f:1},{x:-5.0,z:-4.2,f:1},{x:17.6,z:1.2,f:2},{x:17.6,z:1.2,f:5},{x:-21,z:-8,f:5},
+  {x:17.6,z:1.2,f:7},{x:-6,z:6,f:8},{x:17.6,z:1.2,f:10},{x:17.6,z:1.2,f:12},{x:9,z:-8.9,f:10},
+  {x:17.6,z:1.2,f:14},{x:12,z:5,f:14},{x:17.6,z:1.2,f:16},{x:17.6,z:1.2,f:18},{x:16.8,z:1.2,f:19},
+  {x:2,z:3.5,f:CFG.FLOORS},
 ];
 /* Angle from the player's facing to the current objective (0 = straight ahead, +right). */
 function waypointDir(){
@@ -2889,13 +3552,42 @@ function questTarget(){
   return {x:q.x,z:q.z,up:false,floor:q.f};
 }
 let qi=0;
+let RESTORING=false; // suppress radio beats while restoring a save / applying a net snapshot
+let bannerTO=null;
 function questCheck(){
+  let advanced=false;
   while(qi<QUEST.length-1&&QUEST[qi].done()){
-    qi++;
-    toast('✔ '+T('t_objdone'));
+    qi++;advanced=true;
     play('pickup',{vol:.9});
+    if(!RESTORING){
+      const beat=T('rb'+qi);
+      if(beat&&beat!=='rb'+qi)radio(beat); // Ji-woo reacts to every finished task
+    }
   }
-  $('obj').textContent=T(QUEST[qi].k);
+  const last=Math.max(0,QUEST.length-2);
+  const cur=Math.min(qi,last);
+  $('obj').textContent=T('objective_n',{n:cur+1,t:QUEST.length-1})+' '+T(QUEST[cur].k);
+  const w=T('w'+cur);
+  $('objWhy').textContent=(w&&w!==('w'+cur))?w:'';
+  if(G.mode==='playing'){
+    if(advanced&&!RESTORING)objectiveBanner();
+    else $('objBanner').style.opacity='0';
+  }
+}
+function objectiveBanner(){
+  const cur=Math.min(qi,QUEST.length-2);
+  $('objBannerH').textContent=T('obj_upd');
+  $('objBannerTxt').textContent=T(QUEST[cur].k);
+  $('objBanner').style.opacity='1';
+  clearTimeout(bannerTO);
+  bannerTO=setTimeout(()=>{$('objBanner').style.opacity='0';},3800);
+}
+/* the director marks a floor as "hot": the tension engine raises your heartbeat there */
+let dangerTO=null;
+function markDanger(f,sec){
+  G.dangerFloor=f;
+  clearTimeout(dangerTO);
+  dangerTO=setTimeout(()=>{G.dangerFloor=-1;},sec*1000);
 }
 
 /* ---------------- floors / story ---------------- */
@@ -2914,8 +3606,20 @@ function onFloorChange(f){
     if(storyLine(f))radio(storyLine(f));
     if(f>=1&&!G.stairTip){G.stairTip=true;setTimeout(()=>showSub(T('hint_stairtop'),5.5),6200);}
     if(f===0&&!G.wayTip){G.wayTip=true;setTimeout(()=>radio(T('radio_stairs')),3500);}
+    directorBeat(f);
+  }else if(MD.jumpscares&&f>0&&f<playerMaxFloor&&f<19&&Math.random()<0.35&&!G.flags.victory&&G.started){
+    // backtracking is never safe: something new is drifting near the stairwell
+    const ff=f;
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing'||player.floor!==ff||G.flags.victory)return;
+      const z=spawnZombie(ff,15.6+rand(0,2),rand(-1.2,1.2),Math.random()<0.5?'runner':'shambler',{x0:13,x1:15.8,z0:-1.6,z1:1.8,door:null});
+      z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=25;
+      play('clang',{pos:new THREE.Vector3(16,ff*CFG.FH,0),vol:.55,ref:16});
+      showSub('<i>That was not here before… was it?</i>',2.6);
+    },3500+rand(0,5000));
   }
-  scene.fog.density=f>=CFG.FLOORS?(MD.id==='lite'?0.012:0.018):MD.fogD;
+  // higher = darker: the fog thickens as you climb
+  scene.fog.density=f>=CFG.FLOORS?(MD.id==='lite'?0.012:0.018):Math.min(MD.fogD*(1+Math.min(f,19)*0.03),MD.fogD*1.6);
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'floor',f});
   questCheck();
 }
@@ -2949,7 +3653,7 @@ function findInteract(){
       else if(it.type==='pistol'){INV.pistol=true;INV.ammo+=8;player.weapon='pistol';toast(T('t_pistol'));}
       else if(it.type==='ammo'){INV.ammo+=6;toast(T('t_ammo'));}
       else if(it.type==='flashlight'){INV.flashlight=true;player.on=true;toast(T('t_torch'));}
-      else if(it.type.startsWith('card')){const c=it.type.split('-')[1];G.cards[c]=true;toast(T('g_accept',{c:c.toUpperCase()}));if(G.mp&&!G.host)netSend({t:'ev',k:'card',c});if(G.host&&G.mp)netBroadcast({t:'ev',k:'card',c});}
+      else if(it.type.startsWith('card')){const c=it.type.split('-')[1];G.cards[c]=true;toast(T('g_accept',{c:c.toUpperCase()}));directorChase();if(G.mp&&!G.host)netSend({t:'ev',k:'card',c});if(G.host&&G.mp)netBroadcast({t:'ev',k:'card',c});}
       else if(it.type==='note'){const n=notesList().find(n=>n.id===it.id);if(n)openNote(n);}
       hudInv();questCheck();
     });
@@ -2978,10 +3682,21 @@ function findInteract(){
       consider(p.x,p.z,gt.f,T('l_gate'),()=>gt.tryOpen());
     }
   }
+  for(const npc of (world.npcs||[])){
+    if(npc.f!==player.floor)continue;
+    const p=npc.parts.g.position;
+    consider(p.x,p.z,player.floor,T('l_talk',{n:npc.name}),()=>npc.talk());
+  }
   if(world.terminal&&player.floor===world.terminal.f){
-    consider(world.terminal.x,world.terminal.z,player.floor,G.flags.power?T('l_cctv'):T('l_cctv_off'),()=>{
-      if(!G.flags.power){toast(T('l_cctv_dead'));return;}
-      openCCTV();
+    consider(world.terminal.x,world.terminal.z,player.floor,G.flags.power?T('l_cctv'):T('l_cctv_bak'),()=>{
+      openCCTV(); // the archive runs on backup power — the story is always available
+    });
+  }
+  // the elevator: a dead end with a story
+  if(Math.abs(player.pos.x-15.5)<1.7&&Math.abs(Math.abs(player.pos.z)-2.05)<1.0){
+    consider(15.5,player.pos.z>0?2.05:-2.05,player.floor,T('l_elev'),()=>{
+      toast(player.floor<11?T('elev_dead'):T('elev_jam'));
+      play('clunk',{vol:.5});
     });
   }
   for(const bk of Object.values(world.breakers)){
@@ -3094,8 +3809,75 @@ function openCCTV(){
   $('cctv').style.display='flex';
   updateShutterBtn();
   play('click',{vol:.8});
+  if(!G.flags.cctvSeen&&!RESTORING)runCctvArchive();
 }
 function closeCCTV(){G.uiLock=null;$('cctv').style.display='none';lockPointer();}
+/* the archive: a timestamped evacuation record that explains the whole building */
+function runCctvArchive(){
+  G.flags.cctvSeen=true;
+  const box=$('cctvLog'),txt=$('cctvLogTxt');
+  box.style.display='flex';txt.textContent='';
+  const lines=[T('cl_h'),T('cl1'),T('cl2'),T('cl3'),T('cl4'),T('cl5')];
+  let i=0;
+  const step=()=>{
+    if(G.uiLock!=='cctv'){box.style.display='none';return;}
+    if(i>=lines.length){
+      txt.textContent+='\n'+T('cl_note');
+      play('radio',{vol:.6,force:true});
+      setTimeout(()=>{
+        box.style.display='none';
+        toast(T('t_objdone'));
+        questCheck();           // advances the mission (archive watched) + banner + radio
+        cctvAftermath();
+        if(G.host&&G.mp)netBroadcast({t:'ev',k:'cctv'});
+      },2800);
+      return;
+    }
+    txt.textContent+=lines[i]+'\n';i++;
+    play('radio',{vol:.45,force:true});
+    setTimeout(step,i===1?1000:1500);
+  };
+  setTimeout(step,700);
+}
+/* you leave the terminal… THUMP. Something answers. */
+function cctvAftermath(){
+  if(!MD.jumpscares||!G.started)return;
+  markDanger(player.floor,20);
+  setTimeout(()=>{
+    if(G.mode!=='playing'||player.dead)return;
+    play('clunk',{vol:1});
+    player.shakeT=Math.max(player.shakeT,0.35);
+    showSub('<i>THUMP. Something in the hall.</i>',3);
+  },1700);
+  setTimeout(()=>{
+    if(G.mode!=='playing'||player.dead||player.down)return;
+    const f=player.floor;
+    const sx=player.pos.x>0?-20:12; // the far end of the corridor, wherever you stand
+    const z=spawnZombie(f,sx,rand(-1,1),'shambler',{x0:sx-4,x1:sx+4,z0:-1.6,z1:1.6,door:null});
+    z.state='investigate';z.invest={x:player.pos.x*0.5,z:0};z.investT=25;
+    play('growl3',{pos:z.g.position,vol:.75,ref:36,rate:0.78});
+    showSub('<i>At the far end of the hallway — something is standing there.</i>',3.5);
+  },6500);
+}
+/* keycards beep. something always answers. */
+function directorChase(){
+  if(!MD.jumpscares||!G.started)return;
+  markDanger(player.floor,25);
+  setTimeout(()=>{
+    if(!G.started||G.mode!=='playing'||player.dead||player.down||G.flags.victory)return;
+    const f=player.floor;
+    const n=f>=8?2:1;
+    for(let i=0;i<n;i++){
+      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+      const sx=clamp(player.pos.x+(i===0?fx:-fx)*9,-22,14);
+      const sz=clamp(player.pos.z+(i===0?fz:-fz)*9,-9,9);
+      const z=spawnZombie(f,sx,sz,'runner',{x0:sx-4,x1:sx+4,z0:sz-4,z1:sz+4,door:null});
+      z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
+    }
+    play('snarl',{pos:new THREE.Vector3(player.pos.x,f*CFG.FH,player.pos.z),vol:.8,ref:26});
+    showSub('<i>The card beeped. Something answered it.</i>',3);
+  },2600+rand(0,2500));
+}
 function updateShutterBtn(){
   const b=$('shutterBtn');
   const show=G.flags.power&&!G.flags.shutter6;
@@ -3154,12 +3936,15 @@ let burstDone=false,hordeDone=false,finaleDone=false;
 const blackoutDone=new Set();
 const BLACKOUTS=new Set([3,8,16]);
 let ambT=20;
+let scareT=95;
 function updateEvents(dt){
+  if(G.paused)return; // a chapter comic is up: the world holds its breath
   // classroom burst (first reveal)
   if(!burstDone&&world.f0door&&player.floor===0){
     const p=doorPoint(world.f0door);
     if(dist2(player.pos.x,player.pos.z,p.x,p.z)<9){
       burstDone=true;
+      markDanger(0,18);
       world.f0door.setOpen(true,true);
       play('stinger',{vol:1});
       player.shakeT=MD.jumpscares?0.5:0.2;
@@ -3194,6 +3979,7 @@ function updateEvents(dt){
   // horde
   if(!hordeDone&&player.floor===11){
     hordeDone=true;
+    markDanger(11,45);markDanger(12,45);
     play('alarm',{vol:1,force:true});setTimeout(()=>play('alarm',{vol:.8,force:true}),2100);
     toast(T(MD.jumpscares?'t_horde':'t_horde_l'));
     for(let i=0;i<(MD.jumpscares?9:7);i++){
@@ -3205,6 +3991,7 @@ function updateEvents(dt){
   // finale
   if(!finaleDone&&player.floor===CFG.FLOORS){
     finaleDone=true;G.flags.finale=true;
+    markDanger(CFG.FLOORS,9999);
     questCheck();
     play('alarm',{vol:1,force:true});
     setLoop('chopper',0.55);
@@ -3220,18 +4007,126 @@ function updateEvents(dt){
       z.state='investigate';z.invest={x:2,z:3.5};z.investT=90;
     }
   }
-  // random ambience
+  // strategic ambience: the building talks — distant moans, impacts, settling doors.
+  // Quiet and occasional; every sound is a question the player has to answer.
   ambT-=dt;
   if(ambT<=0){
-    ambT=rand(24,50);
-    const a=rand(0,TAU),r=rand(14,24);
-    const px=player.pos.x+Math.cos(a)*r,pz=player.pos.z+Math.sin(a)*r;
+    ambT=rand(18,42);
     const roll=Math.random();
-    if(roll<0.4)play('clang',{pos:new THREE.Vector3(px,player.floor*CFG.FH,pz),vol:.8,ref:30});
-    else if(roll<0.6)play('whisper',{vol:.8});
-    else if(roll<0.75&&MD.jumpscares){play('thunder',{vol:.5});}
-    else if(roll<0.85&&world.flicker)for(const pl of world.flicker)pl.userData.base=pl.userData.base||pl.intensity;
-    else if(roll<0.93)play('ding',{pos:new THREE.Vector3(16,player.floor*CFG.FH+2,2.05),vol:.5,ref:14});
+    const farA=rand(0,TAU),farR=rand(16,26);
+    const farP=new THREE.Vector3(player.pos.x+Math.cos(farA)*farR,player.floor*CFG.FH,player.pos.z+Math.sin(farA)*farR);
+    if(roll<0.28)play('growl3',{pos:farP,vol:.5,ref:60,rate:0.72});       // a moan, far away… or is it?
+    else if(roll<0.48)play('zbreath',{pos:farP,vol:.5,ref:46,rate:0.8});  // something exhales out there
+    else if(roll<0.64)play('buzz',{vol:.35});                             // failing fluorescent hum
+    else if(roll<0.8)play('clang',{pos:farP,vol:.45,ref:34});             // a distant impact
+    else if(roll<0.92)play('creak',{pos:farP,vol:.5,ref:26,rate:0.9});    // a door settling somewhere
+    else if(player.floor>=10)play('alarm',{vol:.2,force:true});           // far-off alarm, upper floors
+  }
+  // director scares: controlled, paced — never a constant drumbeat
+  scareT-=dt;
+  if(scareT<=0){
+    scareT=rand(75,140);
+    if(MD.jumpscares&&G.started&&!G.flags.victory&&!player.dead&&!player.down)ambientScare();
+  }
+}
+
+/* one controlled scare, chosen to keep the player guessing */
+function ambientScare(){
+  const roll=Math.random();
+  const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+  if(roll<0.3){
+    // a figure crosses the hallway far ahead, unhurried, indifferent to you
+    const px=clamp(player.pos.x+fx*11,-22,14),pz=clamp(player.pos.z+fz*11,-1.2,1.2);
+    const perpX=-fz,perpZ=fx;
+    const sx=clamp(px+perpX*6,-22,14),sz=clamp(pz+perpZ*6,-8,8);
+    const ex=clamp(px-perpX*6,-22,14),ez=clamp(pz-perpZ*6,-8,8);
+    const z=spawnZombie(player.floor,sx,sz,'shambler',{x0:sx-3,x1:sx+3,z0:sz-3,z1:sz+3,door:null});
+    z.state='investigate';z.invest={x:ex,z:ez};z.investT=12;
+    play('zstep',{pos:new THREE.Vector3(sx,player.floor*CFG.FH,sz),vol:.8,ref:24,rate:0.8});
+  }else if(roll<0.55){
+    // footsteps approach… then nothing. No one is there.
+    let dly=400;
+    for(let i=1;i<=5;i++){
+      const dd=9-i*1.6;
+      const sxp=player.pos.x+fx*dd,szp=player.pos.z+fz*dd;
+      setTimeout(()=>{if(G.started&&G.mode==='playing')play('zstep',{pos:new THREE.Vector3(sxp,player.floor*CFG.FH,szp),vol:.55+i*0.08,ref:18,rate:0.85});},dly);
+      dly+=i<3?520:380;
+    }
+    setTimeout(()=>{if(G.started)showSub('<i>Footsteps… then nothing.</i>',2.5);},dly+300);
+  }else if(roll<0.8){
+    // the lights die for a breath
+    const arr=[];
+    world.levels[player.floor].traverse(o=>{if(o.isPointLight){o.userData.base=o.userData.base||o.intensity;arr.push(o);}});
+    for(const pl of arr)pl.intensity=0;
+    play('whisper',{vol:.7});
+    setTimeout(()=>{for(const pl of arr)pl.intensity=pl.userData.base;},1600);
+  }else{
+    // a door creaks somewhere near — closed, but not locked
+    const cand=world.doors.filter(d=>d.f===player.floor&&!d.open&&!d.boarded);
+    if(cand.length){const d=pick(cand);play('creak',{pos:d.g.position,vol:.7,ref:16,rate:0.8});}
+    else play('creak',{vol:.5});
+  }
+}
+
+/* ---------------- director: scripted beat the first time you enter a floor ---------------- */
+const directorDone=new Set();
+function directorBeat(f){
+  if(directorDone.has(f)||!G.started)return;
+  directorDone.add(f);
+  const scary=MD.jumpscares;
+  if(f===2){
+    if(scary){
+      play('whisper',{vol:.9});
+      play('clang',{pos:new THREE.Vector3(0,f*CFG.FH,0),vol:.5,ref:30,rate:0.7});
+      showSub('<i>The lights shudder. Somewhere below, a door bangs shut.</i>',3.5);
+      // THE DIRECTOR CHOOSES: a different room hosts the welcome party every run
+      setTimeout(()=>{
+        if(!G.started||G.mode!=='playing'||player.floor!==2)return;
+        const doorEntries=Object.entries(world.roomDoor).filter(([k,d])=>k.startsWith('2:')&&d);
+        if(!doorEntries.length)return;
+        const[,door]=pick(doorEntries);
+        const p=doorPoint(door);
+        const roomZ=p.z>0?1:-1;
+        const z=spawnZombie(2,p.x+rand(-0.6,0.6),p.z+roomZ*1.6,'runner',{x0:p.x-4,x1:p.x+4,z0:Math.min(p.z,p.z+roomZ*5),z1:Math.max(p.z,p.z+roomZ*5),door});
+        if(!door.open)door.setOpen(true,true);
+        play('stinger',{vol:.9});
+        z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
+        showSub('<b style="color:#ff6b6b">A door just burst open — it heard you.</b>',3);
+      },3200+rand(0,2500));
+    }else play('beep',{vol:.4});
+  }else if(f===5){
+    // as you arrive, something inside a room hits its door open
+    const cand=world.doors.filter(d=>d.f===f&&!d.open&&!d.boarded);
+    if(cand.length){
+      const d=pick(cand);
+      setTimeout(()=>{if(G.started&&G.mode==='playing'){d.setOpen(true,true);play('growl3',{pos:d.g.position,vol:.9,ref:24});}},2600);
+      if(scary)showSub('<i>Inside a room, something just hit the door.</i>',3);
+    }
+  }else if(f===9&&scary){
+    // the dark floor sends a crawler
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing')return;
+      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+      const zx=clamp(player.pos.x-fx*7,-22,14),zz=clamp(player.pos.z-fz*7,-9,9);
+      const z=spawnZombie(9,zx,zz,'crawler',{x0:zx-4,x1:zx+4,z0:zz-4,z1:zz+4,door:null});
+      z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=25;
+      play('snarl',{pos:z.g.position,vol:1,ref:22});
+    },3200);
+  }else if(f===16&&scary){
+    // fresh runners cut off your retreat
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing')return;
+      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+      for(let i=0;i<2;i++){
+        const zx=clamp(player.pos.x-fx*8+rand(-3,3),-22,14),zz=clamp(player.pos.z-fz*8+rand(-3,3),-9,9);
+        const z=spawnZombie(16,zx,zz,'runner',{x0:zx-4,x1:zx+4,z0:zz-4,z1:zz+4,door:null});
+        z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
+      }
+      play('whisper',{vol:1});
+      showSub('<i>Footsteps. Behind you. Fresh ones.</i>',3);
+    },2800);
+  }else if(f===19){
+    if(scary){play('stinger',{vol:.8});showSub('<i>The roof door groans in the wind above you.</i>',3);}
   }
 }
 
@@ -3248,22 +4143,23 @@ function drawRing(){
     if(z.dead||z.f!==player.floor)continue;
     const dx=z.g.position.x-player.pos.x,dz=z.g.position.z-player.pos.z;
     const d=Math.hypot(dx,dz);
-    if(d>17||d<0.4)continue;
+    if(d>11||d<0.4)continue; // short "senses" range — the dark hides them, your ears find them
     const dot=(fx*dx+fz*dz)/d,cross=fx*dz-fz*dx;
     const rel=Math.atan2(cross,dot);
     let i=Math.round(((rel+Math.PI)/TAU)*N)%N;
     let inten;
-    if(z.state==='chase')inten=0.95;
-    else if(z.state==='investigate')inten=0.6;
-    else inten=d<7?0.35:0.22;
+    if(z.state==='chase')inten=0.9;
+    else if(z.state==='investigate')inten=0.5;
+    else inten=d<6?0.3:0.15;
     if(inten>levels[i]){levels[i]=inten;cols[i]=z.state==='chase'?1:0;}
   }
   // one-time explanations of the ring
   if(!G.ringTipA){for(let i=0;i<N;i++)if(levels[i]>0){G.ringTipA=1;toast(T(MD.id==='lite'?'ring_al':'ring_a'));break;}}
   if(!G.ringTipB){for(let i=0;i<N;i++)if(cols[i]===1){G.ringTipB=1;toast(T(MD.id==='lite'?'ring_bl':'ring_b'));break;}}
-  // objective marker (amber chevron) — always shows the way to the current goal
+  // objective marker (amber chevron) — only nearby, or when pointing at the stairwell
   const qt=questTarget(),wd=waypointDir();
-  if(qt){
+  const showWp=wd&&(qt.up||qt.down||wd.dist<32); // no GPS: far objectives live on the signs & the radio
+  if(qt&&showWp){
     const d=wd?wd.dist:0;
     if(wd){
       const ang=wd.rel-Math.PI/2;
@@ -3329,7 +4225,7 @@ function doVictory(){
   G.flags.victory=true;
   clearSave();
   play('win',{vol:1,force:true});
-  setLoop('drone',0.15);setLoop('tension',0);setLoop('chopper',0.25);
+  setLoop('chopper',0.25);
   $('victory').querySelector('p').textContent=MD.id==='lite'?T('vic_pl'):T('vic_p');
   $('vicStats').innerHTML=
     T('st_time')+'<b>'+fmtTime(G.time)+'</b><br>'+
@@ -3398,7 +4294,7 @@ function onData(d,con){
     const rec={id:cid,name:d.name||'Friend',x:15,y:CHECK.floor*CFG.FH,z:0,yaw:0,f:CHECK.floor,fl:0,down:false,dead:false};
     rec.vis=new RemotePlayer(cid,rec.name);
     net.remotes.set(cid,rec);
-    const snap={flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6,finale:G.flags.finale},
+    const snap={flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6,finale:G.flags.finale,cctvSeen:G.flags.cctvSeen},
       cards:G.cards,gates:[...G.gatesOpen],taken:[...G.taken],checkpoint:CHECK.floor};
     con.send({t:'welcome',id:cid,snap,names:lobbyNames()});
     // if the escape is already running, drop the newcomer straight into it
@@ -3461,7 +4357,9 @@ function flagsBits(){
 }
 function applySnapState(s){
   if(!s)return;
+  RESTORING=true;
   G.flags.power=s.flags.power;G.flags.power2=s.flags.power2;G.flags.shutter6=s.flags.shutter6;G.flags.finale=s.flags.finale;
+  G.flags.cctvSeen=!!s.flags.cctvSeen;
   Object.assign(G.cards,s.cards);
   CHECK.floor=s.checkpoint||0;
   for(const f of s.gates||[]){
@@ -3478,6 +4376,7 @@ function applySnapState(s){
     if(on&&bk.mesh)bk.mesh.material.emissiveIntensity=0.15;
   }
   hudInv();questCheck();
+  RESTORING=false;
 }
 function applySnap(s){
   const seen=new Set();
@@ -3491,7 +4390,7 @@ function applySnap(s){
     r.down=!!(p[6]&4);r.dead=!!(p[6]&8);
   }
   for(const[id,r]of net.remotes){if(!seen.has(id)){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
-  const TYPES=['shambler','runner','brute'];
+  const TYPES=['shambler','runner','brute','screamer','crawler'];
   for(const a of s.zb){
     let z=world.zmap&&world.zmap.get(a[0]);
     if(!z){
@@ -3528,6 +4427,7 @@ function onEv(d,from){
       play('shot',{pos:o,vol:.8,ref:30});
       break;}
     case 'vic':doVictory(true);break;
+    case 'cctv':if(!G.flags.cctvSeen){G.flags.cctvSeen=true;questCheck();}break;
   }
   if(G.host&&from){for(const c of net.conns)if(c!==from&&c.open)c.send(d);}
 }
@@ -3651,17 +4551,331 @@ function refreshLobbyFrom(names){
   const b=$('btnStart');
   b.disabled=true;b.textContent=T('lb_wait');
 }
+/* ---------------- animated, skippable story intro (procedural comic panels) ---------------- */
+let introState=null;
+function introPanels(){
+  const lite=G.gameMode==='lite';
+  const pro=lite?(G.mp?T('pro_lm'):T('pro_ls')):(G.mp?T('pro_sm'):T('pro_ss'));
+  const caps=pro.split('<br><br>');
+  const ps=[{cap:'',draw:'title'}];
+  const draws=lite?['schoolDay','bots','drone']:['exterior','corridor','eyes'];
+  draws.forEach((d,i)=>ps.push({cap:caps[i]||caps[caps.length-1]||'',draw:d}));
+  return ps;
+}
+function drawIntro(cv,kind,alpha,zoom,t){
+  const x=cv.getContext('2d'),W=cv.width,H=cv.height;
+  x.save();
+  x.clearRect(0,0,W,H);
+  const z=1+(zoom||0);
+  x.translate(W/2,H/2);x.scale(z,z);x.translate(-W/2,-H/2);
+  const grain=()=>{x.fillStyle='rgba(255,255,255,0.03)';for(let i=0;i<120;i++)x.fillRect(Math.random()*W,Math.random()*H,2,2);};
+  const vign=()=>{const g2=x.createRadialGradient(W/2,H/2,H*0.35,W/2,H/2,H*0.75);g2.addColorStop(0,'rgba(0,0,0,0)');g2.addColorStop(1,'rgba(0,0,0,0.55)');x.fillStyle=g2;x.fillRect(0,0,W,H);};
+  if(kind==='title'){
+    x.fillStyle=G.gameMode==='lite'?'#0e1a12':'#000';x.fillRect(0,0,W,H);
+    x.textAlign='center';
+    x.font='900 54px "Arial Black",Arial';
+    x.fillStyle=G.gameMode==='lite'?'#9fd0ff':'#e8e4da';
+    x.fillText('ROOFTOP ESCAPE',W/2,H/2-10);
+    x.font='16px Consolas,monospace';
+    x.fillStyle=G.gameMode==='lite'?'#3ad488':'#c1272d';
+    x.fillText(G.gameMode==='lite'?'SCIENCE FAIR NIGHT — SEOWON HIGH':'OUTBREAK NIGHT — SEOWON HIGH SCHOOL',W/2,H/2+30);
+    if(G.gameMode!=='lite'&&Math.sin(t*9)>0.6){x.fillStyle='rgba(193,39,45,0.12)';x.fillRect(0,0,W,H);}
+  }else if(kind==='exterior'){
+    const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#05060f');sky.addColorStop(1,'#0d0f1c');x.fillStyle=sky;x.fillRect(0,0,W,H);
+    x.fillStyle='rgba(216,220,255,0.12)';x.beginPath();x.arc(W*0.78,H*0.22,60,0,TAU);x.fill();
+    x.fillStyle='#d8dcff';x.beginPath();x.arc(W*0.78,H*0.22,34,0,TAU);x.fill();
+    x.fillStyle='#05060a';
+    x.fillRect(W*0.18,H*0.38,W*0.56,H*0.5);
+    x.fillRect(W*0.4,H*0.28,W*0.14,H*0.14);
+    for(let i=0;i<6;i++)for(let j=0;j<4;j++){
+      x.fillStyle=Math.random()<0.1?'rgba(255,190,90,0.85)':'rgba(30,36,58,0.9)';
+      x.fillRect(W*(0.21+i*0.085),H*(0.43+j*0.1),W*0.045,H*0.05);
+    }
+    x.fillStyle='#020308';x.fillRect(0,H*0.86,W,H*0.14);
+    x.fillStyle='rgba(200,205,255,0.35)';
+    for(let i=0;i<80;i++)x.fillRect(Math.random()*W,Math.random()*H*0.5,1.5,1.5);
+    vign();
+  }else if(kind==='corridor'){
+    x.fillStyle='#020204';x.fillRect(0,0,W,H);
+    x.fillStyle='#0a0a10';
+    x.beginPath();x.moveTo(0,0);x.lineTo(W*0.34,H*0.32);x.lineTo(W*0.34,H*0.74);x.lineTo(0,H);x.closePath();x.fill();
+    x.beginPath();x.moveTo(W,0);x.lineTo(W*0.66,H*0.32);x.lineTo(W*0.66,H*0.74);x.lineTo(W,H);x.closePath();x.fill();
+    x.fillRect(W*0.34,H*0.32,W*0.32,H*0.42);
+    x.strokeStyle='rgba(120,120,140,0.25)';x.lineWidth=2;
+    for(const px of [0.1,0.2,0.9,0.8]){
+      x.beginPath();x.moveTo(W*px,0);x.lineTo(W*(px<0.5?0.34:0.66),H*0.32);x.stroke();
+      x.beginPath();x.moveTo(W*px,H);x.lineTo(W*(px<0.5?0.34:0.66),H*0.74);x.stroke();
+    }
+    const fl=Math.sin(t*13)>-0.3?1:0.2;
+    x.fillStyle=`rgba(255,230,180,${0.75*fl})`;x.fillRect(W*0.44,H*0.18,W*0.12,8);
+    const cone=x.createLinearGradient(0,H*0.2,0,H*0.85);
+    cone.addColorStop(0,`rgba(255,220,160,${0.16*fl})`);cone.addColorStop(1,'rgba(255,220,160,0)');
+    x.fillStyle=cone;x.beginPath();x.moveTo(W*0.46,H*0.2);x.lineTo(W*0.54,H*0.2);x.lineTo(W*0.72,H*0.85);x.lineTo(W*0.28,H*0.85);x.closePath();x.fill();
+    x.strokeStyle='rgba(140,12,16,0.8)';x.lineWidth=7;x.lineCap='round';
+    x.beginPath();x.moveTo(W*0.2,H*0.42);x.quadraticCurveTo(W*0.17,H*0.55,W*0.19,H*0.68);x.stroke();
+    x.beginPath();x.moveTo(W*0.2,H*0.42);x.quadraticCurveTo(W*0.24,H*0.5,W*0.23,H*0.58);x.stroke();
+    x.fillStyle='#000';x.fillRect(W*0.475,H*0.5,W*0.05,H*0.2);
+    x.beginPath();x.arc(W*0.5,H*0.48,H*0.035,0,TAU);x.fill();
+    vign();grain();
+  }else if(kind==='eyes'){
+    x.fillStyle='#000';x.fillRect(0,0,W,H);
+    x.fillStyle='#0a0d0a';
+    x.beginPath();x.ellipse(W*0.5,H*0.42,W*0.13,H*0.2,0,0,TAU);x.fill();
+    x.fillRect(W*0.42,H*0.55,W*0.16,H*0.45);
+    const ox=Math.sin(t*0.8)*6;
+    for(const sx of [-1,1]){
+      x.fillStyle='rgba(255,42,26,0.25)';x.beginPath();x.arc(W*0.5+sx*W*0.045+ox,H*0.4,16,0,TAU);x.fill();
+      x.fillStyle='#ff2a1a';x.beginPath();x.arc(W*0.5+sx*W*0.045+ox,H*0.4,6.5,0,TAU);x.fill();
+    }
+    x.fillStyle='#12100e';
+    x.beginPath();x.ellipse(W*0.62,H*0.88,W*0.09,H*0.07,-0.5,0,TAU);x.fill();
+    for(let i=0;i<4;i++){x.save();x.translate(W*(0.56+i*0.035),H*(0.84-i*0.012));x.rotate(-0.5+i*0.12);x.fillRect(0,-4,W*0.075,8);x.restore();}
+    x.fillStyle='rgba(120,10,14,0.5)';x.beginPath();x.arc(W*0.62,H*0.86,26,0,TAU);x.fill();
+    vign();grain();
+  }else if(kind==='schoolDay'){
+    const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#8fd0ff');sky.addColorStop(1,'#d8ecff');x.fillStyle=sky;x.fillRect(0,0,W,H);
+    x.fillStyle='#fff3c8';x.beginPath();x.arc(W*0.8,H*0.2,40,0,TAU);x.fill();
+    x.fillStyle='#7fbf6f';x.fillRect(0,H*0.84,W,H*0.16);
+    x.fillStyle='#e8e0d0';x.fillRect(W*0.2,H*0.4,W*0.52,H*0.44);
+    x.fillStyle='#c9605a';x.fillRect(W*0.2,H*0.4,W*0.52,H*0.06);
+    for(let i=0;i<5;i++)for(let j=0;j<3;j++){x.fillStyle='#9fd0ff';x.fillRect(W*(0.24+i*0.09),H*(0.52+j*0.1),W*0.05,H*0.055);}
+    x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.moveTo(W*0.15,H*0.75);x.quadraticCurveTo(W*0.12,H*0.6,W*0.15,H*0.48);x.stroke();
+    x.fillStyle='#ff6b8a';x.beginPath();x.ellipse(W*0.15,H*0.44,14,18,0,0,TAU);x.fill();
+  }else if(kind==='bots'){
+    x.fillStyle='#eef4f8';x.fillRect(0,0,W,H);
+    x.fillStyle='#dce6ec';x.fillRect(0,H*0.8,W,H*0.2);
+    const cols=['#3a86ff','#ff8a3a','#3ad488'];
+    for(let i=0;i<3;i++){
+      const bx=W*(0.3+i*0.2),by=H*(0.55+(i%2)*0.06)+Math.sin(t*3+i)*4;
+      x.fillStyle=cols[i];x.beginPath();x.arc(bx,by,46,0,TAU);x.fill();
+      x.fillStyle='#fff';x.beginPath();x.arc(bx-14,by-8,8,0,TAU);x.arc(bx+14,by-8,8,0,TAU);x.fill();
+      x.fillStyle='#123';x.beginPath();x.arc(bx-14,by-8,4,0,TAU);x.arc(bx+14,by-8,4,0,TAU);x.fill();
+      x.strokeStyle='#123';x.lineWidth=3;x.beginPath();x.arc(bx,by+8,12,0.15*Math.PI,0.85*Math.PI);x.stroke();
+      x.strokeStyle='#666';x.beginPath();x.moveTo(bx,by-46);x.lineTo(bx,by-64);x.stroke();
+      x.fillStyle='#ffd23f';x.beginPath();x.arc(bx,by-68,6,0,TAU);x.fill();
+    }
+  }else if(kind==='ch2a'){ // Floor 2 corridor, security door ajar, light spilling out
+    x.fillStyle='#020204';x.fillRect(0,0,W,H);
+    x.fillStyle='#0a0a10';x.fillRect(W*0.3,H*0.25,W*0.4,H*0.55);
+    const spill=x.createLinearGradient(W*0.34,H*0.3,W*0.66,H*0.85);spill.addColorStop(0,'rgba(120,255,170,0.32)');spill.addColorStop(1,'rgba(120,255,170,0)');
+    x.fillStyle=spill;x.fillRect(W*0.34,H*0.28,W*0.32,H*0.56);
+    x.fillStyle='#050508';x.fillRect(W*0.44,H*0.3,W*0.09,H*0.5);
+    vign();
+  }else if(kind==='ch2b'){ // wall of CCTV monitors, one figure still moving
+    x.fillStyle='#010401';x.fillRect(0,0,W,H);
+    for(let i=0;i<3;i++)for(let j=0;j<2;j++){
+      const mx=W*(0.18+i*0.24),my=H*(0.2+j*0.3);
+      x.fillStyle='#081409';x.fillRect(mx,my,W*0.18,H*0.24);
+      x.strokeStyle='rgba(89,255,122,0.5)';x.lineWidth=2;x.strokeRect(mx,my,W*0.18,H*0.24);
+      x.fillStyle='rgba(89,255,122,0.08)';
+      for(let k=0;k<30;k++)x.fillRect(mx+Math.random()*W*0.18,my+Math.random()*H*0.24,rand(4,20),1);
+    }
+    x.fillStyle='#000';x.fillRect(W*0.44,H*0.31,W*0.055,H*0.15);
+    x.beginPath();x.arc(W*0.468,H*0.30,H*0.026,0,TAU);x.fill();
+    grain();
+  }else if(kind==='ch2c'){ // the red keycard glinting on the security desk
+    x.fillStyle='#050505';x.fillRect(0,0,W,H);
+    x.fillStyle='#241a10';x.fillRect(W*0.2,H*0.62,W*0.6,H*0.24);
+    x.fillStyle='#881418';x.fillRect(W*0.46,H*0.5,W*0.09,H*0.055);
+    const gl=x.createRadialGradient(W*0.505,H*0.52,2,W*0.505,H*0.52,70);gl.addColorStop(0,'rgba(255,80,80,0.75)');gl.addColorStop(1,'rgba(255,80,80,0)');
+    x.fillStyle=gl;x.fillRect(W*0.38,H*0.38,W*0.24,H*0.26);
+    vign();
+  }else if(kind==='ch3a'){ // the Floor 6 shutter grinding open, light bleeding under
+    x.fillStyle='#020202';x.fillRect(0,0,W,H);
+    x.fillStyle='#2a2e33';x.fillRect(W*0.25,H*0.1,W*0.5,H*0.55);
+    x.fillStyle='#0c0e10';
+    for(let i=0;i<5;i++)x.fillRect(W*0.25,H*(0.14+i*0.1),W*0.5,H*0.03);
+    const glow=x.createLinearGradient(0,H*0.6,0,H);glow.addColorStop(0,'rgba(255,220,160,0.28)');glow.addColorStop(1,'rgba(255,220,160,0)');
+    x.fillStyle=glow;x.fillRect(W*0.25,H*0.6,W*0.5,H*0.4);
+    vign();
+  }else if(kind==='ch3b'){ // dead floors: one thin flashlight cone on black stairs
+    x.fillStyle='#000';x.fillRect(0,0,W,H);
+    const cone=x.createLinearGradient(W*0.5,0,W*0.5,H);cone.addColorStop(0,'rgba(255,235,190,0.5)');cone.addColorStop(1,'rgba(255,235,190,0)');
+    x.fillStyle=cone;x.beginPath();x.moveTo(W*0.47,H*0.1);x.lineTo(W*0.53,H*0.1);x.lineTo(W*0.75,H);x.lineTo(W*0.25,H);x.closePath();x.fill();
+    x.fillStyle='rgba(200,200,210,0.12)';
+    for(let i=0;i<5;i++)x.fillRect(W*0.42,H*(0.45+i*0.1),W*0.16,H*0.015);
+    grain();
+  }else if(kind==='ch4a'){ // red alarm wash over the lab corridor
+    x.fillStyle='#180202';x.fillRect(0,0,W,H);
+    const g4=x.createRadialGradient(W*0.5,H*0.4,20,W*0.5,H*0.4,W*0.6);g4.addColorStop(0,'rgba(255,40,30,0.5)');g4.addColorStop(1,'rgba(120,0,0,0.1)');
+    x.fillStyle=g4;x.fillRect(0,0,W,H);
+    x.fillStyle='#0a0303';x.fillRect(W*0.44,H*0.35,W*0.12,H*0.45);
+    if(Math.sin(t*9)>0){x.fillStyle='rgba(255,60,40,0.18)';x.fillRect(0,0,W,H);}
+    vign();
+  }else if(kind==='ch4b'){ // the lab doors burst: silhouettes with ember eyes
+    x.fillStyle='#050202';x.fillRect(0,0,W,H);
+    x.fillStyle='#120606';x.fillRect(W*0.3,H*0.25,W*0.4,H*0.55);
+    for(let i=0;i<7;i++){
+      const hx=W*(0.34+(i%4)*0.11),hh=H*(0.4+((i*37)%20)/100);
+      x.fillStyle='rgba(5,2,2,0.95)';
+      x.fillRect(hx,hh,W*0.035,H*0.3);x.beginPath();x.arc(hx+W*0.017,hh-H*0.02,H*0.024,0,TAU);x.fill();
+      x.fillStyle='rgba(255,42,26,0.8)';x.fillRect(hx+W*0.008,hh-H*0.026,W*0.008,H*0.008);x.fillRect(hx+W*0.02,hh-H*0.026,W*0.008,H*0.008);
+    }
+    vign();grain();
+  }else if(kind==='ch4c'){ // running up, two at a time
+    x.fillStyle='#000';x.fillRect(0,0,W,H);
+    x.strokeStyle='rgba(200,200,210,0.25)';x.lineWidth=3;
+    for(let i=0;i<6;i++){x.beginPath();x.moveTo(W*(0.2+i*0.06),H*0.85-i*H*0.07);x.lineTo(W*(0.38+i*0.06),H*0.85-i*H*0.07);x.stroke();}
+    x.fillStyle='#050505';
+    x.save();x.translate(W*0.45,H*0.62);x.rotate(-0.35);
+    x.fillRect(-W*0.02,-H*0.14,W*0.045,H*0.2);x.beginPath();x.arc(0,-H*0.16,H*0.035,0,TAU);x.fill();
+    x.restore();
+    vign();
+  }else if(kind==='ch5a'){ // the roof door opens under the night sky
+    const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#0a1526');sky.addColorStop(1,'#1c2a44');x.fillStyle=sky;x.fillRect(0,0,W,H);
+    for(let i=0;i<40;i++){x.fillStyle='rgba(255,255,255,0.6)';x.fillRect(Math.random()*W,Math.random()*H*0.4,1.5,1.5);}
+    x.fillStyle='#0c0f14';x.fillRect(W*0.38,H*0.3,W*0.24,H*0.5);
+    const lt=x.createLinearGradient(0,H*0.32,0,H*0.8);lt.addColorStop(0,'rgba(200,220,255,0.5)');lt.addColorStop(1,'rgba(200,220,255,0.05)');
+    x.fillStyle=lt;x.fillRect(W*0.40,H*0.32,W*0.2,H*0.46);
+    vign();
+  }else if(kind==='ch5c'){ // behind you: the roof door, silhouettes pouring through
+    x.fillStyle='#000';x.fillRect(0,0,W,H);
+    x.fillStyle='#0e1013';x.fillRect(W*0.4,H*0.25,W*0.2,H*0.6);
+    for(let i=0;i<5;i++){
+      const hx=W*(0.42+i*0.04),hh=H*(0.42+i*0.02);
+      x.fillStyle='rgba(3,3,4,0.98)';x.fillRect(hx,hh,W*0.03,H*0.3);x.beginPath();x.arc(hx+W*0.015,hh-H*0.015,H*0.018,0,TAU);x.fill();
+      x.fillStyle='rgba(255,42,26,0.7)';x.fillRect(hx+W*0.006,hh-H*0.02,W*0.006,H*0.006);x.fillRect(hx+W*0.016,hh-H*0.02,W*0.006,H*0.006);
+    }
+    vign();
+  }else if(kind==='drone'){
+    const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#2a3a55');sky.addColorStop(1,'#4a6a8a');x.fillStyle=sky;x.fillRect(0,0,W,H);
+    for(let i=0;i<40;i++){x.fillStyle='rgba(255,255,255,0.5)';x.fillRect(Math.random()*W,Math.random()*H*0.5,1.5,1.5);}
+    x.fillStyle='#3a5a3a';x.fillRect(0,H*0.82,W,H*0.18);
+    const dx=W*0.5,dy=H*0.4+Math.sin(t*2)*6;
+    x.fillStyle='#3a4a3a';x.beginPath();x.ellipse(dx,dy,70,26,0,0,TAU);x.fill();
+    x.strokeStyle='#222';x.lineWidth=6;
+    x.beginPath();x.moveTo(dx-60,dy-14);x.lineTo(dx-90,dy-30);x.moveTo(dx+60,dy-14);x.lineTo(dx+90,dy-30);x.stroke();
+    x.strokeStyle='rgba(200,200,220,0.7)';x.lineWidth=3;
+    x.beginPath();x.ellipse(dx-90,dy-32,34,6,0,0,TAU);x.stroke();
+    x.beginPath();x.ellipse(dx+90,dy-32,34,6,0,0,TAU);x.stroke();
+    const beam=x.createLinearGradient(0,dy,0,H);beam.addColorStop(0,'rgba(120,255,160,0.25)');beam.addColorStop(1,'rgba(120,255,160,0)');
+    x.fillStyle=beam;x.beginPath();x.moveTo(dx-30,dy+20);x.lineTo(dx+30,dy+20);x.lineTo(dx+90,H);x.lineTo(dx-90,H);x.closePath();x.fill();
+    x.strokeStyle='rgba(80,255,140,0.8)';x.lineWidth=4;x.beginPath();x.ellipse(dx,H*0.88,60,16,0,0,TAU);x.stroke();
+  }
+  x.restore();
+  if(alpha!==undefined){x.fillStyle=`rgba(0,0,0,${clamp(1-alpha,0,1)})`;x.fillRect(0,0,W,H);}
+}
 function showPrologue(){
   $('menu').style.display='none';$('lobby').style.display='none';
   $('prologue').style.display='flex';
-  const lite=G.gameMode==='lite';
-  $('prologue').style.background=lite?'#0e1a12':'#000';
-  $('storyTxt').innerHTML=lite?(G.mp?T('pro_lm'):T('pro_ls')):(G.mp?T('pro_sm'):T('pro_ss'));
-  $('prologueGo').onclick=()=>{
+  const cv=$('introCv');
+  const panels=introPanels();
+  if(introState)clearInterval(introState.timer);
+  introState={i:0,t0:performance.now(),timer:null};
+  const go=()=>{ // leave the intro → wake up (same flow as before)
+    if(introState){clearInterval(introState.timer);introState=null;}
     $('prologue').style.display='none';
     if(!NOLOCK)lockPointer();   // capture the mouse while the click gesture is fresh
     bootRun(G.gameMode,false);
   };
+  $('prologueGo').onclick=go;
+  $('introSkip').onclick=e=>{e.stopPropagation();ensureAudio();play('click',{vol:.5,force:true});go();};
+  const showBrief=()=>{ // final panel becomes the MISSION briefing
+    $('briefH').textContent=T('br_h');
+    $('briefM').textContent=T('br_m');
+    $('introCap').style.display='none';
+    $('missionBrief').style.display='block';
+    const box=$('briefTxt');box.innerHTML='';
+    let i=0;
+    const step=()=>{
+      if(!introState||i>=3)return;
+      const p=document.createElement('p');p.textContent=T('br'+(i+1));box.appendChild(p);
+      i++;setTimeout(step,1300);
+    };
+    step();
+  };
+  const show=i=>{
+    introState.i=i;introState.t0=performance.now();
+    $('introDots').textContent=panels.map((_,k)=>k===i?'●':'○').join(' ');
+    $('prologueGo').classList.toggle('hidden',i<panels.length-1);
+    if(AUD.ready&&G.gameMode!=='lite'&&i>=2)play('heart',{vol:.5,force:true});
+    if(i===panels.length-1){showBrief();}
+    else{
+      $('introCap').style.display='block';
+      $('missionBrief').style.display='none';
+      $('introCap').innerHTML=panels[i].cap;
+    }
+  };
+  cv.onclick=()=>{ // the first click also unlocks the audio context
+    ensureAudio();
+    if(introState.i<panels.length-1)show(introState.i+1);
+    else go();
+  };
+  show(0);
+  introState.timer=setInterval(()=>{ // auto-advance panel by panel
+    if(!introState)return;
+    if((performance.now()-introState.t0)/1000>5.2&&introState.i<panels.length-1)show(introState.i+1);
+  },200);
+  const render=()=>{
+    if(!introState||$('prologue').style.display==='none'){if(introState)requestAnimationFrame(render);return;}
+    const el=(performance.now()-introState.t0)/1000;
+    drawIntro(cv,panels[introState.i].draw,clamp(el/0.5,0,1),Math.min(0.06,el*0.012),el);
+    requestAnimationFrame(render);
+  };
+  render();
+}
+
+/* ---------------- mid-game chapter comics ---------------- */
+const CHAPTERS=[
+  {id:'c2',when:()=>playerMaxFloor>=1,   paint:['ch2a','ch2b','ch2c'],title:'ch2_t',cap:'ch2_c'},
+  {id:'c3',when:()=>G.gatesOpen.has(5),  paint:['ch3a','ch3b','eyes'],title:'ch3_t',cap:'ch3_c'},
+  {id:'c4',when:()=>playerMaxFloor>=11,  paint:['ch4a','ch4b','ch4c'],title:'ch4_t',cap:'ch4_c'},
+  {id:'c5',when:()=>player.floor>=20,    paint:['ch5a','drone','ch5c'],title:'ch5_t',cap:'ch5_c'},
+];
+let chapterState=null;
+function updateChapters(){
+  if(!MD.jumpscares||G.mp||G.paused||G.uiLock||player.dead||player.down||G.flags.victory)return;
+  for(const ch of CHAPTERS){
+    if(!G.chaptersSeen.has(ch.id)&&ch.when()){showChapter(ch);break;}
+  }
+}
+function showChapter(ch){
+  G.chaptersSeen.add(ch.id);
+  G.uiLock='chapter';G.paused=true;
+  document.exitPointerLock&&document.exitPointerLock();
+  const cv=$('chCv');
+  chapterState={i:0,t0:performance.now(),ch,timer:null,show:null,finish:null};
+  const show=i=>{
+    chapterState.i=i;chapterState.t0=performance.now();
+    $('chTitle').textContent=T(ch.title);
+    $('chCap').textContent=i===ch.paint.length-1?T(ch.cap):'';
+    $('chDots').textContent=ch.paint.map((_,k)=>k===i?'●':'○').join(' ');
+  };
+  const finish=()=>{
+    if(!chapterState)return;
+    clearInterval(chapterState.timer);
+    chapterState=null;
+    $('chapter').style.display='none';
+    G.uiLock=null;G.paused=false;
+    saveGame();
+    if(!NOLOCK)lockPointer();
+  };
+  chapterState.show=show;chapterState.finish=finish;
+  $('chSkip').onclick=()=>{if(chapterState)chapterState.finish();};
+  cv.onclick=()=>{ // advance panel by panel; last panel closes the chapter
+    ensureAudio();
+    if(!chapterState)return;
+    play('click',{vol:.4});
+    if(chapterState.i<chapterState.ch.paint.length-1)chapterState.show(chapterState.i+1);
+    else chapterState.finish();
+  };
+  $('chapter').style.display='flex';
+  play('stinger',{vol:.6,force:true});
+  show(0);
+  chapterState.timer=setInterval(()=>{
+    if(!chapterState)return;
+    if((performance.now()-chapterState.t0)/1000>4.4){
+      if(chapterState.i<chapterState.ch.paint.length-1)chapterState.show(chapterState.i+1);
+      else chapterState.finish();
+    }
+  },250);
+  const render=()=>{
+    if(!chapterState){return;}
+    const el=(performance.now()-chapterState.t0)/1000;
+    drawIntro(cv,chapterState.ch.paint[chapterState.i],clamp(el/0.5,0,1),Math.min(0.05,el*0.01),el);
+    requestAnimationFrame(render);
+  };
+  render();
 }
 /* build the world for the chosen mode behind a fade, then start (idempotent) */
 function bootRun(mode,cont){
@@ -3692,6 +4906,8 @@ function startWorld(mode){
 }
 function beginGame(cont){
   G.mode='playing';G.started=true;
+  if(typeof G.lives!=='number')G.lives=3;
+  G.helpMode=false;G.respawnPending=false;
   $('menu').style.display='none';$('lobby').style.display='none';$('prologue').style.display='none';
   $('hud').style.display='block';
   if(cont||(G.mp&&!G.host))player.pos.set(14.5,CHECK.floor*CFG.FH+0.1,0);
@@ -3703,7 +4919,6 @@ function beginGame(cont){
   onFloorChange(clamp(Math.round(player.pos.y/CFG.FH),0,CFG.FLOORS));
   lockPointer();
   hudInv();hudStats();questCheck();
-  setLoop('drone',MD.id==='lite'?0.25:0.5);
   if(cont){
     setTimeout(()=>radio(T(MD.id==='lite'?'radio_cont_l':'radio_cont')),1500);
   }else{
@@ -3723,11 +4938,12 @@ function saveGame(){
   try{
     localStorage.setItem('zf_save',JSON.stringify({
       mode:MD.id,ts:Date.now(),
-      qi,cards:G.cards,flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6},
+      qi,cards:G.cards,flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6,cctvSeen:G.flags.cctvSeen},
       inv:{crowbar:INV.crowbar,flare:INV.flare,medkit:INV.medkit,fl:INV.flashlight,pistol:INV.pistol,ammo:INV.ammo,weapon:player.weapon},
       battery:Math.round(player.battery),hp:Math.round(player.hp),
       checkpoint:CHECK.floor,time:Math.round(G.time),
-      kills:G.stats.kills,deaths:G.stats.deaths,
+      chapters:[...G.chaptersSeen],
+      kills:G.stats.kills,deaths:G.stats.deaths,lives:(typeof G.lives==='number'?G.lives:3),
       gates:[...G.gatesOpen],boards:[...G.boardsBroken],taken:[...G.taken],seen:[...G.floorsSeen],
     }));
   }catch(e){}
@@ -3737,17 +4953,19 @@ function loadSave(){
 }
 function clearSave(){try{localStorage.removeItem('zf_save');}catch(e){}}
 function applySave(s){
-  const wasReady=AUD.ready;AUD.ready=false; // stay silent while restoring
+  const wasReady=AUD.ready;AUD.ready=false;RESTORING=true; // stay silent while restoring
   try{
     qi=s.qi||0;
     Object.assign(G.cards,s.cards||{});
-    if(s.flags){G.flags.power=!!s.flags.power;G.flags.power2=!!s.flags.power2;G.flags.shutter6=!!s.flags.shutter6;}
+    if(s.flags){G.flags.power=!!s.flags.power;G.flags.power2=!!s.flags.power2;G.flags.shutter6=!!s.flags.shutter6;G.flags.cctvSeen=!!s.flags.cctvSeen;}
     if(s.inv){INV.crowbar=!!s.inv.crowbar;INV.flare=s.inv.flare|0;INV.medkit=s.inv.medkit|0;INV.flashlight=!!s.inv.fl;
       INV.pistol=!!s.inv.pistol;INV.ammo=s.inv.ammo|0;player.weapon=s.inv.weapon==='pistol'&&INV.pistol?'pistol':'melee';}
     player.battery=s.battery??70;player.hp=clamp(s.hp??100,20,100);
     CHECK.floor=clamp(s.checkpoint|0,0,CFG.FLOORS-1);
     playerMaxFloor=CHECK.floor;
     G.time=s.time||0;G.stats.kills=s.kills||0;G.stats.deaths=s.deaths||0;
+    G.lives=(typeof s.lives==='number')?s.lives:3;
+    for(const c of s.chapters||[])G.chaptersSeen.add(c);
     for(const f of s.gates||[])G.gatesOpen.add(f);
     for(const b of s.boards||[])G.boardsBroken.add(b);
     for(const id of s.taken||[])G.taken.add(id);
@@ -3764,7 +4982,7 @@ function applySave(s){
       if(on&&bk.mesh)bk.mesh.material.emissiveIntensity=0.15;
     }
     for(const f of s.seen||[])G.floorsSeen.add(f);
-  }finally{AUD.ready=wasReady;}
+  }finally{AUD.ready=wasReady;RESTORING=false;}
 }
 setInterval(()=>{if(G.mode==='playing'&&!G.mp&&G.started&&!G.flags.victory)saveGame();},5000);
 
@@ -3807,7 +5025,7 @@ function resetWorld(){
   for(const b of bursts){if(b.sp.parent)b.sp.parent.remove(b.sp);}
   bursts.length=0;
   world.cols=Array.from({length:CFG.FLOORS+1},()=>[]);
-  world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];
+  world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];world.npcs=[];
   world.furn=[];world.keep=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
   world.roomDoor={};world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
   world.clouds=null;world.built=false;
@@ -3872,6 +5090,7 @@ $('btnLobbyLeave').onclick=()=>location.reload();
 $('btnResume').onclick=()=>showPause(false);
 $('btnQuit').onclick=()=>location.reload();
 $('btnDeathMenu').onclick=()=>location.reload();
+$('btnRespawn').onclick=()=>{if(player.dead&&G.lives>0)player.respawnT=0.01;};
 $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;
@@ -3910,6 +5129,7 @@ function loop(){
     G.time+=dt;
     updatePlayer(dt,G.time);
     updateInteract(dt);
+    updateChapters();
     for(const z of world.zombies)z.update(dt,G.time);
     updateFlares(dt,G.time);
     updateEvents(dt);
@@ -3918,6 +5138,7 @@ function loop(){
     for(const it of world.items)it.update(G.time);
     for(const d of world.doors)d.update(dt);
     for(const gt of world.gates)gt.update(dt);
+    for(const npc of world.npcs)npc.update(dt,G.time);
     if(G.mp){
       net.posT+=dt;net.snapT+=dt;
       if(!G.host&&net.posT>1/12){
@@ -3929,7 +5150,7 @@ function loop(){
         net.snapT=0;
         const ps=[['H',+player.pos.x.toFixed(2),+player.pos.z.toFixed(2),+player.pos.y.toFixed(2),+player.yaw.toFixed(2),player.floor,flagsBits(),G.myName]];
         for(const r of net.remotes.values())ps.push([r.id,+r.x.toFixed(2),+r.z.toFixed(2),+ (r.y||0).toFixed(2),+r.yaw.toFixed(2),r.f||0,r.fl||0,r.name]);
-        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,['shambler','runner','brute'].indexOf(z.type)]);
+        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,['shambler','runner','brute','screamer','crawler'].indexOf(z.type)]);
         netBroadcast({t:'snap',ps,zb});
       }
       for(const r of net.remotes.values())if(r.vis)r.vis.update(dt,r);
@@ -3952,7 +5173,30 @@ init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,
   getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
-  spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null};
+  spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
+  step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
+    const dt=1/60;
+    for(let i=0;i<n;i++){
+      G.dt=dt;G.time+=dt;
+      updatePlayer(dt,G.time);
+      updateInteract(dt);
+      updateChapters();
+      for(const z of world.zombies)z.update(dt,G.time);
+      updateFlares(dt,G.time);
+      updateEvents(dt);
+      updateSub(dt);
+      updatePings(dt);
+      for(const it of world.items)it.update(G.time);
+      for(const d of world.doors)d.update(dt);
+      for(const gt of world.gates)gt.update(dt);
+      for(const npc of world.npcs)npc.update(dt,G.time);
+      if(G.mp){/* net ticks skipped in step mode */}
+      updateBursts(dt);
+      updateDust(dt,G.time);
+      drawRing();
+    }
+    return G.time;
+  }};
 </script>
 </body>
 </html>
