@@ -294,6 +294,49 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     check('HUD hint text populated',hintTxt.length>20,String(hintTxt.length)+' chars');
   }
 
+  /* --- reachability: flood-fill each floor; no invisible walls, no sealed rooms --- */
+  {
+    for(const dd of world.doors){ if(dd.f<=2){ dd.setOpen(true,false); } }
+    const STEP=0.5,X0=-23.5,X1=23.5,Z0=-9.5,Z1=9.5;
+    const NX=Math.floor((X1-X0)/STEP)+1,NZ=Math.floor((Z1-Z0)/STEP)+1;
+    const idx=(ix,iz)=>iz*NX+ix;
+    let problems=[];
+    for(const f of [0,1,2]){
+      const y=f*CFG.FH,free=new Uint8Array(NX*NZ);
+      for(let iz=0;iz<NZ;iz++)for(let ix=0;ix<NX;ix++){
+        const x=X0+ix*STEP,z=Z0+iz*STEP;
+        const gy=g.groundAt(x,z,y+0.4);
+        if(!(gy>y-0.3&&gy<y+CFG.FH+0.2))continue;
+        const c=g.collideCircle(x,z,y+0.05,f,CFG.R);
+        if(Math.hypot(c[0]-x,c[1]-z)>0.02)continue;
+        free[idx(ix,iz)]=1;
+      }
+      const si=Math.round((10-X0)/STEP),sj=Math.round((0-Z0)/STEP);
+      if(!free[idx(si,sj)]){problems.push(`F${f}:corridor-seed`);continue;}
+      const seen=new Uint8Array(NX*NZ),q=[[si,sj]];seen[idx(si,sj)]=1;
+      while(q.length){const [ix,iz]=q.pop();
+        for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){
+          const nx=ix+dx,nz=iz+dz;if(nx<0||nz<0||nx>=NX||nz>=NZ)continue;
+          const k=idx(nx,nz);if(seen[k]||!free[k])continue;seen[k]=1;q.push([nx,nz]);}}
+      const at=(x,z)=>{const ix=Math.round((x-X0)/STEP),iz=Math.round((z-Z0)/STEP);
+        return ix>=0&&iz>=0&&ix<NX&&iz<NZ&&!!seen[idx(ix,iz)];};
+      // key waypoints that MUST be reachable from the corridor
+      const goals=[['laneMouth',17.6,1.2],['towerStrip',19,-1.2],['towerEast',23,1.2]];
+      for(const [n,x,z] of goals)if(!at(x,z))problems.push(`F${f}:${n}`);
+      // every room must contain at least one reachable free cell (doors were opened)
+      for(const r of world.layout[f].rooms){
+        let any=false;
+        for(let iz=0;iz<NZ&&!any;iz++)for(let ix=0;ix<NX;ix++){
+          const x=X0+ix*STEP,z=Z0+iz*STEP;
+          if(x<r.x0+0.7||x>r.x1-0.7||z<Math.min(r.z0,r.z1)+0.7||z>Math.max(r.z0,r.z1)-0.7)continue;
+          if(at(x,z)){any=true;break;}
+        }
+        if(!any)problems.push(`F${f}:room@${r.x0}`);
+      }
+    }
+    check('flood fill: corridor/lane/tower connected and no room sealed off',problems.length===0,problems.slice(0,6).join(' '));
+  }
+
   /* --- co-op tool sets: one flashlight/crowbar/pistol per survivor --- */
   {
     const want=process.env.MP?4:1;

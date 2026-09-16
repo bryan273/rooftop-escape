@@ -507,7 +507,7 @@ en:{
  g_locked:'Locked. Requires the {c} keycard.',g_accept:'{c} keycard accepted.',
  g_shutter1:'Security shutter. No power — find the generator (Floor 2).',g_shutter2:'Powered. Release it from the CCTV terminal (Floor 2).',
  g_power:'Magnetic lock engaged. Reset the breaker on Floor 11.',
- sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_records:'RECORDS',sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_elev:'ELEVATOR — OUT OF ORDER',
  fl_roof:'ROOF',fl_floor:'F{n}',
@@ -621,7 +621,7 @@ zh:{
  g_locked:'已上锁。需要{c}钥匙卡。',g_accept:'{c}钥匙卡已验证。',
  g_shutter1:'安全卷帘门。没有电力——去2层找发电机。',g_shutter2:'已通电。请在2层监控终端解除。',
  g_power:'电磁锁锁定。请重置11层的断路器。',
- sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
  sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_records:'档案室',sg_infir:'医务室',sg_roof:'天台通道',sg_elev:'电梯 — 停用',
  fl_roof:'天台',fl_floor:'{n}层',
@@ -894,6 +894,12 @@ function buildTextures(){
     x.fillStyle=bg;x.fillRect(0,0,w,h);x.strokeStyle=fg;x.lineWidth=3;x.strokeRect(4,4,w-8,h-8);
     x.fillStyle=fg;x.font='bold 26px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';x.fillText(txt,w/2,h/2+1);
   });
+  TEX.destLabel=f=>makeCanvas(256,128,(x,w,h)=>{   // the floor you reach at the top of this flight
+    const dest=f+1;
+    x.fillStyle='#0d2010';x.fillRect(0,0,w,h);x.strokeStyle='#59ff7a';x.lineWidth=5;x.strokeRect(6,6,w-12,h-12);
+    x.fillStyle='#a8ffb8';x.font='bold 50px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
+    x.fillText(dest>=19?T('fl_roof'):T('fl_floor',{n:dest+1}),w/2,h/2);
+  });
   TEX.floorLabel=f=>makeCanvas(256,128,(x,w,h)=>{
     x.fillStyle='#3a3a3c';x.fillRect(0,0,w,h);x.strokeStyle='#8a8a8a';x.lineWidth=4;x.strokeRect(5,5,w-10,h-10);
     x.fillStyle='#ffd9a0';x.font='bold 52px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
@@ -1153,6 +1159,9 @@ class DoorC{
       :{x0:Math.min(hx,hx+s*l),x1:Math.max(hx,hx+s*l),z0:hz-0.3,z1:hz+0.2,y0:y,y1:y+2.2,los:false,off:false};
     this.col={...this.colClosed};
     world.cols[f].push(this.col);
+    // keep the doorway and its approach clear for the whole leaf swing
+    if(axis==='x')addKeepClear(f,hx+len/2,hz,len+1.4,4.2);
+    else addKeepClear(f,hx,hz+len/2,4.2,len+1.4);
     this.label=opts.label||'Open door';
     world.doors.push(this);
   }
@@ -1359,6 +1368,20 @@ const ROOM_NAMES=()=>[
 function themeOf(f){return f<5?0:(f<11?1:(f<16?2:3));}
 
 /* ---------- furniture ---------- */
+/* Every door gets a keep-clear box (corridor side + room side) so random furniture
+   placement or a parked door leaf can never seal a room off. */
+function addKeepClear(f,x,z,sx,sz){
+  world.keep=world.keep||[];
+  world.keep.push({f,x0:x-sx/2,x1:x+sx/2,z0:z-sz/2,z1:z+sz/2});
+}
+function boxHitsKeepClear(f,x,z,sx,sz){
+  if(!world.keep)return false;
+  for(const k of world.keep){
+    if(k.f!==f)continue;
+    if(x+sx/2>k.x0&&x-sx/2<k.x1&&z+sz/2>k.z0&&z-sz/2<k.z1)return true;
+  }
+  return false;
+}
 /* remove any furniture that ended up intersecting a wall (special rooms add walls late) */
 function pruneFurniture(){
   if(!world.furn)return;
@@ -1390,6 +1413,7 @@ function furnishRoom(f,r,name){
   const y=f*CFG.FH;
   const w=r.x1-r.x0-1.6,d=r.z1-r.z0-1.6;
   const put=(x,z,sx,sy,sz,mat,opts)=>{
+    if(boxHitsKeepClear(f,x,z,sx,sz))return null;
     world.furn=world.furn||[];
     const m=addBox(f,x,y+sy/2,z,sx,sy,sz,mat,opts);
     const col=world.cols[f][world.cols[f].length-1];
@@ -1401,13 +1425,13 @@ function furnishRoom(f,r,name){
     for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){
       if(Math.random()<0.14)continue;
       const x=r.x0+1.4+j*(w-0.6)/Math.max(1,cols-1||1),z=r.z0+1.6+i*(d-0.8)/Math.max(1,rows-1||1);
-      if(boxHitsWall(f,x,z,1.1,1.5))continue; // desk + chair zone must be clear of walls/partitions
+      if(boxHitsWall(f,x,z,1.1,1.5)||boxHitsKeepClear(f,x,z,1.1,1.5))continue; // never block a door
       put(x,z,1.05,0.72,0.55,MAT.desk);put(x,z+0.45,0.4,0.45,0.4,MAT.dark,{col:false});
       // chair
       addBox(f,x,y+0.23,z-0.5,0.4,0.045,0.4,MAT.dark,{col:false});
       addBox(f,x,y+0.55,z-0.68,0.4,0.5,0.045,MAT.dark,{col:false});
     }
-    if(!boxHitsWall(f,cx,r.z0+1.1,1.9,0.8)){
+    if(!boxHitsWall(f,cx,r.z0+1.1,1.9,0.8)&&!boxHitsKeepClear(f,cx,r.z0+1.1,1.9,0.8)){
       put(cx,r.z0+1.1,1.8,0.85,0.7,MAT.desk); // teacher desk
       addBox(f,cx,y+0.28,r.z0+1.1,0.42,0.05,0.42,MAT.dark,{col:false});
     }
@@ -1416,20 +1440,20 @@ function furnishRoom(f,r,name){
     const n=irand(3,5);
     for(let i=0;i<n;i++){
       const x=rand(r.x0+1.4,r.x1-1.4),z=rand(r.z0+1.6,r.z1-1.2);
-      if(boxHitsWall(f,x,z,1.35,0.7))continue;
+      if(boxHitsWall(f,x,z,1.35,0.7)||boxHitsKeepClear(f,x,z,1.35,0.7))continue;
       put(x,z,1.3,0.75,0.65,MAT.desk);
       if(Math.random()<0.5)addBox(f,x,y+0.95,z,1.4,0.4,0.1,MAT.wallDark,{col:false,ry:rand(0,TAU)});
     }
     for(let i=0;i<irand(1,3);i++){
       for(let t=0;t<4;t++){
         const x=rand(r.x0+1.2,r.x1-1.2);
-        if(!boxHitsWall(f,x,r.z0+0.8,0.55,1.15)){put(x,r.z0+0.8,0.5,1.9,1.1,MAT.locker,{los:true});break;}
+        if(!boxHitsWall(f,x,r.z0+0.8,0.55,1.15)&&!boxHitsKeepClear(f,x,r.z0+0.8,0.55,1.15)){put(x,r.z0+0.8,0.5,1.9,1.1,MAT.locker,{los:true});break;}
       }
     }
     // bookshelf with books
     for(let t=0;t<4;t++){
       const bx=rand(r.x0+1.5,r.x1-1.5);
-      if(boxHitsWall(f,bx,r.z1-0.35,1.25,0.4))continue;
+      if(boxHitsWall(f,bx,r.z1-0.35,1.25,0.4)||boxHitsKeepClear(f,bx,r.z1-0.35,1.25,0.4))continue;
       put(bx,r.z1-0.35,1.2,1.9,0.35,MAT.wallDark,{los:true});
       const bt=new THREE.CanvasTexture(TEX.books);bt.colorSpace=THREE.SRGBColorSpace;
       const bp=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.7),new THREE.MeshStandardMaterial({map:bt,roughness:.9}));
@@ -1440,22 +1464,22 @@ function furnishRoom(f,r,name){
     for(let i=0;i<irand(2,4);i++){
       const z=r.z0+1.6+i*1.9;
       if(z>r.z1-0.8)break;
-      if(boxHitsWall(f,cx,clamp(z,r.z0+1,r.z1-1),w*0.7+0.2,0.85))continue;
+      if(boxHitsWall(f,cx,clamp(z,r.z0+1,r.z1-1),w*0.7+0.2,0.85)||boxHitsKeepClear(f,cx,clamp(z,r.z0+1,r.z1-1),w*0.7+0.2,0.85))continue;
       put(cx,clamp(z,r.z0+1,r.z1-1),w*0.7,0.9,0.8,MAT.dark,{});
     }
-    if(!boxHitsWall(f,r.x0+1,r.z1-1,0.65,0.95))put(r.x0+1,r.z1-1,0.6,1.9,0.9,MAT.locker,{los:true});
-    if(!boxHitsWall(f,r.x1-1,r.z0+1,0.65,0.95))put(r.x1-1,r.z0+1,0.6,1.9,0.9,MAT.locker,{los:true});
+    if(!boxHitsWall(f,r.x0+1,r.z1-1,0.65,0.95)&&!boxHitsKeepClear(f,r.x0+1,r.z1-1,0.65,0.95))put(r.x0+1,r.z1-1,0.6,1.9,0.9,MAT.locker,{los:true});
+    if(!boxHitsWall(f,r.x1-1,r.z0+1,0.65,0.95)&&!boxHitsKeepClear(f,r.x1-1,r.z0+1,0.65,0.95))put(r.x1-1,r.z0+1,0.6,1.9,0.9,MAT.locker,{los:true});
   }else{ // dorm
     for(let i=0;i<irand(2,4);i++){
       for(let t=0;t<4;t++){
         const x=rand(r.x0+1.8,r.x1-1.8),z=rand(r.z0+1.4,r.z1-1.2);
-        if(!boxHitsWall(f,x,z,2.05,1.0)){put(x,z,2.0,0.55,0.95,MAT.bed);break;}
+        if(!boxHitsWall(f,x,z,2.05,1.0)&&!boxHitsKeepClear(f,x,z,2.05,1.0)){put(x,z,2.0,0.55,0.95,MAT.bed);break;}
       }
     }
     for(let i=0;i<irand(1,3);i++){
       for(let t=0;t<4;t++){
         const x=rand(r.x0+1.2,r.x1-1.2);
-        if(!boxHitsWall(f,x,r.z1-0.7,0.55,1.15)){put(x,r.z1-0.7,0.5,1.9,1.1,MAT.locker,{los:true});break;}
+        if(!boxHitsWall(f,x,r.z1-0.7,0.55,1.15)&&!boxHitsKeepClear(f,x,r.z1-0.7,0.55,1.15)){put(x,r.z1-0.7,0.5,1.9,1.1,MAT.locker,{los:true});break;}
       }
     }
   }
@@ -1495,14 +1519,14 @@ function buildFloor(f){
     m.receiveShadow=true;L.add(m);
   }
   // stair shaft: visible full-height side walls.
-  // They stop at x=22.55 so the last two steps + the top landing stay open (a 1.3 m mouth).
+  // They stop at x=22.25, leaving a 1.6 m opening at the top so the landing is easy to walk out of.
   for(const zEdge of [LA.z0,LA.z1]){
-    addWall(f,17,zEdge-0.06,22.55,zEdge+0.06,{mat:MAT.wall,los:false});
+    addWall(f,17,zEdge-0.06,22.25,zEdge+0.06,{mat:MAT.wall,los:false});
   }
-  // bottom: "up" arrow; top landing: which floor you just reached
+  // bottom: "up" arrow. Top landing: which floor you reached + which way to walk out.
   signOn(f,17.02,y+2.05,1.2,-Math.PI/2,TEX.sign(T('sg_up'),'#06180a','#59ff7a'),1.1,0.3);
-  signOn(f,22.85,y+CFG.FH+1.95,2.42,Math.PI,TEX.floorLabel(f),1.1,0.55);
-  signOn(f,22.85,y+CFG.FH+1.95,0.58,0,TEX.floorLabel(f),1.1,0.55);
+  signOn(f,22.75,y+CFG.FH+2.15,2.35,Math.PI,TEX.destLabel(f),1.25,0.6);
+  signOn(f,22.75,y+CFG.FH+1.55,2.35,Math.PI,TEX.sign(T('sg_exit'),'#06180a','#59ff7a'),1.25,0.32);
   // floor label + stairwell sign
   signOn(f,16.13,y+1.9,0.2,-Math.PI/2,TEX.floorLabel(f),1.1,0.55);
   signOn(f,15.84,y+2.55,0.2,-Math.PI/2,TEX.sign(T('sg_stairs'),'#06180a','#59ff7a'),1.5,0.38);
@@ -1527,17 +1551,20 @@ function buildFloor(f){
     pipe.rotation.z=Math.PI/2;pipe.position.set(-4,y+FH-0.34,pz);L.add(pipe);
   }
   if(Math.random()<(LITE?0.8:0.55)){
-    const vx=rand(-19,10);
-    addBox(f,vx,y+0.9,-1.15,0.9,1.8,0.68,MAT.metal,{cast:false});
+    let vx=rand(-19,10),vt=0;
+    while(boxHitsKeepClear(f,vx,-1.15,1.0,0.8)&&vt++<8)vx=rand(-19,10);
+    if(vt<8)addBox(f,vx,y+0.9,-1.15,0.9,1.8,0.68,MAT.metal,{cast:false});
     const vf=new THREE.Mesh(new THREE.PlaneGeometry(0.62,1.3),new THREE.MeshStandardMaterial({color:0x0a1428,emissive:MD.vendE,emissiveIntensity:MD.vendI}));
     vf.position.set(vx,y+1.08,-0.8);L.add(vf);
     signOn(f,vx,y+2.05,-0.78,0,TEX.sign(T('sg_drinks'),'#0a1428','#7ac8ff'),0.8,0.22);
   }
   if(Math.random()<0.35){
-    const cx2=rand(-16,8);
-    addBox(f,cx2,y+0.55,1.28,0.42,1.1,0.42,MAT.metal,{cast:false});
-    const jug=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.4,10),new THREE.MeshStandardMaterial({color:0x9fc8e8,transparent:true,opacity:0.6,emissive:0x3a6a8a,emissiveIntensity:.4}));
-    jug.position.set(cx2,y+1.3,1.28);L.add(jug);
+    let cx2=rand(-16,8),ct=0;
+    while(boxHitsKeepClear(f,cx2,1.28,0.5,0.5)&&ct++<8)cx2=rand(-16,8);
+    if(ct>=8)cx2=null;
+    if(cx2!==null)addBox(f,cx2,y+0.55,1.28,0.42,1.1,0.42,MAT.metal,{cast:false});
+    if(cx2!==null){const jug=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.4,10),new THREE.MeshStandardMaterial({color:0x9fc8e8,transparent:true,opacity:0.6,emissive:0x3a6a8a,emissiveIntensity:.4}));
+    jug.position.set(cx2,y+1.3,1.28);L.add(jug);}
   }
   if(!LITE)for(let i=0;i<irand(3,6);i++){
     const pp=new THREE.Mesh(new THREE.PlaneGeometry(0.24,0.34),new THREE.MeshStandardMaterial({color:0xcfcabb,roughness:1}));
@@ -2810,6 +2837,7 @@ function onFloorChange(f){
   if(!G.floorsSeen.has(f)){
     G.floorsSeen.add(f);
     if(storyLine(f))radio(storyLine(f));
+    if(f>=1&&!G.stairTip){G.stairTip=true;setTimeout(()=>showSub(T('hint_stairtop'),5.5),6200);}
   }
   scene.fog.density=f>=CFG.FLOORS?(MD.id==='lite'?0.012:0.018):MD.fogD;
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'floor',f});
@@ -3677,7 +3705,7 @@ function resetWorld(){
   bursts.length=0;
   world.cols=Array.from({length:CFG.FLOORS+1},()=>[]);
   world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];
-  world.furn=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
+  world.furn=[];world.keep=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
   world.roomDoor={};world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
   world.clouds=null;world.built=false;
   ZID=0;ITEM_N=0;
