@@ -1,0 +1,6 @@
+# build/dev artifacts
+_sim/three.module.js
+_sim/game.mjs
+node_modules/
+Thumbs.db
+.DS_Store
