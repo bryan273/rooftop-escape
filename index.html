@@ -205,6 +205,7 @@
   <canvas id="ring" width="280" height="280"></canvas>
   <div id="topL">
     <div id="floorLbl">FLOOR 1 — ENTRANCE</div>
+    <div id="squad" style="display:none"></div>
     <div id="obj"></div>
   </div>
   <div id="hintKey">[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals</div>
@@ -293,6 +294,7 @@
   <div class="code" id="lobbyCode" title="click to copy">----</div>
   <div class="hint" id="lbHint2">click the code to copy · friends press “Join Co-op” and type it</div>
   <div id="lobbyList"></div>
+  <div id="lbHostNote" class="hint" style="max-width:420px;color:#c9a227;line-height:1.6"></div>
   <button class="btn" id="btnStart" disabled>Start (waiting…)</button>
   <button class="btn small" id="btnLobbyLeave">Leave</button>
 </div>
@@ -372,6 +374,7 @@ window.addEventListener('error', e=>{
 });
 const $=id=>document.getElementById(id);
 const NOLOCK=new URLSearchParams(location.search).has('nolock'); // debug/trackpad mode: no pointer-lock pause
+const MOUSE_FALLBACK=false;  // true = never use pointer lock (trackpad-friendly)
 const CFG={
   FLOORS:20, FH:3.4,
   PLATE:{x0:-24,x1:24,z0:-11,z1:11},
@@ -446,7 +449,7 @@ en:{
  p_hold:'HOLD POSITION…',p_wait:'Extraction — waiting for friends ({i}/{t})',
  lock_hint:'🖱️ CLICK THE GAME TO CAPTURE THE MOUSE',
  chat_ph:'say something… (Enter to send)',
- msg_creating:'Creating room…',msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
+ msg_creating:'Creating room…',t_midjoin:'Joining an escape in progress…',lb_squad:'SURVIVORS',msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
  msg_slow:'Still connecting… PeerJS needs a few seconds.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
  pro_ss:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You are alone. Ji-woo is on the radio from somewhere above: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Scavenge what you can. <em>Don\'t stop moving.</em>',
  pro_sm:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You and your friends got split in the dark. Ji-woo is on the radio: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Find each other. <em>Don\'t stop moving.</em>',
@@ -560,7 +563,7 @@ zh:{
  p_hold:'守住位置…',p_wait:'撤离中——等待队友（{i}/{t}）',
  lock_hint:'🖱️ 点击游戏画面以锁定鼠标',
  chat_ph:'说点什么…（回车发送）',
- msg_creating:'正在创建房间…',msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
+ msg_creating:'正在创建房间…',t_midjoin:'正在加入进行中的逃生…',lb_squad:'幸存者',msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
  msg_slow:'仍在连接…PeerJS 需要几秒钟。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
  pro_ss:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你孤身一人。智宇在楼上通过无线电告诉你：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。捡起一切能用的东西。<em>别停下。</em>',
  pro_sm:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你和朋友们在黑暗中走散了。智宇在无线电里说：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。找到彼此。<em>别停下。</em>',
@@ -670,6 +673,7 @@ function applyLang(){
     set('noteClose',T('note_close'));setP('chatIn',T('chat_ph'));
     set('lockHint',T('lock_hint'));
     set('lbTitle',T('lb_title'));set('lbHint1',T('lb_share'));set('lbHint2',T('lb_copy'));
+    set('lbHostNote',T('lb_hostnote'));
     const hk=$('hintKey');if(hk)hk.innerHTML=T('hint');
     set('lblLang',T('lbl_lang'));
     const he=$('langEn'),hz=$('langZh');
@@ -726,14 +730,21 @@ addEventListener('keydown',e=>{
 });
 addEventListener('keyup',e=>{KEY[e.code]=false;if(e.code==='Tab')toggleGoals(false);});
 addEventListener('mousemove',e=>{
-  if(pointerLocked){mouse.dx+=e.movementX;mouse.dy+=e.movementY;}
+  // Pointer lock is preferred but never required: if the browser refused it we still rotate
+  // from raw mouse deltas, so a player can never be stuck unable to look around.
+  if(G.mode!=='playing'||G.paused||G.uiLock||G.chatOpen)return;
+  mouse.dx+=e.movementX||0;mouse.dy+=e.movementY||0;
 });
 addEventListener('mousedown',e=>{if(e.button===0)mouse.lmb=true;});
 addEventListener('mouseup',e=>{if(e.button===0)mouse.lmb=false;});
 addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('pointerlockchange',()=>{
   pointerLocked=(document.pointerLockElement===$('c'));
-  if(!pointerLocked&&G.mode==='playing'&&!G.uiLock&&G.started&&!player.dead&&!G.flags.victory&&!NOLOCK)showPause(true);
+  // In co-op the world keeps running: pausing the host would freeze every teammate.
+  if(!pointerLocked&&G.mode==='playing'&&!G.uiLock&&G.started&&!player.dead&&!G.flags.victory&&!NOLOCK&&!G.mp)showPause(true);
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&G.mp&&G.mode==='playing')toast(T('t_hostfocus'));
 });
 function lockPointer(){
   try{
@@ -1483,11 +1494,15 @@ function buildFloor(f){
     m.position.set(LA.x0+i*CFG.STEP+CFG.STEP/2,y+h/2-0.06,(LA.z0+LA.z1)/2);
     m.receiveShadow=true;L.add(m);
   }
-  // stair shaft: visible full-height side walls — enter at the bottom mouth, exit at the top
+  // stair shaft: visible full-height side walls.
+  // They stop at x=22.55 so the last two steps + the top landing stay open (a 1.3 m mouth).
   for(const zEdge of [LA.z0,LA.z1]){
-    addWall(f,17,zEdge-0.06,23.3,zEdge+0.06,{mat:MAT.wall,los:false});
+    addWall(f,17,zEdge-0.06,22.55,zEdge+0.06,{mat:MAT.wall,los:false});
   }
+  // bottom: "up" arrow; top landing: which floor you just reached
   signOn(f,17.02,y+2.05,1.2,-Math.PI/2,TEX.sign(T('sg_up'),'#06180a','#59ff7a'),1.1,0.3);
+  signOn(f,22.85,y+CFG.FH+1.95,2.42,Math.PI,TEX.floorLabel(f),1.1,0.55);
+  signOn(f,22.85,y+CFG.FH+1.95,0.58,0,TEX.floorLabel(f),1.1,0.55);
   // floor label + stairwell sign
   signOn(f,16.13,y+1.9,0.2,-Math.PI/2,TEX.floorLabel(f),1.1,0.55);
   signOn(f,15.84,y+2.55,0.2,-Math.PI/2,TEX.sign(T('sg_stairs'),'#06180a','#59ff7a'),1.5,0.38);
@@ -2709,6 +2724,15 @@ function updateSub(dt){
   if(s){$('subtitle').innerHTML=s.html;subT=s.dur;}
 }
 function radio(txt){play('radio',{vol:.7,force:true});showSub('<b>'+T('radio_name')+':</b> '+txt,5.5);}
+function hudSquad(){
+  const el2=$('squad');if(!el2)return;
+  if(!G.mp){el2.style.display='none';return;}
+  const n=1+net.remotes.size;
+  const ping=net.con?(net.con.open?'🟢':'🟠'):(net.ready?'🟢':'🟠');
+  el2.style.display='block';
+  el2.style.cssText='display:block;margin-top:5px;font-size:12px;letter-spacing:2px;color:#8fd0ff;text-shadow:0 1px 3px #000';
+  el2.textContent=ping+' '+T('lb_squad')+' '+n+'/4';
+}
 function hudStats(){
   $('hpFill').style.transform='scaleX('+(player.hp/100)+')';
   $('stFill').style.transform='scaleX('+(player.st/100)+')';
@@ -3241,6 +3265,8 @@ function onData(d,con){
     const snap={flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6,finale:G.flags.finale},
       cards:G.cards,gates:[...G.gatesOpen],taken:[...G.taken],checkpoint:CHECK.floor};
     con.send({t:'welcome',id:cid,snap,names:lobbyNames()});
+    // if the escape is already running, drop the newcomer straight into it
+    if(G.started&&G.mode==='playing')con.send({t:'start',mode:MD.id,mid:true});
     refreshLobby();netBroadcast({t:'lobby',names:lobbyNames()});
     toast(T('t_joined',{n:d.name||'Friend'}));
     return;
@@ -3250,12 +3276,26 @@ function onData(d,con){
     refreshLobbyFrom(d.names);
     applySnapState(d.snap);
     net.ready=true;
+    showLobby();                 // guest sees the survivor list too
     return;
   }
   if(d.t==='lobby'){ // client rebuilds host entry
     refreshLobbyFrom(d.names);return;
   }
   if(d.t==='start'){
+    if(d.mid){
+      // joined an escape already in progress: skip the prologue
+      $('menu').style.display='none';$('lobby').style.display='none';
+      $('fade').style.opacity='1';
+      setTimeout(()=>{
+        startWorld(d.mode||'scary');
+        ensureAudio();
+        beginGame(false);
+        $('fade').style.opacity='0';
+        toast(T('t_midjoin'));
+      },80);
+      return;
+    }
     if(!world.built){
       $('fade').style.opacity='1';
       setTimeout(()=>{startWorld(d.mode||'scary');$('fade').style.opacity='0';showPrologue();},80);
@@ -3299,13 +3339,14 @@ function applySnap(s){
   const seen=new Set();
   for(const p of s.ps){
     const id=p[0];
+    if(id===G.myId)continue;      // never render our own echoed position
     seen.add(id);
     let r=net.remotes.get(id);
     if(!r){r={id,name:p[7]||'Friend',x:p[1],y:p[3],z:p[2],yaw:p[4],f:p[5],fl:p[6],down:!!(p[6]&4),dead:!!(p[6]&8)};r.vis=new RemotePlayer(id,r.name);net.remotes.set(id,r);}
     r.x=p[1];r.z=p[2];r.y=p[3];r.yaw=p[4];r.f=p[5];r.fl=p[6];r.name=p[7]||r.name;
     r.down=!!(p[6]&4);r.dead=!!(p[6]&8);
   }
-  for(const[id,r]of net.remotes){if(!seen.has(id)&&id!=='h'){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
+  for(const[id,r]of net.remotes){if(!seen.has(id)){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
   const TYPES=['shambler','runner','brute'];
   for(const a of s.zb){
     let z=world.zmap&&world.zmap.get(a[0]);
@@ -3754,6 +3795,7 @@ function loop(){
     updateDust(dt,G.time);
     if(world.clouds)for(const cl of world.clouds){cl.position.x+=dt*0.4;if(cl.position.x>70)cl.position.x=-70;}
     drawRing();
+    hudSquad();
     const wantHint=G.started&&!pointerLocked&&!G.paused&&!G.uiLock&&!player.dead&&!G.flags.victory&&!NOLOCK;
     if(wantHint!==lockHintShown){lockHintShown=wantHint;$('lockHint').style.display=wantHint?'block':'none';}
     if(G.uiLock==='cctv')drawCCTV();
@@ -3764,7 +3806,7 @@ function loop(){
 }
 init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
-window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,
+window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,
   getMD:()=>MD,startWorld,beginGame,saveGame,loadSave,applySave,questCheck,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null};
 </script>

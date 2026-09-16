@@ -82,3 +82,4 @@ globalThis.__el=el;
 globalThis.__rafGet=()=>rafQ;
 globalThis.__keyDown=(c)=>collectH('keydown').forEach(f=>f({code:c,preventDefault(){}}));
 globalThis.__setLock=(on)=>{document.pointerLockElement=on?el('c'):null;collectD('pointerlockchange').forEach(f=>f());};
+globalThis.__handlers=()=>({keydown:collectH('keydown'),keyup:collectH('keyup')});

@@ -191,14 +191,27 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     check('second E tap closes door',door.open===false,`open=${door.open}`);
   }
 
-  /* --- stairs climb --- */
-  const f0=player.floor;
-  player.pos.set(16.6,f0*CFG.FH+0.05,1.2);
-  player.yaw=-Math.PI/2;player.pitch=0; // face +X into the stairs
-  key('KeyW');
-  for(let i=0;i<700;i++)frame();
-  key('KeyW',false);
-  check('climbed at least one floor via stairs',player.floor>f0,`${f0} -> ${player.floor}`);
+  /* --- stairs: climb AND escape the shaft (regression for the stair-top trap) --- */
+  {
+    for(const gt of world.gates){gt.locked=false;gt.open=true;gt.col.off=true;}
+    player.hp=100000;player.dead=false;player.down=false;
+    let stairFail=0,detail=[];
+    for(let target=1;target<=3;target++){
+      freezeFloor(target);
+      player.pos.set(16.5,(target-1)*CFG.FH+0.05,1.2);player.yaw=-Math.PI/2;player.pitch=0;
+      for(const k in g.KEY)g.KEY[k]=false;
+      key('KeyW');for(let i=0;i<900;i++)frame();key('KeyW',false);
+      const climbed=player.floor;
+      player.yaw=0;for(const k in g.KEY)g.KEY[k]=false;key('KeyW');for(let i=0;i<300;i++)frame();key('KeyW',false);
+      const exitA=player.pos.z<0.42;
+      player.yaw=Math.PI;for(const k in g.KEY)g.KEY[k]=false;key('KeyW');for(let i=0;i<420;i++)frame();key('KeyW',false);
+      const exitB=player.pos.z>1.98;
+      detail.push(`F${target}:->${climbed}${exitA?'':' noNegZ'}${exitB?'':' noPosZ'}`);
+      if(!(climbed>=target&&exitA&&exitB))stairFail++;
+    }
+    check('stair climbs passable up AND out of the shaft (3 floors)',stairFail===0,detail.join(' | '));
+  }
+  freezeFloor(player.floor);
 
   /* --- pistol (flat corridor, same height) --- */
   player.pos.set(10,player.floor*CFG.FH+0.05,0);player.pitch=0;
@@ -253,6 +266,18 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     }
   }
   check('2000-frame random chaos: no NaN, no out-of-bounds',chaosOk);
+
+  /* --- pause policy: solo auto-pauses when pointer lock drops, co-op must NOT --- */
+  {
+    const lockEvt=()=>collectD('pointerlockchange').forEach(f=>f());
+    G.mp=false;document.pointerLockElement=null;lockEvt();
+    const soloPaused=G.paused;
+    G.paused=false;document.getElementById('pause').style.display='none';
+    G.mp=true;G.host=true;document.pointerLockElement=null;lockEvt();
+    const coopPaused=G.paused;
+    G.mp=false;
+    check('solo pauses on lock loss, co-op keeps the world running',soloPaused===true&&coopPaused===false,`solo=${soloPaused} coop=${coopPaused}`);
+  }
 
   /* --- i18n end-to-end: the objective text is rendered in the selected language --- */
   {
