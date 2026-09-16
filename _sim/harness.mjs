@@ -105,12 +105,14 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
 
 (async()=>{
   if(process.env.ZH)localStorage.setItem('zf_lang','zh');
-  await import('./game.mjs'); // module registers handlers on our stubs and queues its first frame
+  await import('./game.mjs');
+  function g_early(){ return globalThis.__game; } // module registers handlers on our stubs and queues its first frame
   const before=process.argv[2]==='lite';
   // select mode card + click through the real UI
   if(before)el('modeLite').onclick();
   el('btnSolo').onclick();
   await sleep(30);
+  if(process.env.MP){ g_early().G.mp=true; g_early().G.host=true; }  // co-op world build
   el('prologueGo').onclick();
   await sleep(250); // bootRun defers world build 80ms
   const g=globalThis.__game;
@@ -290,6 +292,16 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     else check('floor label rendered in English',/FLOOR/i.test(floorTxt),JSON.stringify(floorTxt));
     const hintTxt=el('hintKey').innerHTML||'';
     check('HUD hint text populated',hintTxt.length>20,String(hintTxt.length)+' chars');
+  }
+
+  /* --- co-op tool sets: one flashlight/crowbar/pistol per survivor --- */
+  {
+    const want=process.env.MP?4:1;
+    const count=(id)=>world.items.filter(i=>i.id===id||i.id.startsWith(id)&&/^\D+\d*$/.test(i.id.replace(id,'')||'0')).length;
+    const flash=world.items.filter(i=>i.type==='flashlight').length;
+    const crow=world.items.filter(i=>i.type==='crowbar').length;
+    const pist=world.items.filter(i=>i.type==='pistol').length;
+    check(`tool sets for ${process.env.MP?'co-op':'solo'}: flashlights=${flash} crowbars=${crow} pistols=${pist}`,flash===want&&crow===want&&pist===want,`expected ${want} each`);
   }
 
   /* --- furniture never intersects walls (the reported clipping) --- */

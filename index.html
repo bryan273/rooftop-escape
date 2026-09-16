@@ -1660,13 +1660,15 @@ function specialEntrance(L,y){
   // sealed main entrance + reception + janitor closet in S3
   signOn(0,-23.84,2.2,0,Math.PI/2,TEX.sign(T('sg_entrance'),'#200','#ff5050'),2.2,0.55);
   addBox(0,-22.6,y+0.45,1.15,1.6,0.9,0.7,MAT.desk); // reception desk
-  new Pickup('flashlight',0,-22.6,y+0.95,1.15,{id:'story-flashlight'});
+  // co-op: one flashlight per survivor, so nobody is left in the dark
+  const copies=G.mp?4:1;
+  for(let i=0;i<copies;i++)new Pickup('flashlight',0,-23.05+i*0.42,y+0.95,1.15,{id:i===0?'story-flashlight':'story-flashlight'+(i+1)});
   // janitor closet: x[12.2,16] z[-10,-6.8], doorway in west wall
   addWall(0,12.2,-10,12.2,-9.3);
   addWall(0,12.2,-7.9,12.2,-6.8);
   addWall(0,12.2,-9.3,12.2,-7.9,{y:y+2.25,h:CFG.FH-2.25});
   new DoorC(0,12.2,-9.35,1.5,'z',{boarded:true,kick:true,swing:1,id:'jan-door',label:'Kick boards open'});
-  new Pickup('crowbar',0,14.6,y+0.12,-8.6,{id:'story-crowbar'});
+  for(let i=0;i<(G.mp?4:1);i++)new Pickup('crowbar',0,14.05+i*0.45,y+0.12,-8.6,{id:i===0?'story-crowbar':'story-crowbar'+(i+1)});
   addBox(0,15.4,y+0.9,-9.4,0.6,1.8,0.5,MAT.locker,{los:true});
   decal(0,14,-8,0.8,pick(MAT.blood));
   world.f0door=world.roomDoor['0:S2'];
@@ -1688,8 +1690,11 @@ function specialCCTV(L,y){
   world.terminal={f:1,x:-5,z:-4.2};
   const cl=new THREE.PointLight(0x59ff7a,3,7,2);cl.position.set(-5,y+2.2,-4.2);L.add(cl);
   new Pickup('card-red',1,-4.4,y+0.84,-4.0,{id:'story-card-red'});
-  new Pickup('pistol',1,-4.05,y+0.85,-4.0,{id:'story-pistol'});
-  new Pickup('ammo',1,-5.5,y+0.86,-4.6,{id:'story-ammo1'});
+  // co-op: a sidearm + spare rounds for each survivor
+  const side=G.mp?[[-4.18,-3.95],[-3.92,-3.95],[-4.18,-4.35],[-3.92,-4.35]]:[[-4.05,-4.0]];
+  side.forEach((pp,i)=>new Pickup('pistol',1,pp[0],y+0.85,pp[1],{id:i===0?'story-pistol':'story-pistol'+(i+1)}));
+  const ammoSpots=G.mp?[[-6.0,-3.95],[-5.62,-3.95],[-6.0,-4.35],[-5.62,-4.35]]:[[-5.5,-4.6]];
+  ammoSpots.forEach((pp,i)=>new Pickup('ammo',1,pp[0],y+0.86,pp[1],{id:'story-ammo'+(i+1)}));
   signOn(1,-5,y+2.6,-1.44,0,TEX.sign(T('sg_cctv'),'#101020','#59ff7a'),2.4,0.5);
 }
 function specialElectrical(L,y){
@@ -3291,8 +3296,16 @@ function onData(d,con){
         startWorld(d.mode||'scary');
         ensureAudio();
         beginGame(false);
+        // starter kit: a late joiner has no chance without light or a weapon
+        INV.flashlight=true;player.on=true;
+        INV.crowbar=true;
+        INV.battery=Math.max(INV.battery,65);
+        INV.ammo=Math.max(INV.ammo,6);
+        player.weapon=INV.pistol?'pistol':'melee';
+        hudInv();hudStats();
         $('fade').style.opacity='0';
         toast(T('t_midjoin'));
+        setTimeout(()=>toast(T('t_midkit')),1400);
       },80);
       return;
     }
