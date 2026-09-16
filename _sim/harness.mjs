@@ -393,7 +393,9 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     const wpShown=(el('wpText').style.display||'')!=='none';
     check('waypoint: same-floor target / stair hint from below / local target when on the floor',
       sameFloor&&upOK&&localOK,`same=${sameFloor} up=${upOK} local=${localOK}`);
-    check('waypoint text tells you to take the stairs',wpShown&&/[Ss][Tt][Aa][Ii][Rr]/.test(wpTxt),JSON.stringify(wpTxt));
+    const mentionsStairs=/([Ss][Tt][Aa][Ii][Rr])|楼/.test(wpTxt);
+    const mentionsFloor=/FLOOR\s*\d|第\s*\d+\s*层/.test(wpTxt);
+    check('waypoint text says which stairs/floor to take',wpShown&&mentionsStairs&&mentionsFloor,JSON.stringify(wpTxt));
     // exact direction maths: target dead ahead -> rel 0; 90 deg to the right -> rel -pi/2
     g.setQuest(2);                      // CCTV room on floor 1, at (-4.0,-5.6)
     player.floor=1;player.pos.set(-4.0,1*CFG.FH+0.05,-2.0);player.yaw=0;   // facing -Z, target straight ahead
