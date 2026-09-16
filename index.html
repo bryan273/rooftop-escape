@@ -187,16 +187,16 @@
   </div>
   <div id="hintKey">[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals</div>
   <div id="bars">
-    <div class="bar"><span class="ico">HEALTH</span><div class="fill" id="hpFill"></div></div>
-    <div class="bar"><span class="ico">STAMINA</span><div class="fill" id="stFill"></div></div>
-    <div class="bar"><span class="ico">FLASHLIGHT</span><div class="fill" id="btFill"></div></div>
+    <div class="bar"><span class="ico" id="icoHp">HEALTH</span><div class="fill" id="hpFill"></div></div>
+    <div class="bar"><span class="ico" id="icoSt">STAMINA</span><div class="fill" id="stFill"></div></div>
+    <div class="bar"><span class="ico" id="icoBt">FLASHLIGHT</span><div class="fill" id="btFill"></div></div>
   </div>
   <div id="invRow">
-    <div class="slot off" id="slotCrowbar"><div class="n">☰</div>CROWBAR</div>
-    <div class="slot off" id="slotFlare"><div class="n">0</div>FLARE [G]</div>
-    <div class="slot off" id="slotMed"><div class="n">0</div>MEDKIT [H]</div>
-    <div class="slot off" id="slotAmmo"><div class="n" id="ammoN">0</div>9MM [2]</div>
-    <div class="slot off" id="slotCards"><div class="n" id="cardIcons"></div>KEYCARDS</div>
+    <div class="slot off" id="slotCrowbar"><div class="n">☰</div><span id="slotCrowbarL">CROWBAR</span></div>
+    <div class="slot off" id="slotFlare"><div class="n">0</div><span id="slotFlareL">FLARE [G]</span></div>
+    <div class="slot off" id="slotMed"><div class="n">0</div><span id="slotMedL">MEDKIT [H]</span></div>
+    <div class="slot off" id="slotAmmo"><div class="n" id="ammoN">0</div><span id="slotAmmoL">9MM [2]</span></div>
+    <div class="slot off" id="slotCards"><div class="n" id="cardIcons"></div><span id="slotCardsL">KEYCARDS</span></div>
   </div>
   <div id="toasts"></div>
   <div id="subtitle"></div>
@@ -214,20 +214,23 @@
 <!-- MAIN MENU -->
 <div id="menu" class="layer">
   <h1 class="flicker">ROOFTOP <span>ESCAPE</span></h1>
-  <div class="sub">Seowon High School · Outbreak Night</div>
+  <div class="sub" id="menuSub">Seowon High School · Outbreak Night</div>
   <div id="menuCard">
     <div class="menuTabs">
       <button class="btn small on" id="tabPlay">Play</button>
       <button class="btn small" id="tabHow">How to play</button>
+      <span style="float:right">
+        <button class="btn small" id="langEn" style="border-left-color:#666">EN</button><button class="btn small" id="langZh" style="border-left-color:#666">中文</button>
+      </span>
     </div>
     <div id="panePlay">
-      <div class="row"><label>Game mode</label>
+      <div class="row"><label id="lblMode">Game mode</label>
         <div class="modeRow">
-          <div class="modeCard on" id="modeScary"><span class="em">🧟</span><b>NIGHTMARE</b><span>Dark halls · zombies · blood · jump scares · heartbeat</span></div>
-          <div class="modeCard" id="modeLite"><span class="em">🤖</span><b>DAYLIGHT DRILL</b><span>Bright &amp; friendly · silly helper-bots · paint splats · zero scares</span></div>
+          <div class="modeCard on" id="modeScary"><span class="em">🧟</span><b id="modeTitleScary">NIGHTMARE</b><span id="modeDescScary">Dark halls · zombies · blood · jump scares · heartbeat</span></div>
+          <div class="modeCard" id="modeLite"><span class="em">🤖</span><b id="modeTitleLite">DAYLIGHT DRILL</b><span id="modeDescLite">Bright &amp; friendly · silly helper-bots · paint splats · zero scares</span></div>
         </div>
       </div>
-      <div class="row"><label>Your name</label><input type="text" id="nameIn" maxlength="16" placeholder="Survivor"></div>
+      <div class="row"><label id="lblName">Your name</label><input type="text" id="nameIn" maxlength="16" placeholder="Survivor"></div>
       <div class="row">
         <button class="btn hidden" id="btnContinue">Continue Run</button>
         <button class="btn" id="btnSolo">Solo Escape</button>
@@ -256,15 +259,15 @@
       </div>
     </div>
   </div>
-  <div style="margin-top:18px;color:#5c564e;font-size:12px;letter-spacing:2px">A fan-made zombie escape · Three.js + WebAudio · free to deploy</div>
+  <div id="menuFooter" style="margin-top:18px;color:#5c564e;font-size:12px;letter-spacing:2px">A fan-made zombie escape · Three.js + WebAudio · free to deploy</div>
 </div>
 
 <!-- LOBBY -->
 <div id="lobby" class="layer">
-  <h2 style="letter-spacing:6px">SURVIVORS LOBBY</h2>
-  <div class="hint" style="margin-top:20px">SHARE THIS ROOM CODE WITH YOUR FRIENDS</div>
+  <h2 style="letter-spacing:6px" id="lbTitle">SURVIVORS LOBBY</h2>
+  <div class="hint" id="lbHint1" style="margin-top:20px">SHARE THIS ROOM CODE WITH YOUR FRIENDS</div>
   <div class="code" id="lobbyCode" title="click to copy">----</div>
-  <div class="hint">click the code to copy · friends press “Join Co-op” and type it</div>
+  <div class="hint" id="lbHint2">click the code to copy · friends press “Join Co-op” and type it</div>
   <div id="lobbyList"></div>
   <button class="btn" id="btnStart" disabled>Start (waiting…)</button>
   <button class="btn small" id="btnLobbyLeave">Leave</button>
@@ -277,15 +280,15 @@
 </div>
 
 <!-- GOALS OVERLAY -->
-<div id="goals"><h3>ESCAPE PLAN</h3><div id="goalsList"></div></div>
+<div id="goals"><h3 id="goalsTitle">ESCAPE PLAN</h3><div id="goalsList"></div></div>
 
 <!-- PAUSE -->
 <div id="pause" class="layer">
   <div class="panel">
-    <h2>PAUSED</h2>
-    <div class="opt"><span>Mouse sensitivity</span><input type="range" id="sensR" min="20" max="200" value="100"></div>
-    <div class="opt"><span>Volume</span><input type="range" id="volR" min="0" max="100" value="80"></div>
-    <div class="opt"><span>Field of view</span><input type="range" id="fovR" min="60" max="95" value="72"></div>
+    <h2 id="pauseTitle">PAUSED</h2>
+    <div class="opt"><span id="optSensL">Mouse sensitivity</span><input type="range" id="sensR" min="20" max="200" value="100"></div>
+    <div class="opt"><span id="optVolL">Volume</span><input type="range" id="volR" min="0" max="100" value="80"></div>
+    <div class="opt"><span id="optFovL">Field of view</span><input type="range" id="fovR" min="60" max="95" value="72"></div>
     <div id="ctrlList">
       <div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div>
       <div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> interact / hold</div>
@@ -314,7 +317,7 @@
 
 <!-- NOTE -->
 <div id="note" class="layer"><div class="paper"><h3 id="noteTitle"></h3><div id="noteBody"></div>
-  <div class="close">[E] / [ESC] put it down</div></div></div>
+  <div class="close" id="noteClose">[E] / [ESC] put it down</div></div></div>
 
 <!-- DEATH -->
 <div id="death" class="layer">
@@ -375,6 +378,281 @@ let MD=MODES.scary;   // active mode params — set before world build
 /* scary sound name -> friendly replacement (used only when MD is lite) */
 const LMAP={growl1:'servo',growl2:'whir',growl3:'beep',scream:'boing',zstep:'rstep',
   stinger:'boing',alarm:'happyAlarm',hurt:'pop',whisper:'whir',creak:'servo',clang:'pop'};
+
+/* ---------------- i18n (EN / 简体中文) ---------------- */
+let LANG='en';
+try{LANG=localStorage.getItem('zf_lang')==='zh'?'zh':'en';}catch(e){}
+const I18N={
+en:{
+ sl0:'One soda spilled on the charging dock and now EVERY helper-bot wants a hug. The drone-copter picks you up from the roof — go, go, go!',
+ sl1:'Floor 2. The CCTV room controls the gates. Also there\'s a snack stash. Priorities.',
+ sl2:'Floor 3. The bots drew on the walls with paint. Sorry about that.',
+ sl5:'Floor 6. The server room door is stuck — the bots taped a "DO NOT ENTER (we are shy)" sign on it.',
+ sl7:'Floor 8. Bright and… beepy. Ji-woo says hi from floor 12.',
+ sl9:'Halfway! Hydrate. Stretch. Keep climbing.',
+ sl11:'Floor 12. BOT PARADE! They lined up to escort you. Politely. At speed.',
+ sl14:'Floor 15. The infirmary bot is handing out juice boxes. The yellow card is under the bed.',
+ sl20:'THE ROOF! Green smoke, big friendly drone. Hold the circle and wave!',
+ sub_scary:'Seowon High School · Outbreak Night',sub_lite:'Seowon High School · Helper-Bot Mischief Day',
+ m_modelabel:'GAME MODE',m_namelabel:'YOUR NAME',m_solo:'Solo Escape',m_host:'Host Co-op',m_join:'Join Co-op',m_connect:'Connect',
+ m_roomcode:'ROOM CODE',tab_play:'Play',tab_how:'How to play',wake:'— CLICK TO WAKE UP —',
+ footer:'A fan-made zombie escape · Three.js + WebAudio · free to deploy',
+ mode_scary:'NIGHTMARE',mode_lite:'DAYLIGHT DRILL',
+ mode_scary_d:'Dark halls · zombies · blood · jump scares · heartbeat',
+ mode_lite_d:'Bright & friendly · silly helper-bots · paint splats · zero scares',
+ howto:'<b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host\'s choice applies to the whole co-op squad.<br><b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (20 floors) and board the rescue helicopter / drone.<br><b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>, hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br><b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br><b>Look.</b> <span style="color:#ff8080">Bloodstains</span> (or paint splats!) around a door mean something inside. Flashlight [F] — it eats battery; grab batteries everywhere.<br><b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud. <b>Pistol [2]</b> found on Floor 2.<br><b>Co-op:</b> host a room and share the code — up to 4 survivors. Downed friends can be revived [hold E].<br>Requires a keyboard + mouse. Click the game once to lock the mouse.',
+ cont:'CONTINUE — FLOOR {n} · {m}',
+ lb_title:'SURVIVORS LOBBY',lb_share:'SHARE THIS ROOM CODE WITH YOUR FRIENDS',lb_copy:'click the code to copy · friends press “Join Co-op” and type it',
+ lb_startn:'Start escape ({n} survivors)',lb_start0:'Start solo anyway',lb_wait:'Waiting for host…',lb_leave:'Leave',lb_copied:'COPIED!',
+ hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'9MM [2]',
+ floor:'FLOOR {n}',floor0:'FLOOR 1 — ENTRANCE',roof:'ROOFTOP — EXTRACTION',
+ hint:'[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals',
+ pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
+ ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> interact / hold</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1/2</b> crowbar/pistol</div><div><b>V</b> 1st/3rd person</div><div><b>Q</b> ping marker</div><div><b>Tab</b> objectives</div><div><b>Enter</b> chat</div><div><b>Esc</b> pause</div>',
+ goals_title:'ESCAPE PLAN',
+ cctv_hint:'◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal',cctv_cam:'CAM {n} — FLOOR {m}',
+ shutter_btn:'RELEASE FLOOR 6 SHUTTER',note_close:'[E] / [ESC] put it down',
+ death_h:'YOU DIED',death_l:'YOU GOT BONKED',death_p:'The building keeps your bones.',death_pl:'The bots gently roll you to a safe corner. Restarting…',
+ respawn:'Respawning in {n}s…',down_h:'YOU ARE DOWN',down_hl:'TACKLED!',
+ down_mp:'A friend can revive you — hold on!',down_mp_l:'A friend can un-bonk you — hold on!',down_sp:'Nobody left to help you…',down_sp_l:'The bots are politely waiting. Ow.',
+ vic:'EXTRACTED',vic_p:'The helicopter lifts away from Seowon High. You made it.',vic_pl:'The rescue drone whisks you away from Seowon High. The bots wave goodbye. 🤖',
+ st_time:'Time: ',st_kills:'Zombies put down: ',st_killsl:'Bots bounced: ',st_down:'Times down: ',st_squad:'Squad: {n} survivors',st_solo:'Solo escape',
+ ring_a:'🟠 Orange arc = something is moving on that side (works through walls)',ring_al:'🔵 Colored arc = a bot is active on that side (it works through walls)',
+ ring_b:'🔴 RED arc = it is CHASING you from that side! RUN.',ring_bl:'🔵 BRIGHT BLUE arc = the bot is coming straight for you!',
+ p_hold:'HOLD POSITION…',p_wait:'Extraction — waiting for friends ({i}/{t})',
+ lock_hint:'🖱️ CLICK THE GAME TO CAPTURE THE MOUSE',
+ chat_ph:'say something… (Enter to send)',
+ msg_creating:'Creating room…',msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
+ msg_slow:'Still connecting… PeerJS needs a few seconds.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
+ pro_ss:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You are alone. Ji-woo is on the radio from somewhere above: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Scavenge what you can. <em>Don\'t stop moving.</em>',
+ pro_sm:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You and your friends got split in the dark. Ji-woo is on the radio: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Find each other. <em>Don\'t stop moving.</em>',
+ pro_ls:'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. <em>Say excuse me.</em>',
+ pro_lm:'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. Find your friends. <em>Say excuse me.</em>',
+ radio_intro:'The stairwell is the only way up. Watch the blood on the floors — it marks where they nest.',
+ radio_intro_l:'The stairwell is the only way up. The bots followed paint footprints everywhere — cute, but watch the ring.',
+ radio_cont:'Back in the tower. The stairwell remembers you.',radio_cont_l:'Back in the tower! The bots saved your spot in the queue.',
+ radio_name:'Ji-woo (radio)',
+ q0:'Find a flashlight in the entrance hall.',q1:'Kick open the janitor closet (south-east room, Floor 1) and grab the crowbar.',
+ q2:'Head up to Floor 2 — find the CCTV & power room.',q3:'Take the RED keycard from the CCTV room desk (Floor 2).',
+ q4:'Unlock the Floor 3 stairwell gate with the red card.',q5:'The Floor 6 shutter is sealed — restore power at the Floor 2 generator.',
+ q6:'Power restored. Use the CCTV terminal (Floor 2) to release the Floor 6 shutter.',
+ q7:'Get back to Floor 6 and climb on. Blue keycard waits in the boarded server room (Floor 6).',
+ q8:'Open the server rack room (Floor 6) and take the BLUE keycard.',q9:'Unlock the Floor 8 stairwell gate.',
+ q10:'Floors 8–9 are dark. Climb. Find the GREEN keycard in the records office (Floor 9).',
+ q11:'Unlock the Floor 11 gate.',q12:'CONTAINMENT BREACH on Floor 12 — get above it. Now.',
+ q13:'Floor 15 gate is magnet-locked. Reset the breaker — Electrical room, Floor 11.',
+ q14:'Go back up and unlock the Floor 15 gate.',q15:'Take the YELLOW keycard from the infirmary (Floor 15).',
+ q16:'Unlock the Floor 17 gate.',q17:'Floor 19 stairwell is boarded — pry it open.',q18:'REACH THE ROOFTOP.',
+ q19:'Hold the extraction circle. The helicopter is coming.',
+ s0:'You woke up on the ground floor. The main doors are sealed. Ji-woo said the military helicopter comes at midnight — to the roof.',
+ s1:'Floor 2. The CCTV room still has power cells. Generator too, maybe.',s2:'Floor 3. Something smeared the walls up here.',
+ s3:'Floor 4. The lights here have been dead for days.',s4:'Floor 5. You can hear the security shutter humming ahead.',
+ s5:'Floor 6. The server room door is boarded from the inside…',s6:'Floor 7. Don\'t count the dead. Just climb.',
+ s7:'Floor 8. No lights at all. Ji-woo is somewhere above.',s8:'Floor 9. The records office… something is still in there.',
+ s9:'Halfway up. Breathe. Keep climbing.',s10:'Floor 11. The electrical room hums behind the south-east room.',
+ s11:'Floor 12. The alarm. THEY KNOW YOU ARE HERE.',s12:'Floor 13. Keep moving. Don\'t fight all of them.',
+ s13:'Floor 14. The breaker below died when the alarm tripped.',s14:'Floor 15. The infirmary still smells of antiseptic and worse.',
+ s15:'Floor 16. Two dark floors left.',s16:'Floor 17. They know which stairwell you use.',
+ s17:'Floor 18. One boarded door. You know what to do.',s18:'Floor 19. The roof door is open. Don\'t look back.',
+ s20:'THE ROOF. Hold at the green smoke. Don\'t look down the stairwell.',
+ radio_horde:'GET ABOVE FLOOR 12! DON\'T STOP!',radio_horde_l:'The bots arranged a surprise parade. Past floor 12, please!',
+ radio_finale:'Pilot: green smoke, hold the circle! We\'re coming down — keep them off you!',
+ t_objdone:'Objective complete',t_need_crowbar:'Boarded shut. You need a crowbar.',
+ t_need_crowbar2:'You need a crowbar. (The janitor closet on Floor 1 can be kicked open.)',
+ t_batt:'Battery +40%',t_flare:'Flare acquired — press G to throw.',t_medkit:'Medkit acquired — press H to use.',
+ t_crowbar:'Crowbar — pry boards, swing at heads. [1] to select.',t_pistol:'PISTOL — LMB to fire, [1]/[2] to switch weapons.',
+ t_ammo:'9mm +6 rounds.',t_torch:'Flashlight — press F to toggle.',t_notorch:'No flashlight yet — check the reception desk, Floor 1.',
+ t_batdead:'Battery is dead.',t_noflare:'No flares left.',t_nomedi:'No medkits.',
+ t_empty:'Click — empty. Find 9mm boxes, or press [1] for the crowbar.',t_nopistol:'No pistol yet — the security guard left one in the CCTV office (Floor 2).',
+ t_w_melee:'Crowbar out.',t_w_pistol:'Pistol out — {n} rounds.',t_up:'Back on your feet. Watch yourself.',
+ t_respawn:'You wake up by the stairwell. Keep moving.',t_power:'MAIN POWER RESTORED',
+ t_power2:'SUB-BREAKER ON — Floor 15 gate released',t_shutter:'FLOOR 6 SHUTTER RELEASED',t_boards:'Boards pried off.',
+ t_friendcard:'A friend found the {c} keycard.',t_friendpower2:'A friend reset the sub-breaker — Floor 15 gate is open.',
+ t_friendpower:'A friend restored MAIN POWER.',t_friendshutter:'A friend released the Floor 6 shutter.',
+ t_revived:'You helped {n} up.',t_horde:'⚠ CONTAINMENT BREACH — FLOOR 12',t_horde_l:'🤖 BOT PARADE — FLOOR 12',
+ t_disc:'Disconnected from host.',t_ping:'📡 {n} pinged {f}',t_joined:'{n} joined.',
+ l_open:'Open door',l_close:'Close door',l_pry:'Pry boards (hold)',l_kick:'Kick boards open (hold)',l_boarded:'Boarded — need crowbar',
+ l_gpry:'Pry gate boards (hold)',l_gboarded:'Boarded gate — need crowbar',l_gate:'Try gate',
+ l_cctv:'Use CCTV terminal',l_cctv_off:'CCTV terminal (no power)',l_cctv_dead:'Dead screen. The generator in this room needs power.',
+ l_br1:'Reset main breaker (hold)',l_br2:'Reset sub-breaker (hold)',l_revive:'Revive {n} (hold)',
+ l_batt:'Take battery',l_flare:'Take flare',l_medkit:'Take medkit',l_crowbar:'Take crowbar',l_torch:'Take flashlight',l_note:'Read note',
+ l_pistol:'Take PISTOL (+8 rounds)',l_ammo:'Take 9mm ammo (+6)',l_card:'Take {c} keycard',
+ g_locked:'Locked. Requires the {c} keycard.',g_accept:'{c} keycard accepted.',
+ g_shutter1:'Security shutter. No power — find the generator (Floor 2).',g_shutter2:'Powered. Release it from the CCTV terminal (Floor 2).',
+ g_power:'Magnetic lock engaged. Reset the breaker on Floor 11.',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
+ sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
+ sg_records:'RECORDS',sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_elev:'ELEVATOR — OUT OF ORDER',
+ fl_roof:'ROOF',fl_floor:'F{n}',
+ rn00:'CLASS 1-1',rn01:'CLASS 1-2',rn02:'CLASS 2-1',rn03:'MUSIC ROOM',rn04:'ART ROOM',rn05:'LIBRARY',
+ rn10:'STAFF ROOM',rn11:'OFFICE A',rn12:'OFFICE B',rn13:'ARCHIVE',rn14:'MEETING RM',rn15:'COPY ROOM',
+ rn20:'LAB 1',rn21:'LAB 2',rn22:'COUNSELING',rn23:'DARKROOM',rn24:'STORAGE A',rn25:'STORAGE B',
+ rn30:'DORM A',rn31:'DORM B',rn32:'COMMONS',rn33:'LAUNDRY',rn34:'PANTRY',rn35:'GYM STORE',
+ n1t:"JANITOR'S LOG",n1b:'Third night shift this week. The bio lab on 6 keeps calling me to mop up "spills". Whatever they are, they smell wrong. Locked the stairwell gate like they asked. Red card is with the CCTV people on 2.',
+ n2t:'CCTV OPERATOR NOTE',n2b:'Cameras 6 and up are dead. Feed 12 shows SOMETHING pacing the east stairwell every night at 2AM. Principal says ignore it. I\'m not ignoring it. Red keycard is on this desk — take it if you\'re reading this.',
+ n3t:'SERVER ROOM SIGN-IN',n3b:'Blue access card stays in the rack room. Last entry: "Subject 0 transferred to roof-level lab. God forgive us." The rack room door has been boarded from the INSIDE.',
+ n4t:'RECORDS SLIP',n4b:'Green clearance card issued to Dr. Moon. If you found this office after dark, do not go back the way you came. They hunt by sound first, sight second.',
+ n5t:'ELECTRICAL WARNING',n5b:'Main feed cut from the roof. Sub-breaker here only powers the upper stairwell locks. Flip it, and the 15th floor gate releases. Watch the dark between here and there.',
+ n6t:'INFIRMARY INTAKE',n6b:'Yellow card belongs to the head nurse. Bite victims don\'t turn for about an hour. She taped the card under the bed. She also stopped breathing yesterday. The tape is still there.',
+ n7t:'TORN DIARY PAGE',n7b:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to 14 before the shouting started. If anyone reads this — RUN, don\'t count the dead.',
+ n8t:'PAINTED ON THE WALL',n8b:'THE ROOF IS THE WAY OUT. THEY HATE THE LIGHT. HOLD AT THE SMOKE AND DON\'T LOOK DOWN THE STAIRWELL.',
+},
+zh:{
+ sl0:'汽水洒在充电底座上，现在每台助手机器人都想要一个拥抱。无人机会到楼顶接你——快快快！',
+ sl1:'2层。监控室控制着各道门。这里还藏着零食。分清主次。',
+ sl2:'3层。机器人在墙上画满了颜料。不好意思啦。',
+ sl5:'6层。服务器室的门卡住了——机器人贴了张“请勿入内（我们害羞）”的牌子。',
+ sl7:'8层。明亮，而且…哔哔的。智宇在12层跟你打招呼。',
+ sl9:'一半了！喝口水，伸个懒腰，继续爬。',
+ sl11:'12层。机器人大游行！它们排队护送你。非常有礼貌。而且非常快。',
+ sl14:'15层。医务室机器人在发果汁。黄卡在床底下。',
+ sl20:'天台！绿色烟雾，大大的友好无人机。守住圆圈，挥挥手！',
+ sub_scary:'书元高中 · 爆发之夜',sub_lite:'书元高中 · 助手机器人捣乱日',
+ m_modelabel:'游戏模式',m_namelabel:'你的名字',m_solo:'单人逃生',m_host:'创建联机',m_join:'加入联机',m_connect:'连接',
+ m_roomcode:'房间代码',tab_play:'开始',tab_how:'玩法说明',wake:'— 点击苏醒 —',
+ footer:'粉丝自制丧尸逃生游戏 · Three.js + WebAudio · 免费部署',
+ mode_scary:'噩梦模式',mode_lite:'日间演习',
+ mode_scary_d:'黑暗走廊 · 丧尸 · 血迹 · 惊吓场面 · 心跳音效',
+ mode_lite_d:'明亮友好 · 呆萌机器人 · 颜料泼溅 · 零惊吓',
+ howto:'<b>两种模式：</b>🧟 <b>噩梦模式</b>——黑暗、丧尸、血迹、惊吓场面。🤖 <b>日间演习</b>——明亮、友好的机器人、颜料泼溅、零惊吓（适合儿童或热身）。联机时以房主的模式为准。<br><b>目标：</b>从大厅一路爬到<b>天台</b>（20层），登上救援直升机/无人机。<br><b>楼梯间的门</b>上了锁——找到<span style="color:#ff8080">钥匙卡</span>、恢复<b>供电</b>、在2层<b>监控终端</b>操作、用<b>撬棍</b>撬开木板门。你将不得不折返。<br><b>听。</b>准星周围的光弧会指示附近敌人的方向（绝地求生风格）。<br><b>看。</b>门口的<span style="color:#ff8080">血迹</span>（或颜料！）说明里面有什么。手电筒 [F]——很耗电，记得到处捡电池。<b>手枪 [2]</b> 在2层。<br><b>照明弹 [G]</b> 可以引开敌人。<b>医疗包 [H]</b> 回血。<b>C 蹲下</b>潜行。<b>Shift 冲刺</b>很吵。<br><b>联机：</b>创建房间并分享代码——最多4名幸存者。倒地的队友可以按住 E 救起。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
+ cont:'继续游戏 — 第 {n} 层 · {m}',
+ lb_title:'幸存者大厅',lb_share:'把这个房间代码分享给你的朋友',lb_copy:'点击代码复制 · 朋友点“加入联机”后输入即可',
+ lb_startn:'开始逃生（{n} 名幸存者）',lb_start0:'仍要单人开始',lb_wait:'等待房主…',lb_leave:'离开',lb_copied:'已复制！',
+ hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍',hud_flare:'照明弹 [G]',hud_med:'医疗包 [H]',hud_cards:'钥匙卡',hud_ammo:'9毫米 [2]',
+ floor:'第 {n} 层',floor0:'第 1 层 — 大厅',roof:'天台 — 撤离点',
+ hint:'[E] 互动 · [F] 手电筒 · [G] 照明弹 · [H] 医疗包 · [1]/[2] 切换武器<br>[左键] 攻击 · [V] 视角 · [Q] 标记 · [方向键] 转视角 · [Enter] 聊天 · [Tab] 目标',
+ pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
+ ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>C</b> 蹲下潜行</div><div><b>E</b> 互动/长按</div><div><b>F</b> 手电筒</div><div><b>G</b> 照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1/2</b> 撬棍/手枪</div><div><b>V</b> 第一/第三人称</div><div><b>Q</b> 标记</div><div><b>Tab</b> 目标列表</div><div><b>Enter</b> 聊天</div><div><b>Esc</b> 暂停</div>',
+ goals_title:'逃生计划',
+ cctv_hint:'◀ ▶ / A D — 切换摄像头 · [E] 或 [Esc] — 离开终端',cctv_cam:'摄像头 {n} — 第 {m} 层',
+ shutter_btn:'解除6层卷帘门',note_close:'[E] / [ESC] 放下纸条',
+ death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。正在重启…',
+ respawn:'{n} 秒后重生…',down_h:'你倒下了',down_hl:'被扑倒了！',
+ down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地围观。哎哟。',
+ vic:'成功撤离',vic_p:'直升机载你飞离书元高中。你活下来了。',vic_pl:'救援无人机带你飞离书元高中。机器人向你挥手告别。🤖',
+ st_time:'用时：',st_kills:'消灭丧尸：',st_killsl:'弹开的机器人：',st_down:'倒地次数：',st_squad:'小队：{n} 名幸存者',st_solo:'单人逃生',
+ ring_a:'🟠 橙色光弧 = 那个方向有东西在移动（可穿墙感知）',ring_al:'🔵 光弧 = 那个方向有机器人活动（可穿墙感知）',
+ ring_b:'🔴 红色光弧 = 它正从那边追你！快跑！',ring_bl:'🔵 亮蓝色光弧 = 机器人正朝你冲来！',
+ p_hold:'守住位置…',p_wait:'撤离中——等待队友（{i}/{t}）',
+ lock_hint:'🖱️ 点击游戏画面以锁定鼠标',
+ chat_ph:'说点什么…（回车发送）',
+ msg_creating:'正在创建房间…',msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
+ msg_slow:'仍在连接…PeerJS 需要几秒钟。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
+ pro_ss:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你孤身一人。智宇在楼上通过无线电告诉你：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。捡起一切能用的东西。<em>别停下。</em>',
+ pro_sm:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你和朋友们在黑暗中走散了。智宇在无线电里说：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。找到彼此。<em>别停下。</em>',
+ pro_ls:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。它们是好意的，真的。<br><br>智宇在无线电里说：<em>救援无人机</em>一小时后降落<em>天台</em>。二十层楼热情过头的机器人。<em>记得说“借过”。</em>',
+ pro_lm:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。它们是好意的，真的。<br><br>智宇在无线电里说：<em>救援无人机</em>一小时后降落<em>天台</em>。二十层楼热情过头的机器人。找到你的朋友。<em>记得说“借过”。</em>',
+ radio_intro:'楼梯间是唯一的上楼通道。留意地上的血迹——那是它们巢穴的标记。',
+ radio_intro_l:'楼梯间是唯一的上楼通道。机器人到处踩了颜料脚印——挺可爱，但盯紧光弧。',
+ radio_cont:'回到大楼。楼梯间还记得你。',radio_cont_l:'回到大楼！机器人帮你留了队的位置。',
+ radio_name:'智宇（对讲机）',
+ q0:'在大厅找到手电筒。',q1:'踹开杂物间（1层东南房间），拿走撬棍。',
+ q2:'上到2层——找到监控配电室。',q3:'从2层监控室桌上拿走红色钥匙卡。',
+ q4:'用红卡打开3层楼梯间的门。',q5:'6层卷帘门被封——去2层发电机恢复供电。',
+ q6:'供电恢复。在2层监控终端解除6层卷帘门。',
+ q7:'回到6层继续向上。蓝色钥匙卡在6层被木板封住的服务器室里。',
+ q8:'打开服务器室（6层），拿走蓝色钥匙卡。',q9:'打开8层楼梯间的门。',
+ q10:'8–9层一片漆黑。继续爬。绿色钥匙卡在9层档案室。',
+ q11:'打开11层的门。',q12:'12层收容失效——立刻向上突破！',
+ q13:'15层的门被电磁锁锁住。去11层电气室重置断路器。',
+ q14:'回到上面，打开15层的门。',q15:'从15层医务室拿走黄色钥匙卡。',
+ q16:'打开17层的门。',q17:'19层楼梯口被木板封住——撬开它。',q18:'登上天台！',
+ q19:'守住撤离圈。直升机马上就到。',
+ s0:'你在一层醒来。大门被封死了。智宇说军用直升机午夜会来——到楼顶接人。',
+ s1:'2层。监控室还有电池。也许发电机也是。',s2:'3层。这里的墙上有奇怪涂抹的痕迹。',
+ s3:'4层。这里的灯坏了好多天了。',s4:'5层。你能听到前方卷帘门的嗡嗡声。',
+ s5:'6层。服务器室的门是从里面封住的…',s6:'7层。别数死者了。只管往上爬。',
+ s7:'8层。完全没有灯。智宇就在上面某处。',s8:'9层。档案室里…还有东西在。',
+ s9:'爬到一半了。喘口气。继续。',s10:'11层。电气室在东南房间后面嗡嗡作响。',
+ s11:'12层。警报响了。它们知道你在这。',s12:'13层。别停。不必跟所有家伙纠缠。',
+ s13:'14层。楼下那个断路器在警报触发时跳闸了。',s14:'15层。医务室还散发着消毒水和更糟的气味。',
+ s15:'16层。还剩两层黑暗。',s16:'17层。它们知道你走哪个楼梯间了。',
+ s17:'18层。最后一扇木板门。你知道该怎么做。',s18:'19层。天台门开着。别回头。',
+ s20:'天台。守在绿色烟雾旁。别朝楼梯间下面看。',
+ radio_horde:'冲过12层！别停！',radio_horde_l:'机器人安排了一场惊喜游行。请到12层以上！',
+ radio_finale:'飞行员：绿色烟雾，守住圆圈！我们正在下降——别让它们靠近你！',
+ t_objdone:'目标完成',t_need_crowbar:'被木板封住了。你需要撬棍。',
+ t_need_crowbar2:'你需要撬棍。（1层的杂物间可以直接踹开。）',
+ t_batt:'电池 +40%',t_flare:'获得照明弹——按 G 投掷。',t_medkit:'获得医疗包——按 H 使用。',
+ t_crowbar:'撬棍——可撬木板、攻击头部。[1] 选用。',t_pistol:'手枪——左键射击，[1]/[2] 切换武器。',
+ t_ammo:'9毫米 +6 发。',t_torch:'手电筒——按 F 开关。',t_notorch:'还没有手电筒——去1层前台看看。',
+ t_batdead:'电池耗尽了。',t_noflare:'没有照明弹了。',t_nomedi:'没有医疗包了。',
+ t_empty:'咔哒——空仓。去找9毫米弹药，或按 [1] 换撬棍。',t_nopistol:'还没有手枪——保安把枪落在了2层监控室。',
+ t_w_melee:'已切换撬棍。',t_w_pistol:'已切换手枪——{n} 发。',t_up:'重新站了起来。小心点。',
+ t_respawn:'你在楼梯间醒来。继续前进。',t_power:'主电源已恢复',
+ t_power2:'断路器已合闸——15层的门已解锁',t_shutter:'6层卷帘门已解除',t_boards:'木板被撬开。',
+ t_friendcard:'队友找到了{c}钥匙卡。',t_friendpower2:'队友重置了断路器——15层的门已打开。',
+ t_friendpower:'队友恢复了主电源。',t_friendshutter:'队友解除了6层卷帘门。',
+ t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效 — 12层',t_horde_l:'🤖 机器人大游行 — 12层',
+ t_disc:'与房主断开连接。',t_ping:'📡 {n} 标记了{f}',t_joined:'{n} 加入了。',
+ l_open:'开门',l_close:'关门',l_pry:'撬开木板（长按）',l_kick:'踹开木板（长按）',l_boarded:'被木板封住——需要撬棍',
+ l_gpry:'撬开门上木板（长按）',l_gboarded:'门被木板封住——需要撬棍',l_gate:'尝试开门',
+ l_cctv:'使用监控终端',l_cctv_off:'监控终端（没有电力）',l_cctv_dead:'屏幕黑着。这个房间的发电机需要供电。',
+ l_br1:'重置主断路器（长按）',l_br2:'重置分断路器（长按）',l_revive:'救起 {n}（长按）',
+ l_batt:'拿取电池',l_flare:'拿取照明弹',l_medkit:'拿取医疗包',l_crowbar:'拿取撬棍',l_torch:'拿取手电筒',l_note:'阅读纸条',
+ l_pistol:'拿取手枪（+8发）',l_ammo:'拿取9毫米弹药（+6）',l_card:'拿取{c}钥匙卡',
+ g_locked:'已上锁。需要{c}钥匙卡。',g_accept:'{c}钥匙卡已验证。',
+ g_shutter1:'安全卷帘门。没有电力——去2层找发电机。',g_shutter2:'已通电。请在2层监控终端解除。',
+ g_power:'电磁锁锁定。请重置11层的断路器。',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
+ sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
+ sg_records:'档案室',sg_infir:'医务室',sg_roof:'天台通道',sg_elev:'电梯 — 停用',
+ fl_roof:'天台',fl_floor:'{n}层',
+ rn00:'1-1教室',rn01:'1-2教室',rn02:'2-1教室',rn03:'音乐教室',rn04:'美术教室',rn05:'图书馆',
+ rn10:'教师办公室',rn11:'办公室A',rn12:'办公室B',rn13:'档案间',rn14:'会议室',rn15:'文印室',
+ rn20:'实验室1',rn21:'实验室2',rn22:'心理室',rn23:'暗房',rn24:'储藏室A',rn25:'储藏室B',
+ rn30:'宿舍A',rn31:'宿舍B',rn32:'公共区',rn33:'洗衣房',rn34:'配餐室',rn35:'器材室',
+ n1t:'保洁员日志',n1b:'这周第三次夜班了。6层的生物实验室总让我去拖“洒出来的东西”。不管那是什么，气味都不对劲。按他们的要求锁了楼梯间的门。红卡在2层监控室的人手里。',
+ n2t:'监控员留言',n2b:'6层往上的摄像头都坏了。12号画面每天凌晨2点都有东西在东楼梯间踱步。校长说别管。我可做不到。红钥匙卡就在这张桌上——看到这张纸条就拿走吧。',
+ n3t:'服务器室签到表',n3b:'蓝色门禁卡留在机架室。最后一条记录：“0号样本已转移至楼顶实验室。上帝原谅我们。”机架室的门是从里面封住的。',
+ n4t:'档案室便签',n4b:'绿色权限卡发给文博士。如果你在天黑后找到这间办公室，千万别从来路返回。它们先靠听觉，再靠视觉。',
+ n5t:'电气警告',n5b:'主电源从楼顶被切断。这里的分断路器只供上层楼梯门的锁。合上它，15层的门就会解锁。小心这一路的黑暗。',
+ n6t:'医务室登记',n6b:'黄卡是护士长的。被咬的人大约一小时后才会转变。她把卡贴在了床底。她昨天也停止了呼吸。胶带还在。',
+ n7t:'撕下的日记',n7b:'第3天？直升机午夜会来。他们说去楼顶。我们班爬到14层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
+ n8t:'墙上的涂写',n8b:'天台是出路。它们怕光。守在烟雾旁，别朝楼梯间下面看。',
+}};
+function T(k,vars){
+  let d=(I18N[LANG]&&I18N[LANG][k]!==undefined)?I18N[LANG][k]:I18N.en[k];
+  if(d===undefined)return k;
+  if(vars)return String(d).replace(/\{(\w+)\}/g,(_,n)=>vars[n]!==undefined?vars[n]:'{'+n+'}');
+  return d;
+}
+function hasT(k){return I18N[LANG]&&I18N[LANG][k]!==undefined||I18N.en[k]!==undefined;}
+function applyLang(){
+  const set=(id,v)=>{const e=$(id);if(e&&v!==undefined&&v!==null)e.textContent=v;};
+  const setP=(id,v)=>{const e=$(id);if(e&&v!==undefined&&v!==null)e.placeholder=v;};
+  try{
+    set('menuSub',T(G.selMode==='lite'?'sub_lite':'sub_scary'));
+    set('lblMode',T('m_modelabel'));
+    set('lblName',T('m_namelabel'));
+    set('tabPlay',T('tab_play'));set('tabHow',T('tab_how'));
+    set('btnSolo',T('m_solo'));set('btnHost',T('m_host'));set('btnJoin',T('m_join'));
+    set('btnConnect',T('m_connect'));set('btnLobbyLeave',T('lb_leave'));
+    setP('codeIn',T('m_roomcode'));setP('nameIn',LANG==='zh'?'幸存者':'Survivor');
+    set('prologueGo',T('wake'));
+    set('modeTitleScary',T('mode_scary'));set('modeDescScary',T('mode_scary_d'));
+    set('modeTitleLite',T('mode_lite'));set('modeDescLite',T('mode_lite_d'));
+    const mh=$('menuHow');if(mh)mh.innerHTML=T('howto');
+    set('menuFooter',T('footer'));
+    set('icoHp',T('hud_hp'));set('icoSt',T('hud_st'));set('icoBt',T('hud_bt'));
+    set('slotCrowbarL',T('hud_crowbar'));set('slotFlareL',T('hud_flare'));
+    set('slotMedL',T('hud_med'));set('slotCardsL',T('hud_cards'));set('slotAmmoL',T('hud_ammo'));
+    set('pauseTitle',T('pause_title'));
+    set('optSensL',T('opt_sens'));set('optVolL',T('opt_vol'));set('optFovL',T('opt_fov'));
+    set('btnResume',T('btn_resume'));set('btnQuit',T('btn_quit'));
+    const cl=$('ctrlList');if(cl)cl.innerHTML=T('ctrl');
+    set('goalsTitle',T('goals_title'));
+    set('cctvHint',T('cctv_hint'));set('shutterBtn',T('shutter_btn'));
+    set('noteClose',T('note_close'));setP('chatIn',T('chat_ph'));
+    set('lockHint',T('lock_hint'));
+    set('lbTitle',T('lb_title'));set('lbHint1',T('lb_share'));set('lbHint2',T('lb_copy'));
+    const hk=$('hintKey');if(hk)hk.innerHTML=T('hint');
+    const he=$('langEn'),hz=$('langZh');
+    if(he)he.style.borderColor=LANG==='en'?'#c1272d':'#666';
+    if(hz)hz.style.borderColor=LANG==='zh'?'#c1272d':'#666';
+    hudInv();
+  }catch(e){if(typeof console!=='undefined')console.warn('applyLang:',e&&e.message);}
+}
 
 const G={
   mode:'menu',            // menu | lobby | playing
@@ -582,7 +860,7 @@ function buildTextures(){
   TEX.floorLabel=f=>makeCanvas(256,128,(x,w,h)=>{
     x.fillStyle='#3a3a3c';x.fillRect(0,0,w,h);x.strokeStyle='#8a8a8a';x.lineWidth=4;x.strokeRect(5,5,w-10,h-10);
     x.fillStyle='#ffd9a0';x.font='bold 52px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
-    x.fillText(f===19?'ROOF':'F'+(f+1),w/2,h/2);
+    x.fillText(f===19?T('fl_roof'):T('fl_floor',{n:f+1}),w/2,h/2);
   });
   TEX.board=makeCanvas(128,128,(x,w,h)=>{
     x.clearRect(0,0,w,h);
@@ -757,8 +1035,8 @@ function buildMaterials(){
     lamp:new THREE.MeshStandardMaterial({color:0x222222,emissive:0xfff2cc,emissiveIntensity:MD.id==='lite'?2.4:1.6}),
     lampOff:new THREE.MeshStandardMaterial({color:0x1a1a1a,emissive:0x000000}),
     lampRed:new THREE.MeshStandardMaterial({color:0x220000,emissive:0xff2211,emissiveIntensity:2.2}),
-    exit:new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(TEX.sign('STAIRWELL','#06180a','#59ff7a')),emissive:0x2fbf5f,emissiveIntensity:.9,emissiveMap:new THREE.CanvasTexture(TEX.sign('STAIRWELL','#06180a','#59ff7a'))}),
-    ooo:new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(TEX.sign('OUT OF ORDER','#200','#ff5050'))}),
+    exit:new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(TEX.sign(T('sg_stairs'),'#06180a','#59ff7a')),emissive:0x2fbf5f,emissiveIntensity:.9,emissiveMap:new THREE.CanvasTexture(TEX.sign('STAIRWELL','#06180a','#59ff7a'))}),
+    ooo:new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(TEX.sign(T('sg_ooo'),'#200','#ff5050'))}),
     screen:new THREE.MeshStandardMaterial({color:0x020a04,emissive:0x1fdd6a,emissiveIntensity:1.4}),
     gen:new THREE.MeshStandardMaterial({color:0x3a4046,roughness:.6,metalness:.5}),
     bloodPool:new THREE.MeshStandardMaterial({color:0x4a0508,roughness:.35}),
@@ -843,7 +1121,7 @@ class DoorC{
   }
   use(){
     if(this.boarded){
-      if(!INV.crowbar){toast('Boarded shut. You need a crowbar.');return'boarded';}
+      if(!INV.crowbar){toast(T('t_need_crowbar'));return'boarded';}
       return'board-break'; // handled by hold-interaction
     }
     this.setOpen(!this.open,true);
@@ -874,7 +1152,7 @@ class DoorC{
     play('clang',{pos:this.g.position,vol:1,ref:18});
     burst(this.g.position.clone().add(new THREE.Vector3(0.7,1.1,0)),0x8a6a3a,10,2.6,0.07);
     emitNoise(this.g.position.x,this.g.position.z,this.f,16);
-    toast('Boards pried off.');
+    toast(T('t_boards'));
     G.boardsBroken.add(this.id);
     if(G.mp&&!G.host)netSend({t:'ev',k:'boards',id:this.id});
     if(G.host&&G.mp)netBroadcast({t:'ev',k:'boards',id:this.id});
@@ -907,7 +1185,7 @@ class GateC{
         const col=type.split('-')[1];
         const reader=new THREE.Mesh(new THREE.BoxGeometry(0.09,0.28,0.18),MAT.card[col]||MAT.card.red);
         reader.position.set(0.1,1.25,z1-zc-0.05);this.g.add(reader);
-        signOn(f,gx+0.12,base-f*CFG.FH+1.75,zc+0.97,-Math.PI/2,TEX.sign((col.toUpperCase())+' ACCESS','#101020','#9fd0ff'),0.9,0.24);
+        signOn(f,gx+0.12,base-f*CFG.FH+1.75,zc+0.97,-Math.PI/2,TEX.sign(T('sg_access',{c:col.toUpperCase()}),'#101020','#9fd0ff'),0.9,0.24);
       }
     }
     this.col={x0:gx-0.13,x1:gx+0.13,z0:z0,z1:z1,y0:y,y1:y+2.5,los:false,off:false};
@@ -920,24 +1198,24 @@ class GateC{
     const g=this;
     if(!g.locked){g.setOpen(true);return'done';}
     if(g.type==='board'){
-      if(!INV.crowbar){toast('Boarded shut. You need a crowbar.');return'boarded';}
+      if(!INV.crowbar){toast(T('t_need_crowbar'));return'boarded';}
       return'board-break';
     }
     if(g.type.startsWith('card')){
       const col=g.type.split('-')[1];
-      if(G.cards[col]){g.unlock();toast(col.toUpperCase()+' keycard accepted.');}
-      else toast('Locked. Requires the '+col.toUpperCase()+' keycard.');
+      if(G.cards[col]){g.unlock();toast(T('g_accept',{c:col.toUpperCase()}));}
+      else toast(T('g_locked',{c:col.toUpperCase()}));
       return'done';
     }
     if(g.type==='shutter'){
       if(G.flags.shutter6)g.unlock();
-      else if(!G.flags.power)toast('Security shutter. No power — find the generator (Floor 2).');
-      else toast('Powered. Release it from the CCTV terminal (Floor 2).');
+      else if(!G.flags.power)toast(T('g_shutter1'));
+      else toast(T('g_shutter2'));
       return'done';
     }
     if(g.type==='power'){
       if(G.flags.power2)g.unlock();
-      else toast('Magnetic lock engaged. Reset the breaker on Floor 11.');
+      else toast(T('g_power'));
       return'done';
     }
     return'done';
@@ -1023,27 +1301,45 @@ class Pickup{
     if(G.host&&G.mp)netBroadcast({t:'ev',k:'take',id:this.id});
   }
 }
-const NOTES=[
-  {id:'n1',f:0,x:-21.5,z:-1.1,y:0.1,title:'JANITOR\'S LOG',body:'Third night shift this week. The bio lab on 6 keeps calling me to mop up "spills". Whatever they are, they smell wrong. Locked the stairwell gate like they asked. Red card is with the CCTV people on 2.'},
-  {id:'n2',f:1,x:-6.5,z:-4.2,y:0.85,title:'CCTV OPERATOR NOTE',body:'Cameras 6 and up are dead. Feed 12 shows SOMETHING pacing the east stairwell every night at 2AM. Principal says ignore it. I\'m not ignoring it. Red keycard is on this desk — take it if you\'re reading this.'},
-  {id:'n3',f:5,x:-22,z:-8,y:0.12,title:'SERVER ROOM SIGN-IN',body:'Blue access card stays in the rack room. Last entry: "Subject 0 transferred to roof-level lab. God forgive us." The rack room door has been boarded from the INSIDE.'},
-  {id:'n4',f:8,x:-6,z:6,y:0.1,title:'RECORDS SLIP',body:'Green clearance card issued to Dr. Moon. If you found this office after dark, do not go back the way you came. They hunt by sound first, sight second.'},
-  {id:'n5',f:10,x:12,z:-4,y:0.12,title:'ELECTRICAL WARNING',body:'Main feed cut from the roof. Sub-breaker here only powers the upper stairwell locks. Flip it, and the 15th floor gate releases. Watch the dark between here and there.'},
-  {id:'n6',f:14,x:12,z:5,y:0.1,title:'INFIRMARY INTAKE',body:'Yellow card belongs to the head nurse. Bite victims don\'t turn for about an hour. She taped the card under the bed. She also stopped breathing yesterday. The tape is still there.'},
-  {id:'n7',f:17,x:-6,z:-5,y:0.1,title:'TORN DIARY PAGE',body:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to 14 before the shouting started. If anyone reads this — RUN, don\'t count the dead.'},
-  {id:'n8',f:19,x:20,z:-1,y:1.6,title:'PAINTED ON THE WALL',body:'THE ROOF IS THE WAY OUT. THEY HATE THE LIGHT. HOLD AT THE SMOKE AND DON\'T LOOK DOWN THE STAIRWELL.'},
-];
+function notesList(){return [
+  {id:'n1',f:0,x:-21.5,z:-1.1,y:0.1,title:T('n1t'),body:T('n1b')},
+  {id:'n2',f:1,x:-6.5,z:-4.2,y:0.85,title:T('n2t'),body:T('n2b')},
+  {id:'n3',f:5,x:-22,z:-8,y:0.12,title:T('n3t'),body:T('n3b')},
+  {id:'n4',f:8,x:-6,z:6,y:0.1,title:T('n4t'),body:T('n4b')},
+  {id:'n5',f:10,x:12,z:-4,y:0.12,title:T('n5t'),body:T('n5b')},
+  {id:'n6',f:14,x:12,z:5,y:0.1,title:T('n6t'),body:T('n6b')},
+  {id:'n7',f:17,x:-6,z:-5,y:0.1,title:T('n7t'),body:T('n7b')},
+  {id:'n8',f:19,x:20,z:-1,y:1.6,title:T('n8t'),body:T('n8b')},
+];}
 
 /* ---------- room themes ---------- */
-const ROOM_NAMES=[
-  ['CLASS 1-1','CLASS 1-2','CLASS 2-1','MUSIC ROOM','ART ROOM','LIBRARY'],
-  ['STAFF ROOM','OFFICE A','OFFICE B','ARCHIVE','MEETING RM','COPY ROOM'],
-  ['LAB 1','LAB 2','COUNSELING','DARKROOM','STORAGE A','STORAGE B'],
-  ['DORM A','DORM B','COMMONS','LAUNDRY','PANTRY','GYM STORE'],
+const ROOM_NAMES=()=>[
+  [T('rn00'),T('rn01'),T('rn02'),T('rn03'),T('rn04'),T('rn05')],
+  [T('rn10'),T('rn11'),T('rn12'),T('rn13'),T('rn14'),T('rn15')],
+  [T('rn20'),T('rn21'),T('rn22'),T('rn23'),T('rn24'),T('rn25')],
+  [T('rn30'),T('rn31'),T('rn32'),T('rn33'),T('rn34'),T('rn35')],
 ];
 function themeOf(f){return f<5?0:(f<11?1:(f<16?2:3));}
 
 /* ---------- furniture ---------- */
+/* remove any furniture that ended up intersecting a wall (special rooms add walls late) */
+function pruneFurniture(){
+  if(!world.furn)return;
+  world.furn=world.furn.filter(b=>{
+    let bad=false;
+    for(const c of world.cols[b.f]){
+      if(c.off||c===b.col)continue;
+      if(c.y1<b.y0+0.05||c.y0>b.y1-0.05)continue;
+      if(b.x0<c.x1-0.05&&b.x1>c.x0+0.05&&b.z0<c.z1-0.05&&b.z1>c.z0+0.05){bad=true;break;}
+    }
+    if(bad){
+      if(b.mesh&&b.mesh.parent)b.mesh.parent.remove(b.mesh);
+      if(b.col)b.col.off=true;
+      return false;
+    }
+    return true;
+  });
+}
 function boxHitsWall(f,x,z,sx,sz){ // does a furniture footprint overlap any wall/partition?
   for(const c of world.cols[f]){
     if(!c.los||c.off)continue;
@@ -1058,8 +1354,10 @@ function furnishRoom(f,r,name){
   const w=r.x1-r.x0-1.6,d=r.z1-r.z0-1.6;
   const put=(x,z,sx,sy,sz,mat,opts)=>{
     world.furn=world.furn||[];
-    world.furn.push({f,x0:x-sx/2,x1:x+sx/2,z0:z-sz/2,z1:z+sz/2,y0:y,y1:y+sy});
-    return addBox(f,x,y+sy/2,z,sx,sy,sz,mat,opts);
+    const m=addBox(f,x,y+sy/2,z,sx,sy,sz,mat,opts);
+    const col=world.cols[f][world.cols[f].length-1];
+    world.furn.push({f,x0:x-sx/2,x1:x+sx/2,z0:z-sz/2,z1:z+sz/2,y0:y,y1:y+sy,mesh:m,col});
+    return m;
   };
   if(th===0){ // classroom
     const rows=Math.max(2,Math.floor(d/2.2)),cols=Math.max(2,Math.floor(w/2.0));
@@ -1134,7 +1432,7 @@ function furnishRoom(f,r,name){
 function buildFloor(f){
   const L=new THREE.Group();world.levels.push(L);scene.add(L);
   const y=f*CFG.FH;
-  const FH=CFG.FH,T=CFG.TOWER,LA=CFG.LANE;
+  const FH=CFG.FH,TOW=CFG.TOWER,LA=CFG.LANE;
   // plate (4 boxes, leaving lane hole)
   const pf=(x0,z0,x1,z1)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,0.22,z1-z0),MAT.floor);m.position.set((x0+x1)/2,y-0.11,(z0+z1)/2);m.receiveShadow=true;L.add(m);};
   pf(-24,-10,LA.x0,10);pf(LA.x0,-10,LA.x1,LA.z0);pf(LA.x0,LA.z1,LA.x1,10);pf(LA.x1,-10,24,10);
@@ -1142,14 +1440,14 @@ function buildFloor(f){
   addWall(f,-24,-10,-24,10);            // west
   addWall(f,-24,10,16,10);              // north
   addWall(f,-24,-10,16,-10);            // south
-  addWall(f,16,-10,16,T.z0);            // east main lower
-  addWall(f,16,T.z1,16,10);             // east main upper
-  addWall(f,T.x0,T.z0,24,T.z0);         // tower south
-  addWall(f,T.x0,T.z1,24,T.z1);         // tower north
-  addWall(f,24,T.z0,24,T.z1);           // tower east
+  addWall(f,16,-10,16,TOW.z0);            // east main lower
+  addWall(f,16,TOW.z1,16,10);             // east main upper
+  addWall(f,TOW.x0,TOW.z0,24,TOW.z0);         // tower south
+  addWall(f,TOW.x0,TOW.z1,24,TOW.z1);         // tower north
+  addWall(f,24,TOW.z0,24,TOW.z1);           // tower east
   // tower west wall with arch gap z[-1.4,1.8]
-  addWall(f,16,T.z0,16,-1.4);
-  addWall(f,16,1.8,16,T.z1);
+  addWall(f,16,TOW.z0,16,-1.4);
+  addWall(f,16,1.8,16,TOW.z1);
   addWall(f,16,-1.4,16,1.8,{y:y+2.3,h:FH-2.3});
   // stairs (steps + analytic ground)
   const nSteps=Math.round((LA.x1-LA.x0)/CFG.STEP);
@@ -1163,10 +1461,10 @@ function buildFloor(f){
   for(const zEdge of [LA.z0,LA.z1]){
     addWall(f,17,zEdge-0.06,23.3,zEdge+0.06,{mat:MAT.wall,los:false});
   }
-  signOn(f,17.02,y+2.05,1.2,-Math.PI/2,TEX.sign('↑ STAIRS','#06180a','#59ff7a'),1.1,0.3);
+  signOn(f,17.02,y+2.05,1.2,-Math.PI/2,TEX.sign(T('sg_up'),'#06180a','#59ff7a'),1.1,0.3);
   // floor label + stairwell sign
   signOn(f,16.13,y+1.9,0.2,-Math.PI/2,TEX.floorLabel(f),1.1,0.55);
-  signOn(f,15.84,y+2.55,0.2,-Math.PI/2,TEX.sign('STAIRWELL','#06180a','#59ff7a'),1.5,0.38);
+  signOn(f,15.84,y+2.55,0.2,-Math.PI/2,TEX.sign(T('sg_stairs'),'#06180a','#59ff7a'),1.5,0.38);
   // ---- corridor lights (capped real lights for perf; meshes all glow in lite)
   const LITE=MD.id==='lite';
   for(let lx=-21,lidx=0;lx<16;lx+=6,lidx++){
@@ -1192,7 +1490,7 @@ function buildFloor(f){
     addBox(f,vx,y+0.9,-1.15,0.9,1.8,0.68,MAT.metal,{cast:false});
     const vf=new THREE.Mesh(new THREE.PlaneGeometry(0.62,1.3),new THREE.MeshStandardMaterial({color:0x0a1428,emissive:MD.vendE,emissiveIntensity:MD.vendI}));
     vf.position.set(vx,y+1.08,-0.8);L.add(vf);
-    signOn(f,vx,y+2.05,-0.78,0,TEX.sign('DRINKS','#0a1428','#7ac8ff'),0.8,0.22);
+    signOn(f,vx,y+2.05,-0.78,0,TEX.sign(T('sg_drinks'),'#0a1428','#7ac8ff'),0.8,0.22);
   }
   if(Math.random()<0.35){
     const cx2=rand(-16,8);
@@ -1211,7 +1509,7 @@ function buildFloor(f){
     panel.position.set(15.84,y+1.05,ez);panel.rotation.y=-Math.PI/2;L.add(panel);
     const seam=new THREE.Mesh(new THREE.PlaneGeometry(0.04,2.1),MAT.dark);
     seam.position.set(15.82,y+1.05,ez);seam.rotation.y=-Math.PI/2;L.add(seam);
-    signOn(f,15.79,y+2.32,ez,-Math.PI/2,TEX.sign('OUT OF ORDER','#200','#ff5050'),1.15,0.26);
+    signOn(f,15.79,y+2.32,ez,-Math.PI/2,TEX.sign(T('sg_ooo'),'#200','#ff5050'),1.15,0.26);
   }
   // ---- rooms
   const dN=8.4,dS=8.4;
@@ -1223,8 +1521,8 @@ function buildFloor(f){
     {key:'S2',x0:-10,x1:2,z0:-1.6-dS,z1:-1.6},
     {key:'S3',x0:2,x1:16,z0:-1.6-dS,z1:-1.6},
   ];
-  const names=[...ROOM_NAMES[themeOf(f)]];
-  const layout={rooms:[],corridor:{x0:-24,z0:-1.6,x1:16,z1:1.6},tower:{x0:T.x0,z0:T.z0,x1:T.x1,z1:T.z1}};
+  const names=[...ROOM_NAMES()[themeOf(f)]];
+  const layout={rooms:[],corridor:{x0:-24,z0:-1.6,x1:16,z1:1.6},tower:{x0:TOW.x0,z0:TOW.z0,x1:TOW.x1,z1:TOW.z1}};
   for(const r of rooms){
     // front wall with 1-2 doors
     const frontZ=r.z0>0?r.z0:r.z1;
@@ -1311,14 +1609,15 @@ function buildFloor(f){
   if(f===1)specialCCTV(L,y);
   if(f===5)specialServer(L,y);
   if(f===10)specialElectrical(L,y);
-  if(f===8){new Pickup('card-green',8,-6,y+0.09,6,{id:'story-card-green'});signOn(8,-3,y+2.5,1.46,Math.PI,TEX.sign('RECORDS','#101020','#59ff7a'),2,0.44);}  if(f===14){new Pickup('card-yellow',14,12,y+0.09,5,{id:'story-card-yellow'});signOn(14,12,y+2.5,1.46,Math.PI,TEX.sign('INFIRMARY','#101020','#59ff7a'),2,0.44);}
+  if(f===8){new Pickup('card-green',8,-6,y+0.09,6,{id:'story-card-green'});signOn(8,-3,y+2.5,1.46,Math.PI,TEX.sign(T('sg_records'),'#101020','#59ff7a'),2,0.44);}  if(f===14){new Pickup('card-yellow',14,12,y+0.09,5,{id:'story-card-yellow'});signOn(14,12,y+2.5,1.46,Math.PI,TEX.sign(T('sg_infir'),'#101020','#59ff7a'),2,0.44);}
   if(f===19)specialTop(L,y);
+  pruneFurniture();
 }
 
 /* ---------- special rooms ---------- */
 function specialEntrance(L,y){
   // sealed main entrance + reception + janitor closet in S3
-  signOn(0,-23.84,2.2,0,Math.PI/2,TEX.sign('MAIN ENTRANCE — SEALED','#200','#ff5050'),2.2,0.55);
+  signOn(0,-23.84,2.2,0,Math.PI/2,TEX.sign(T('sg_entrance'),'#200','#ff5050'),2.2,0.55);
   addBox(0,-22.6,y+0.45,1.15,1.6,0.9,0.7,MAT.desk); // reception desk
   new Pickup('flashlight',0,-22.6,y+0.95,1.15,{id:'story-flashlight'});
   // janitor closet: x[12.2,16] z[-10,-6.8], doorway in west wall
@@ -1350,7 +1649,7 @@ function specialCCTV(L,y){
   new Pickup('card-red',1,-4.4,y+0.84,-4.0,{id:'story-card-red'});
   new Pickup('pistol',1,-4.05,y+0.85,-4.0,{id:'story-pistol'});
   new Pickup('ammo',1,-5.5,y+0.86,-4.6,{id:'story-ammo1'});
-  signOn(1,-5,y+2.6,-1.44,0,TEX.sign('CCTV & POWER','#101020','#59ff7a'),2.4,0.5);
+  signOn(1,-5,y+2.6,-1.44,0,TEX.sign(T('sg_cctv'),'#101020','#59ff7a'),2.4,0.5);
 }
 function specialElectrical(L,y){
   // S3 = ELECTRICAL (x[2,16] z[-10,-1.6]) — breaker 2
@@ -1359,7 +1658,7 @@ function specialElectrical(L,y){
   handle.position.set(0,0,0.36);box.add(handle);
   world.breakers.sub={mesh:handle,f:10,x:9,z:-8.9};
   new Pickup('note',10,8,y+0.95,-8.2,{id:'n5'});
-  signOn(10,9,y+2.5,-1.44,0,TEX.sign('ELECTRICAL','#101020','#59ff7a'),2,0.44);
+  signOn(10,9,y+2.5,-1.44,0,TEX.sign(T('sg_elec'),'#101020','#59ff7a'),2,0.44);
 }
 function specialServer(L,y){
   // S1 inner boarded rack room x[-24,-19] z[-10,-6], doorway in z=-6 wall
@@ -1370,10 +1669,10 @@ function specialServer(L,y){
   new DoorC(5,-21.3,-6,1.4,'x',{boarded:true,swing:-1,id:'rack-door',label:'Pry boards'});
   for(let i=0;i<3;i++)addBox(5,-23+i*1.3,y+1.1,-9,0.8,2.2,0.8,MAT.dark,{los:true});
   new Pickup('card-blue',5,-21,y+0.12,-8,{id:'story-card-blue'});
-  signOn(5,-17,y+2.5,-1.44,0,TEX.sign('SERVER ROOM','#101020','#59ff7a'),2,0.44);
+  signOn(5,-17,y+2.5,-1.44,0,TEX.sign(T('sg_server'),'#101020','#59ff7a'),2,0.44);
 }
 function specialTop(L,y){
-  signOn(19,15.84,y+2.4,0.2,-Math.PI/2,TEX.sign('ROOF ACCESS','#06180a','#59ff7a'),1.8,0.45);
+  signOn(19,15.84,y+2.4,0.2,-Math.PI/2,TEX.sign(T('sg_roof'),'#06180a','#59ff7a'),1.8,0.45);
 }
 
 /* ---------- rooftop ---------- */
@@ -1459,7 +1758,7 @@ function buildWorld(){
   // gates
   for(const[k,type]of Object.entries(GATE_PLAN))new GateC(+k,type);
   // notes
-  for(const n of NOTES)new Pickup('note',n.f,n.x,n.y,n.z,{id:n.id});
+  for(const n of notesList())new Pickup('note',n.f,n.x,n.y,n.z,{id:n.id});
   // flashlight spot (attached to camera later) is in player section
 }
 
@@ -2025,14 +2324,14 @@ function damagePlayer(dmg,srcPos){
 
 /* ---------- player down / death / respawn ---------- */
 function downText(){
-  if(MD.id==='lite')return (G.mp?'A friend can un-bonk you — hold on!':'The bots are politely waiting. Ow.')+' ('+Math.ceil(player.bleedT)+'s)';
-  return (G.mp?'A friend can revive you — hold on!':'Nobody left to help you…')+' ('+Math.ceil(player.bleedT)+'s)';
+  const base=MD.id==='lite'?(G.mp?T('down_mp_l'):T('down_sp_l')):(G.mp?T('down_mp'):T('down_sp'));
+  return base+' ('+Math.ceil(player.bleedT)+'s)';
 }
 function onPlayerDown(){
   player.down=true;player.bleedT=60;
   G.stats.deaths++;hudStats();
   $('downedOv').style.display='flex';
-  $('downedOv').querySelector('h2').textContent=MD.id==='lite'?'TACKLED!':'YOU ARE DOWN';
+  $('downedOv').querySelector('h2').textContent=MD.id==='lite'?T('down_hl'):T('down_h');
   $('downedTxt').textContent=downText();
   play('scream',{vol:1});
   if(G.mp)netSend({t:'ev',k:'down',id:G.myId});
@@ -2041,7 +2340,7 @@ function onPlayerDown(){
 function reviveLocal(){
   player.down=false;player.hp=50;player.bleedT=0;
   $('downedOv').style.display='none';
-  toast('Back on your feet. Watch yourself.');
+  toast(T('t_up'));
   play('pickup',{vol:1});
   if(G.mp)netSend({t:'ev',k:'revive',id:G.myId});
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'revive',id:G.myId});
@@ -2050,8 +2349,8 @@ function onPlayerDeath(){
   player.down=false;player.dead=true;player.respawnT=G.mp?25:20;
   $('downedOv').style.display='none';
   $('death').style.display='flex';
-  $('death').querySelector('h1').textContent=MD.id==='lite'?'YOU GOT BONKED':'YOU DIED';
-  $('deathTxt').textContent=MD.id==='lite'?'The bots gently roll you to a safe corner. Restarting…':'The building keeps your bones.';
+  $('death').querySelector('h1').textContent=MD.id==='lite'?T('death_l'):T('death_h');
+  $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
   $('respawnTxt').textContent='';
   $('btnDeathMenu').classList.toggle('hidden',false);
   document.exitPointerLock&&document.exitPointerLock();
@@ -2065,7 +2364,7 @@ function respawnPlayer(){
   const f=CHECK.floor;
   player.pos.set(15,f*CFG.FH+0.1,0);player.vy=0;
   $('death').style.display='none';
-  toast('You wake up by the stairwell. Keep moving.');
+  toast(T('t_respawn'));
   emitNoise(15,0,f,14);
   lockPointer();
   hudStats();
@@ -2074,7 +2373,7 @@ function respawnPlayer(){
 /* ---------- player update ---------- */
 const flares=[];
 function throwFlare(){
-  if(INV.flare<=0){toast('No flares left.');return;}
+  if(INV.flare<=0){toast(T('t_noflare'));return;}
   INV.flare--;hudInv();
   const dir=new THREE.Vector3();camera.getWorldDirection(dir);
   const g=new THREE.Group();
@@ -2158,7 +2457,7 @@ function updatePlayer(dt,t){
   $('dmg').style.opacity=Math.min(1,player.dmgFlash*0.9+(player.hp<30?0.35+Math.sin(t*6)*0.1:0));
   if(player.dead){
     player.respawnT-=dt;
-    $('respawnTxt').textContent='Respawning in '+Math.ceil(Math.max(0,player.respawnT))+'s…';
+    $('respawnTxt').textContent=T('respawn',{n:Math.ceil(Math.max(0,player.respawnT))});
     if(player.respawnT<=0)respawnPlayer();
     return;
   }
@@ -2252,7 +2551,7 @@ function updatePlayer(dt,t){
     if(player.weapon==='pistol'&&INV.pistol){
       if(INV.ammo<=0){
         player.attackT=0.5;play('click',{vol:.8});
-        toast('Click — empty. Find 9mm boxes, or press [1] for the crowbar.');
+        toast(T('t_empty'));
       }else firePistol();
     }else if(INV.crowbar){
       player.attackT=0.5;player.swingT=0.3;
@@ -2383,7 +2682,7 @@ function updateSub(dt){
   const s=subQ.shift();
   if(s){$('subtitle').innerHTML=s.html;subT=s.dur;}
 }
-function radio(txt){play('radio',{vol:.7,force:true});showSub('<b>Ji-woo (radio):</b> '+txt,5.5);}
+function radio(txt){play('radio',{vol:.7,force:true});showSub('<b>'+T('radio_name')+':</b> '+txt,5.5);}
 function hudStats(){
   $('hpFill').style.transform='scaleX('+(player.hp/100)+')';
   $('stFill').style.transform='scaleX('+(player.st/100)+')';
@@ -2411,77 +2710,48 @@ function hudInv(){
 
 /* ---------------- quest ---------------- */
 const QUEST=[
-  {txt:'Find a flashlight in the entrance hall.',done:()=>INV.flashlight},
-  {txt:'Kick open the janitor closet (south-east room, Floor 1) and grab the crowbar.',done:()=>INV.crowbar},
-  {txt:'Head up to Floor 2 — find the CCTV & power room.',done:()=>playerMaxFloor>=1},
-  {txt:'Take the RED keycard from the CCTV room desk (Floor 2).',done:()=>G.cards.red},
-  {txt:'Unlock the Floor 3 stairwell gate with the red card.',done:()=>G.gatesOpen.has(2)},
-  {txt:'The Floor 6 shutter is sealed — restore power at the Floor 2 generator.',done:()=>G.flags.power},
-  {txt:'Power restored. Use the CCTV terminal (Floor 2) to release the Floor 6 shutter.',done:()=>G.flags.shutter6},
-  {txt:'Get back to Floor 6 and climb on. Blue keycard waits in the boarded server room (Floor 6).',done:()=>G.gatesOpen.has(5)},
-  {txt:'Open the server rack room (Floor 6) and take the BLUE keycard.',done:()=>G.cards.blue},
-  {txt:'Unlock the Floor 8 stairwell gate.',done:()=>G.gatesOpen.has(7)},
-  {txt:'Floors 8–9 are dark. Climb. Find the GREEN keycard in the records office (Floor 9).',done:()=>G.cards.green},
-  {txt:'Unlock the Floor 11 gate.',done:()=>G.gatesOpen.has(10)},
-  {txt:'CONTAINMENT BREACH on Floor 12 — get above it. Now.',done:()=>playerMaxFloor>=12},
-  {txt:'Floor 15 gate is magnet-locked. Reset the breaker — Electrical room, Floor 11.',done:()=>G.flags.power2},
-  {txt:'Go back up and unlock the Floor 15 gate.',done:()=>G.gatesOpen.has(14)},
-  {txt:'Take the YELLOW keycard from the infirmary (Floor 15).',done:()=>G.cards.yellow},
-  {txt:'Unlock the Floor 17 gate.',done:()=>G.gatesOpen.has(16)},
-  {txt:'Floor 19 stairwell is boarded — pry it open.',done:()=>G.gatesOpen.has(18)},
-  {txt:'REACH THE ROOFTOP.',done:()=>player.floor>=20||G.flags.finale},
-  {txt:'Hold the extraction circle. The helicopter is coming.',done:()=>G.flags.victory},
+  {k:'q0',done:()=>INV.flashlight},
+  {k:'q1',done:()=>INV.crowbar},
+  {k:'q2',done:()=>playerMaxFloor>=1},
+  {k:'q3',done:()=>G.cards.red},
+  {k:'q4',done:()=>G.gatesOpen.has(2)},
+  {k:'q5',done:()=>G.flags.power},
+  {k:'q6',done:()=>G.flags.shutter6},
+  {k:'q7',done:()=>G.gatesOpen.has(5)},
+  {k:'q8',done:()=>G.cards.blue},
+  {k:'q9',done:()=>G.gatesOpen.has(7)},
+  {k:'q10',done:()=>G.cards.green},
+  {k:'q11',done:()=>G.gatesOpen.has(10)},
+  {k:'q12',done:()=>playerMaxFloor>=12},
+  {k:'q13',done:()=>G.flags.power2},
+  {k:'q14',done:()=>G.gatesOpen.has(14)},
+  {k:'q15',done:()=>G.cards.yellow},
+  {k:'q16',done:()=>G.gatesOpen.has(16)},
+  {k:'q17',done:()=>G.gatesOpen.has(18)},
+  {k:'q18',done:()=>player.floor>=20||G.flags.finale},
+  {k:'q19',done:()=>G.flags.victory},
 ];
 let qi=0;
 function questCheck(){
   while(qi<QUEST.length-1&&QUEST[qi].done()){
     qi++;
-    toast('✔ Objective complete');
+    toast('✔ '+T('t_objdone'));
     play('pickup',{vol:.9});
   }
-  $('obj').textContent=QUEST[qi].txt;
+  $('obj').textContent=T(QUEST[qi].k);
 }
 
 /* ---------------- floors / story ---------------- */
-const STORY={
-  0:'You woke up on the ground floor. The main doors are sealed. Ji-woo said the military helicopter comes at midnight — to the roof.',
-  1:'Floor 2. The CCTV room still has power cells. Generator too, maybe.',
-  2:'Floor 3. Something smeared the walls up here.',
-  3:'Floor 4. The lights here have been dead for days.',
-  4:'Floor 5. You can hear the security shutter humming ahead.',
-  5:'Floor 6. The server room door is boarded from the inside…',
-  6:'Floor 7. Don\'t count the dead. Just climb.',
-  7:'Floor 8. No lights at all. Ji-woo is somewhere above.',
-  8:'Floor 9. The records office… something is still in there.',
-  9:'Halfway up. Breathe. Keep climbing.',
-  10:'Floor 11. The electrical room hums behind the south-east room.',
-  11:'Floor 12. The alarm. THEY KNOW YOU ARE HERE.',
-  12:'Floor 13. Keep moving. Don\'t fight all of them.',
-  13:'Floor 14. The breaker below died when the alarm tripped.',
-  14:'Floor 15. The infirmary still smells of antiseptic and worse.',
-  15:'Floor 16. Two dark floors left.',
-  16:'Floor 17. They know which stairwell you use.',
-  17:'Floor 18. One boarded door. You know what to do.',
-  18:'Floor 19. The roof door is open. Don\'t look back.',
-  20:'THE ROOF. Hold at the green smoke. Don\'t look down the stairwell.',
-};
-const STORY_LITE={
-  0:'One soda spilled on the charging dock and now EVERY helper-bot wants a hug. The drone-copter picks you up from the roof — go, go, go!',
-  1:'Floor 2. The CCTV room controls the gates. Also there\'s a snack stash. Priorities.',
-  2:'Floor 3. The bots drew on the walls with paint. Sorry about that.',
-  5:'Floor 6. The server room door is stuck — the bots taped a "DO NOT ENTER (we are shy)" sign on it.',
-  7:'Floor 8. Bright and… beepy. Ji-woo says hi from floor 12.',
-  9:'Halfway! Hydrate. Stretch. Keep climbing.',
-  11:'Floor 12. BOT PARADE! They lined up to escort you. Politely. At speed.',
-  14:'Floor 15. The infirmary bot is handing out juice boxes. The yellow card is under the bed.',
-  20:'THE ROOF! Green smoke, big friendly drone. Hold the circle and wave!',
-};
-function storyLine(f){return MD.id==='lite'?(STORY_LITE[f]||STORY[f]):STORY[f];}
+function storyLine(f){
+  if(MD.id==='lite'&&hasT('sl'+f))return T('sl'+f);
+  if(hasT('s'+f))return T('s'+f);
+  return null;
+}
 function onFloorChange(f){
   playerMaxFloor=Math.max(playerMaxFloor,f);
   CHECK.floor=Math.max(CHECK.floor,Math.min(f,CFG.FLOORS-1));
   for(let i=0;i<world.levels.length;i++)world.levels[i].visible=(Math.abs(i-f)<=1);
-  $('floorLbl').textContent=f>=CFG.FLOORS?'ROOFTOP — EXTRACTION':'FLOOR '+(f+1)+(f===0?' — ENTRANCE':'');
+  $('floorLbl').textContent=f>=CFG.FLOORS?T('roof'):(f===0?T('floor0'):T('floor',{n:f+1}));
   if(!G.floorsSeen.has(f)){
     G.floorsSeen.add(f);
     if(storyLine(f))radio(storyLine(f));
@@ -2508,20 +2778,20 @@ function findInteract(){
     if(it.taken)continue;
     if(Math.abs(it.f-player.floor)>0)continue;
     const p=it.g.position;
-    const names={battery:'Take battery',flare:'Take flare',medkit:'Take medkit',crowbar:'Take crowbar',
-      flashlight:'Take flashlight',note:'Read note',pistol:'Take PISTOL (+8 rounds)',ammo:'Take 9mm ammo (+6)',
-      'card-red':'Take RED keycard','card-blue':'Take BLUE keycard','card-green':'Take GREEN keycard','card-yellow':'Take YELLOW keycard'};
+    const names={battery:T('l_batt'),flare:T('l_flare'),medkit:T('l_medkit'),crowbar:T('l_crowbar'),
+      flashlight:T('l_torch'),note:T('l_note'),pistol:T('l_pistol'),ammo:T('l_ammo'),
+      'card-red':T('l_card',{c:'RED'}),'card-blue':T('l_card',{c:'BLUE'}),'card-green':T('l_card',{c:'GREEN'}),'card-yellow':T('l_card',{c:'YELLOW'})};
     consider(p.x,p.z,it.f,names[it.type]||'Take',()=>{
       it.take();
-      if(it.type==='battery'){INV.battery=Math.min(100,INV.battery+40);player.battery=INV.battery;toast('Battery +40%');}
-      else if(it.type==='flare'){INV.flare++;toast('Flare acquired — press G to throw.');}
-      else if(it.type==='medkit'){INV.medkit++;toast('Medkit acquired — press H to use.');}
-      else if(it.type==='crowbar'){INV.crowbar=true;toast('Crowbar — pry boards, swing at heads. [1] to select.');}
-      else if(it.type==='pistol'){INV.pistol=true;INV.ammo+=8;player.weapon='pistol';toast('PISTOL — LMB to fire, [1]/[2] to switch weapons.');}
-      else if(it.type==='ammo'){INV.ammo+=6;toast('9mm +6 rounds.');}
-      else if(it.type==='flashlight'){INV.flashlight=true;player.on=true;toast('Flashlight — press F to toggle.');}
-      else if(it.type.startsWith('card')){const c=it.type.split('-')[1];G.cards[c]=true;toast(c.toUpperCase()+' keycard taken.');if(G.mp&&!G.host)netSend({t:'ev',k:'card',c});if(G.host&&G.mp)netBroadcast({t:'ev',k:'card',c});}
-      else if(it.type==='note'){const n=NOTES.find(n=>n.id===it.id);if(n)openNote(n);}
+      if(it.type==='battery'){INV.battery=Math.min(100,INV.battery+40);player.battery=INV.battery;toast(T('t_batt'));}
+      else if(it.type==='flare'){INV.flare++;toast(T('t_flare'));}
+      else if(it.type==='medkit'){INV.medkit++;toast(T('t_medkit'));}
+      else if(it.type==='crowbar'){INV.crowbar=true;toast(T('t_crowbar'));}
+      else if(it.type==='pistol'){INV.pistol=true;INV.ammo+=8;player.weapon='pistol';toast(T('t_pistol'));}
+      else if(it.type==='ammo'){INV.ammo+=6;toast(T('t_ammo'));}
+      else if(it.type==='flashlight'){INV.flashlight=true;player.on=true;toast(T('t_torch'));}
+      else if(it.type.startsWith('card')){const c=it.type.split('-')[1];G.cards[c]=true;toast(T('g_accept',{c:c.toUpperCase()}));if(G.mp&&!G.host)netSend({t:'ev',k:'card',c});if(G.host&&G.mp)netBroadcast({t:'ev',k:'card',c});}
+      else if(it.type==='note'){const n=notesList().find(n=>n.id===it.id);if(n)openNote(n);}
       hudInv();questCheck();
     });
   }
@@ -2529,29 +2799,29 @@ function findInteract(){
     const p=doorPoint(d);
     if(d.boarded){
       if(INV.crowbar){
-        consider(p.x,p.z,d.f,'Pry boards (hold)',null,()=>d.breakBoards(),2.2);
+        consider(p.x,p.z,d.f,T('l_pry'),null,()=>d.breakBoards(),2.2);
       }else if(d.kick){
-        consider(p.x,p.z,d.f,'Kick boards open (hold)',null,()=>d.breakBoards(),3.5);
+        consider(p.x,p.z,d.f,T('l_kick'),null,()=>d.breakBoards(),3.5);
       }else{
-        consider(p.x,p.z,d.f,'Boarded — need crowbar',()=>toast('You need a crowbar. (The janitor closet on Floor 1 can be kicked open.)'));
+        consider(p.x,p.z,d.f,T('l_boarded'),()=>toast(T('t_need_crowbar2')));
       }
     }else{
-      consider(p.x,p.z,d.f,d.open?'Close door':'Open door',()=>d.use());
+      consider(p.x,p.z,d.f,d.open?T('l_close'):T('l_open'),()=>d.use());
     }
   }
   for(const gt of world.gates){
     const p=gt.g.position;
     if(gt.locked&&gt.type==='board'){
-      consider(p.x,p.z,gt.f,INV.crowbar?'Pry gate boards (hold)':'Boarded gate — need crowbar',
-        INV.crowbar?null:()=>toast('You need a crowbar.'),
+      consider(p.x,p.z,gt.f,INV.crowbar?T('l_gpry'):T('l_gboarded'),
+        INV.crowbar?null:()=>toast(T('t_need_crowbar')),
         INV.crowbar?()=>gt.breakBoards():null,2.6);
     }else if(!gt.open){
-      consider(p.x,p.z,gt.f,'Try gate',()=>gt.tryOpen());
+      consider(p.x,p.z,gt.f,T('l_gate'),()=>gt.tryOpen());
     }
   }
   if(world.terminal&&player.floor===world.terminal.f){
-    consider(world.terminal.x,world.terminal.z,player.floor,G.flags.power?'Use CCTV terminal':'CCTV terminal (no power)',()=>{
-      if(!G.flags.power){toast('Dead screen. The generator in this room needs power.');return;}
+    consider(world.terminal.x,world.terminal.z,player.floor,G.flags.power?T('l_cctv'):T('l_cctv_off'),()=>{
+      if(!G.flags.power){toast(T('l_cctv_dead'));return;}
       openCCTV();
     });
   }
@@ -2559,13 +2829,13 @@ function findInteract(){
     const on=bk===world.breakers.main?G.flags.power:G.flags.power2;
     if(on)continue;
     const isMain=bk===world.breakers.main;
-    consider(bk.x,bk.z,bk.f,isMain?'Reset main breaker (hold)':'Reset sub-breaker (hold)',null,()=>{
-      if(isMain){G.flags.power=true;toast('MAIN POWER RESTORED');}
+    consider(bk.x,bk.z,bk.f,isMain?T('l_br1'):T('l_br2'),null,()=>{
+      if(isMain){G.flags.power=true;toast(T('t_power'));}
       else{
         G.flags.power2=true;
         const g15=world.gates.find(g=>g.f===14);
         if(g15){g15.locked=false;g15.setOpen(true);}
-        toast('SUB-BREAKER ON — Floor 15 gate released');
+        toast(T('t_power2'));
       }
       play('clunk',{vol:1});play('rumble',{vol:.8});
       if(bk.mesh)bk.mesh.material.emissiveIntensity=0.15;
@@ -2576,9 +2846,9 @@ function findInteract(){
   }
   if(G.mp)for(const r of net.remotes.values()){
     if(!r.down||r.dead)continue;
-    consider(r.x,r.z,r.floor||0,'Revive '+(r.name||'friend')+' (hold)',null,()=>{
+    consider(r.x,r.z,r.floor||0,T('l_revive',{n:r.name||'friend'}),null,()=>{
       netBroadcast({t:'ev',k:'revived',id:r.id});
-      toast('You helped '+(r.name||'your friend')+' up.');
+      toast(T('t_revived',{n:r.name||'friend'}));
     },3.0);
   }
   return best;
@@ -2600,12 +2870,12 @@ function updateInteract(dt){
       }
       if(inRing>=total){
         extractProg+=dt/8;
-        showPrompt('HOLD POSITION…',false);
+        showPrompt(T('p_hold'),false);
         showBar(extractProg);
         if(extractProg>=1)doVictory();
       }else{
         extractProg=Math.max(0,extractProg-dt);
-        showPrompt('Extraction — waiting for friends ('+inRing+'/'+total+')',false);
+        showPrompt(T('p_wait',{i:inRing,t:total}),false);
         showBar(extractProg);
       }
     }
@@ -2677,7 +2947,7 @@ $('shutterBtn').onclick=()=>{
   const g=world.gates.find(g=>g.f===5);
   if(g){g.locked=false;g.setOpen(true);}
   play('rumble',{vol:1});
-  toast('FLOOR 6 SHUTTER RELEASED');
+  toast(T('t_shutter'));
   updateShutterBtn();questCheck();
   if(G.mp&&!G.host)netSend({t:'ev',k:'shutter'});
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'shutter'});
@@ -2717,7 +2987,7 @@ function drawCCTV(){
   for(let i=0;i<40;i++)x.fillRect(rand(0,W),rand(0,H),rand(20,90),1);
   x.fillStyle='rgba(0,0,0,0.22)';
   for(let yy=0;yy<H;yy+=4)x.fillRect(0,yy,W,2);
-  $('cctvLbl').textContent='CAM '+String(camFloor+1).padStart(2,'0')+' — FLOOR '+(camFloor+1);
+  $('cctvLbl').textContent=T('cctv_cam',{n:String(camFloor+1).padStart(2,'0'),m:camFloor+1});
 }
 
 /* ---------------- events (scripted scares) ---------------- */
@@ -2766,12 +3036,12 @@ function updateEvents(dt){
   if(!hordeDone&&player.floor===11){
     hordeDone=true;
     play('alarm',{vol:1,force:true});setTimeout(()=>play('alarm',{vol:.8,force:true}),2100);
-    toast(MD.jumpscares?'⚠ CONTAINMENT BREACH — FLOOR 12':'🤖 BOT PARADE — FLOOR 12');
+    toast(T(MD.jumpscares?'t_horde':'t_horde_l'));
     for(let i=0;i<(MD.jumpscares?9:7);i++){
       const z=spawnZombie(11+irand(0,1),rand(-20,14),pick([rand(-1,1),rand(3,8),rand(-8,-3)]),'runner',{x0:-22,x1:15,z0:-9,z1:9,door:null});
       z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
     }
-    radio(MD.jumpscares?'GET ABOVE FLOOR 12! DON\'T STOP!':'The bots arranged a surprise parade. Past floor 12, please!');
+    radio(T(MD.jumpscares?'radio_horde':'radio_horde_l'));
   }
   // finale
   if(!finaleDone&&player.floor===CFG.FLOORS){
@@ -2779,7 +3049,7 @@ function updateEvents(dt){
     questCheck();
     play('alarm',{vol:1,force:true});
     setLoop('chopper',0.55);
-    radio('Pilot: green smoke, hold the circle! We\'re coming down — keep them off you!');
+    radio(T('radio_finale'));
     for(let i=0;i<8;i++){
       const a=rand(0,TAU),zx=2+Math.cos(a)*rand(6,12),zz=Math.sin(a)*rand(4,8);
       const z=spawnZombie(CFG.FLOORS,zx,zz,Math.random()<0.5?'runner':'shambler',{x0:-20,x1:20,z0:-8,z1:8,door:null});
@@ -2830,8 +3100,8 @@ function drawRing(){
     if(inten>levels[i]){levels[i]=inten;cols[i]=z.state==='chase'?1:0;}
   }
   // one-time explanations of the ring
-  if(!G.ringTipA){for(let i=0;i<N;i++)if(levels[i]>0){G.ringTipA=1;toast(MD.id==='lite'?'🔵 Colored arc = a bot is active on that side (it works through walls)':'🟠 Orange arc = something is moving on that side (works through walls)');break;}}
-  if(!G.ringTipB){for(let i=0;i<N;i++)if(cols[i]===1){G.ringTipB=1;toast(MD.id==='lite'?'🔵 BRIGHT BLUE arc = the bot is coming straight for you!':'🔴 RED arc = it is CHASING you from that side! RUN.');break;}}
+  if(!G.ringTipA){for(let i=0;i<N;i++)if(levels[i]>0){G.ringTipA=1;toast(T(MD.id==='lite'?'ring_al':'ring_a'));break;}}
+  if(!G.ringTipB){for(let i=0;i<N;i++)if(cols[i]===1){G.ringTipB=1;toast(T(MD.id==='lite'?'ring_bl':'ring_b'));break;}}
   for(let i=0;i<N;i++){
     if(levels[i]<=0.01)continue;
     const a0=i*seg-Math.PI/2-seg*0.38,a1=i*seg-Math.PI/2+seg*0.38;
@@ -2853,7 +3123,7 @@ function addPing(x,z,f,sender){
   scene.add(m);
   pings.push({m,t:6,f});
   play('click',{vol:.5});
-  if(sender)toast('📡 '+(sender||'friend')+' pinged '+(f>=CFG.FLOORS?'the roof':'floor '+(f+1)));
+  if(sender)toast(T('t_ping',{n:sender,f:f>=CFG.FLOORS?T('fl_roof'):T('floor',{n:f+1})}));
 }
 function groundApproxFor(f){return f*CFG.FH;}
 function updatePings(dt){
@@ -2874,14 +3144,12 @@ function doVictory(){
   clearSave();
   play('win',{vol:1,force:true});
   setLoop('drone',0.15);setLoop('tension',0);setLoop('chopper',0.25);
-  $('victory').querySelector('p').textContent=MD.id==='lite'
-    ?'The rescue drone whisks you away from Seowon High. The bots wave goodbye. 🤖'
-    :'The helicopter lifts away from Seowon High. You made it.';
+  $('victory').querySelector('p').textContent=MD.id==='lite'?T('vic_pl'):T('vic_p');
   $('vicStats').innerHTML=
-    'Time: <b>'+fmtTime(G.time)+'</b><br>'+
-    (MD.id==='lite'?'Bots bounced: <b>':'Zombies put down: <b>')+G.stats.kills+'</b><br>'+
-    'Times down: <b>'+G.stats.deaths+'</b><br>'+
-    (G.mp?('Squad: <b>'+(1+net.remotes.size)+' survivors</b>'):'Solo escape');
+    T('st_time')+'<b>'+fmtTime(G.time)+'</b><br>'+
+    (MD.id==='lite'?T('st_killsl'):T('st_kills'))+'<b>'+G.stats.kills+'</b><br>'+
+    T('st_down')+'<b>'+G.stats.deaths+'</b><br>'+
+    (G.mp?T('st_squad',{n:1+net.remotes.size}):T('st_solo'));
   $('victory').style.display='flex';
   document.exitPointerLock&&document.exitPointerLock();
   if(G.mp&&!G.host)netSend({t:'ev',k:'vic'});
@@ -2906,12 +3174,12 @@ function menuMsg(t){$('menuMsg').textContent=t;}
 function hostRoom(){
   const code=genCode();
   G.mp=true;G.host=true;G.myId='H';G.myName=getName();
-  menuMsg('Creating room…');
+  menuMsg(T('msg_creating'));
   net.peer=new Peer('zfesc-'+code,{debug:0});
   net.peer.on('open',()=>{net.ready=true;net.code=code;$('lobbyCode').textContent=code;showLobby();});
   net.peer.on('error',e=>{
     if(e.type==='unavailable-id'){try{net.peer.destroy();}catch(_){ } hostRoom();}
-    else if(G.mode!=='playing')menuMsg('Network error: '+e.type+' — check your connection.');
+    else if(G.mode!=='playing')menuMsg(T('msg_neterr',{e:e.type}));
   });
   net.peer.on('connection',con=>{
     net.conns.push(con);
@@ -2924,15 +3192,15 @@ function hostRoom(){
   });
 }
 function joinRoom(code){
-  menuMsg('Connecting to '+code+'…');
+  menuMsg(T('msg_connecting',{c:code}));
   net.peer=new Peer({debug:0});
   net.peer.on('open',()=>{
     const con=net.peer.connect('zfesc-'+code,{reliable:true});
     net.con=con;
-    con.on('open',()=>{con.send({t:'hello',name:G.myName});menuMsg('Connected! Waiting for host…');});
+    con.on('open',()=>{con.send({t:'hello',name:G.myName});menuMsg(T('msg_connected'));});
     con.on('data',d=>onData(d,con));
-    con.on('close',()=>{if(G.mode!=='playing'){menuMsg('Host closed the room.');}else{toast('Disconnected from host.');location.reload();}});
-    setTimeout(()=>{if(!net.ready)menuMsg('Still connecting… PeerJS needs a few seconds.');},6000);
+    con.on('close',()=>{if(G.mode!=='playing'){menuMsg(T('msg_hostclosed'));}else{toast(T('t_disc'));location.reload();}});
+    setTimeout(()=>{if(!net.ready)menuMsg(T('msg_slow'));},6000);
   });
   net.peer.on('error',e=>menuMsg('Network error: '+e.type));
 }
@@ -2948,7 +3216,7 @@ function onData(d,con){
       cards:G.cards,gates:[...G.gatesOpen],taken:[...G.taken],checkpoint:CHECK.floor};
     con.send({t:'welcome',id:cid,snap,names:lobbyNames()});
     refreshLobby();netBroadcast({t:'lobby',names:lobbyNames()});
-    toast((d.name||'A friend')+' joined.');
+    toast(T('t_joined',{n:d.name||'Friend'}));
     return;
   }
   if(d.t==='welcome'){
@@ -3028,12 +3296,12 @@ function onEv(d,from){
     case 'boards':{const dd=world.doors.find(x=>x.id===d.id);if(dd&&dd.boarded)dd.breakBoards();break;}
     case 'gate':{const g=world.gates.find(x=>x.f===d.f);if(g&&!g.open){g.locked=false;g.setOpen(true);G.gatesOpen.add(d.f);questCheck();}break;}
     case 'take':{const it=world.items.find(x=>x.id===d.id);if(it&&!it.taken)netEv(()=>it.take());break;}
-    case 'card':{G.cards[d.c]=true;hudInv();questCheck();toast('A friend found the '+d.c.toUpperCase()+' keycard.');break;}
+    case 'card':{G.cards[d.c]=true;hudInv();questCheck();toast(T('t_friendcard',{c:d.c.toUpperCase()}));break;}
     case 'power':{
-      if(d.sub){G.flags.power2=true;const g=world.gates.find(g=>g.f===14);if(g&&!g.open){g.locked=false;g.setOpen(true);}if(world.breakers.sub&&world.breakers.sub.mesh)world.breakers.sub.mesh.material.emissiveIntensity=0.15;toast('A friend reset the sub-breaker — Floor 15 gate is open.');}
-      else{G.flags.power=true;if(world.breakers.main&&world.breakers.main.mesh)world.breakers.main.mesh.material.emissiveIntensity=0.15;toast('A friend restored MAIN POWER.');}
+      if(d.sub){G.flags.power2=true;const g=world.gates.find(g=>g.f===14);if(g&&!g.open){g.locked=false;g.setOpen(true);}if(world.breakers.sub&&world.breakers.sub.mesh)world.breakers.sub.mesh.material.emissiveIntensity=0.15;toast(T('t_friendpower2'));}
+      else{G.flags.power=true;if(world.breakers.main&&world.breakers.main.mesh)world.breakers.main.mesh.material.emissiveIntensity=0.15;toast(T('t_friendpower'));}
       play('clunk',{vol:.8});questCheck();break;}
-    case 'shutter':{G.flags.shutter6=true;const g=world.gates.find(g=>g.f===5);if(g&&!g.open){g.locked=false;g.setOpen(true);}updateShutterBtn();toast('A friend released the Floor 6 shutter.');break;}
+    case 'shutter':{G.flags.shutter6=true;const g=world.gates.find(g=>g.f===5);if(g&&!g.open){g.locked=false;g.setOpen(true);}updateShutterBtn();toast(T('t_friendshutter'));break;}
     case 'flare':{const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.24,8),MAT.flare));const li=new THREE.PointLight(0xff3300,22,9,1.7);g.add(li);g.position.set(d.x,d.y,d.z);scene.add(g);flares.push({g,li,f:d.f,vx:0,vy:0,vz:0,life:14,fizzT:0.5,x:d.x,z:d.z});break;}
     case 'hit':if(d.id===G.myId)damagePlayer(d.dmg);break;
     case 'down':{const r=net.remotes.get(d.id);if(r){r.down=true;}break;}
@@ -3120,20 +3388,20 @@ function onKey(code){
   if(player.dead)return;
   switch(code){
     case 'KeyF':
-      if(!INV.flashlight){toast('No flashlight yet — check the reception desk, Floor 1.');break;}
-      if(player.battery<=0){toast('Battery is dead.');break;}
+      if(!INV.flashlight){toast(T('t_notorch'));break;}
+      if(player.battery<=0){toast(T('t_batdead'));break;}
       player.on=!player.on;play('click',{vol:.6});hudStats();break;
     case 'KeyG':throwFlare();break;
     case 'KeyH':
       if(player.down||player.dead)break;
       if(INV.medkit>0&&player.hp<100){INV.medkit--;player.hp=Math.min(100,player.hp+60);play('paper',{vol:.7});toast('Medkit used (+60 HP)');hudInv();hudStats();}
-      else if(INV.medkit<=0)toast('No medkits.');break;
+      else if(INV.medkit<=0)toast(T('t_nomedi'));break;
     case 'KeyC':player.crouch=!player.crouch;break;
     case 'KeyV':player.third=!player.third;break;
-    case 'Digit1':case 'Numpad1':player.weapon='melee';toast('Crowbar out.');break;
+    case 'Digit1':case 'Numpad1':player.weapon='melee';toast(T('t_w_melee'));break;
     case 'Digit2':case 'Numpad2':
-      if(INV.pistol){player.weapon='pistol';toast('Pistol out — '+INV.ammo+' rounds.');}
-      else toast('No pistol yet — the security guard left one in the CCTV office (Floor 2).');
+      if(INV.pistol){player.weapon='pistol';toast(T('t_w_pistol',{n:INV.ammo}));}
+      else toast(T('t_nopistol'));
       break;
     case 'Tab':toggleGoals(true);break;
     case 'KeyQ':{
@@ -3164,25 +3432,20 @@ function refreshLobby(){
   for(const n of lobbyNames()){const d=document.createElement('div');d.textContent=n;list.appendChild(d);}
   const b=$('btnStart');
   b.disabled=false;
-  b.textContent=net.remotes.size?'Start escape ('+(net.remotes.size+1)+' survivors)':'Start solo anyway';
+  b.textContent=net.remotes.size?T('lb_startn',{n:net.remotes.size+1}):T('lb_start0');
 }
 function refreshLobbyFrom(names){
   const list=$('lobbyList');list.innerHTML='';
   for(const n of names||[]){const d=document.createElement('div');d.textContent=n;list.appendChild(d);}
   const b=$('btnStart');
-  b.disabled=true;b.textContent='Waiting for host…';
+  b.disabled=true;b.textContent=T('lb_wait');
 }
 function showPrologue(){
   $('menu').style.display='none';$('lobby').style.display='none';
   $('prologue').style.display='flex';
   const lite=G.gameMode==='lite';
   $('prologue').style.background=lite?'#0e1a12':'#000';
-  $('storyTxt').innerHTML=lite?(G.mp?
-    'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. Find your friends. <em>Say excuse me.</em>':
-    'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. <em>Say excuse me.</em>'):
-    (G.mp?
-    'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You and your friends got split in the dark. Ji-woo is on the radio: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Find each other. <em>Don\'t stop moving.</em>':
-    'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You are alone. Ji-woo is on the radio from somewhere above: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Scavenge what you can. <em>Don\'t stop moving.</em>');
+  $('storyTxt').innerHTML=lite?(G.mp?T('pro_lm'):T('pro_ls')):(G.mp?T('pro_sm'):T('pro_ss'));
   $('prologueGo').onclick=()=>{
     $('prologue').style.display='none';
     if(!NOLOCK)lockPointer();   // capture the mouse while the click gesture is fresh
@@ -3231,11 +3494,9 @@ function beginGame(cont){
   hudInv();hudStats();questCheck();
   setLoop('drone',MD.id==='lite'?0.25:0.5);
   if(cont){
-    setTimeout(()=>radio(MD.id==='lite'?'Back in the tower! The bots saved your spot in the queue.':'Back in the tower. The stairwell remembers you.'),1500);
+    setTimeout(()=>radio(T(MD.id==='lite'?'radio_cont_l':'radio_cont')),1500);
   }else{
-    setTimeout(()=>radio(MD.id==='lite'
-      ?'The stairwell is the only way up. The bots followed paint footprints everywhere — cute, but watch the ring.'
-      :'The stairwell is the only way up. Watch the blood on the floors — it marks where they nest.'),2500);
+    setTimeout(()=>radio(T(MD.id==='lite'?'radio_intro_l':'radio_intro')),2500);
   }
 }
 function showPause(b){
@@ -3305,7 +3566,7 @@ function toggleGoals(show){
   QUEST.forEach((q,i)=>{
     if(i>=QUEST.length-1)return;
     const cls=i<qi?'done':(i===qi?'cur':'');
-    html+='<div class="q '+cls+'">'+(i<qi?'✔ ':'· ')+q.txt+'</div>';
+    html+='<div class="q '+cls+'">'+(i<qi?'✔ ':'· ')+T(q.k)+'</div>';
   });
   $('goalsList').innerHTML=html;
   el.style.display='block';
@@ -3323,20 +3584,56 @@ function setSelMode(m){
   try{localStorage.setItem('zf_mode',m);}catch(e){}
   $('modeScary').classList.toggle('on',m==='scary');
   $('modeLite').classList.toggle('on',m==='lite');
-  document.querySelector('#menu .sub').textContent=m==='lite'
-    ?'Seowon High School · Helper-Bot Mischief Day'
-    :'Seowon High School · Outbreak Night';
+  document.querySelector('#menu .sub').textContent=T(m==='lite'?'sub_lite':'sub_scary');
 }
 $('modeScary').onclick=()=>setSelMode('scary');
 $('modeLite').onclick=()=>setSelMode('lite');
 setSelMode(G.selMode);
+function resetWorld(){
+  for(const g of world.levels)if(g.parent)g.parent.remove(g);
+  for(const f of flares){if(f.g.parent)f.g.parent.remove(f.g);}
+  flares.length=0;
+  for(const b of bursts){if(b.sp.parent)b.sp.parent.remove(b.sp);}
+  bursts.length=0;
+  world.cols=Array.from({length:CFG.FLOORS+1},()=>[]);
+  world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];
+  world.furn=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
+  world.roomDoor={};world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
+  world.clouds=null;world.built=false;
+  ZID=0;ITEM_N=0;
+  if(dust){scene.remove(dust);dust=null;}
+}
+function setLang(l){
+  LANG=l;
+  try{localStorage.setItem('zf_lang',l);}catch(e){}
+  if(G.mode==='playing'&&world.built){
+    const y=player.pos.y;
+    let sv=null;
+    if(!G.mp){saveGame();sv=loadSave();}
+    if(G.mp){toast(l==='zh'?'联机中无法切换语言（请重开房间）':'Cannot change language mid-co-op — restart the room.');applyLang();return;}
+    resetWorld();
+    startWorld(MD.id);
+    if(sv)applySave(sv);
+    player.pos.y=y;player.vy=0;
+    player.floor=clamp(Math.round(y/CFG.FH),0,CFG.FLOORS);
+    for(let i=0;i<world.levels.length;i++)world.levels[i].visible=(Math.abs(i-player.floor)<=1);
+    if(world.roofGroup)world.roofGroup.visible=(player.floor>=CFG.FLOORS-1);
+    onFloorChange(player.floor);
+    hudInv();hudStats();questCheck();
+    toast(l==='zh'?'语言已切换：中文':'Language switched: English');
+  }
+  applyLang();
+}
+$('langEn').onclick=()=>setLang('en');
+$('langZh').onclick=()=>setLang('zh');
+applyLang();
 /* continue-run button + touch warning */
 (function(){
   const s=loadSave();
   const b=$('btnContinue');
   if(s){
     b.classList.remove('hidden');
-    b.textContent='CONTINUE — FLOOR '+((s.checkpoint|0)+1)+' · '+(s.mode==='lite'?'DAYLIGHT':'NIGHTMARE');
+    b.textContent=T('cont',{n:(s.checkpoint|0)+1,m:T(s.mode==='lite'?'mode_lite':'mode_scary')});
   }
   b.onclick=()=>{
     const sv=loadSave();if(!sv)return;
@@ -3344,14 +3641,14 @@ setSelMode(G.selMode);
     if(!NOLOCK)lockPointer();
     bootRun(sv.mode||'scary',true);
   };
-  if(window.matchMedia&&!window.matchMedia('(pointer:fine)').matches)menuMsg('⚠ This game needs a keyboard and mouse.');
+  if(window.matchMedia&&!window.matchMedia('(pointer:fine)').matches)menuMsg(T('msg_kbm'));
 })();
 $('btnSolo').onclick=()=>{G.mp=false;G.host=true;G.gameMode=G.selMode;G.myName=getName();showPrologue();};
 $('btnHost').onclick=()=>{G.myName=getName();G.gameMode=G.selMode;hostRoom();};
 $('btnJoin').onclick=()=>$('joinRow').classList.toggle('hidden');
 $('btnConnect').onclick=()=>{
   const c=$('codeIn').value.trim().toUpperCase();
-  if(c.length<3){menuMsg('Enter the room code your friend shared.');return;}
+  if(c.length<3){menuMsg(T('msg_entercode'));return;}
   G.myName=getName();G.mp=true;G.host=false;joinRoom(c);
 };
 $('btnStart').onclick=()=>{
@@ -3368,7 +3665,7 @@ $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;
   if(navigator.clipboard)navigator.clipboard.writeText(c).then(()=>menuMsg&&0);
-  $('lobbyCode').textContent='COPIED!';
+  $('lobbyCode').textContent=T('lb_copied');
   setTimeout(()=>$('lobbyCode').textContent=net.code,700);
 };
 $('sensR').oninput=e=>{SET.sens=e.target.value/100;saveSet();};

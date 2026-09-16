@@ -104,6 +104,7 @@ function check(name,cond,info=''){
 const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
 
 (async()=>{
+  if(process.env.ZH)localStorage.setItem('zf_lang','zh');
   await import('./game.mjs'); // module registers handlers on our stubs and queues its first frame
   const before=process.argv[2]==='lite';
   // select mode card + click through the real UI
@@ -177,6 +178,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   check('found a normal door',!!door);
   if(door){
     const dp=g.doorPoint(door);
+    for(const it of world.items){ if(!it.taken&&Math.abs(it.f-player.floor)===0&&Math.hypot(it.g.position.x-dp.x,it.g.position.z-dp.z)<3){it.taken=true;it.g.visible=false;} }
     player.pos.set(dp.x+1.2,player.floor*CFG.FH+0.05,dp.z);
     player.yaw=Math.atan2(-(dp.x-player.pos.x),-(dp.z-player.pos.z)); // face door: forward=(-sin,-cos)
     let transitions=0,last=door.open;
@@ -251,6 +253,19 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     }
   }
   check('2000-frame random chaos: no NaN, no out-of-bounds',chaosOk);
+
+  /* --- i18n end-to-end: the objective text is rendered in the selected language --- */
+  {
+    const objTxt=el('obj').textContent||'';
+    const cjk=/[一-鿿]/.test(objTxt);
+    if(process.env.ZH)check('objective text rendered in Chinese',cjk&&objTxt.length>4,JSON.stringify(objTxt.slice(0,26)));
+    else check('objective text rendered in English',objTxt.length>8&&!cjk,JSON.stringify(objTxt.slice(0,32)));
+    const floorTxt=el('floorLbl').textContent||'';
+    if(process.env.ZH)check('floor label rendered in Chinese',/[一-鿿]/.test(floorTxt),JSON.stringify(floorTxt));
+    else check('floor label rendered in English',/FLOOR/i.test(floorTxt),JSON.stringify(floorTxt));
+    const hintTxt=el('hintKey').innerHTML||'';
+    check('HUD hint text populated',hintTxt.length>20,String(hintTxt.length)+' chars');
+  }
 
   /* --- furniture never intersects walls (the reported clipping) --- */
   let furnBad=0,furnN=0;

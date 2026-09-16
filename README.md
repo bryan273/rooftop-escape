@@ -4,6 +4,10 @@
 
 A 3D first-person zombie survival escape game in **one single HTML file**. Inspired by *All of Us Are Dead* + PUBG-style audio indicators + escape-room puzzles.
 
+## 🌐 Languages
+
+**English / 简体中文** — switch with the **EN / 中文** buttons at the top of the menu. Everything is translated: menu, tutorial, story, radio dialogue, objectives, HUD labels, room names, wall signs, notes, all toasts, death/victory screens. The choice is remembered, and switching language mid-run rebuilds the world in place (keeping your progress).
+
 ## 🎭 Two game modes
 
 | | 🧟 **NIGHTMARE** | 🤖 **DAYLIGHT DRILL** |
