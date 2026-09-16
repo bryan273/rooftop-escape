@@ -1382,6 +1382,24 @@ function boxHitsKeepClear(f,x,z,sx,sz){
   }
   return false;
 }
+/* Corridor/room dressing is built before some doors exist, so sweep at the end of each floor:
+   anything that crowds a doorway approach is evicted (it would seal the room off). */
+function pruneDoorBlockers(f){
+  if(!world.keep)return;
+  let removed=0;
+  for(const c of world.cols[f]){
+    if(!c.deco||c.off)continue;
+    for(const k of world.keep){
+      if(k.f!==f)continue;
+      if(c.x1>k.x0-0.45&&c.x0<k.x1+0.45&&c.z1>k.z0-0.45&&c.z0<k.z1+0.45){
+        c.off=true;removed++;
+        if(c.mesh&&c.mesh.parent)c.mesh.parent.remove(c.mesh);
+        break;
+      }
+    }
+  }
+  return removed;
+}
 /* remove any furniture that ended up intersecting a wall (special rooms add walls late) */
 function pruneFurniture(){
   if(!world.furn)return;
@@ -1553,7 +1571,8 @@ function buildFloor(f){
   if(Math.random()<(LITE?0.8:0.55)){
     let vx=rand(-19,10),vt=0;
     while(boxHitsKeepClear(f,vx,-1.15,1.0,0.8)&&vt++<8)vx=rand(-19,10);
-    if(vt<8)addBox(f,vx,y+0.9,-1.15,0.9,1.8,0.68,MAT.metal,{cast:false});
+    if(vt<8){const vm=addBox(f,vx,y+0.9,-1.15,0.9,1.8,0.68,MAT.metal,{cast:false});
+      const vc=world.cols[f][world.cols[f].length-1];vc.deco=true;vc.mesh=vm;}
     const vf=new THREE.Mesh(new THREE.PlaneGeometry(0.62,1.3),new THREE.MeshStandardMaterial({color:0x0a1428,emissive:MD.vendE,emissiveIntensity:MD.vendI}));
     vf.position.set(vx,y+1.08,-0.8);L.add(vf);
     signOn(f,vx,y+2.05,-0.78,0,TEX.sign(T('sg_drinks'),'#0a1428','#7ac8ff'),0.8,0.22);
@@ -1562,7 +1581,8 @@ function buildFloor(f){
     let cx2=rand(-16,8),ct=0;
     while(boxHitsKeepClear(f,cx2,1.28,0.5,0.5)&&ct++<8)cx2=rand(-16,8);
     if(ct>=8)cx2=null;
-    if(cx2!==null)addBox(f,cx2,y+0.55,1.28,0.42,1.1,0.42,MAT.metal,{cast:false});
+    if(cx2!==null){const wm=addBox(f,cx2,y+0.55,1.28,0.42,1.1,0.42,MAT.metal,{cast:false});
+      const wc=world.cols[f][world.cols[f].length-1];wc.deco=true;wc.mesh=wm;}
     if(cx2!==null){const jug=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.4,10),new THREE.MeshStandardMaterial({color:0x9fc8e8,transparent:true,opacity:0.6,emissive:0x3a6a8a,emissiveIntensity:.4}));
     jug.position.set(cx2,y+1.3,1.28);L.add(jug);}
   }
@@ -1622,8 +1642,17 @@ function buildFloor(f){
       signOn(f,dx,y+2.5,sz,r.z0>0?Math.PI:0,TEX.sign(names[layout.rooms.length%names.length],'#15151a','#b9b1a4'),1.7,0.34);
     }
     if(r.x1-r.x0>10&&Math.random()<0.5){ // internal partition for maze feel
-      const px=rand(r.x0+4,r.x1-4);
-      addWall(f,px,r.z0,px,(r.z0+r.z1)/2+rand(0,2));
+      // never let the partition land in a doorway (it would split the gap and seal the room)
+      const zBack=r.z0>0?r.z1:r.z0;
+      let px=null;
+      for(let t=0;t<12;t++){
+        const cand=rand(r.x0+4,r.x1-4);
+        if(doorXs.every(dx=>Math.abs(cand-dx)>1.5)){px=cand;break;}
+      }
+      if(px!==null){
+        const zEnd=(r.z0+zBack)/2+(r.z0>0?rand(0,2):-rand(0,2));
+        addWall(f,px,r.z0,px,zEnd);
+      }
     }
     // windows on the outer wall (night glow / daylight)
     const outerZ=r.z0>0?10:-10;
@@ -1680,6 +1709,7 @@ function buildFloor(f){
   if(f===8){new Pickup('card-green',8,-6,y+0.09,6,{id:'story-card-green'});signOn(8,-3,y+2.5,1.46,Math.PI,TEX.sign(T('sg_records'),'#101020','#59ff7a'),2,0.44);}  if(f===14){new Pickup('card-yellow',14,12,y+0.09,5,{id:'story-card-yellow'});signOn(14,12,y+2.5,1.46,Math.PI,TEX.sign(T('sg_infir'),'#101020','#59ff7a'),2,0.44);}
   if(f===19)specialTop(L,y);
   pruneFurniture();
+  pruneDoorBlockers(f);
 }
 
 /* ---------- special rooms ---------- */
@@ -3848,7 +3878,7 @@ function loop(){
 init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,
-  getMD:()=>MD,startWorld,beginGame,saveGame,loadSave,applySave,questCheck,
+  getMD:()=>MD,startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null};
 </script>
 </body>

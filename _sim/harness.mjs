@@ -331,7 +331,38 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
           if(x<r.x0+0.7||x>r.x1-0.7||z<Math.min(r.z0,r.z1)+0.7||z>Math.max(r.z0,r.z1)-0.7)continue;
           if(at(x,z)){any=true;break;}
         }
-        if(!any)problems.push(`F${f}:room@${r.x0}`);
+        if(!any){
+          problems.push(`F${f}:room@${r.x0}`);
+          if(process.env.DUMP){
+            const frontZ=r.z0>0?r.z0:r.z1;
+            const dsel=world.doors.filter(d=>d.f===f&&Math.abs(d.g.position.z-frontZ)<0.4&&d.g.position.x>r.x0-1&&d.g.position.x<r.x1+1);
+            console.log(`   DUMP F${f} room x[${r.x0},${r.x1}] z[${Math.min(r.z0,r.z1)},${Math.max(r.z0,r.z1)}] frontZ=${frontZ}`);
+            for(const d of dsel)console.log(`     door ${d.id} hinge=${d.g.position.x.toFixed(2)} open=${d.open} boarded=${d.boarded} col=x[${d.col.x0.toFixed(2)},${d.col.x1.toFixed(2)}] z[${d.col.z0.toFixed(2)},${d.col.z1.toFixed(2)}]`);
+            const dcx=dsel.length?dsel[0].g.position.x+0.8:(r.x0+r.x1)/2;
+            console.log(`     map around x=${dcx.toFixed(1)} (rows: corridor -> room), . = reachable, f = free-but-unreachable, # = blocked`);
+            for(let dz=-2.0;dz<=2.0;dz+=0.5){
+              let row='       z='+(frontZ+dz).toFixed(1).padStart(6)+' ';
+              for(let dx=-2.0;dx<=2.0;dx+=0.5){
+                const x=dcx+dx,z=frontZ+dz;
+                const ix=Math.round((x-X0)/STEP),iz=Math.round((z-Z0)/STEP);
+                const inB=ix>=0&&iz>=0&&ix<NX&&iz<NZ;
+                row+= !inB?'?':(!free[idx(ix,iz)]?'#':(seen[idx(ix,iz)]?'.':'f'));
+              }
+              console.log(row);
+            }
+            console.log('       x offset  '+[-2,-1.5,-1,-0.5,0,0.5,1,1.5,2].map(v=>v.toFixed(1)).join(' '));
+            console.log('     colliders overlapping the doorway band:');
+            for(const ff of [f-1,f,f+1]){
+              if(ff<0||ff>CFG.FLOORS)continue;
+              for(const c of world.cols[ff]){
+                if(c.off)continue;
+                if(c.x1<dcx-2.2||c.x0>dcx+2.2)continue;
+                if(c.z1<frontZ-0.45||c.z0>frontZ+0.45)continue;
+                console.log(`       F${ff} x[${c.x0.toFixed(2)},${c.x1.toFixed(2)}] z[${c.z0.toFixed(2)},${c.z1.toFixed(2)}] y[${c.y0.toFixed(2)},${c.y1.toFixed(2)}] wall=${!!c.wall} los=${c.los}`);
+              }
+            }
+          }
+        }
       }
     }
     check('flood fill: corridor/lane/tower connected and no room sealed off',problems.length===0,problems.slice(0,6).join(' '));
