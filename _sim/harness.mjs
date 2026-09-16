@@ -378,6 +378,37 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     check(`tool sets for ${process.env.MP?'co-op':'solo'}: flashlights=${flash} crowbars=${crow} pistols=${pist}`,flash===want&&crow===want&&pist===want,`expected ${want} each`);
   }
 
+  /* --- objective waypoint guides the player to the stairs --- */
+  {
+    g.setQuest(0);player.floor=0;
+    let t=g.questTarget();
+    const sameFloor=!!t&&!t.up;
+    g.setQuest(2); player.floor=0;
+    t=g.questTarget();
+    const upOK=!!t&&t.up===true&&t.floor===1&&Math.abs(t.x-16.8)<0.01;
+    player.floor=1;
+    t=g.questTarget();
+    const localOK=!!t&&!t.up&&Math.abs(t.x-(-4.0))<0.01;
+    const wpTxt=el('wpText').textContent||'';
+    const wpShown=(el('wpText').style.display||'')!=='none';
+    check('waypoint: same-floor target / stair hint from below / local target when on the floor',
+      sameFloor&&upOK&&localOK,`same=${sameFloor} up=${upOK} local=${localOK}`);
+    check('waypoint text tells you to take the stairs',wpShown&&/[Ss][Tt][Aa][Ii][Rr]/.test(wpTxt),JSON.stringify(wpTxt));
+    // exact direction maths: target dead ahead -> rel 0; 90 deg to the right -> rel -pi/2
+    g.setQuest(2);                      // CCTV room on floor 1, at (-4.0,-5.6)
+    player.floor=1;player.pos.set(-4.0,1*CFG.FH+0.05,-2.0);player.yaw=0;   // facing -Z, target straight ahead
+    let wd=g.waypointDir();
+    const ahead=!!wd&&Math.abs(wd.rel)<0.01;
+    player.pos.set(14.6,1*CFG.FH+0.05,-5.6);player.yaw=0;                   // target now 90 deg to the left
+    wd=g.waypointDir();
+    const left=!!wd&&Math.abs(Math.abs(wd.rel)-Math.PI/2)<0.02;
+    check('waypoint direction maths (ahead = 0 rad, side = 90 deg)',ahead&&left,
+      `ahead=${ahead} side=${left} rel=${wd?wd.rel.toFixed(3):'-'}`);
+    g.setQuest(19);player.floor=CFG.FLOORS-1;t=g.questTarget();
+    check('waypoint: final objective points at the roof level',!!t&&t.floor===CFG.FLOORS,JSON.stringify(t));
+    g.setQuest(0);player.floor=0;
+  }
+
   /* --- furniture never intersects walls (the reported clipping) --- */
   let furnBad=0,furnN=0;
   for(const b of (world.furn||[])){

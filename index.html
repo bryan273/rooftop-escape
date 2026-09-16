@@ -106,6 +106,8 @@
   #xh{position:fixed;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;
     background:rgba(255,255,255,.75);box-shadow:0 0 4px #000}
   #ring{position:fixed;left:50%;top:50%;width:280px;height:280px;margin:-140px;pointer-events:none}
+  #wpText{position:fixed;left:50%;top:calc(50% + 118px);transform:translateX(-50%);z-index:21;pointer-events:none;
+    font-size:13px;letter-spacing:2px;color:#ffcf7a;text-shadow:0 2px 5px #000;white-space:nowrap;display:none}
   #bars{position:fixed;left:22px;bottom:20px;width:230px}
   .bar{height:9px;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.22);margin-top:6px;position:relative}
   .bar .fill{position:absolute;inset:1px;transform-origin:left;background:var(--green)}
@@ -202,6 +204,7 @@
 <!-- HUD -->
 <div id="hud" class="layer">
   <div id="xh"></div>
+  <div id="wpText"></div>
   <canvas id="ring" width="280" height="280"></canvas>
   <div id="topL">
     <div id="floorLbl">FLOOR 1 — ENTRANCE</div>
@@ -507,7 +510,7 @@ en:{
  g_locked:'Locked. Requires the {c} keycard.',g_accept:'{c} keycard accepted.',
  g_shutter1:'Security shutter. No power — find the generator (Floor 2).',g_shutter2:'Powered. Release it from the CCTV terminal (Floor 2).',
  g_power:'Magnetic lock engaged. Reset the breaker on Floor 11.',
- sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_stairs_to:'STAIRS ➜',wp_up:'⬆ STAIRS — up to FLOOR {n}',wp_down:'⬇ STAIRS — back down to FLOOR {n}',wp_here:'OBJECTIVE · {d} m',radio_stairs:'The stairwell is the tower at the EAST end of the hall — walk through the archway. Follow the green arrows on the floor.',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_records:'RECORDS',sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_elev:'ELEVATOR — OUT OF ORDER',
  fl_roof:'ROOF',fl_floor:'F{n}',
@@ -621,7 +624,7 @@ zh:{
  g_locked:'已上锁。需要{c}钥匙卡。',g_accept:'{c}钥匙卡已验证。',
  g_shutter1:'安全卷帘门。没有电力——去2层找发电机。',g_shutter2:'已通电。请在2层监控终端解除。',
  g_power:'电磁锁锁定。请重置11层的断路器。',
- sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_stairs_to:'楼梯 ➜',wp_up:'⬆ 上楼 — 前往第 {n} 层',wp_down:'⬇ 下楼 — 返回第 {n} 层',wp_here:'目标 · {d} 米',radio_stairs:'楼梯间在大厅最东边的塔楼里——穿过拱门。跟着地上的绿色箭头走。',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
  sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_records:'档案室',sg_infir:'医务室',sg_roof:'天台通道',sg_elev:'电梯 — 停用',
  fl_roof:'天台',fl_floor:'{n}层',
@@ -1073,6 +1076,11 @@ function buildMaterials(){
     dark:new THREE.MeshStandardMaterial({color:0x17181c,roughness:.9}),
     glass:new THREE.MeshStandardMaterial({color:0x0a1018,roughness:.15,metalness:.8,emissive:0x0a1420,emissiveIntensity:.6}),
     board:new THREE.MeshStandardMaterial({map:texOf(TEX.board,1,1),transparent:true,roughness:.9}),
+    arrow:new THREE.MeshBasicMaterial({color:0x2fbf5f,transparent:true,opacity:0.5,map:new THREE.CanvasTexture(makeCanvas(64,128,(x,w,h)=>{
+      x.clearRect(0,0,w,h);x.fillStyle='#fff';
+      x.beginPath();x.moveTo(w/2,4);x.lineTo(w-8,h*0.55);x.lineTo(w*0.68,h*0.55);x.lineTo(w*0.68,h-4);
+      x.lineTo(w*0.32,h-4);x.lineTo(w*0.32,h*0.55);x.lineTo(8,h*0.55);x.closePath();x.fill();
+    })),depthWrite:false}),
     blood:TEX.blood.map(c=>new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(c),transparent:true,roughness:.4,color:0xffffff,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})),
     posters:TEX.posters.map(c=>new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(c),roughness:.9})),
     lamp:new THREE.MeshStandardMaterial({color:0x222222,emissive:0xfff2cc,emissiveIntensity:MD.id==='lite'?2.4:1.6}),
@@ -1590,6 +1598,15 @@ function buildFloor(f){
     const pp=new THREE.Mesh(new THREE.PlaneGeometry(0.24,0.34),new THREE.MeshStandardMaterial({color:0xcfcabb,roughness:1}));
     pp.rotation.x=-Math.PI/2;pp.rotation.z=rand(0,TAU);
     pp.position.set(rand(-22,14),y+0.015,rand(-1.4,1.4));L.add(pp);
+  }
+  // wayfinding: painted floor arrows + "STAIRS ➜" wall signs pointing to the tower
+  for(const ax of [-18,-10,-2,6,12]){
+    const ar=new THREE.Mesh(new THREE.PlaneGeometry(0.8,1.4),MAT.arrow);
+    ar.rotation.x=-Math.PI/2;ar.rotation.z=Math.PI/2;   // point east (+x)
+    ar.position.set(ax,y+0.02,0);L.add(ar);
+  }
+  for(const sx of [-20,-12,-4,4,11]){
+    signOn(f,sx,y+2.15,1.46,Math.PI,TEX.sign(T('sg_stairs_to'),'#06180a','#59ff7a'),1.7,0.34);
   }
   // elevator (deco) on the east corridor wall — occasionally dings…
   for(const ez of [-2.05,2.05]){
@@ -2843,6 +2860,34 @@ const QUEST=[
   {k:'q18',done:()=>player.floor>=20||G.flags.finale},
   {k:'q19',done:()=>G.flags.victory},
 ];
+/* where the current objective lives (x,z,floor). Stairs/roof handled by the resolver below. */
+const QUEST_POS=[
+  {x:-22.6,z:1.15,f:0},{x:14.6,z:-8.6,f:0},{x:-4.0,z:-5.6,f:1},{x:-4.4,z:-4.0,f:1},
+  {x:17.6,z:1.2,f:2},{x:0.8,z:-8.8,f:1},{x:-5.0,z:-4.2,f:1},{x:17.6,z:1.2,f:5},
+  {x:-21,z:-8,f:5},{x:17.6,z:1.2,f:7},{x:-6,z:6,f:8},{x:17.6,z:1.2,f:10},
+  {x:17.6,z:1.2,f:12},{x:9,z:-8.9,f:10},{x:17.6,z:1.2,f:14},{x:12,z:5,f:14},
+  {x:17.6,z:1.2,f:16},{x:17.6,z:1.2,f:18},{x:16.8,z:1.2,f:19},{x:2,z:3.5,f:CFG.FLOORS},
+];
+/* Angle from the player's facing to the current objective (0 = straight ahead, +right). */
+function waypointDir(){
+  const qt=questTarget();
+  if(!qt)return null;
+  const dx=qt.x-player.pos.x,dz=qt.z-player.pos.z;
+  const d=Math.hypot(dx,dz);
+  if(d<0.6)return null;
+  const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+  const dot=(fx*dx+fz*dz)/d,cross=fx*dz-fz*dx;
+  return {rel:Math.atan2(cross,dot),dist:d,up:!!qt.up,down:!!qt.down,floor:qt.floor};
+}
+/* Returns the marker to steer toward: the object itself, or the stairwell when it is on a higher floor. */
+function questTarget(){
+  if(G.flags.victory)return null;
+  const q=QUEST_POS[Math.min(qi,QUEST_POS.length-1)];
+  if(!q)return null;
+  if(q.f>player.floor){return {x:16.8,z:1.2,up:true,floor:q.f};}
+  if(q.f<player.floor){return {x:16.8,z:1.2,up:true,floor:q.f,down:true};}
+  return {x:q.x,z:q.z,up:false,floor:q.f};
+}
 let qi=0;
 function questCheck(){
   while(qi<QUEST.length-1&&QUEST[qi].done()){
@@ -2868,6 +2913,7 @@ function onFloorChange(f){
     G.floorsSeen.add(f);
     if(storyLine(f))radio(storyLine(f));
     if(f>=1&&!G.stairTip){G.stairTip=true;setTimeout(()=>showSub(T('hint_stairtop'),5.5),6200);}
+    if(f===0&&!G.wayTip){G.wayTip=true;setTimeout(()=>radio(T('radio_stairs')),3500);}
   }
   scene.fog.density=f>=CFG.FLOORS?(MD.id==='lite'?0.012:0.018):MD.fogD;
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'floor',f});
@@ -3215,6 +3261,33 @@ function drawRing(){
   // one-time explanations of the ring
   if(!G.ringTipA){for(let i=0;i<N;i++)if(levels[i]>0){G.ringTipA=1;toast(T(MD.id==='lite'?'ring_al':'ring_a'));break;}}
   if(!G.ringTipB){for(let i=0;i<N;i++)if(cols[i]===1){G.ringTipB=1;toast(T(MD.id==='lite'?'ring_bl':'ring_b'));break;}}
+  // objective marker (amber chevron) — always shows the way to the current goal
+  const qt=questTarget(),wd=waypointDir();
+  if(qt){
+    const d=wd?wd.dist:0;
+    if(wd){
+      const ang=wd.rel-Math.PI/2;
+      const R2=114,px2=cx+Math.cos(ang)*R2,py2=cy+Math.sin(ang)*R2;
+      ringCtx.save();
+      ringCtx.translate(px2,py2);ringCtx.rotate(ang+Math.PI/2);
+      ringCtx.beginPath();ringCtx.moveTo(0,-11);ringCtx.lineTo(9,7);ringCtx.lineTo(0,3);ringCtx.lineTo(-9,7);ringCtx.closePath();
+      ringCtx.fillStyle=qt.up?'rgba(255,210,63,.95)':'rgba(255,180,90,.85)';
+      ringCtx.strokeStyle='rgba(0,0,0,.75)';ringCtx.lineWidth=2;
+      ringCtx.fill();ringCtx.stroke();
+      ringCtx.restore();
+    }
+    const wp=$('wpText');
+    if(wp){
+      if(qt.up){
+        wp.textContent=T(qt.down?'wp_down':'wp_up',{n:qt.floor+1});
+        wp.style.color=qt.down?'#9fd0ff':'#ffd23f';
+      }else{
+        wp.textContent=T('wp_here',{d:Math.round(d)});
+        wp.style.color='#ffcf7a';
+      }
+      wp.style.display='block';
+    }
+  }else{const wp=$('wpText');if(wp)wp.style.display='none';}
   for(let i=0;i<N;i++){
     if(levels[i]<=0.01)continue;
     const a0=i*seg-Math.PI/2-seg*0.38,a1=i*seg-Math.PI/2+seg*0.38;
@@ -3878,7 +3951,7 @@ function loop(){
 init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,
-  getMD:()=>MD,startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
+  getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null};
 </script>
 </body>
