@@ -10,19 +10,26 @@
     --panel:rgba(8,8,10,.92); --edge:rgba(193,39,45,.55);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none}
-  html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--bone)}
+  /* form controls do NOT inherit fonts by default — force them to match the UI */
+  button,input,select,textarea,optgroup{font-family:inherit;font-size:inherit;letter-spacing:inherit;color:inherit}
+  html,body{width:100%;height:100%;overflow:hidden;color:var(--bone);
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",sans-serif}
+  /* Chinese reads better with tighter tracking */
+  body.zh{letter-spacing:0}
+  body.zh .btn,body.zh h1,body.zh h2,body.zh .sub,body.zh label,body.zh #floorLbl,body.zh #goals h3{letter-spacing:1.5px}
+  body.zh #menu h1{letter-spacing:2px}
   #c{position:fixed;inset:0;display:block;cursor:crosshair}
   .layer{position:fixed;inset:0;z-index:10}
   .hidden{display:none !important}
 
   /* ---------- generic UI ---------- */
-  .btn{display:inline-block;padding:12px 26px;margin:6px;background:linear-gradient(180deg,#1a1a1f,#0c0c0f);
+  .btn{display:inline-block;padding:11px 24px;margin:5px;background:linear-gradient(180deg,#1a1a1f,#0c0c0f);
     border:1px solid #444;border-left:3px solid var(--red);color:var(--bone);font-size:16px;letter-spacing:2px;
     cursor:pointer;transition:all .15s;text-transform:uppercase}
   .btn:hover{background:#2a1214;border-color:var(--red);color:#fff;transform:translateX(3px)}
   .btn.small{padding:7px 14px;font-size:13px;margin:3px}
   .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
-  input[type=text]{background:#0a0a0c;border:1px solid #3a3a40;color:var(--bone);padding:10px 14px;font-size:15px;
+  input[type=text]{background:#0a0a0c;border:1px solid #3a3a40;color:var(--bone);padding:9px 14px;font-size:15px;
     letter-spacing:1px;outline:none;width:230px;text-align:center}
   input[type=text]:focus{border-color:var(--red)}
   input[type=range]{accent-color:var(--red);width:180px}
@@ -33,16 +40,29 @@
     padding:8px 14px;font:13px/1.4 Consolas,monospace;display:none;white-space:pre-wrap;max-height:40%;overflow:auto}
 
   /* ---------- main menu ---------- */
-  #menu{background:radial-gradient(ellipse at 50% 30%,#1a0505 0%,#050505 65%),#000;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:50}
+  #menu{background:radial-gradient(ellipse at 50% 30%,#1a0505 0%,#050505 65%),#000;
+    display:flex;align-items:center;justify-content:flex-start;flex-direction:column;z-index:50;
+    overflow-y:auto;overflow-x:hidden;padding:18px 16px 24px;
+    scrollbar-gutter:stable both-edges;scrollbar-width:thin;scrollbar-color:#4a1418 #0a0a0c}
+  #menu::-webkit-scrollbar{width:8px}
+  #menu::-webkit-scrollbar-track{background:#0a0a0c}
+  #menu::-webkit-scrollbar-thumb{background:#4a1418;border-radius:4px}
+  #menu::-webkit-scrollbar-thumb:hover{background:#7a1f24}
+  #menu>*{flex:0 0 auto}
+  #menuCard{margin-top:auto;margin-bottom:auto}
   #menu::after{content:'';position:absolute;inset:0;pointer-events:none;
     background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 2px,transparent 2px 4px)}
   .modeRow{display:flex;gap:10px;justify-content:center}
-  .modeCard{flex:1;max-width:200px;padding:12px 10px;background:#101014;border:1px solid #333;cursor:pointer;text-align:center;transition:all .15s}
-  .modeCard .em{font-size:30px;line-height:1.1;display:block}
-  .modeCard b{display:block;letter-spacing:2px;margin:6px 0 4px;font-size:12px;color:#ddd}
-  .modeCard span{font-size:10.5px;color:#8b8178;line-height:1.45;display:block}
+  .modeCard{flex:1;max-width:200px;padding:9px 8px;background:#101014;border:1px solid #333;cursor:pointer;text-align:center;transition:all .15s}
+  .modeCard .em{font-size:24px;line-height:1.05;display:block}
+  .modeCard b{display:block;letter-spacing:2px;margin:4px 0 3px;font-size:12px;color:#ddd}
+  .modeCard span{font-size:10px;color:#8b8178;line-height:1.4;display:block}
   .modeCard.on{border-color:var(--red);background:#1c0e10;box-shadow:0 0 18px rgba(193,39,45,.28);transform:translateY(-2px)}
   .modeCard#modeLite.on{border-color:#2e9d54;background:#0e1a12;box-shadow:0 0 18px rgba(63,212,127,.28)}
+  .langRow{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 10px}
+  .langRow span{font-size:10px;letter-spacing:2px;color:#7d7469;text-transform:uppercase}
+  .langRow .btn{margin:0;padding:5px 13px;font-size:12px;letter-spacing:1px;border-left-width:2px}
+  .langRow .btn.on{border-color:var(--red);border-left-color:var(--red);background:#2a1214;color:#fff}
   #btnContinue{border-left-color:#2e7d42}
   /* goals overlay ([Tab]) */
   #goals{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:40;background:rgba(4,5,7,.93);
@@ -53,16 +73,17 @@
   #goals .q.done{color:#4f7a52;text-decoration:line-through}
   #menu .flicker{animation:flick 4s infinite}
   @keyframes flick{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.4}94%{opacity:1}96%{opacity:.6}97%{opacity:1}}
-  #menu h1{font-size:64px;color:#e8e4da;text-shadow:0 0 24px rgba(193,39,45,.8),3px 3px 0 #300}
+  #menu h1{font-size:clamp(34px,5vw,58px);color:#e8e4da;text-shadow:0 0 24px rgba(193,39,45,.8),3px 3px 0 #300;text-align:center}
   #menu h1 span{color:var(--red)}
-  #menu .sub{letter-spacing:6px;color:#9a8f85;margin:6px 0 34px;font-size:14px;text-transform:uppercase}
-  #menuCard{background:var(--panel);border:1px solid #333;border-top:2px solid var(--red);padding:30px 40px;min-width:430px;text-align:center}
-  #menuCard .row{margin:10px 0}
+  #menu .sub{letter-spacing:6px;color:#9a8f85;margin:6px 0 22px;font-size:13px;text-transform:uppercase;text-align:center}
+  #menuCard{background:var(--panel);border:1px solid #333;border-top:2px solid var(--red);padding:18px 30px;
+    width:min(560px,94vw);text-align:center;box-sizing:border-box}
+  #menuCard .row{margin:7px 0}
   #menuCard label{display:block;font-size:11px;letter-spacing:3px;color:#8b8178;margin-bottom:5px;text-transform:uppercase}
   #menuMsg{min-height:22px;color:var(--amber);font-size:13px;margin-top:12px;letter-spacing:1px}
-  #menuHow{max-width:560px;color:#9a938a;font-size:13px;line-height:1.7;text-align:left}
+  #menuHow{color:#9a938a;font-size:12.5px;line-height:1.62;text-align:left;max-height:52vh;overflow-y:auto}
   #menuHow b{color:var(--bone)}
-  .menuTabs{margin-bottom:18px}
+  .menuTabs{margin-bottom:10px}
   .menuTabs .btn{border-left:none;border-bottom:3px solid transparent}
   .menuTabs .btn.on{border-bottom-color:var(--red);color:#fff}
 
@@ -131,7 +152,8 @@
 
   /* ---------- pause ---------- */
   #pause{background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:55;flex-direction:column}
-  #pause .panel{background:var(--panel);border:1px solid #333;border-top:2px solid var(--red);padding:28px 44px;min-width:460px}
+  #pause .panel{background:var(--panel);border:1px solid #333;border-top:2px solid var(--red);padding:24px 44px;
+    width:min(560px,94vw);max-height:92vh;overflow-y:auto}
   #pause h2{font-size:22px;margin-bottom:18px;letter-spacing:5px}
   #pause .opt{margin:14px 0;font-size:14px;color:#b6afa4;display:flex;justify-content:space-between;align-items:center}
   #ctrlList{font-size:13px;line-height:2;color:#a49c90;columns:2;column-gap:44px;margin-top:10px}
@@ -219,9 +241,11 @@
     <div class="menuTabs">
       <button class="btn small on" id="tabPlay">Play</button>
       <button class="btn small" id="tabHow">How to play</button>
-      <span style="float:right">
-        <button class="btn small" id="langEn" style="border-left-color:#666">EN</button><button class="btn small" id="langZh" style="border-left-color:#666">中文</button>
-      </span>
+    </div>
+    <div class="langRow">
+      <span id="lblLang">Language</span>
+      <button class="btn small" id="langEn">English</button>
+      <button class="btn small" id="langZh">中文</button>
     </div>
     <div id="panePlay">
       <div class="row"><label id="lblMode">Game mode</label>
@@ -394,7 +418,7 @@ en:{
  sl14:'Floor 15. The infirmary bot is handing out juice boxes. The yellow card is under the bed.',
  sl20:'THE ROOF! Green smoke, big friendly drone. Hold the circle and wave!',
  sub_scary:'Seowon High School · Outbreak Night',sub_lite:'Seowon High School · Helper-Bot Mischief Day',
- m_modelabel:'GAME MODE',m_namelabel:'YOUR NAME',m_solo:'Solo Escape',m_host:'Host Co-op',m_join:'Join Co-op',m_connect:'Connect',
+ m_modelabel:'GAME MODE',m_namelabel:'YOUR NAME',lbl_lang:'Language',m_solo:'Solo Escape',m_host:'Host Co-op',m_join:'Join Co-op',m_connect:'Connect',
  m_roomcode:'ROOM CODE',tab_play:'Play',tab_how:'How to play',wake:'— CLICK TO WAKE UP —',
  footer:'A fan-made zombie escape · Three.js + WebAudio · free to deploy',
  mode_scary:'NIGHTMARE',mode_lite:'DAYLIGHT DRILL',
@@ -508,7 +532,7 @@ zh:{
  sl14:'15层。医务室机器人在发果汁。黄卡在床底下。',
  sl20:'天台！绿色烟雾，大大的友好无人机。守住圆圈，挥挥手！',
  sub_scary:'书元高中 · 爆发之夜',sub_lite:'书元高中 · 助手机器人捣乱日',
- m_modelabel:'游戏模式',m_namelabel:'你的名字',m_solo:'单人逃生',m_host:'创建联机',m_join:'加入联机',m_connect:'连接',
+ m_modelabel:'游戏模式',m_namelabel:'你的名字',lbl_lang:'语言',m_solo:'单人逃生',m_host:'创建联机',m_join:'加入联机',m_connect:'连接',
  m_roomcode:'房间代码',tab_play:'开始',tab_how:'玩法说明',wake:'— 点击苏醒 —',
  footer:'粉丝自制丧尸逃生游戏 · Three.js + WebAudio · 免费部署',
  mode_scary:'噩梦模式',mode_lite:'日间演习',
@@ -647,9 +671,11 @@ function applyLang(){
     set('lockHint',T('lock_hint'));
     set('lbTitle',T('lb_title'));set('lbHint1',T('lb_share'));set('lbHint2',T('lb_copy'));
     const hk=$('hintKey');if(hk)hk.innerHTML=T('hint');
+    set('lblLang',T('lbl_lang'));
     const he=$('langEn'),hz=$('langZh');
-    if(he)he.style.borderColor=LANG==='en'?'#c1272d':'#666';
-    if(hz)hz.style.borderColor=LANG==='zh'?'#c1272d':'#666';
+    if(he)he.classList.toggle('on',LANG==='en');
+    if(hz)hz.classList.toggle('on',LANG==='zh');
+    if(document.body)document.body.classList.toggle('zh',LANG==='zh');
     hudInv();
   }catch(e){if(typeof console!=='undefined')console.warn('applyLang:',e&&e.message);}
 }
