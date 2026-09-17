@@ -657,7 +657,7 @@ en:{
  elev_dead:'ELEVATOR — NO POWER. Security cut it (Protocol 7). The stairwell at the end of the hall is the only way up.',
  elev_jam:'ELEVATOR — OUT OF ORDER. Something is knocking on the other side of the doors. Don\'t.',
  gw_red:'security room, Floor 2',gw_blue:'Mr. Park, Floor 3',gw_green:'records office',gw_yellow:'Ji-eun, Floor 5',
- t_sneak:'[C] CROUCH to sneak — stay out of the light cones in front of their eyes.',
+ t_sneak:'[C] CROUCH to sneak — slow steps, lights off. They see only what is in front of them.',
  g_locked2:'Locked. It takes the {c} keycard — {where}.',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',
  rb1:'Good, a light. Keep the beam low — they notice it. There\'s a crowbar in the janitor closet, Ground floor.',
  rb2:'Boards pried? The stairwell tower is the only way up. Floor by floor. No elevator.',
@@ -2496,15 +2496,6 @@ function buildHumanoid(opts={}){
       mk(0.295,0.1,0.295,hairM,0,0.16,0.012,parts.head);
       mk(0.295,0.075,0.05,hairM,0,0.105,-0.122,parts.head);
     }
-    // VISION CONE — the light from their eyes IS their sight range. Sneak outside it.
-    const CONE_HALF=0.96; // ~55° each side
-    const coneGeo=new THREE.CircleGeometry(1,20,Math.PI/2-CONE_HALF,CONE_HALF*2);
-    const coneMat=new THREE.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:0.08,depthWrite:false,side:THREE.DoubleSide});
-    const cone=new THREE.Mesh(coneGeo,coneMat);
-    cone.rotation.x=-Math.PI/2;cone.position.y=0.07;
-    if(opts.ztype==='watcher'){coneMat.color.setHex(0xcfe8ff);coneMat.opacity=0.10;}
-    g.add(cone);
-    parts.cone=cone;
   }else if(opts.robot){
     // friendly helper-bot: screen face, round cyan eyes, antenna, chest panel
     parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
@@ -2819,7 +2810,7 @@ class Zombie{
       const inv=1/Math.max(0.001,Math.sqrt(hum.d2));
       const tox=(hum.x-g.position.x)*inv,toz=(hum.z-g.position.z)*inv;
       const facing=(-Math.sin(this.yaw))*tox+(-Math.cos(this.yaw))*toz;
-      const inCone=facing>0.55||d<2.6; // inside the eye-light wedge — or close enough to feel you
+      const inCone=facing>0.55||d<1.6; // inside their facing wedge — or practically touching you
       const seen=(d<sight&&inCone&&losClear(g.position.x,g.position.z,hum.x,hum.z,this.f))||d<1.9;
       if(seen){
         this.state='chase';this.loseT=0;this.lastPX=hum.x;this.lastPZ=hum.z;
@@ -2994,18 +2985,6 @@ class Zombie{
       this.body.armR.rotation.z=reach?-0.3:-0.1;
       this.body.legL.rotation.x=sw*0.55;this.body.legR.rotation.x=-sw*0.55;
       g.rotation.z=sw*0.05;
-    }
-    // vision cone: shows the player EXACTLY what this zombie can see right now
-    if(this.body.cone){
-      const cone=this.body.cone;
-      const eff=this.cfg.sight*(player.crouch?0.55:1)+(player.on?4:0);
-      cone.scale.setScalar(clamp(eff,2,16));
-      cone.visible=active&&sameFloor&&d<26;
-      const cm=cone.material;
-      if(chase){cm.color.setHex(0xff4030);cm.opacity=0.17;}
-      else if(this.state==='investigate'){cm.color.setHex(0xffa040);cm.opacity=0.13;}
-      else{cm.color.setHex(0xffb347);cm.opacity=0.08;}
-      if(active&&sameFloor&&d<12&&!G.coneTip){G.coneTip=true;toast(T('t_sneak'));}
     }
     const hurt=this.hurtT>0?1:0;
     const flashMats=[].concat(this.body.torso.material).concat(this.body.head.material);
@@ -4753,7 +4732,7 @@ function onKey(code){
       if(player.down||player.dead)break;
       if(INV.medkit>0&&player.hp<100){INV.medkit--;player.hp=Math.min(100,player.hp+60);play('paper',{vol:.7});toast('Medkit used (+60 HP)');hudInv();hudStats();}
       else if(INV.medkit<=0)toast(T('t_nomedi'));break;
-    case 'KeyC':player.crouch=!player.crouch;break;
+    case 'KeyC':player.crouch=!player.crouch;if(!G.sneakTip&&player.crouch){G.sneakTip=true;toast(T('t_sneak'));}break;
     case 'KeyV':player.third=!player.third;break;
     case 'Digit1':case 'Numpad1':player.weapon='melee';toast(T('t_w_melee'));break;
     case 'Digit2':case 'Numpad2':
