@@ -36,8 +36,8 @@ Pick a mode on the main menu (remembered for next time). In co-op, **the host's 
 - **Environmental detail**: room windows (night glow / daylight), ceiling pipes, vending machines, water coolers, elevator (permanently out of order… but it dings), posters, scattered papers, dust motes floating in your flashlight beam (Nightmare)
 - **[Tab] objectives overlay** — hold Tab any time to see the full escape plan with your progress
 - **Co-op multiplayer for up to 4 players** (PeerJS — no server needed, room codes)
-- **All sound synthesized live** (Web Audio API): growls/servos, footsteps, stingers, heartbeat, alarms, elevator ding, helicopter — plus spooky reverb in Nightmare
-- Zero assets, zero build step, zero backend. Free to deploy anywhere that serves static files.
+- **Horror soundscape** (Nightmare): a calm sub-bass drone bed, real CC0 zombie voice recordings embedded in the file (moans, snarls, screams, wet feeding — from [OpenGameArt](https://opengameart.org/)), a tension shimmer that swells when something is hunting you, plus synthesized footsteps, heartbeat, stingers, elevator ding, helicopter — with spooky reverb
+- **Zero external assets, zero build step, zero backend.** Every sound is either synthesized live (Web Audio API) or base64-embedded into the single file (`_assets/` holds the CC0 sources + the embed script). Free to deploy anywhere that serves static files.
 
 ---
 
@@ -129,4 +129,4 @@ git push -u origin main
 | Friend can't join | Both sides need normal home internet; strict school/office NATs block WebRTC — try a hotspot. |
 
 ---
-Made with Three.js + Web Audio + PeerJS. Fan-made, non-commercial.
+Made with Three.js + Web Audio + PeerJS. Zombie voice recordings CC0 via OpenGameArt. Fan-made, non-commercial.
