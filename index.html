@@ -3509,8 +3509,8 @@ function updatePlayer(dt,t){
     // your own heartbeat: slow & quiet at rest, hammering in danger
     AUD.heartT-=dt;
     if(AUD.heartT<=0){
-      AUD.heartT=lerp(1.05,0.4,th);
-      play('heart',{vol:0.3+th*0.7,rate:lerp(0.88,1.3,th)});
+      AUD.heartT=lerp(1.1,0.28,Math.pow(th,0.8)); // panic = tempo races (pow<1 ramps speed early), not just louder
+      play('heart',{vol:0.4+th*0.6,rate:lerp(0.9,1.35,th)});
     }
     // breathing: varies with fear and exertion — never a flat loop
     AUD.breathT-=dt;
