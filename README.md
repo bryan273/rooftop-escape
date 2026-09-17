@@ -1,4 +1,4 @@
-# 🧟 ROOFTOP ESCAPE — Outbreak
+A# 🧟 ROOFTOP ESCAPE — Outbreak
 
 > **▶ PLAY IT LIVE: https://bryan273.github.io/rooftop-escape/**
 
@@ -116,6 +116,7 @@ git push -u origin main
 **Vercel** — `npx vercel` in this folder, accept defaults.
 
 **itch.io** — zip `index.html`, upload at https://itch.io/game-new as "HTML — playable in browser", check "this file will be played in the browser".
+
 
 ## 🛠 Troubleshooting
 
