@@ -1266,6 +1266,7 @@ function buildTextures(){
 }
 
 /* ================= AUDIO ================= */
+const HEART_ONLY=true; // heartbeat-only mode: mute every other sound & ambient loop
 const AUD={ctx:null,master:null,loops:{},ready:false,heartT:0,breathT:0.9,threat:0};
 // real heartbeat sample — Mixkit "Slow heartbeat" (mixkit license: free, no attribution),
 // trimmed to a single lub-dub @22.05kHz. Used for play('heart') once decoded; synth heart stays as fallback.
@@ -1403,9 +1404,9 @@ function ensureAudio(){
     const g=ctx.createGain();g.gain.value=vol;s.connect(g);g.connect(AUD.master);s.start();AUD.loops[name]=g;return g;}
   const chop=mk(1.0,(t,p)=>{const rot=(Math.sin(t*13*TAU)*0.5+0.5);const n=ND[Math.floor(t*SR)%noiseBuf.length];
     return (n*rot*0.5+Math.sin(t*41*Math.PI*2)*0.15)*0.8;});
-  loop('chopper',chop,0.0);
+  if(!HEART_ONLY)loop('chopper',chop,0.0);
   // subtle room tone: the building breathes too (ventilation far above)
-  if(MD.jumpscares){
+  if(!HEART_ONLY&&MD.jumpscares){
     const vent=mk(4,(t,p)=>{const n=ND[Math.floor(t*SR*0.22)%ND.length];
       const lfo=0.55+0.45*Math.sin(t*0.45+Math.sin(t*0.13)*2);
       return n*lfo*0.5+Math.sin(t*63*Math.PI*2)*0.014;});
@@ -1422,6 +1423,7 @@ function setVolume(v){SET.vol=v;saveSet();if(AUD.master)AUD.master.gain.value=v;
 /* spatial play: pan+attenuate by camera-relative position */
 const _sv=new THREE.Vector3();
 function play(name,opts={}){
+  if(HEART_ONLY&&name!=='heart')return; // heartbeat-only mode
   if(!AUD.ready||G.mode!=='playing'&&!opts.force)return;
   const ctx=AUD.ctx;let vol=opts.vol??1,pan=0;
   if(opts.pan!==undefined){pan=clamp(opts.pan,-1,1);}          // fixed pan (L/R footfalls)
