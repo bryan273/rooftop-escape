@@ -3510,7 +3510,7 @@ function updatePlayer(dt,t){
     AUD.heartT-=dt;
     if(AUD.heartT<=0){
       AUD.heartT=lerp(1.05,0.4,th);
-      play('heart',{vol:0.05+th*0.5,rate:lerp(0.88,1.3,th)});
+      play('heart',{vol:0.3+th*0.7,rate:lerp(0.88,1.3,th)});
     }
     // breathing: varies with fear and exertion — never a flat loop
     AUD.breathT-=dt;
@@ -3523,7 +3523,7 @@ function updatePlayer(dt,t){
     const threat=nearestThreatDist();
     if((threat<9&&threat>=0)||player.hp<30){
       AUD.heartT-=dt;
-      if(AUD.heartT<=0){AUD.heartT=lerp(0.42,1.1,clamp(threat<0?0:threat/9,0,1));play('heart',{vol:0.28});}
+      if(AUD.heartT<=0){AUD.heartT=lerp(0.42,1.1,clamp(threat<0?0:threat/9,0,1));play('heart',{vol:0.5});}
     }
   }
   updateViewModel(dt,t);
