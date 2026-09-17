@@ -133,6 +133,11 @@
   #missionTag{margin-top:5px;font-size:11px;letter-spacing:3px;color:#ff6b6b;text-shadow:0 1px 3px #000;font-weight:700}
   #obj{margin-top:6px;font-size:14px;line-height:1.5;color:#ffd9a0;text-shadow:0 1px 3px #000;border-left:3px solid var(--red);padding-left:10px}
   #objWhy{margin-top:5px;font-size:12px;line-height:1.55;color:#9a938a;text-shadow:0 1px 3px #000;border-left:3px solid rgba(193,39,45,.35);padding-left:10px;max-width:400px}
+  #missionWindow{margin-top:8px;background:rgba(4,5,7,.72);border:1px solid #333;border-left:3px solid var(--amber);padding:7px 10px 7px 12px;max-width:330px;position:relative}
+  #missionWindow .t{font-size:10px;letter-spacing:2px;color:#8b8178;text-transform:uppercase}
+  #missionWindow .m{font-size:12px;line-height:1.45;color:#ffd9a0;margin-top:2px;padding-right:16px}
+  #missionWindow .x{position:absolute;top:4px;right:7px;cursor:pointer;color:#8b8178;font-size:12px;pointer-events:auto}
+  #missionWindow .x:hover{color:#fff}
   #objBanner{position:fixed;top:15%;left:50%;transform:translateX(-50%);text-align:center;z-index:22;pointer-events:none;opacity:0;transition:opacity .6s}
   #objBanner h2{font-size:26px;letter-spacing:7px;color:#ffd9a0;text-shadow:0 0 20px rgba(193,39,45,.85),0 2px 4px #000}
   #objBanner p{margin-top:8px;font-size:14px;color:#cfc8bb;text-shadow:0 2px 4px #000;max-width:560px}
@@ -239,7 +244,11 @@
     <div id="squad" style="display:none"></div>
     <div id="missionTag"></div>
     <div id="obj"></div>
-    <div id="objWhy"></div>
+    <div id="missionWindow">
+      <span class="x" id="missionX">✕</span>
+      <div class="t" id="mwTag"></div>
+      <div class="m" id="mwTxt"></div>
+    </div>
   </div>
   <div id="hintKey">[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals</div>
   <div id="bars">
@@ -491,7 +500,7 @@ en:{
  lb_startn:'Start escape ({n} survivors)',lb_start0:'Start solo anyway',lb_wait:'Waiting for host…',lb_leave:'Leave',lb_copied:'COPIED!',
  hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'9MM [2]',
  floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',wp_roof:'⬆ STAIRWELL — to the ROOFTOP',
- hint:'[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals',
+ hint:'[E] interact · [F] flashlight · [G] flare · [H] medkit · [C] SNEAK · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals',
  pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
  ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> interact / hold</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1/2</b> crowbar/pistol</div><div><b>V</b> 1st/3rd person</div><div><b>Q</b> ping marker</div><div><b>Tab</b> objectives</div><div><b>Enter</b> chat</div><div><b>Esc</b> pause</div>',
  goals_title:'ESCAPE PLAN',
@@ -524,8 +533,8 @@ en:{
  q2:'Pry the boards off the Floor 2 stairwell gate.',q3:'Reach Floor 2 — find the security room.',
  q_arch:'Use the CCTV terminal — watch the evacuation record.',q4:'Take the RED keycard from the security desk.',
  q5:'Restore main power — generator, security room (Floor 2).',q6:'Unlock the Floor 3 stairwell gate with the red card.',
- q7:'Floor 3: find the survivor. (Follow sounds. Check rooms.)',q8:'Release the Floor 4 shutter from the CCTV terminal.',
- q9:'Get past the Floor 4 shutter.',q10:'THE DARK FLOOR: find the BLUE card (Floor 4, lab prep room).',
+ q7:'Meet Mr. Park — he is looking for YOU on Floor 3.',q8:'Release the Floor 4 shutter from the CCTV terminal.',
+ q9:'Get past the Floor 4 shutter.',q10:'Take the BLUE keycard from Mr. Park.',
  q11:'Reset the utility breaker (Floor 4, electrical room).',q12:'Unlock the Floor 5 gate.',
  q13:'CONTAINMENT BREACH — get above Floor 5.',q14:'Floor 5: find the other survivor.',
  q15:'Take the rooftop access key.',q16:'Unlock the rooftop stairwell gate.',
@@ -578,12 +587,12 @@ en:{
  n6t:'INFIRMARY INTAKE',n6b:'Bite victims don\'t turn for about an hour. That\'s what the sheet says. They took the head nurse down to the Floor 5 lab at her own request. Nobody has written anything since.',
  n7t:'TORN DIARY PAGE',n7b:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to Floor 6 before the shouting started. If anyone reads this — RUN, don\'t count the dead.',
  n8t:'PAINTED ON THE WALL',n8b:'THE ROOF IS THE WAY OUT. THEY HATE THE LIGHT. HOLD AT THE SMOKE AND DON\'T LOOK DOWN THE STAIRWELL.',
- lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW',death_left:'Retries left: {n}',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',l_talk:'Talk to {n}',
+ lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW — [E]',death_left:'Retries left: {n}',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',l_talk:'Talk to {n}',
  npc1_name:'Mr. Park (wounded)',
  npc1_1:'Who\'s there?! Stay back — don\'t come closer. I\'ll swing, I swear I will.',
  npc1_2:'…You\'re alive? A student? God. Okay. Park. I teach biology — my room was on 5, next to the lab. It started THERE.',
  npc1_3:'Where is everyone? Most went upstairs. Some never made it. The ones who hid in the gym went quiet two nights ago.',
- npc1_4:'What\'s upstairs? Dark. Too dark. And there was one that wasn\'t like the others. It didn\'t chase us. It WATCHED us. Take my supplies — I\'m not leaving this room.',
+ npc1_4:'What\'s upstairs? Dark. Too dark. And there was one that wasn\'t like the others. It didn\'t chase us. It WATCHED us. Here — my BLUE card, it opens the lab floor. And my medkit. I\'m not leaving this room.',
  npc2_name:'Ji-eun (survivor)',
  npc2_1:'Stay back! Don\'t— …you\'re alive? Here. TAKE the rooftop key — yellow card. I copied it from the office before the locks dropped.',
  npc2_2:'How long have I been here? Since the alarms. Two nights? Three? You stop counting.',
@@ -603,10 +612,10 @@ en:{
  w4:'The record will tell you where everyone went — and what locked the gates.',
  w5:'The floor-gate keys were left on the security desk. This desk.',
  w6:'The generator in this room is dead. So is everything above Floor 3.',
- w7:'The Floor 3 gate takes the RED card. Climb.',
+ w7:'Someone else is alive up there — and he will come looking for YOU.',
  w8:'Someone else made it through tonight. Find them — or don\'t. Your call.',
  w9:'The Floor 4 shutter is powered down. Release it from the terminal.',
- w10:'Past the shutter, the stairwell continues into the dark.',
+ w10:'Park\'s blue card opens the Floor 5 gate — after the breaker, it\'s yours to use.',
  w11:'The lab prep room on 4 still has a BLUE card in it.',
  w12:'The Floor 6 gate is on backup power. The utility breaker on 4 can change that.',
  w13:'The Floor 5 gate is open. What is on Floor 5… is not contained.',
@@ -625,7 +634,7 @@ en:{
  rb7:'MAIN POWER. Floor 3 gate will take the red card now. Go.',
  rb8:'Someone is up there. I heard knocking on my end too. Your call whether to look.',
  rb9:'The Floor 4 shutter needs the terminal. Power\'s on — release it.',
- rb10:'Shutter open. Floor 4 is dark. I mean REALLY dark. Batteries first.',
+ rb10:'Park\'s blue card. It opens the Floor 5 gate. First, the dark floor — batteries, and the sub-breaker on 4.',
  rb11:'Blue card. The Floor 5 gate — and Floor 5 — is the lab floor. Stay quiet.',
  rb12:'Sub-breaker on. The Floor 6 gate is released.',
  rb13:'Breach on 5. GET ABOVE IT. Don\'t fight, don\'t hide — CLIMB.',
@@ -647,7 +656,8 @@ en:{
  l_cctv_bak:'Use CCTV terminal (backup power)',l_elev:'Try the elevator',
  elev_dead:'ELEVATOR — NO POWER. Security cut it (Protocol 7). The stairwell at the end of the hall is the only way up.',
  elev_jam:'ELEVATOR — OUT OF ORDER. Something is knocking on the other side of the doors. Don\'t.',
- gw_red:'security room, Floor 2',gw_blue:'lab prep room, Floor 4',gw_green:'records office',gw_yellow:'Ji-eun, Floor 5',
+ gw_red:'security room, Floor 2',gw_blue:'Mr. Park, Floor 3',gw_green:'records office',gw_yellow:'Ji-eun, Floor 5',
+ t_sneak:'[C] CROUCH to sneak — stay out of the light cones in front of their eyes.',
  g_locked2:'Locked. It takes the {c} keycard — {where}.',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',
  rb1:'Good, a light. Keep the beam low — they notice it. There\'s a crowbar in the janitor closet, Ground floor.',
  rb2:'Boards pried? The stairwell tower is the only way up. Floor by floor. No elevator.',
@@ -804,7 +814,7 @@ zh:{
  n6t:'医务室登记',n6b:'登记表写着：被咬的人大约一小时后才会转变。他们应护士长自己的要求，把她送去了5层实验室。从那以后，再没人写过任何东西。',
  n7t:'撕下的日记',n7b:'第3天？直升机午夜会来。他们说去楼顶。我们班爬到6层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
  n8t:'墙上的涂写',n8b:'天台是出路。它们怕光。守在烟雾旁，别朝楼梯间下面看。',
- lives_lbl:'剩余重生',btn_respawn:'立即重生',death_left:'剩余重生次数：{n}',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',l_talk:'和 {n} 交谈',
+ lives_lbl:'剩余重生',btn_respawn:'立即重生 — [E]',death_left:'剩余重生次数：{n}',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',l_talk:'和 {n} 交谈',
  npc1_name:'朴老师（受伤）',
  npc1_1:'谁？！退后——别过来。我手里有东西，我会动手的。',
  npc1_2:'……你还活着？学生？天啊。好。我姓朴，教生物——我的办公室在5层，就在实验室旁边。一切是从那里开始的。',
@@ -829,10 +839,10 @@ zh:{
  w4:'记录会告诉你所有人去了哪——以及门是被什么锁上的。',
  w5:'楼层的门禁卡留在了保安桌上。就是这张桌。',
  w6:'这个房间的发电机坏了。3层以上的所有东西都没电。',
- w7:'3层的门认红卡。爬。',
+ w7:'楼上还有别人活着——而他会来找你。',
  w8:'今晚还有别人活着。找不找——由你决定。',
  w9:'4层卷帘门断电了。用终端解除它。',
- w10:'过了卷帘门，楼梯间一路通向黑暗。',
+ w10:'朴老师的蓝卡能打开5层的门——合上断路器后就是你的了。',
  w11:'4层的实验室准备室里还有一张蓝色门卡。',
  w12:'6层的门用的是备用电。4层的公用断路器可以改变这件事。',
  w13:'5层的门开了。5层上的东西……已经不在收容状态了。',
@@ -864,7 +874,7 @@ zh:{
  rb7:'主电源恢复！3层的门现在认红卡。走。',
  rb8:'这栋楼里还有别人。我这边也听到敲门了。查不查，由你。',
  rb9:'你找到他了？好。老教师命硬。4层的卷帘门要用终端解除——去吧。',
- rb10:'卷帘门开了。4层是黑暗楼层。电池。照明弹。保持安静。',
+ rb10:'朴老师的蓝卡。它能打开5层的门。先过黑暗楼层——电池，还有4层的分断路器。',
  rb11:'蓝卡。5层是实验层。从那里漏出来的东西……你马上会见到。安静。',
  rb12:'分闸合上——6层的门解锁了。',
  rb13:'5层收容失效。别打，别藏——往上爬。',
@@ -943,7 +953,7 @@ const G={
   flags:{power:false,power2:false,shutter6:false,finale:false,victory:false,flashIntro:false,cctvSeen:false},
   cards:{red:false,blue:false,green:false,yellow:false},
   gatesOpen:new Set(), boardsBroken:new Set(), taken:new Set(), notesRead:new Set(),
-  floorsSeen:new Set(), chaptersSeen:new Set(),
+  floorsSeen:new Set(), chaptersSeen:new Set(), mwDismissed:false,
   dangerFloor:-1,
   stats:{kills:0,deaths:0,start:0},
   chatOpen:false, uiLock:null,   // 'cctv' | 'note' | null
@@ -2246,7 +2256,8 @@ function specialServer(L,y){
   addWall(4,-21.3,-6,-19.9,-6,{y:y+2.25,h:CFG.FH-2.25});
   new DoorC(4,-21.3,-6,1.4,'x',{boarded:true,swing:-1,id:'rack-door',label:'Pry boards'});
   for(let i=0;i<3;i++)addBox(4,-23+i*1.3,y+1.1,-9,0.8,2.2,0.8,MAT.dark,{los:true});
-  new Pickup('card-blue',4,-21,y+0.12,-8,{id:'story-card-blue'});
+  new Pickup('ammo',4,-21,y+0.12,-8,{id:'prep-ammo'});   // the blue card itself comes from Mr. Park now
+  new Pickup('medkit',4,-21,y+0.12,-9,{id:'prep-med'});
   signOn(4,-17,y+2.5,-1.44,0,TEX.sign(T('sg_server'),'#101020','#59ff7a'),2,0.44);
 }
 function specialTop(L,y){
@@ -2339,9 +2350,18 @@ function buildWorld(){
   // notes
   for(const n of notesList())new Pickup('note',n.f,n.x,n.y,n.z,{id:n.id});
   // survivor NPCs you can meet along the climb (story + a small gift).
-  // They stay hidden until their discovery event runs — the player finds them.
-  new SurvivorNPC(3,-20.5,7.2,'npc1_name',['npc1_1','npc1_2','npc1_3','npc1_4'],()=>{INV.medkit++;INV.battery=Math.min(100,INV.battery+40);player.battery=INV.battery;hudInv();hudStats();toast(T('t_parkgift'));},{hiddenFlag:'parkKnock'});
-  new SurvivorNPC(5,-20.5,-7,'npc2_name',['npc2_1','npc2_2','npc2_3','npc2_4'],()=>{G.cards.yellow=true;hudInv();questCheck();toast(T('g_accept',{c:'YELLOW'}));directorChase();},{hiddenFlag:'jieunKnock'});
+  // They stay hidden until their event fires — then they come out and find YOU.
+  new SurvivorNPC(3,-20.5,7.2,'npc1_name',['npc1_1','npc1_2','npc1_3','npc1_4'],()=>{
+    INV.medkit++;INV.battery=Math.min(100,INV.battery+40);player.battery=INV.battery;
+    G.cards.blue=true; // the story item: Park's blue card is REQUIRED for Floor 5
+    hudInv();hudStats();questCheck();directorChase();
+    toast(T('g_accept',{c:'BLUE'}));
+  },{hiddenFlag:'parkKnock'});
+  new SurvivorNPC(5,-20.5,-7,'npc2_name',['npc2_1','npc2_2','npc2_3','npc2_4'],()=>{
+    G.cards.yellow=true; // the story item: rooftop access
+    hudInv();questCheck();directorChase();
+    toast(T('g_accept',{c:'YELLOW'}));
+  },{hiddenFlag:'jieunKnock'});
   // flashlight spot (attached to camera later) is in player section
 }
 
@@ -2476,6 +2496,15 @@ function buildHumanoid(opts={}){
       mk(0.295,0.1,0.295,hairM,0,0.16,0.012,parts.head);
       mk(0.295,0.075,0.05,hairM,0,0.105,-0.122,parts.head);
     }
+    // VISION CONE — the light from their eyes IS their sight range. Sneak outside it.
+    const CONE_HALF=0.96; // ~55° each side
+    const coneGeo=new THREE.CircleGeometry(1,20,Math.PI/2-CONE_HALF,CONE_HALF*2);
+    const coneMat=new THREE.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:0.08,depthWrite:false,side:THREE.DoubleSide});
+    const cone=new THREE.Mesh(coneGeo,coneMat);
+    cone.rotation.x=-Math.PI/2;cone.position.y=0.07;
+    if(opts.ztype==='watcher'){coneMat.color.setHex(0xcfe8ff);coneMat.opacity=0.10;}
+    g.add(cone);
+    parts.cone=cone;
   }else if(opts.robot){
     // friendly helper-bot: screen face, round cyan eyes, antenna, chest panel
     parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
@@ -2668,12 +2697,12 @@ function setupPlayerBody(){
 
 /* ---------- zombies ---------- */
 const ZTYPES={
-  shambler:{speed:1.1,chase:3.3,hp:3,dmg:14,scale:1.0,sight:11,aimH:1.15},
-  runner:{speed:2.2,chase:4.9,hp:2,dmg:18,scale:0.95,sight:13,aimH:1.1},   // freshly turned — still wears the school uniform
-  brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:9,aimH:1.4},
-  screamer:{speed:1.3,chase:3.4,hp:2,dmg:10,scale:0.98,sight:14,aimH:1.15}, // hospital gown; screams in the whole floor
-  crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:8,aimH:0.5},   // drags itself, lunges at your ankles
-  watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:16,aimH:1.25},// THE WATCHER — predator; scripted states
+  shambler:{speed:1.1,chase:3.3,hp:3,dmg:14,scale:1.0,sight:7,aimH:1.15},
+  runner:{speed:2.2,chase:4.9,hp:2,dmg:18,scale:0.95,sight:8,aimH:1.1},   // freshly turned — still wears the school uniform
+  brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:7,aimH:1.4},
+  screamer:{speed:1.3,chase:3.4,hp:2,dmg:10,scale:0.98,sight:9,aimH:1.15}, // hospital gown; screams in the whole floor
+  crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:6,aimH:0.5},   // drags itself, lunges at your ankles
+  watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -2784,13 +2813,14 @@ class Zombie{
     const hum=this.nearestHuman();
     const sameFloor=hum&&hum.floor===this.f;
     const d=sameFloor?Math.sqrt(hum.d2):1e9;
-    // ---- senses
+    // ---- senses (CONE VISION: they only see what their light covers)
     if(sameFloor&&d<40){
       const sight=this.cfg.sight*(player.crouch&&hum.p==='local'?0.55:1)+(player.on?4:0);
       const inv=1/Math.max(0.001,Math.sqrt(hum.d2));
       const tox=(hum.x-g.position.x)*inv,toz=(hum.z-g.position.z)*inv;
       const facing=(-Math.sin(this.yaw))*tox+(-Math.cos(this.yaw))*toz;
-      const seen=(d<sight&&(facing>-0.15||d<3)&&losClear(g.position.x,g.position.z,hum.x,hum.z,this.f))||d<2.2;
+      const inCone=facing>0.55||d<2.6; // inside the eye-light wedge — or close enough to feel you
+      const seen=(d<sight&&inCone&&losClear(g.position.x,g.position.z,hum.x,hum.z,this.f))||d<1.9;
       if(seen){
         this.state='chase';this.loseT=0;this.lastPX=hum.x;this.lastPZ=hum.z;
         if(this.aggroCd<=0){ // aggro shriek when it first locks on
@@ -2965,6 +2995,18 @@ class Zombie{
       this.body.legL.rotation.x=sw*0.55;this.body.legR.rotation.x=-sw*0.55;
       g.rotation.z=sw*0.05;
     }
+    // vision cone: shows the player EXACTLY what this zombie can see right now
+    if(this.body.cone){
+      const cone=this.body.cone;
+      const eff=this.cfg.sight*(player.crouch?0.55:1)+(player.on?4:0);
+      cone.scale.setScalar(clamp(eff,2,16));
+      cone.visible=active&&sameFloor&&d<26;
+      const cm=cone.material;
+      if(chase){cm.color.setHex(0xff4030);cm.opacity=0.17;}
+      else if(this.state==='investigate'){cm.color.setHex(0xffa040);cm.opacity=0.13;}
+      else{cm.color.setHex(0xffb347);cm.opacity=0.08;}
+      if(active&&sameFloor&&d<12&&!G.coneTip){G.coneTip=true;toast(T('t_sneak'));}
+    }
     const hurt=this.hurtT>0?1:0;
     const flashMats=[].concat(this.body.torso.material).concat(this.body.head.material);
     for(const mm of flashMats){
@@ -3010,6 +3052,7 @@ class SurvivorNPC{
     this.ph=rand(0,TAU);this.yaw=rand(0,TAU);
     this.parts.g.rotation.y=this.yaw;
     this.parts.g.visible=!this.hiddenFlag; // discovered only when the event says so
+    this.meet=false;this.met=false;
     clearArea(f,x,z,1.5); // never let a desk overlap a survivor
     world.npcs.push(this);
   }
@@ -3018,6 +3061,21 @@ class SurvivorNPC{
     if(!this.ready()){this.parts.g.visible=false;return;}
     this.parts.g.visible=true;
     const g=this.parts.g;
+    // meet-the-player: once their event fires, survivors come OUT and find you
+    if(this.meet&&player.floor===this.f&&!player.dead&&!player.down){
+      const d=Math.hypot(player.pos.x-g.position.x,player.pos.z-g.position.z);
+      if(d>1.7){
+        let nx=g.position.x+(player.pos.x-g.position.x)/d*1.8*dt;
+        let nz=g.position.z+(player.pos.z-g.position.z)/d*1.8*dt;
+        [nx,nz]=collideCircle(nx,nz,g.position.y,this.f,0.3);
+        g.position.x=nx;g.position.z=nz;
+        this.yaw=Math.atan2(player.pos.x-g.position.x,player.pos.z-g.position.z);
+      }else if(!this.met){
+        this.met=true;
+        this.talk(); // they speak first
+        toast(T('l_talk',{n:this.name})+'  [E]');
+      }
+    }
     if(player.floor===this.f&&dist2(g.position.x,g.position.z,player.pos.x,player.pos.z)<8*8){
       const ty=Math.atan2(player.pos.x-g.position.x,player.pos.z-g.position.z);
       this.yaw+=angDiff(this.yaw,ty)*Math.min(1,dt*3); // turn to face you
@@ -3067,7 +3125,11 @@ function damagePlayer(dmg,srcPos){
     if(Math.hypot(nx-bx,nz-bz)>0.5){nx=bx;nz=bz;} // reject through-wall ejections outright
     player.pos.x=nx;player.pos.z=nz;
   }
-  if(player.hp<=0){player.hp=0;onPlayerDown();}
+  if(player.hp<=0){
+    player.hp=0;
+    if(G.mp){onPlayerDown();} // co-op: downed state, friends can revive
+    else{(typeof G.lives==='number'&&G.lives>0)?onPlayerDeath():gameOver();} // solo: no crawl wait — straight to respawn / game over
+  }
   hudStats();
 }
 
@@ -3108,6 +3170,7 @@ function onPlayerDeath(){
     $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
     $('respawnTxt').textContent=T('death_left',{n:G.lives});
     $('btnRespawn').classList.remove('hidden');
+    $('btnRespawn').textContent=T('btn_respawn');
     $('btnDeathMenu').classList.add('hidden');
     // pointer stays locked — one click and you're back in the fight
   }else{
@@ -3446,7 +3509,7 @@ function updatePlayer(dt,t){
     if(AUD.breathT<=0){
       const f=clamp(th+(sprinting?0.3:0)+(player.st<25?0.2:0),0,1);
       AUD.breathT=lerp(1.1,2.9,1-f)*rand(0.85,1.15);
-      play('breath',{vol:0.05+f*0.33,rate:lerp(1.3,0.82,f)});
+      play('breath',{vol:0.08+f*0.36,rate:lerp(1.3,0.82,f)});
     }
   }else{
     const threat=nearestThreatDist();
@@ -3522,7 +3585,7 @@ function updateSub(dt){
   const s=subQ.shift();
   if(s){$('subtitle').innerHTML=s.html;subT=s.dur;}
 }
-function radio(txt){play('radio',{vol:.7,force:true});showSub('<b>'+T('radio_name')+':</b> '+txt,5.5);}
+function radio(txt){showSub('<b>'+T('radio_name')+':</b> '+txt,5.5);} // silent now: no static blip, just the message
 function hudSquad(){
   const el2=$('squad');if(!el2)return;
   if(!G.mp){el2.style.display='none';return;}
@@ -3625,8 +3688,12 @@ function questCheck(){
   const last=Math.max(0,QUEST.length-2);
   const cur=Math.min(qi,last);
   $('obj').textContent=T('objective_n',{n:cur+1,t:QUEST.length-1})+' '+T(QUEST[cur].k);
-  const w=T('w'+cur);
-  $('objWhy').textContent=(w&&w!==('w'+cur))?w:'';
+  // compact closable mission window: ONLY the next mission. ✕ hides it until the next one.
+  $('mwTag').textContent=T('objective_n',{n:cur+1,t:QUEST.length-1});
+  $('mwTxt').textContent=T(QUEST[cur].k);
+  const mw=$('missionWindow');
+  if(advanced&&!RESTORING){G.mwDismissed=false;mw.style.display='block';}
+  else if(G.mwDismissed)mw.style.display='none';
   if(G.mode==='playing'){
     if(advanced&&!RESTORING)objectiveBanner();
     else $('objBanner').style.opacity='0';
@@ -4119,10 +4186,12 @@ function updateEvents(dt){
   // JI-EUN — movement in the survivor corner, after the breach (player chooses to look)
   if(hordeDone&&G.flags.jieunKnock!==true&&!G.flags.jieunKnock_talk&&player.floor===5&&G.started){
     G.flags.jieunKnock=true;
+    const je=world.npcs.find(n=>n.hiddenFlag==='jieunKnock');
+    if(je){je.parts.g.position.set(15.0,5*CFG.FH+0.1,0.5);je.meet=true;} // she comes to you
     setTimeout(()=>{
       if(!G.started||G.mode!=='playing'||player.floor!==5)return;
-      play('zstep',{pos:new THREE.Vector3(-20.5,5*CFG.FH,-7),vol:.8,ref:20,rate:0.7});
-      setTimeout(()=>play('clunk',{pos:new THREE.Vector3(-20.5,5*CFG.FH,-7),vol:.7,ref:18,rate:1.2}),900);
+      play('zstep',{pos:new THREE.Vector3(15.0,5*CFG.FH,0.5),vol:.8,ref:20,rate:0.7});
+      setTimeout(()=>play('clunk',{pos:new THREE.Vector3(15.0,5*CFG.FH,0.5),vol:.7,ref:18,rate:1.2}),900);
       showSub(T('jieun_sub'),4.5);
     },22000+rand(0,10000));
   }
@@ -4182,11 +4251,11 @@ function updateEvents(dt){
     const roll=Math.random();
     const farA=rand(0,TAU),farR=rand(16,26);
     const farP=new THREE.Vector3(player.pos.x+Math.cos(farA)*farR,player.floor*CFG.FH,player.pos.z+Math.sin(farA)*farR);
-    if(roll<0.28)play('growl3',{pos:farP,vol:.5,ref:60,rate:0.72});       // a moan, far away… or is it?
-    else if(roll<0.48)play('zbreath',{pos:farP,vol:.5,ref:46,rate:0.8});  // something exhales out there
-    else if(roll<0.64)play('buzz',{vol:.35});                             // failing fluorescent hum
-    else if(roll<0.8)play('clang',{pos:farP,vol:.45,ref:34});             // a distant impact
-    else if(roll<0.92)play('creak',{pos:farP,vol:.5,ref:26,rate:0.9});    // a door settling somewhere
+    if(roll<0.34)play('growl3',{pos:farP,vol:.5,ref:60,rate:0.72});       // a moan, far away… or is it?
+    else if(roll<0.54)play('zbreath',{pos:farP,vol:.55,ref:46,rate:0.8});  // something exhales out there
+    else if(roll<0.66)play('buzz',{vol:.35});                             // failing fluorescent hum
+    else if(roll<0.82)play('clang',{pos:farP,vol:.45,ref:34});             // a distant impact
+    else if(roll<0.93)play('creak',{pos:farP,vol:.5,ref:26,rate:0.9});     // a door settling somewhere
     else if(player.floor>=5)play('alarm',{vol:.2,force:true});            // far-off alarm, upper floors
   }
   // random ambience — strategic: the building talks
@@ -4272,6 +4341,8 @@ function directorBeat(f){
       knock();
       showSub(T('knock_sub'),4.5);
       markDanger(3,15);
+      // he comes OUT to find you — meets you in the corridor by the stairwell
+      if(npc){npc.parts.g.position.set(15.0,3*CFG.FH+0.1,0.5);npc.meet=true;}
     },30000+rand(0,20000));
   }else if(f===4){
     // POWER FAILURE — the dark floor loses even its emergency lights
@@ -4668,7 +4739,10 @@ function onKey(code){
     if(code==='KeyD'||code==='ArrowRight'){camFloor=(camFloor+1)%CFG.FLOORS;drawCCTV();play('click',{vol:.4});}
     return;
   }
-  if(player.dead)return;
+  if(player.dead){
+    if(code==='KeyE'&&G.respawnPending)respawnPlayer(); // press E to respawn instantly
+    return;
+  }
   switch(code){
     case 'KeyF':
       if(!INV.flashlight){toast(T('t_notorch'));break;}
@@ -5087,7 +5161,7 @@ function startWorld(mode){
 function beginGame(cont){
   G.mode='playing';G.started=true;
   if(typeof G.lives!=='number')G.lives=3;
-  G.helpMode=false;G.respawnPending=false;
+  G.helpMode=false;G.respawnPending=false;G.mwDismissed=false;
   $('menu').style.display='none';$('lobby').style.display='none';$('prologue').style.display='none';
   $('hud').style.display='block';
   if(cont||(G.mp&&!G.host))player.pos.set(14.5,CHECK.floor*CFG.FH+0.1,0);
@@ -5278,6 +5352,7 @@ $('btnResume').onclick=()=>showPause(false);
 $('btnQuit').onclick=()=>location.reload();
 $('btnDeathMenu').onclick=()=>location.reload();
 $('btnRespawn').onclick=()=>{if(player.dead&&G.respawnPending)respawnPlayer();};
+$('missionX').onclick=()=>{G.mwDismissed=true;$('missionWindow').style.display='none';};
 $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;
