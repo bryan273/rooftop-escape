@@ -98,6 +98,21 @@ function frame(dtMs=16.6){
 
 /* ---------------- run ---------------- */
 const results=[];
+// Sample each room front wall at waist and head height: every point outside a doorway must be inside a
+// wall box, and every doorway must have a lintel above it.
+export function wallHoles(world,CFG){
+  const out=[];
+  for(const w of world.frontWalls||[]){
+    const y=w.f*CFG.FH,cols=world.cols[w.f].filter(c=>c.wall);
+    const solid=(x,yy)=>cols.some(c=>x>=c.x0-1e-3&&x<=c.x1+1e-3&&w.z>=c.z0-1e-3&&w.z<=c.z1+1e-3&&yy>=c.y0&&yy<=c.y1);
+    for(let x=w.x0+0.15;x<w.x1-0.15;x+=0.1){
+      const inDoor=w.doors.some(d=>Math.abs(x-d)<0.9);
+      if(inDoor){if(!solid(x,y+2.6)){out.push(`F${w.f}${w.key}:no-lintel@${x.toFixed(1)}`);break;}}
+      else if(!solid(x,y+1)||!solid(x,y+2.6)){out.push(`F${w.f}${w.key}:hole@${x.toFixed(1)}`);break;}
+    }
+  }
+  return out;
+}
 function check(name,cond,info=''){
   results.push({name,ok:!!cond,info});
   console.log((cond?'  ✔ ':'  ✘ ')+' '+name+(info?'  — '+info:''));
@@ -163,6 +178,9 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   check('world built: 6 floors + ground + roof = 8 levels',world.levels.length===F+1,'got '+world.levels.length);
   check('zombies spawned',world.zombies.length>=15,'got '+world.zombies.length);
   check('items spawned',world.items.length>=40,'got '+world.items.length);
+  {const inR=(f,x0,x1,z0,z1)=>world.items.filter(it=>it.type==='ammo'&&it.f===f&&it.g.position.x>x0&&it.g.position.x<x1&&it.g.position.z>z0&&it.g.position.z<z1).length;
+   const a3=inR(3,-24,-9,1.6,10),a5=inR(5,3,16,1.6,10),aR=inR(F,10,15,-5,-2.5);
+   check('ammo rooms stocked (Floor 3 storage, Floor 5 armory, roof crate)',a3>=5&&a5>=6&&aR>=5,`F3=${a3} F5=${a5} roof=${aR}`);}
   check('gates = 6',world.gates.length===6,'got '+world.gates.length);
   check('mode applied',g.getMD().id===MODE,'got '+g.getMD().id);
   check('two survivors placed (Park on 3, Ji-eun on 5)',g.npcByKey('park')?.f===3&&g.npcByKey('jieun')?.f===5);
@@ -202,7 +220,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     const y0=player.pos.y;player.pos.set(-10,0.05,0);
     key('Space');let top=0;for(let i=0;i<30;i++){frame();top=Math.max(top,player.pos.y);}key('Space',false);
     for(let i=0;i<40;i++)frame();
-    check('Space jumps when nothing needs work nearby',top>0.3,`peak=${top.toFixed(2)}`);
+    check('Space jumps',top>0.3,`peak=${top.toFixed(2)}`);
   }
 
   /* --- door: hold E = exactly ONE toggle --- */
@@ -285,7 +303,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
           const nx=ix+dx,nz=iz+dz;if(nx<0||nz<0||nx>=NX||nz>=NZ)continue;
           const k=idx(nx,nz);if(seen[k]||!free[k])continue;seen[k]=1;q.push([nx,nz]);}}
       const at=(x,z)=>{const ix=Math.round((x-X0)/STEP),iz=Math.round((z-Z0)/STEP);return ix>=0&&iz>=0&&ix<NX&&iz<NZ&&!!seen[idx(ix,iz)];};
-      for(const [n,x,z] of [['laneMouth',17.1,1.2],['towerStrip',19,-1.2],['towerEast',23,1.2]])if(!at(x,z))problems.push(`F${f}:${n}`);
+      for(const [n,x,z] of [['laneMouth',17.1,1.2],['towerStrip',19,-1.2],...(f>0?[['landing',23.4,1.2]]:[])])if(!at(x,z))problems.push(`F${f}:${n}`);
       for(const r of world.layout[f].rooms){
         let any=false;
         for(let iz=0;iz<NZ&&!any;iz++)for(let ix=0;ix<NX;ix++){
@@ -308,10 +326,26 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     check('flood fill: every floor connected, no room sealed, mission spots reachable',problems.length===0,problems.slice(0,8).join(' '));
   }
 
+  /* --- every room's front wall is solid except its doorways (the "open room" bug) --- */
+  {
+    const holes=wallHoles(world,CFG);
+    check('room front walls solid (only doorways open)',world.frontWalls.length===F*6&&holes.length===0,holes.slice(0,6).join(' ')||`walls=${world.frontWalls.length}`);
+  }
+  if(process.argv.includes('walls')){ // stress: rebuild many random buildings and re-check the walls
+    const bad=[];
+    for(let i=0;i<40;i++){
+      g.resetWorld();g.startWorld(MODE);
+      const h=wallHoles(world,CFG);
+      if(h.length||world.frontWalls.length!==F*6)bad.push(`#${i}: ${h[0]||'walls='+world.frontWalls.length}`);
+    }
+    check('40 random buildings: every room front wall solid',bad.length===0,bad.slice(0,4).join(' '));
+    process.exit(process.exitCode||0);
+  }
+
   /* --- random chaos: random inputs, no NaN, never out of the map --- */
   {
     player.hp=100000;player.dead=false;player.down=false;
-    const codes=['KeyW','KeyA','KeyS','KeyD','Space','ArrowLeft','ArrowRight','KeyE','Enter','KeyC','KeyF'];
+    const codes=['KeyW','KeyA','KeyS','KeyD','Space','ArrowLeft','ArrowRight','KeyE','KeyQ','Enter','KeyC','KeyF'];
     let ok=true,why='';
     for(let i=0;i<2000;i++){
       if(i%37===0)key(codes[Math.floor(Math.random()*codes.length)]);
@@ -421,9 +455,9 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   // skipping is impossible: kick the closet open, try to take the crowbar BEFORE the flashlight
   tp(11.2,-8.6,0,12.2,-8.6);
   let t0=g.interactTargets();
-  step('closet shows a KICK prompt (tap Space)',t0.hold&&t0.hold.kind==='kick',t0.hold&&t0.hold.kind);
+  step('closet shows a KICK prompt (tap Q)',t0.hold&&t0.hold.kind==='kick',t0.hold&&t0.hold.kind);
   const jan=world.doors.find(d=>d.id==='jan-door');
-  for(let i=0;i<3;i++){tap('Space');run(30);}
+  for(let i=0;i<3;i++){tap('KeyQ');run(30);}
   step('3 kicks break the closet boards',jan&&!jan.boarded,'boarded='+(jan&&jan.boarded));
   step('broken boards fall as planks',g.debris.length>=4,'debris='+g.debris.length);
   run(90);
@@ -434,29 +468,36 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
 
   // 1 flashlight
   tp(-22.9,0.15,0,-23.05,1.15);
+  const ftT=g.interactTargets();
   tap('KeyE');
+  if(!INV.flashlight)console.log('     DIAG flashlight: e='+(ftT.e&&ftT.e.label)+' lock='+G.uiLock+' paused='+G.paused+' dead='+player.dead+' pos='+player.pos.x.toFixed(2)+','+player.pos.y.toFixed(2)+','+player.pos.z.toFixed(2)+' items='+JSON.stringify(world.items.filter(i=>!i.taken&&i.f===0&&Math.hypot(i.g.position.x+23,i.g.position.z-1)<3).map(i=>i.id+'@'+i.g.position.x.toFixed(1)+','+i.g.position.z.toFixed(1))));
   need('q_crowbar')&&step('flashlight taken',INV.flashlight);
   // 2 crowbar
   tp(13.4,-8.6,0,14.05,-8.6);tap('KeyE');
   need('q_boards')&&step('crowbar taken',INV.crowbar);
   // gates above refuse early: the Floor 2 card gate
-  // 3 pry the Floor 1 gate (hold Space), including letting go halfway (progress kept)
+  // 3 pry the Floor 1 gate (hold Q), including letting go halfway (progress kept)
   tp(16.95,1.2,1,18,1.2);
   const gate1=world.gates.find(x=>x.f===1);
-  holdKey('Space',60);
+  holdKey('KeyQ',60);
   const kept=g.workProg['gate1']||0;
   step('letting go of a pry keeps the progress',kept>0.8,'kept='+kept.toFixed(2));
-  holdKey('Space',120);
+  holdKey('KeyQ',120);
   need('q_sec')&&step('Floor 1 gate pried open',gate1.open&&!gate1.mesh);
   // 4 security room (also: the generator refuses before its step)
-  tp(0.8,-7.3,2,0.8,-8.8);holdKey('Space',140);
+  tp(0.8,-7.3,2,0.8,-8.8);holdKey('KeyQ',140);
   check('mission chain: generator refused before the archive step',!G.flags.power,`power=${G.flags.power}`);
   tp(-4,-6,2);
   need('q_arch');
   // 5 CCTV archive (real timers)
-  tp(-5,-3.1,2,-5,-4.2);tap('KeyE');
-  step('terminal opened',G.uiLock==='cctv',G.uiLock);
-  await sleep(12600);run(2);
+  tp(-5,-3.1,2,-5,-4.2);tap('KeyE');tap('KeyE');await sleep(900);run(2);
+  check('leaving the CCTV archive early does not count it as watched',!G.flags.cctvSeen&&cur()==='q_arch'&&G.uiLock!=='cctv',`seen=${G.flags.cctvSeen} step=${cur()}`);
+  tp(-5,-3.1,2,-5,-4.2);
+  const termT=g.interactTargets();
+  tap('KeyE');
+  step('terminal opened',G.uiLock==='cctv',G.uiLock+' e='+(termT.e&&termT.e.label)+' at '+(termT.e&&termT.e.x.toFixed(1)+','+termT.e.z.toFixed(1))+' player '+player.pos.x.toFixed(2)+','+player.pos.z.toFixed(2)+' f'+player.floor);
+  for(let w=0;w<250&&!G.flags.cctvSeen;w++){await sleep(100);}   // the archive plays on real timers (~12 s)
+  run(2);
   step('archive watched',G.flags.cctvSeen);
   tap('KeyE');
   need('q_red');
@@ -471,7 +512,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   for(let k=0;k<4&&!INV.pistol;k++){tap('KeyE');tp(-4.0,-3.2,2,-4.0,-3.95);}   // the SMG (a supply lying closer gets picked first)
   step('SMG taken',INV.pistol,pinfo);
   // 7 generator
-  tp(0.8,-7.3,2,0.8,-8.8);holdKey('Space',140);
+  tp(0.8,-7.3,2,0.8,-8.8);holdKey('KeyQ',140);
   need('q_gate2')&&step('main power on',G.flags.power);
   // 8 gate 2
   tp(16.95,1.2,2,18,1.2);tap('KeyE');
@@ -485,7 +526,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   tp(12.4,0.1,3,11.85,0.95);
   t0=g.interactTargets();
   step('Park prompt uses ENTER',t0.enter&&!t0.e||t0.enter&&t0.e.label!==t0.enter.label);
-  for(let i=0;i<3;i++){tap('Enter');run(10);}
+  for(let i=0;i<3;i++){tap('KeyE');run(10);}
   need('q_blue')&&step('talked to Park, card dropped',!!world.items.find(i=>i.id==='story-card-blue'));
   run(300);
   step('Park stays where he lies after talking',Math.abs(park.parts.g.position.x-10.9)<0.01&&!park.gone);
@@ -507,10 +548,10 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     run(2);mouseBtn(true);run(1);mouseBtn(false);run(30);
   }
   need('q_shutter')&&step('Mr. Park put down',pz.dead&&G.flags.parkDead);
-  // 13 shutter from the terminal (ENTER)
+  // 13 shutter from the terminal ([Q] inside the terminal)
   tp(-5,-3.1,2,-5,-4.2);tap('KeyE');
   step('terminal reopened',G.uiLock==='cctv');
-  tap('Enter');
+  tap('KeyQ');
   step('shutter released, Floor 3 gate opens',G.flags.shutter&&world.gates.find(x=>x.f===3).open);
   tap('KeyE');
   need('q_gate3');
@@ -518,7 +559,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   tp(15,0.4,4);run(4);
   need('q_breaker');
   // 15 breaker
-  tp(9,-8.0,4,9,-8.9);holdKey('Space',140);
+  tp(9,-8.0,4,9,-8.9);holdKey('KeyQ',140);
   need('q_gate4')&&step('utility breaker reset',G.flags.power2);
   // 16 gate 4
   tp(16.95,1.2,4,18,1.2);tap('KeyE');
@@ -537,11 +578,11 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   tp(-21.0,-8.3,5,-22.95,-8.95);run(4);
   need('q_jtalk');
   // 18 talk x4
-  for(let i=0;i<4;i++){tap('Enter');run(10);}
+  for(let i=0;i<4;i++){tap('KeyE');run(10);}
   need('q_yellow')&&step('Ji-eun talked, key dropped',!!world.items.find(i=>i.id==='story-card-yellow'));
   const je=g.npcByKey('jieun');
   await sleep(2700);run(3);
-  step('Ji-eun joins you after the talk',je.follow);
+  step('Ji-eun joins you after the talk',je.follow,'e='+JSON.stringify(g.interactTargets().e&&g.interactTargets().e.label));
   // 19 yellow card
   const yc=world.items.find(i=>i.id==='story-card-yellow');
   tp(yc.g.position.x+0.9,yc.g.position.z+0.2,5,yc.g.position.x,yc.g.position.z);tap('KeyE');
@@ -576,8 +617,8 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   // extraction does NOT start before the flare
   tp(2,3.5,F);run(120);
   check('no countdown before the flare is lit',g.getExtract()===0&&!G.flags.flareLit);
-  // 23 light the flare (hold Space)
-  holdKey('Space',130);
+  // 23 light the flare (hold Q)
+  holdKey('KeyQ',130);
   need('q_hold')&&step('signal flare lit',G.flags.flareLit);
   // 24 hold the circle: stepping out rewinds, staying in wins
   const pin=(x,z,n)=>{for(let i=0;i<n;i++){player.pos.x=x;player.pos.z=z;player.hp=Math.max(player.hp,3000);run(1);}};
@@ -623,6 +664,16 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   step('helicopter extraction completes',G.flags.victory);
   check('FULL PLAYTHROUGH: all 24 steps completed strictly in order',chain&&G.flags.victory,log.filter(l=>l[0]==='✘').join(' | '));
   check('rooftop is winnable by a fighting player (bot survived)',botWon,botWon?Math.round(dmg)+' damage taken':'died');
+  {const je=g.npcByKey('jieun');
+   const hpOk=je&&je.hpMax===160;
+   if(je&&!je.follow)je.startFollow();
+   const zb=g.spawnZombie(player.floor,je.parts.g.position.x+0.8,je.parts.g.position.z,'shambler',null);zb.die(true);
+   je.damage(40);const hurt=je.hp<160;
+   je.damage(500);const dead=G.flags.jieunDead;
+   await sleep(4300);
+   const turned=g.getMD().id==='lite'?je.gone:world.zombies.some(z=>z.type==='jieun'&&!z.dead);
+   check('Ji-eun: 160 HP, takes damage, dies and '+(g.getMD().id==='lite'?'leaves':'turns'),hpOk&&hurt&&dead&&turned,`hp=${je&&je.hpMax} hurt=${hurt} dead=${dead} turned=${turned}`);}
+  check('rooftop sends at most '+g.ROOF.TOTAL+' zombies',(G.roofSpawned||0)<=g.ROOF.TOTAL,'spawned='+G.roofSpawned);
   console.log('\n   playthrough log:\n     '+log.join('\n     '));
 
   const pass=results.filter(r=>r.ok).length;

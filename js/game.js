@@ -26,11 +26,13 @@ const CFG={
 CFG.ROOF_Y=CFG.FLOORS*CFG.FH;
 /* rooftop finale tuning: everything up there is faster and angrier */
 const ROOF={
-  SPEED:1.05, SPEED_FLARE:1.2,   // chase-speed multipliers (before / after the flare is lit)
-  WINDUP:0.85, COOLDOWN:1.35,    // attack wind-up multiplier, seconds between swings
-  DMG:1.0,
+  SPEED:0.85, SPEED_FLARE:0.95,  // chase-speed multipliers (before / after the flare is lit)
+  WINDUP:1.1, COOLDOWN:1.6,      // attack wind-up multiplier (>1 = slower), seconds between swings
+  DMG:0.85,
   HOLD:30,                       // seconds the circle must be held
-  WAVE_EVERY:7, WAVE_N:3, MAX_ALIVE:11,
+  WAVE_EVERY:11, WAVE_N:2, MAX_ALIVE:7,
+  FIRST_WAVE:5,                  // seconds before the first wave
+  TOTAL:30,                      // hard cap: zombies the roof sends in one run (waves + brute)
   RADIUS:2.0,
 };
 
@@ -50,7 +52,7 @@ let MD=MODES.scary;   // active mode params — set before world build
 const LMAP={growl1:'servo',growl2:'whir',growl3:'beep',scream:'boing',screech:'boing',zstep:'rstep',
   stinger:'boing',alarm:'happyAlarm',hurt:'pop',whisper:'whir',creak:'servo',clang:'pop',
   snarl:'servo',zbreath:'whir',breath:'whir',pstepRun:'rstep',pstepWalk:'rstep',pstepSneak:'rstep',buzz:'whir',
-  zroar:'boing',eat:'pop',zmouth:'servo'};
+  zroar:'boing',eat:'pop',zmouth:'servo',hitMelee:'pop',hitBullet:'pop',pscream:'boing'};
 
 /* ---------------- i18n (EN / 简体中文) ---------------- */
 let LANG='en';
@@ -67,13 +69,12 @@ en:{
  mode_lite_d:'Bright & friendly · silly helper-bots · paint splats · zero scares',
  howto:'<b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> — 6 floors — light the <b>signal flare</b> and survive <b>30 seconds</b> in the landing circle until the helicopter picks you up.<br>'+
   '<b>Missions are a chain.</b> Every step must be finished in order before the next one unlocks — the panel top-left always shows the current step and which key to use. Hold <b>[Tab]</b> for the whole plan.<br>'+
-  '<b>Controls:</b> <b>[E]</b> take items · open doors · read notes · use terminals · swipe keycards. '+
-  '<b>[SPACE]</b> for physical work: <b>tap</b> it to kick boards in, <b>hold</b> it to pry boards, pull breakers, light the flare or revive a friend (you can let go and come back — progress is kept). '+
-  '<b>[ENTER]</b> talk to survivors (press again for the next line).<br>'+
+  '<b>Controls:</b> <b>[E]</b> take items · open doors · read notes · use terminals · swipe keycards · <b>talk</b> to survivors (again for the next line). '+
+  '<b>[Q]</b> for physical work: <b>tap</b> it to kick boards in, <b>hold</b> it to pry boards, pull breakers, light the flare or revive a friend (you can let go and come back — progress is kept). <b>[Space]</b> only jumps.<br>'+
   '<b>Stairwell gates</b> are locked — keycards, power, the CCTV terminal (Floor 2) and a crowbar open them. You will have to go back down.<br>'+
   '<b>Listen.</b> The ring around your crosshair lights up when something moves near you. <b>Look.</b> Blood around a door means something inside. The upper floors have <b>no power</b> — flashlight [F] eats battery, grab batteries.<br>'+
   '<b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud. <b>SMG [2]</b> (hold the mouse button for full-auto) is in the Floor 2 security room.<br>'+
-  '<b>Two modes:</b> 🧟 NIGHTMARE — dark, zombies, blood. 🤖 DAYLIGHT DRILL — bright, friendly robots, zero scares. <b>Co-op:</b> host a room and share the code (up to 4, the host\'s mode applies; [T] chat, [Q] ping).<br>Keyboard + mouse. Click the game once to lock the mouse.',
+  '<b>Two modes:</b> 🧟 NIGHTMARE — dark, zombies, blood. 🤖 DAYLIGHT DRILL — bright, friendly robots, zero scares. <b>Co-op:</b> host a room and share the code (up to 4, the host\'s mode applies; [T] chat, [Z] ping).<br>Keyboard + mouse. Click the game once to lock the mouse.',
  cont:'CONTINUE — {f} · {m}',
  lb_title:'SURVIVORS LOBBY',lb_share:'SHARE THIS ROOM CODE WITH YOUR FRIENDS',lb_copy:'click the code to copy · friends press “Join Co-op” and type it',
  lb_startn:'Start escape ({n} survivors)',lb_start0:'Start solo anyway',lb_wait:'Waiting for host…',lb_leave:'Leave',lb_copied:'COPIED!',
@@ -86,28 +87,28 @@ en:{
  floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',fl_roof:'ROOF',fl_floor:'F{n}',
  wp_roof:'⬆ STAIRWELL — up to the ROOFTOP',wp_up:'⬆ STAIRWELL — east end of the hall · up to {f}',wp_down:'⬇ STAIRWELL — east end of the hall · back down to {f}',
  wp_here:'OBJECTIVE · {d} m',wp_search:'NO MARKER — SEARCH THE ROOMS ON {f}',
- hint:'[E] take / open / use · [SPACE] kick · [HOLD SPACE] pry / breaker / flare · [ENTER] talk<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [Esc] pause',
- hint_mp:'<br>[T] chat · [Q] ping · HOLD [SPACE] on a downed friend to revive',
- k_e:'E',k_hold:'HOLD SPACE',k_enter:'ENTER',k_space:'SPACE',mw_how:'HOW',
+ hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [Esc] pause',
+ hint_mp:'<br>[T] chat · [Z] ping · HOLD [Q] on a downed friend to revive',
+ k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',
  col_red:'RED',col_blue:'BLUE',col_yellow:'YELLOW',col_green:'GREEN',
  pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
- ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>Space (tap)</b> kick boards</div><div><b>Hold Space</b> pry · breaker · flare · revive</div><div><b>E</b> take · open · use · swipe</div><div><b>Enter</b> talk · respawn</div><div><b>C</b> crouch (sneak)</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1 / 2</b> crowbar / SMG</div><div><b>V</b> 1st / 3rd person</div><div><b>Tab</b> objectives</div><div><b>T / Q</b> chat / ping (co-op)</div><div><b>Esc</b> pause</div>',
+ ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>E</b> take · open · use · talk</div><div><b>Q (tap)</b> kick boards</div><div><b>Hold Q</b> pry · breaker · flare · revive</div><div><b>E / Enter</b> respawn</div><div><b>C</b> crouch (sneak)</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1 / 2</b> crowbar / SMG</div><div><b>V</b> 1st / 3rd person</div><div><b>Tab</b> objectives</div><div><b>T / Z</b> chat / ping (co-op)</div><div><b>Esc</b> pause</div>',
  goals_title:'ESCAPE PLAN',
- cctv_hint:'◀ ▶ / A D — switch camera · [ENTER] — release the shutter (when it is time) · [E] / [Esc] — leave',cctv_cam:'CAM {n} — {m}',
- shutter_btn:'RELEASE FLOOR 3 SHUTTER',note_close:'[E] / [ENTER] / [ESC] — put it down',
+ cctv_hint:'◀ ▶ / A D — switch camera · [Q] — release the shutter (when it is time) · [E] / [Esc] — leave',cctv_cam:'CAM {n} — {m}',
+ shutter_btn:'RELEASE FLOOR 3 SHUTTER',note_close:'[E] / [ESC] — put it down',
  death_h:'YOU DIED',death_l:'YOU GOT BONKED',death_p:'The building keeps your bones.',death_pl:'The bots gently roll you to a safe corner.',
  down_h:'YOU ARE DOWN',down_hl:'TACKLED!',
  down_mp:'A friend can revive you — hold on!',down_mp_l:'A friend can un-bonk you — hold on!',down_sp:'Nobody left to help you…',down_sp_l:'The bots are politely waiting. Ow.',
- down_help:'No retries left — a friend can HOLD [SPACE] next to you to help you up. Nobody coming? The run ends here.',
+ down_help:'No retries left — a friend can HOLD [Q] next to you to help you up. Nobody coming? The run ends here.',
  death_restart:'The run is over. You will start again from the beginning.',
- lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW — [ENTER]',death_left:'Retries left: {n}',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',
+ lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW — [E]',death_left:'Respawning. Retries left after this: {n}',death_last:'This was your last retry — you get ONE more life. Die again and the run ends.',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',
  vic:'EXTRACTED',vic_p:'The helicopter lifts away from Seowon High. You made it.',vic_pl:'The rescue drone whisks you away from Seowon High. The bots wave goodbye. 🤖',
  st_time:'Time: ',st_kills:'Zombies put down: ',st_killsl:'Bots bounced: ',st_down:'Times down: ',st_squad:'Squad: {n} survivors',st_solo:'Solo escape',
  ring_a:'🟠 A faint arc — something is moving on that side. Listen. Guess.',
  ring_al:'🔵 A faint arc — a bot is active on that side',
  ring_b:'🔴 RED arc = it is CHASING you from that side! RUN.',ring_bl:'🔵 BRIGHT BLUE arc = the bot is coming straight for you!',
  p_wait:'Waiting for your squad in the circle ({i}/{t})',
- p_circle:'Light the flare first — HOLD [SPACE] in the circle',
+ p_circle:'Light the flare first — HOLD [Q] in the circle',
  p_extract:'HELICOPTER IN {n}s — STAY IN THE CIRCLE',
  p_out:'OUT OF THE CIRCLE — the clock is rewinding ({n}s)',
  lock_hint:'🖱️ CLICK THE GAME TO CAPTURE THE MOUSE',
@@ -191,28 +192,28 @@ en:{
  q_flare:'Light the signal flare in the landing circle.',
  q_hold:'Stay in the circle for 30 seconds until the helicopter lands.',
  qh_torch:'Desk by the sealed entrance · [E] take it · [F] toggles the light.',
- qh_crowbar:'The closet door is boarded · tap [SPACE] 3× to kick it in · [E] take the crowbar.',
- qh_boards:'Stairwell = green arrows, east end of the hall · HOLD [SPACE] at the gate to pry.',
+ qh_crowbar:'The closet door is boarded · tap [Q] 3× to kick it in · [E] take the crowbar.',
+ qh_boards:'Stairwell = green arrows, east end of the hall · HOLD [Q] at the gate to pry.',
  qh_sec:'South side of Floor 2, sign “CCTV & POWER” · [E] opens doors.',
  qh_arch:'Stand at the monitors · [E] uses the terminal.',
  qh_red:'Same desk as the monitors · [E] take it.',
- qh_power:'Generator at the back of the room · HOLD [SPACE] on the red handle.',
+ qh_power:'Generator at the back of the room · HOLD [Q] on the red handle.',
  qh_gate2:'Stairwell gate on Floor 2 · [E] swipes the card.',
  qh_park:'He is in the hall right outside the Floor 3 stairwell.',
- qh_parktalk:'Stand next to him · [ENTER] to talk, [ENTER] again for the next line.',
+ qh_parktalk:'Stand next to him · [E] to talk, [E] again for the next line.',
  qh_blue:'The card fell beside his hand · [E] take it.',
  qh_killpark:'Crowbar [1] or pistol [2] · [LMB] attack · hits from behind do double damage.',
- qh_shutter:'Floor 2 security room · [E] at the terminal · [ENTER] (or click the button) releases the Floor 3 shutter.',
+ qh_shutter:'Floor 2 security room · [E] at the terminal · [Q] (or click the button) releases the Floor 3 shutter.',
  qh_gate3:'The shutter on Floor 3 is up · take the stairs to Floor 4.',
- qh_breaker:'South-east room of Floor 4 · HOLD [SPACE] on the green handle.',
+ qh_breaker:'South-east room of Floor 4 · HOLD [Q] on the green handle.',
  qh_gate4:'Stairwell gate on Floor 4 · [E] swipes the card.',
  qh_jieun:'No marker — open doors [E] and search. Listen: she makes small noises.',
- qh_jtalk:'Stand next to her · [ENTER] to talk, [ENTER] again for the next line.',
+ qh_jtalk:'Stand next to her · [E] to talk, [E] again for the next line.',
  qh_yellow:'She left it on the floor for you · [E] take it.',
  qh_gate5:'Stairwell gate on Floor 5 · the lamp is green now · [E] opens it.',
  qh_gate6:'Stairwell gate on Floor 6 · [E] swipes the card.',
  qh_roof:'The stairwell goes all the way up.',
- qh_flare:'Green circle on the helipad · HOLD [SPACE] inside it to light the flare.',
+ qh_flare:'Green circle on the helipad · HOLD [Q] inside it to light the flare.',
  qh_hold:'Stay inside the circle — stepping out rewinds the clock · [H] medkit · [G] flare lures them away.',
  r_crowbar:'Good, a light. Keep the beam low. The janitor closet on the Ground floor has a crowbar — kick the boards in.',
  r_boards:'Crowbar? Good. The stairwell is the tower at the east end. The Floor 1 gate is boarded — pry it.',
@@ -256,7 +257,12 @@ en:{
  npc2_2:'I\'ve been hiding in here since the alarms. The lab doors opened and everyone ran. I didn\'t.',
  npc2_3:'There\'s one that\'s different. It doesn\'t rush. It watches. When you look at it, it\'s gone.',
  npc2_4:'Here — the ROOFTOP key. Yellow card. And I\'m not staying here alone. I have a gun from the security office — I\'m coming with you.',
- t_jieun_join:'Ji-eun joins you — she follows you and shoots anything that gets close.',
+ t_jieun_join:'Ji-eun joins you — she follows you and shoots anything that gets close. Keep her alive: zombies go for her too.',
+ t_jieun_hurt:'Ji-eun is badly hurt — cover her!',
+ jieun_dying:'<b>Ji-eun:</b> “It bit me… I’m sorry… r-run…”',
+ jieun_turn:'<i>Ji-eun gets up. Her eyes are wrong.</i> Put her down.',
+ jieun_zdead:'<i>It’s over, Ji-eun. You kept her from wandering the halls.</i>',
+ jieun_out_l:'Ji-eun got bonked too many times — she heads back to the safe room.',
  npc2l_1:'Shh! Is it a bot? …Oh, you\'re a person! Keep it down!',
  npc2l_2:'I hid in here when the bot parade started. They kept offering me juice boxes.',
  npc2l_3:'One bot is different. It just stands there and stares. Creepy. Cute. Creepy.',
@@ -271,7 +277,8 @@ en:{
  t_crowbar:'Crowbar — pry boards, swing at heads. [1] to select.',t_pistol:'SMG — HOLD [LMB] for full-auto · [1]/[2] switch weapons.',
  t_ammo:'Ammo +20 rounds.',t_torch:'Flashlight — [F] to toggle.',t_notorch:'No flashlight yet — check the reception desk (Ground floor).',
  t_batdead:'Battery is dead.',t_torchdead:'Flashlight died. Find batteries.',t_noflare:'No flares left.',t_nomedi:'No medkits.',t_medused:'Medkit used (+60 HP)',
- t_empty:'Click — empty. Find ammo boxes, or press [1] for the crowbar.',t_nopistol:'No gun yet — the security guard left an SMG in the CCTV room (Floor 2).',
+ t_empty:'Click — empty. Ammo: STORAGE room (Floor 3, north-west) · ARMORY (Floor 5, north-east) · crate on the roof. [1] = crowbar.',
+ sg_storage:'STORAGE · AMMO',sg_armory:'ARMORY · AMMO',t_nopistol:'No gun yet — the security guard left an SMG in the CCTV room (Floor 2).',
  t_w_melee:'Crowbar out.',t_w_pistol:'SMG out — {n} rounds.',t_up:'Back on your feet. Watch yourself.',
  t_respawn:'You wake up by the stairwell. Keep moving.',t_power:'MAIN POWER RESTORED — card readers online',
  t_power2:'BREAKER ON — the Floor 5 gate lock is released',t_shutter:'FLOOR 3 SHUTTER RELEASED',t_boards:'Boards pried off.',
@@ -299,7 +306,7 @@ en:{
  elev_dead:'ELEVATOR — NO POWER. The school shutdown cut it. The stairwell at the end of the hall is the only way up.',
  elev_jam:'ELEVATOR — DEAD. Something is knocking on the other side of the doors. Don\'t.',
  /* ---- signs & rooms ---- */
- sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_stairs_to:'STAIRS ➜',sg_ooo:'OUT OF ORDER',sg_access:'{c} ACCESS',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_down:'↓ DOWN: {f}',sg_stairs_to:'STAIRS ➜',sg_ooo:'OUT OF ORDER',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',sg_wentup:'WE WENT UP →',sg_notsame:'THEY ARE NOT ALL THE SAME',
  rn00:'CLASS 1-1',rn01:'CLASS 1-2',rn02:'CLASS 2-1',rn03:'MUSIC ROOM',rn04:'ART ROOM',rn05:'LIBRARY',
@@ -338,13 +345,12 @@ zh:{
  mode_lite_d:'明亮友好 · 呆萌机器人 · 颜料泼溅 · 零惊吓',
  howto:'<b>目标：</b>从大厅爬到<b>天台</b>（共6层），点燃<b>信号照明弹</b>，在降落圈里坚持<b>30秒</b>，等直升机接你。<br>'+
   '<b>任务是一条链。</b>每一步都必须按顺序完成，下一步才会解锁——左上角面板永远显示当前步骤和要按的键。按住 <b>[Tab]</b> 查看完整计划。<br>'+
-  '<b>操作：</b><b>[E]</b> 拾取物品 · 开关门 · 阅读纸条 · 使用终端 · 刷门卡。'+
-  '<b>[空格]</b> 做体力活：<b>连按</b>踹开木板，<b>按住</b>撬木板、拉电闸、点燃照明弹、扶起队友（中途松手也会保留进度）。'+
-  '<b>[回车]</b> 与幸存者对话（再按一次看下一句）。<br>'+
+  '<b>操作：</b><b>[E]</b> 拾取物品 · 开关门 · 阅读纸条 · 使用终端 · 刷门卡 · 与幸存者<b>对话</b>（再按一次看下一句）。'+
+  '<b>[Q]</b> 做体力活：<b>连按</b>踹开木板，<b>按住</b>撬木板、拉电闸、点燃照明弹、扶起队友（中途松手也会保留进度）。<b>[空格]</b> 只用来跳跃。<br>'+
   '<b>楼梯间的门</b>都锁着——需要门卡、电力、2层的监控终端和撬棍。你将不得不折返。<br>'+
   '<b>听。</b>准星周围的光弧会指示附近的动静。<b>看。</b>门口的血迹说明里面有东西。高层<b>没有电</b>——手电筒 [F] 很耗电，记得捡电池。<br>'+
   '<b>照明弹 [G]</b> 引开敌人。<b>医疗包 [H]</b> 回血。<b>[C] 蹲下</b>潜行。<b>[Shift] 冲刺</b>很吵。<b>冲锋枪 [2]</b>（按住鼠标连发）在2层保安室。<br>'+
-  '<b>两种模式：</b>🧟 噩梦模式——黑暗、丧尸、血迹。🤖 日间演习——明亮、友好的机器人、零惊吓。<b>联机：</b>创建房间并分享代码（最多4人，以房主模式为准；[T] 聊天，[Q] 标记）。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
+  '<b>两种模式：</b>🧟 噩梦模式——黑暗、丧尸、血迹。🤖 日间演习——明亮、友好的机器人、零惊吓。<b>联机：</b>创建房间并分享代码（最多4人，以房主模式为准；[T] 聊天，[Z] 标记）。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
  cont:'继续游戏 — {f} · {m}',
  lb_title:'幸存者大厅',lb_share:'把这个房间代码分享给你的朋友',lb_copy:'点击代码复制 · 朋友点“加入联机”后输入即可',
  lb_startn:'开始逃生（{n} 名幸存者）',lb_start0:'仍要单人开始',lb_wait:'等待房主…',lb_leave:'离开',lb_copied:'已复制！',
@@ -356,28 +362,28 @@ zh:{
  floor:'第 {n} 层',floor0:'地面 — 大厅',roof:'天台 — 撤离点',fl_ground:'地面',fl_roof:'天台',fl_floor:'{n}层',
  wp_roof:'⬆ 楼梯间——上到天台',wp_up:'⬆ 楼梯间——走廊东端 · 上到{f}',wp_down:'⬇ 楼梯间——走廊东端 · 下到{f}',
  wp_here:'目标 · {d} 米',wp_search:'没有标记——搜查{f}的房间',
- hint:'[E] 拾取/开门/使用 · [空格] 踹 · [按住空格] 撬/电闸/照明弹 · [回车] 对话<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [Esc] 暂停',
- hint_mp:'<br>[T] 聊天 · [Q] 标记 · 在倒地队友旁按住 [空格] 救起',
- k_e:'E',k_hold:'按住 空格',k_enter:'回车',k_space:'空格',mw_how:'怎么做',
+ hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住Q] 撬/电闸/照明弹<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [Esc] 暂停',
+ hint_mp:'<br>[T] 聊天 · [Z] 标记 · 在倒地队友旁按住 [Q] 救起',
+ k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',
  col_red:'红色',col_blue:'蓝色',col_yellow:'黄色',col_green:'绿色',
  pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
- ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>连按空格</b> 踹木板</div><div><b>按住空格</b> 撬板·电闸·照明弹·救人</div><div><b>E</b> 拾取·开门·使用·刷卡</div><div><b>回车</b> 对话·重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>Tab</b> 目标列表</div><div><b>T / Q</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
+ ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>E</b> 拾取·开门·使用·对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬板·电闸·照明弹·救人</div><div><b>E / 回车</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
  goals_title:'逃生计划',
- cctv_hint:'◀ ▶ / A D — 切换摄像头 · [回车] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',
- shutter_btn:'解除3层卷帘门',note_close:'[E] / [回车] / [ESC] — 放下',
+ cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',
+ shutter_btn:'解除3层卷帘门',note_close:'[E] / [ESC] — 放下',
  death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。',
  down_h:'你倒下了',down_hl:'被扑倒了！',
  down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地围观。哎哟。',
- down_help:'没有重试机会了——队友可以在你身边按住 [空格] 扶起你。没人来？本次逃亡就到此为止。',
+ down_help:'没有重试机会了——队友可以在你身边按住 [Q] 扶起你。没人来？本次逃亡就到此为止。',
  death_restart:'逃亡失败。你将从头开始。',
- lives_lbl:'剩余重生',btn_respawn:'立即重生 — [回车]',death_left:'剩余重生次数：{n}',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',
+ lives_lbl:'剩余重生',btn_respawn:'立即重生 — [E]',death_left:'正在重生。之后还剩 {n} 次重生',death_last:'这是你最后一次重生——你只剩这一条命了。再死一次，本次逃亡就结束。',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',
  vic:'成功撤离',vic_p:'直升机载你飞离书元高中。你活下来了。',vic_pl:'救援无人机带你飞离书元高中。机器人向你挥手告别。🤖',
  st_time:'用时：',st_kills:'消灭丧尸：',st_killsl:'弹开的机器人：',st_down:'倒地次数：',st_squad:'小队：{n} 名幸存者',st_solo:'单人逃生',
  ring_a:'🟠 微弱的光弧——那个方向有东西在动。听。猜。',
  ring_al:'🔵 微弱的光弧——那个方向有机器人活动',
  ring_b:'🔴 红色光弧 = 它正从那边追你！快跑！',ring_bl:'🔵 亮蓝色光弧 = 机器人正朝你冲来！',
  p_wait:'在圈里等待队友（{i}/{t}）',
- p_circle:'先点燃照明弹——在圈内按住 [空格]',
+ p_circle:'先点燃照明弹——在圈内按住 [Q]',
  p_extract:'直升机 {n} 秒后到达——待在圈里',
  p_out:'你离开了圈——倒计时正在倒退（{n} 秒）',
  lock_hint:'🖱️ 点击游戏画面以锁定鼠标',
@@ -458,28 +464,28 @@ zh:{
  q_flare:'在降落圈里点燃信号照明弹。',
  q_hold:'在圈里坚持30秒，等直升机降落。',
  qh_torch:'被封死的正门旁边的桌子 · [E] 拾取 · [F] 开关手电。',
- qh_crowbar:'杂物间门被木板封住 · 连按 3 次 [空格] 踹开 · [E] 拿撬棍。',
- qh_boards:'楼梯间 = 绿色箭头，走廊东端 · 在门前按住 [空格] 撬开。',
+ qh_crowbar:'杂物间门被木板封住 · 连按 3 次 [Q] 踹开 · [E] 拿撬棍。',
+ qh_boards:'楼梯间 = 绿色箭头，走廊东端 · 在门前按住 [Q] 撬开。',
  qh_sec:'2层南侧，牌子写着“监控配电室” · [E] 开门。',
  qh_arch:'站到显示器前 · [E] 使用终端。',
  qh_red:'就在显示器那张桌上 · [E] 拾取。',
- qh_power:'发电机在房间后部 · 在红色手柄上按住 [空格]。',
+ qh_power:'发电机在房间后部 · 在红色手柄上按住 [Q]。',
  qh_gate2:'2层楼梯门 · [E] 刷卡。',
  qh_park:'他就在3层楼梯间出口外的走廊上。',
- qh_parktalk:'站到他身边 · [回车] 对话，再按 [回车] 听下一句。',
+ qh_parktalk:'站到他身边 · [E] 对话，再按 [E] 听下一句。',
  qh_blue:'卡掉在他手边 · [E] 拾取。',
  qh_killpark:'撬棍 [1] 或手枪 [2] · [左键] 攻击 · 从背后攻击伤害加倍。',
- qh_shutter:'2层保安室 · 在终端按 [E] · 按 [回车]（或点击按钮）解除3层卷帘门。',
+ qh_shutter:'2层保安室 · 在终端按 [E] · 按 [Q]（或点击按钮）解除3层卷帘门。',
  qh_gate3:'3层的卷帘门已升起 · 走楼梯上4层。',
- qh_breaker:'4层东南角的房间 · 在绿色手柄上按住 [空格]。',
+ qh_breaker:'4层东南角的房间 · 在绿色手柄上按住 [Q]。',
  qh_gate4:'4层楼梯门 · [E] 刷卡。',
  qh_jieun:'没有标记——用 [E] 开门搜查。仔细听：她会发出轻微的声音。',
- qh_jtalk:'站到她身边 · [回车] 对话，再按 [回车] 听下一句。',
+ qh_jtalk:'站到她身边 · [E] 对话，再按 [E] 听下一句。',
  qh_yellow:'她把卡放在地上了 · [E] 拾取。',
  qh_gate5:'5层楼梯门 · 指示灯已变绿 · [E] 打开。',
  qh_gate6:'6层楼梯门 · [E] 刷卡。',
  qh_roof:'楼梯一直通到顶。',
- qh_flare:'直升机坪上的绿色圆圈 · 站在圈内按住 [空格] 点燃照明弹。',
+ qh_flare:'直升机坪上的绿色圆圈 · 站在圈内按住 [Q] 点燃照明弹。',
  qh_hold:'待在圈内——离开会让倒计时倒退 · [H] 医疗包 · [G] 照明弹引开它们。',
  r_crowbar:'有光了？好。光束压低。地面层的杂物间里有撬棍——把木板踹开。',
  r_boards:'拿到撬棍了？好。楼梯间在走廊东端的塔楼。1层的楼梯门被木板封住了——撬开它。',
@@ -522,7 +528,12 @@ zh:{
  npc2_2:'警报响起后我就一直躲在这里。实验室的门开了，大家都跑了。我没跑。',
  npc2_3:'有一个不一样。它不急。它会“看”。你一看它，它就不见了。',
  npc2_4:'给——天台钥匙。黄卡。我不要一个人留在这里。我有一把保安室的枪——我跟你一起走。',
- t_jieun_join:'智恩加入了你——她会跟着你，并射击靠近的丧尸。',
+ t_jieun_join:'智恩加入了你——她会跟着你，并射击靠近的丧尸。保护好她：丧尸也会攻击她。',
+ t_jieun_hurt:'智恩伤得很重——掩护她！',
+ jieun_dying:'<b>智恩：</b>“它咬到我了……对不起……快、快跑……”',
+ jieun_turn:'<i>智恩站了起来。她的眼神不对了。</i>解决她。',
+ jieun_zdead:'<i>结束了，智恩。至少她不会在走廊里游荡了。</i>',
+ jieun_out_l:'智恩被敲中太多次——她回安全屋去了。',
  npc2l_1:'嘘！是机器人吗？……哦，你是人！小声点！',
  npc2l_2:'机器人游行一开始我就躲进来了。它们一直要塞给我果汁盒。',
  npc2l_3:'有一台机器人不一样。它就站在那儿盯着看。好怪。好可爱。好怪。',
@@ -536,7 +547,8 @@ zh:{
  t_crowbar:'撬棍——可撬木板、攻击头部。按 [1] 选用。',t_pistol:'冲锋枪——按住 [左键] 连发 · [1]/[2] 切换武器。',
  t_ammo:'弹药 +20 发。',t_torch:'手电筒——按 [F] 开关。',t_notorch:'还没有手电筒——去地面层前台看看。',
  t_batdead:'电池耗尽了。',t_torchdead:'手电筒没电了。去找电池。',t_noflare:'没有照明弹了。',t_nomedi:'没有医疗包了。',t_medused:'使用医疗包（+60 生命）',
- t_empty:'咔哒——空仓。去找弹药箱，或按 [1] 换撬棍。',t_nopistol:'还没有枪——保安把一把冲锋枪落在了2层监控室。',
+ t_empty:'咔哒——空仓。弹药：3层西北的储藏室 · 5层东北的军械室 · 天台的弹药箱。按 [1] 换撬棍。',
+ sg_storage:'储藏室 · 弹药',sg_armory:'军械室 · 弹药',t_nopistol:'还没有枪——保安把一把冲锋枪落在了2层监控室。',
  t_w_melee:'已切换撬棍。',t_w_pistol:'已切换冲锋枪——{n} 发。',t_up:'重新站了起来。小心点。',
  t_respawn:'你在楼梯间醒来。继续前进。',t_power:'主电源已恢复——读卡器上线',
  t_power2:'断路器已合闸——5层楼梯门的锁已解除',t_shutter:'3层卷帘门已解除',t_boards:'木板被撬开。',
@@ -562,7 +574,7 @@ zh:{
  gw_red:'2层保安室',gw_blue:'3层的朴老师',gw_yellow:'5层的智恩',
  elev_dead:'电梯——没有电。学校封锁时被切断了。走廊尽头的楼梯间是唯一上楼的路。',
  elev_jam:'电梯——已失灵。有东西在门的另一侧敲。别开。',
- sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_stairs_to:'楼梯 ➜',sg_ooo:'暂停使用',sg_access:'{c} 通行',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_down:'↓ 下楼：{f}',sg_stairs_to:'楼梯 ➜',sg_ooo:'暂停使用',sg_access:'{c} 通行',
  sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_infir:'医务室',sg_roof:'天台通道',sg_allfloors:'楼梯间 ➜ 通往所有楼层',sg_wentup:'我们上楼了 →',sg_notsame:'它们不全一样',
  rn00:'1-1教室',rn01:'1-2教室',rn02:'2-1教室',rn03:'音乐教室',rn04:'美术教室',rn05:'图书馆',
@@ -642,7 +654,7 @@ const G={
   mp:false, host:true, started:false, paused:false,
   time:0, dt:0,
   flags:{power:false,power2:false,shutter:false,finale:false,victory:false,cctvSeen:false,secFound:false,
-    parkFound:false,parkTalked:false,parkTurned:false,parkDead:false,
+    parkFound:false,parkTalked:false,parkTurned:false,parkDead:false,jieunDead:false,
     jieunFound:false,jieunTalked:false,flareLit:false},
   cards:{red:false,blue:false,green:false,yellow:false},
   gatesOpen:new Set(), boardsBroken:new Set(), taken:new Set(), notesRead:new Set(),
@@ -650,7 +662,7 @@ const G={
   dangerFloor:-1,
   stats:{kills:0,deaths:0,start:0},
   chatOpen:false, uiLock:null,   // 'cctv' | 'note' | 'chapter' | null
-  holdNear:false,                // a HOLD-[SPACE] job is in reach: Space works instead of jumping
+  holdNear:false,                // a HOLD-[Q] job is in reach (Space always jumps)
 };
 const INV={flashlight:false,crowbar:false,flare:0,medkit:0,battery:70,pistol:false,ammo:0};
 
@@ -684,7 +696,7 @@ addEventListener('keydown',e=>{
   const code=e.code==='NumpadEnter'?'Enter':e.code;
   KEY[code]=true;
   if(!e.repeat)onKey(code);   // held keys must not re-toggle the flashlight, crouch, camera…
-  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyQ','Enter'].includes(code))e.preventDefault();
+  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyQ','KeyZ','Enter'].includes(code))e.preventDefault();
 });
 addEventListener('keyup',e=>{const code=e.code==='NumpadEnter'?'Enter':e.code;KEY[code]=false;if(code==='Tab')toggleGoals(false);});
 addEventListener('mousemove',e=>{
@@ -893,8 +905,8 @@ function buildTextures(){
     const r=rand(3,16),bx=rand(0,w),by=rand(0,h);x.beginPath();x.arc(bx,by,r,0,TAU);x.fill();
     for(let k=0;k<5;k++){const a=rand(0,TAU),d=r+rand(2,14);x.beginPath();x.arc(bx+Math.cos(a)*d,by+Math.sin(a)*d,rand(1,4),0,TAU);x.fill();}}};
   TEX.zskin=makeCanvas(128,128,(x,w,h)=>{
-    x.fillStyle='#8d9478';x.fillRect(0,0,w,h);
-    for(let i=0;i<400;i++){const v=irand(100,150);x.fillStyle=`rgba(${v-20},${v},${v-40},.25)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
+    x.fillStyle='#7d786a';x.fillRect(0,0,w,h);   // dead grey-brown, not cartoon green
+    for(let i=0;i<400;i++){const v=irand(90,140);x.fillStyle=`rgba(${v},${v-8},${v-22},.25)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
     // dark veins
     x.strokeStyle='rgba(70,60,80,.4)';x.lineWidth=1;
     for(let i=0;i<10;i++){x.beginPath();let px=rand(0,w),py=rand(0,h);x.moveTo(px,py);for(let k=0;k<5;k++){px+=rand(-14,14);py+=rand(-14,14);x.lineTo(px,py);}x.stroke();}
@@ -933,8 +945,8 @@ function buildTextures(){
     splatter(x,w,h,7,110,150,0.45,0.85); // fresh blood across the uniform
   });
   TEX.zface=makeCanvas(128,128,(x,w,h)=>{ // painted infected face: sunken eyes, blood streak, grimy mouth
-    x.fillStyle='#a8937f';x.fillRect(0,0,w,h); // pale human skin
-    for(let i=0;i<220;i++){const v=irand(120,165);x.fillStyle=`rgba(${v-25},${v-35},${v-55},.2)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
+    x.fillStyle='#7d786a';x.fillRect(0,0,w,h); // same dead tone as the body
+    for(let i=0;i<220;i++){const v=irand(105,150);x.fillStyle=`rgba(${v-25},${v-35},${v-55},.2)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
     // grime + bruises
     for(let i=0;i<7;i++){x.fillStyle=`rgba(${irand(45,75)},${irand(40,65)},${irand(35,55)},${rand(.12,.28)})`;
       x.beginPath();x.arc(rand(0,w),rand(0,h),rand(8,22),0,TAU);x.fill();}
@@ -989,6 +1001,17 @@ function ensureAudio(){
   AUD.comp.threshold.value=-16;AUD.comp.knee.value=20;AUD.comp.ratio.value=4;
   AUD.comp.attack.value=0.004;AUD.comp.release.value=0.22;
   AUD.master.connect(AUD.comp);AUD.comp.connect(ctx.destination);
+  // "monster throat" bus for zombie voices: grit + muffled top, so no clip ever reads as a person
+  if(ctx.createWaveShaper&&ctx.createBiquadFilter){
+    const sh=ctx.createWaveShaper(),n=1024,curve=new Float32Array(n);
+    for(let i=0;i<n;i++){const x=i/(n-1)*2-1;curve[i]=Math.tanh(x*3.2)/Math.tanh(3.2);}
+    sh.curve=curve;
+    const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2300;lp.Q.value=0.6;
+    const low=ctx.createBiquadFilter();low.type='lowshelf';low.frequency.value=180;low.gain.value=5;
+    const out=ctx.createGain();out.gain.value=0.8;
+    sh.connect(lp);lp.connect(low);low.connect(out);out.connect(AUD.master);
+    AUD.zbus=sh;
+  }
   const SR=ctx.sampleRate;
   const mk=(dur,fn)=>{const b=ctx.createBuffer(1,Math.max(1,Math.floor(dur*SR)),SR),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=fn(i/SR,i/d.length);return b;};
   const noiseBuf=mk(2,()=>Math.random()*2-1);
@@ -1046,6 +1069,17 @@ function ensureAudio(){
     flare:mk(1.2,(t,p)=>(R()*2-1)*Math.pow(1-p,1.5)*0.35),
     hurt:mk(0.35,(t,p)=>{return (Math.sin(t*lerp(150,85,p)*Math.PI*2)*0.5+(R()*2-1)*0.3)*Math.pow(1-p,1.2);}),
     swing:mk(0.18,(t,p)=>(R()*2-1)*Math.sin(p*Math.PI)*0.3),
+    /* zombie impacts — body hits, never a voice: crowbar = heavy blunt crunch, bullet = wet slap */
+    hitMelee:mk(0.26,(t,p)=>{
+      const body=Math.sin(t*lerp(95,48,p)*Math.PI*2)*Math.pow(1-p,2.2)*0.95;           // meat thump
+      const crack=t<0.018?ND[Math.floor(t*SR*3)%ND.length]*(1-t/0.018)*0.9:0;           // bone crack
+      const crunch=(t>0.012&&t<0.09)?ND[Math.floor(t*SR*1.7)%ND.length]*Math.pow(1-(t-0.012)/0.078,2)*0.35:0;
+      return body+crack+crunch;}),
+    hitBullet:mk(0.16,(t,p)=>{
+      const slap=t<0.01?ND[Math.floor(t*SR*4)%ND.length]*(1-t/0.01):0;                  // entry snap
+      const thud=Math.sin(t*lerp(140,70,p)*Math.PI*2)*Math.pow(1-p,3)*0.7;
+      const wet=ND[Math.floor(t*SR*0.8)%ND.length]*Math.pow(1-p,4)*0.25;
+      return slap*0.8+thud+wet;}),
     radio:mk(0.25,(t,p)=>{const n=ND[Math.floor(t*SR)%noiseBuf.length];return n*0.12*(p<0.15||p>0.85?1:0.4);}),
     win:mk(2.5,(t,p)=>{const ch=p<0.5?[262,330,392]:[330,392,523];let s=0;ch.forEach(f=>s+=Math.sin(t*f*Math.PI*2)*0.12);return s*Math.sin(Math.min(1,p*3)*Math.PI);}),
     /* --- friendly (lite mode) extras --- */
@@ -1156,7 +1190,12 @@ function swapLoop(name,buf){
 }
 /* zombie voices exist twice (recordings + samples): alternate for variety */
 const VOICES=new Set(['growl1','growl2','growl3','scream','snarl','zbreath','zmouth','eat','zroar','hurt']);
+/* zombie vocal calls: always through the monster bus, pitched down. 'hurt' is NOT here — zombies take
+   hits with impact sounds (hitMelee/hitBullet); 'hurt' and 'pscream' are the player's own voice. */
+const ZVOX=new Set(['growl1','growl2','growl3','scream','snarl','zbreath','zmouth','eat','zroar']);
 function pickBuffer(key){
+  if(key==='pscream')return AUD.R.scream||AUD.V.scream||AUD.B.scream||AUD.noise;
+  if(key==='scream')return AUD.V.scream||AUD.V.screech||AUD.B.scream||AUD.noise; // the zombie pack's scream, never the human one
   const r=AUD.R[key],v=AUD.V[key];
   if(r&&v&&VOICES.has(key))return Math.random()<0.5?r:v;
   return r||v||AUD.B[key]||AUD.noise;
@@ -1182,10 +1221,12 @@ function play(name,opts={}){
   const src=ctx.createBufferSource();
   const key=(MD.id==='lite'&&LMAP[name]&&AUD.B[LMAP[name]])?LMAP[name]:name;
   src.buffer=pickBuffer(key);
-  src.playbackRate.value=(opts.rate||1)*rand(0.94,1.06);
+  const zv=MD.id!=='lite'&&ZVOX.has(key)&&AUD.zbus;
+  src.playbackRate.value=(opts.rate||1)*rand(0.94,1.06)*(zv?0.84:1);
   const g=ctx.createGain();g.gain.value=vol;
+  const bus=zv?AUD.zbus:AUD.master;
   const p=ctx.createStereoPanner?ctx.createStereoPanner():null;
-  if(p){p.pan.value=pan;g.connect(p);p.connect(AUD.master);}else g.connect(AUD.master);
+  if(p){p.pan.value=pan;g.connect(p);p.connect(bus);}else g.connect(bus);
   src.connect(g);src.start();
 }
 function emitNoise(x,z,f,radius){ // gameplay noise event (attracts zombies)
@@ -1847,7 +1888,13 @@ function buildFloor(f){
   // They stop at x=22.25, leaving a 1.6 m opening at the top so the landing is easy to walk out of.
   for(const zEdge of [SHAFT.z0,SHAFT.z1]){
     addWall(f,17,zEdge-0.06,22.25,zEdge+0.06,{mat:MAT.wall,los:false});
+    // Ground only: close the gap under the top of the first flight. On higher floors this gap IS the
+    // landing of the flight below (the way down); at Ground there is no flight below, it was a void.
+    if(f===0)addWall(f,22.25,zEdge-0.06,SHAFT.x1,zEdge+0.06,{mat:MAT.wall,los:false,h:FH-0.06});
   }
+  if(f===0)addWall(f,SHAFT.x1,SHAFT.z0,SHAFT.x1,SHAFT.z1,{mat:MAT.wall,los:false,h:FH-0.06});
+  // the way DOWN, painted on the shaft wall end at each landing (the top of the flight below)
+  if(f>0)signOn(f,22.31,y+2.55,SHAFT.z0,Math.PI/2,TEX.sign(T('sg_down',{f:floorName(f-1)}),'#06180a','#59ff7a'),0.9,0.22,EXIT_GLOW);
   // EXIT signs on the shaft-wall end faces — visible while you climb; the landing is sideways
   const exitSign=(zz)=>signOn(f,22.31,y+2.0,zz,Math.PI/2,TEX.sign(T('sg_exit'),'#06180a','#59ff7a'),0.9,0.26,EXIT_GLOW);
   exitSign(SHAFT.z0);exitSign(SHAFT.z1);
@@ -1940,23 +1987,22 @@ function buildFloor(f){
     // front wall with 1-2 doors
     const frontZ=r.z0>0?r.z0:r.z1;
     const dx1=rand(r.x0+2.5,r.x1-2.5);
-    const segs=[[r.x0,dx1-0.85],[dx1+0.85,r.x1]];
-    let doorXs=[dx1];
+    const doorXs=[dx1];
     if(r.x1-r.x0>11&&Math.random()<0.7){
       const dx2=dx1>=(r.x0+r.x1)/2?rand(r.x0+2,r.x0+4.5):rand(r.x1-4.5,r.x1-2);
-      if(Math.abs(dx2-dx1)>2.2){
-        doorXs.push(dx2);
-        segs.push([Math.min(dx1,dx2)-0.85,Math.max(dx1,dx2)+0.85]);
-        // build wall in 3 pieces around two doors: [x0,a-.85],[a+.85,b-.85],[b+.85,x1]
-        const a=Math.min(dx1,dx2),b=Math.max(dx1,dx2);
-        addWall(f,r.x0,frontZ,a-0.85,frontZ);addWall(f,a+0.85,frontZ,b-0.85,frontZ);addWall(f,b+0.85,frontZ,r.x1,frontZ);
-        addWall(f,a-0.85,frontZ,b+0.85,frontZ,{y:y+2.25,h:FH-2.25});
-      }
-    }else{
-      addWall(f,segs[0][0],frontZ,segs[0][1],frontZ);
-      addWall(f,segs[1][0],frontZ,segs[1][1],frontZ);
-      addWall(f,dx1-0.85,frontZ,dx1+0.85,frontZ,{y:y+2.25,h:FH-2.25});
+      if(Math.abs(dx2-dx1)>2.2)doorXs.push(dx2);
     }
+    // front wall: always built — full-height pieces between the doorways + a lintel over each gap.
+    // (Before, a second door rolled too close to the first skipped the WHOLE wall: an open room.)
+    doorXs.sort((p,q)=>p-q);
+    let wx=r.x0;
+    for(const dx of doorXs){
+      if(dx-0.85-wx>0.05)addWall(f,wx,frontZ,dx-0.85,frontZ);
+      addWall(f,dx-0.85,frontZ,dx+0.85,frontZ,{y:y+2.25,h:FH-2.25});
+      wx=dx+0.85;
+    }
+    if(r.x1-wx>0.05)addWall(f,wx,frontZ,r.x1,frontZ);
+    (world.frontWalls=world.frontWalls||[]).push({f,key:r.key,x0:r.x0,x1:r.x1,z:frontZ,doors:doorXs.slice()});
     // side divider walls between rooms
     addWall(f,r.x0,frontZ,r.x0,r.z0>0?r.z1:r.z0);
     // doors (1.6m leaf in a 1.7m gap — comfortable to walk through; swing into the room)
@@ -2004,13 +2050,15 @@ function buildFloor(f){
   if(f===2)specialCCTV(L,y);
   if(f===4){specialServer(L,y);specialElectrical(L,y);}
   if(f===5)specialHideout(L,y);
+  if(f===3)supplyRoom(f,rooms.find(r=>r.key==='N1'),'sg_storage',5);
+  if(f===5)supplyRoom(f,rooms.find(r=>r.key==='N3'),'sg_armory',6);
   if(f===3)signOn(3,-9,y+2.5,1.46,Math.PI,TEX.sign(T('sg_wentup'),'#0a1a0d','#59ff7a'),2.2,0.5);
   if(f===4)signOn(4,-9,y+2.5,1.46,Math.PI,TEX.sign(T('sg_notsame'),'#200','#ff5050'),2.6,0.42);
   if(f===5)signOn(5,12,y+2.5,1.46,Math.PI,TEX.sign(T('sg_infir'),'#101020','#59ff7a'),2,0.44);
   if(f===CFG.FLOORS-1)specialTop(L,y);
   pruneFurniture();
   // boarded deco doors (loot inside) — never on a mission room
-  const questRoom=r=>(f===2&&r.key==='S2')||(f===4&&r.key==='S3')||(f===5&&r.key==='S1');
+  const questRoom=r=>(f===2&&r.key==='S2')||(f===4&&r.key==='S3')||(f===5&&r.key==='S1')||(f===3&&r.key==='N1')||(f===5&&r.key==='N3');
   let boardedN=0;
   for(const r of rooms){
     if(boardedN>=2)break;
@@ -2056,6 +2104,24 @@ function buildFloor(f){
 }
 
 /* ---------- special rooms ---------- */
+/* an ammo room: steel shelving on the back wall, a green sign, ammo boxes (+ a medkit) on the floor */
+function supplyRoom(f,r,signKey,nAmmo){
+  if(!r)return;
+  const y=f*CFG.FH,north=r.z0>0;
+  const backZ=north?r.z1:r.z0,frontZ=north?r.z0:r.z1;
+  const cx=(r.x0+r.x1)/2;
+  clearArea(f,cx,backZ+(north?-0.8:0.8),2.2);
+  addBox(f,cx,y+0.9,backZ+(north?-0.32:0.32),3.2,1.8,0.45,MAT.locker,{los:true});   // shelving
+  for(const d of world.doors){
+    if(d.f!==f||d.room!==r.key)continue;
+    const dx=d.g.position.x+0.8;
+    signOn(f,dx,y+2.5,north?frontZ-0.16:frontZ+0.16,north?Math.PI:0,TEX.sign(T(signKey),'#0a1a0d','#59ff7a'),1.8,0.36,EXIT_GLOW);
+  }
+  const zA=Math.min(r.z0,r.z1)+1,zB=Math.max(r.z0,r.z1)-1;
+  for(let i=0;i<nAmmo;i++)spawnSupply('ammo',f,r.x0+1,r.x1-1,zA,zB);
+  spawnSupply('medkit',f,r.x0+1,r.x1-1,zA,zB);
+  spawnSupply('battery',f,r.x0+1,r.x1-1,zA,zB);
+}
 function specialEntrance(L,y){
   // sealed main entrance + reception + janitor closet in S3
   signOn(0,-23.84,2.2,0,Math.PI/2,TEX.sign(T('sg_entrance'),'#200','#ff5050'),2.2,0.55);
@@ -2174,6 +2240,9 @@ function buildRoof(){
   const stand=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.06,0.34,8),new THREE.MeshStandardMaterial({color:0x5a1a10,emissive:0xff3300,emissiveIntensity:0.0}));
   stand.position.set(2,y+0.17,3.5);L.add(stand);
   world.extract={x:2,z:3.5,y:y,ring,beam,stand,smoke:[],smokeT:0};
+  // a military drop by the roof door: ammo for the last stand
+  addBox(CFG.FLOORS,12.6,y+0.3,-5.2,1.2,0.6,0.7,MAT.gen,{los:true});
+  for(let i=0;i<5;i++)spawnSupply('ammo',CFG.FLOORS,10.5,14.5,-4.3,-2.8);
   // moon + city glow
   const moon=new THREE.Mesh(new THREE.CircleGeometry(3.4,24),new THREE.MeshBasicMaterial({color:0xd8dcff,fog:false}));
   moon.position.set(-60,y+42,-90);moon.lookAt(2,y,-8);L.add(moon);world.moon=moon;
@@ -2240,13 +2309,13 @@ function buildWorld(){
   }
   // MR. PARK — already bitten, lying in the Floor 3 hall right outside the stairwell arch:
   // the first thing you see on that floor. Talk, take his card… then he turns.
-  new SurvivorNPC('park',3,10.9,0.95,{pose:'lying',yaw:Math.PI/2,skin:0xa89684,cloth:0x2c2f36,
+  new SurvivorNPC('park',3,10.9,0.95,{pose:'lying',yaw:Math.PI/2,skin:0xa89684,cloth:0x2c2f36,pants:0x2c2f36,hair:0x8e8a84,
     nameKey:'npc1_name',nameKeyL:'npc1l_name',
     lines:['npc1_1','npc1_2','npc1_3'],linesL:['npc1l_1','npc1l_2','npc1l_3'],
     talkQuest:'q_parktalk',onDone:()=>{G.flags.parkTalked=true;netFlag('parkTalked');spawnParkItems();questCheck();}});
   decal(3,11.9,0.95,0.75,MAT.bloodPool);
   // JI-EUN — hiding on Floor 5, in the south-west room, behind a shelf. She stays there.
-  new SurvivorNPC('jieun',5,-22.95,-8.95,{pose:'sit',yaw:-Math.PI*0.8,skin:0xc9a88e,cloth:0x3f7a44,
+  new SurvivorNPC('jieun',5,-22.95,-8.95,{pose:'sit',yaw:-Math.PI*0.8,skin:0xc9a88e,cloth:0x2e3a5a,hair:0x120e0c,hp:160,
     nameKey:'npc2_name',lines:['npc2_1','npc2_2','npc2_3','npc2_4'],linesL:['npc2l_1','npc2l_2','npc2l_3','npc2l_4'],
     talkQuest:'q_jtalk',onDone:()=>{G.flags.jieunTalked=true;netFlag('jieunTalked');spawnJieunCard();questCheck();
       const je=npcByKey('jieun');if(je)setTimeout(()=>{je.startFollow();toast(T('t_jieun_join'));},2500);}});
@@ -2270,6 +2339,7 @@ function groundAt(x,z,yRef){
     if(x>=-24&&x<=24&&z>=-10&&z<=10&&!inLane(x,z))g=Math.max(g,y);
   }
   if(inLane(x,z)){
+    if(yRef>-0.5)g=Math.max(g,0);   // the Ground slab under the first flight: never a bottomless shaft
     const f=Math.max(0,Math.floor((yRef+0.7)/CFG.FH));
     const cand=stairH(x,z,f);
     if(cand<=yRef+0.7)g=Math.max(g,cand);
@@ -2348,77 +2418,171 @@ function setupCameraRig(){
 }
 
 /* ---------- humanoid builder (zombies, players, remote players) ---------- */
+/* Rounded, proportioned people (and infected).
+   Conventions the animation code relies on:
+   - the model faces -Z; legs hang from the hips on the root group (rotation.x > 0 swings a leg forward)
+   - the TORSO pivots at the waist and is turned 180° (order YXZ), so torso.rotation.x > 0 leans FORWARD;
+     head and arms are children of the torso: arm.rotation.x < 0 raises an arm forward, head.rotation.x > 0 nods
+   - torso and head are single-material meshes (zombies clone them for the hit flash) */
+const _HGEO={};
+const hgeo=(k,f)=>_HGEO[k]||(_HGEO[k]=f());
+const _HMAT={};
+const hmat=(k,f)=>_HMAT[k]||(_HMAT[k]=f());
 function buildHumanoid(opts={}){
   const g=new THREE.Group();
-  const skin=new THREE.MeshStandardMaterial({color:opts.skin||0x8a9078,roughness:.9});
-  const cloth=new THREE.MeshStandardMaterial({color:opts.cloth||0x2e3138,roughness:1});
+  const Z=!!opts.zombie,RB=!!opts.robot;
+  const ztype=opts.ztype||'shambler';
+  const look=opts.look||(Z?ztype:(RB?'robot':'player'));
+  const lk=Z?(ZLOOK[ztype]||ZLOOK.shambler):null;
+  const zm=Z&&TEX.zskin?zMats(lk):null;
+  const std=(c,r=.9,extra={})=>new THREE.MeshStandardMaterial({color:c,roughness:r,...extra});
+  const shared=(k,c,r,extra)=>hmat(k,()=>std(c,r,extra));
+  // ---- materials
+  const skin=Z?(zm?zm.skin:shared('zsk',0x8a9078,.92)):(RB?std(opts.skin||0xd8dde2,.35,{metalness:.4}):std(opts.skin||0xb08a6a,.72));
+  const top=Z?(zm?zm.cloth:shared('zcl',0x3a3a3a,1)):(RB?std(opts.cloth||0x3a86ff,.45,{metalness:.25}):std(opts.cloth||0x35404e,.95));
+  let pants=RB?top:shared('pants'+(opts.pants??(Z?0x22242a:0x26282e)),opts.pants??(Z?0x22242a:0x26282e),1);
+  const shoe=shared('shoe',0x18150f,.6);
+  const dark=shared('dark',0x0b0808,1);
+  const blood=shared('blood',0x4a0306,.35);
+  const hairM=shared('hair'+(Z?lk.hair:(opts.hair??0x1b1612)),Z?lk.hair:(opts.hair??0x1b1612),.95);
+  let thighM=pants,shinM=Z?pants:pants,armTop=top,foreM=RB?top:(Z?skin:top);
+  if(look==='jieun'){thighM=skin;shinM=shared('sock',0xe8e6e0,1);}
+  // ---- geometry (shared across every body)
+  const cap=(r,l)=>hgeo('cap'+r+'_'+l,()=>new THREE.CapsuleGeometry(r,l,4,12));
+  const cyl=(a,b,h,s=10)=>hgeo('cyl'+a+'_'+b+'_'+h+'_'+s,()=>new THREE.CylinderGeometry(a,b,h,s));
+  const sph=(r,w=12,hh=9)=>hgeo('sph'+r+'_'+w+'_'+hh,()=>new THREE.SphereGeometry(r,w,hh));
+  const box=(w,h,d)=>hgeo('box'+w+'_'+h+'_'+d,()=>new THREE.BoxGeometry(w,h,d));
+  const put=(geo,mat,x,y,z,parent,sx=1,sy=1,sz=1)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);if(sx!==1||sy!==1||sz!==1)m.scale.set(sx,sy,sz);(parent||g).add(m);return m;};
   const parts={};
-  const mk=(w,h,d,mat,x,y,z,parent)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);(parent||g).add(m);return m;};
-  if(opts.zombie){
-    /* ---- infected human: mottled flesh, torn clothes, jaw & glowing sunken eyes ---- */
-    const lk=ZLOOK[opts.ztype]||ZLOOK.shambler;
-    const zm=TEX.zskin?zMats(lk):null;
-    const flesh=zm?zm.skin:skin, rag=zm?zm.cloth:cloth;
-    parts.torso=mk(0.5,0.6,0.28,rag,0,1.2,0.02);
-    mk(0.42,0.22,0.26,rag,0,0.86,0); // hips
-    mk(0.16,0.2,0.02,new THREE.MeshStandardMaterial({color:0x4a0508,roughness:.4}),0.09,1.14,-0.15); // abdominal wound
-    if(opts.ztype==='brute'){ // exposed ribs through the rags
-      const rib=new THREE.MeshStandardMaterial({color:0xcfc4a8,roughness:.8});
-      for(let i=0;i<3;i++)mk(0.3,0.03,0.02,rib,-0.05,1.02+i*0.09,-0.15);
+  const brute=Z&&ztype==='brute';
+  // ---- torso: pivots at the waist, faces +Z locally (turned 180°)
+  const torsoGeo=RB?hgeo('torsoR',()=>{const q=new THREE.BoxGeometry(0.44,0.6,0.26);q.translate(0,0.32,0);return q;})
+    :hgeo(brute?'torsoB':'torso',()=>{const q=new THREE.CapsuleGeometry(0.17,0.28,5,16);q.rotateY(Math.PI);q.scale(brute?1.42:1.16,1,brute?0.82:0.66);q.translate(0,0.33,0);return q;});
+  parts.torso=new THREE.Mesh(torsoGeo,top);
+  parts.torso.position.set(0,0.94,0);
+  parts.torso.rotation.order='YXZ';parts.torso.rotation.y=Math.PI;
+  g.add(parts.torso);
+  const T0=parts.torso;
+  // pelvis (on the root, so the legs stay attached)
+  if(!RB)put(cap(0.14,0.08),pants,0,0.93,0,g,brute?1.4:1.18,0.85,brute?1.0:0.8);
+  else put(box(0.36,0.18,0.24),pants,0,0.9,0);
+  // neck + head
+  put(cyl(0.048,0.056,0.14),skin,0,0.69,0.005,T0);
+  const headGeo=RB?box(0.26,0.26,0.26):sph(0.112,20,16);
+  parts.head=new THREE.Mesh(headGeo,Z&&zm&&zm.face?zm.face:skin);
+  parts.head.position.set(0,0.83,0.01);
+  if(!RB)parts.head.scale.set(0.9,1.08,1);
+  T0.add(parts.head);
+  const H=parts.head;
+  if(RB){
+    put(box(0.22,0.16,0.02),shared('rbface',0x101418,.3),0,0.01,0.135,H);
+    const em=std(0x081018,.5,{emissive:0x19c8ff,emissiveIntensity:2.8});
+    parts.eyeL=put(sph(0.028),em,0.055,0.03,0.145,H);
+    parts.eyeR=put(sph(0.028),em,-0.055,0.03,0.145,H);
+    put(cyl(0.01,0.01,0.18),shared('rail',0x666a70,.5),0,0.22,0,H);
+    put(sph(0.035),std(0x112233,.5,{emissive:0xffd23f,emissiveIntensity:2.2}),0,0.32,0,H);
+    put(box(0.2,0.12,0.02),std(0x0a0e12,.4,{emissive:0x19c8ff,emissiveIntensity:.9}),0,0.38,0.135,T0);
+  }else if(Z){
+    // sunken sockets, ember pupils, a slack jaw, teeth and blood
+    for(const sx of [1,-1]){
+      put(sph(0.022,8,6),shared('ear',0x6a6a58,.9),0.104*sx,0,0,H,0.45,1,0.8);
     }
-    // head: the front face is a PAINTED infected face (sunken ember eyes, blood streak, grimy mouth)
-    const headMats=(zm&&zm.face)?[zm.skin,zm.skin,zm.skin,zm.skin,zm.skin,zm.face]:flesh;
-    parts.head=new THREE.Mesh(new THREE.BoxGeometry(0.27,0.28,0.27),headMats);
-    parts.head.position.set(0,1.66,0);g.add(parts.head);
-    // jaw + open mouth + teeth + dried blood (children of head so they sway with it)
-    const jawM=mk(0.2,0.08,0.2,flesh,0,-0.1,0.015,parts.head);jawM.rotation.x=0.55;
-    mk(0.16,0.05,0.03,new THREE.MeshStandardMaterial({color:0x2a0004,roughness:1}),0,-0.075,-0.115,parts.head);
-    const toothM=new THREE.MeshStandardMaterial({color:0xd8d2b8,roughness:.6});
-    for(let i=0;i<4;i++)mk(0.024,0.034,0.015,toothM,-0.054+i*0.036,-0.06,-0.125,parts.head);
-    mk(0.15,0.075,0.012,new THREE.MeshStandardMaterial({color:0x5a070a,roughness:.5}),0,-0.115,-0.12,parts.head); // blood around mouth
-    const em=new THREE.MeshStandardMaterial({color:0x220000,emissive:lk.eye,emissiveIntensity:2.6});
-    parts.eyeL=mk(0.045,0.03,0.02,em,-0.062,0.05,-0.136,parts.head);
-    parts.eyeR=mk(0.045,0.03,0.02,em,0.062,0.05,-0.136,parts.head);
-    if(opts.ztype!=='screamer'){ // matted bowl cut with bangs over the eyes
-      const hairM=new THREE.MeshStandardMaterial({color:lk.hair,roughness:1});
-      mk(0.295,0.1,0.295,hairM,0,0.16,0.012,parts.head);
-      mk(0.295,0.075,0.05,hairM,0,0.105,-0.122,parts.head);
+    const em=hmat('zeye'+lk.eye,()=>std(0x220000,.5,{emissive:lk.eye,emissiveIntensity:2.8}));
+    parts.eyeL=put(sph(0.011,8,6),em,0.041,0.018,0.104,H);
+    parts.eyeR=put(sph(0.011,8,6),em,-0.041,0.018,0.104,H);
+    put(box(0.05,0.028,0.03),shared('zmouth',0x1c0003,1),0,-0.052,0.094,H);  // open mouth
+    const tooth=shared('tooth',0xcfc6a6,.6);
+    for(let i=0;i<4;i++)put(box(0.011,0.015,0.008),tooth,-0.02+i*0.013,-0.043,0.108,H);
+    const jaw=put(box(0.075,0.026,0.07),skin,0,-0.094,0.064,H);jaw.rotation.x=0.42;
+    put(box(0.05,0.08,0.004),blood,0.004,-0.1,0.103,H);                      // blood down the chin
+    put(sph(0.03,8,6),blood,0.062,-0.018,0.08,H,0.6,1,0.4);                 // torn cheek
+    if(ztype!=='screamer'){                                                  // matted, patchy hair
+      put(hgeo('hairZ',()=>new THREE.SphereGeometry(0.118,14,8,0,Math.PI*2,0,Math.PI*0.42)),hairM,0,0.012,-0.006,H);
+      put(box(0.05,0.07,0.02),hairM,0.05,0.04,0.1,H).rotation.z=0.3;         // strands over the face
     }
-  }else if(opts.robot){
-    // friendly helper-bot: screen face, round cyan eyes, antenna, chest panel
-    parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
-    parts.head=mk(0.26,0.28,0.26,skin,0,1.68,0);
-    const face=mk(0.22,0.16,0.02,new THREE.MeshStandardMaterial({color:0x101418,roughness:.3}),0,1.69,-0.135);
-    const em=new THREE.MeshStandardMaterial({color:0x081018,emissive:0x19c8ff,emissiveIntensity:2.8});
-    parts.eyeL=mk(0.055,0.055,0.02,em,-0.055,1.71,-0.147);
-    parts.eyeR=mk(0.055,0.055,0.02,em,0.055,1.71,-0.147);
-    const ant=mk(0.02,0.18,0.02,MAT.rail||cloth,0,1.9,0);
-    const bulb=new THREE.Mesh(new THREE.SphereGeometry(0.035,8,8),new THREE.MeshStandardMaterial({color:0x123,emissive:0xffd23f,emissiveIntensity:2.2}));
-    bulb.position.set(0,2.0,0);g.add(bulb);
-    const panel=mk(0.2,0.12,0.02,new THREE.MeshStandardMaterial({color:0x0a0e12,emissive:0x19c8ff,emissiveIntensity:.9}),0,1.3,-0.145);
+    if(ztype==='park'){                                                      // his glasses, cracked
+      const rim=shared('rim',0x202020,.4,{metalness:.6});
+      for(const sx of [1,-1])put(hgeo('lens',()=>new THREE.TorusGeometry(0.02,0.004,6,14)),rim,0.041*sx,0.018,0.112,H);
+    }
+    // wounds / stains on the clothes
+    put(sph(0.05,8,6),blood,0.07,0.26,0.115*(brute?1.2:1),T0,1,1.4,0.25);
+    put(box(0.12,0.16,0.004),blood,-0.05,0.12,0.113*(brute?1.23:1),T0);
+    if(brute){ // ribs through the rags
+      const rib=shared('rib',0xcfc4a8,.8);
+      for(let i=0;i<4;i++)put(box(0.22,0.022,0.02),rib,-0.02,0.2+i*0.06,0.15,T0);
+    }
+    if(ztype==='runner'||ztype==='jieun'){ // school uniform: collar + tie
+      put(box(0.16,0.05,0.02),shared('collar',0xd8d4c8,1),0,0.6,0.1,T0);
+      put(box(0.035,0.2,0.012),shared('tie',0x3a1216,.8),0,0.46,0.113,T0);
+    }
+    if(ztype==='park'){
+      put(box(0.1,0.22,0.01),shared('shirt',0xcfcac0,1),0,0.47,0.111,T0);
+      put(box(0.03,0.2,0.012),shared('ptie',0x5a1a1a,.8),0,0.45,0.118,T0);
+    }
+    if(ztype==='jieun')put(box(0.2,0.3,0.05),hairM,0,-0.06,-0.1,H);
   }else{
-    parts.torso=mk(0.46,0.62,0.26,cloth,0,1.22,0);
-    parts.head=mk(0.26,0.28,0.26,skin,0,1.68,0);
-    parts.face=mk(0.2,0.08,0.02,new THREE.MeshStandardMaterial({color:0x1a1a1a}),0,1.7,-0.135);
+    // ---- a person: eyes, brows, nose, mouth, ears, hair
+    const white=shared('eyew',0xeeeae4,.4),iris=shared('iris',0x2a1c14,.3);
+    for(const sx of [1,-1]){
+      put(sph(0.016,10,8),white,0.04*sx,0.014,0.097,H,1,0.8,0.6);
+      put(sph(0.008,8,6),iris,0.04*sx,0.014,0.106,H);
+      put(box(0.036,0.007,0.008),hairM,0.04*sx,0.042,0.104,H);
+      put(sph(0.022,8,6),skin,0.104*sx,0,0,H,0.45,1,0.8);
+    }
+    put(box(0.02,0.04,0.028),skin,0,-0.008,0.112,H);
+    parts.face=put(box(0.04,0.008,0.008),shared('lip',0x7a4a44,.7),0,-0.05,0.104,H);
+    const bald=look==='park';
+    put(hgeo(bald?'hairP':'hairT',()=>new THREE.SphereGeometry(0.119,16,9,0,Math.PI*2,bald?Math.PI*0.28:0,bald?Math.PI*0.3:Math.PI*0.48)),hairM,0,0.01,-0.008,H);
+    if(!bald)put(box(0.19,0.05,0.04),hairM,0,0.07,0.085,H);                 // fringe
+    if(look==='jieun'){
+      put(box(0.21,0.26,0.06),hairM,0,-0.06,-0.095,H);                       // long hair down the back
+      put(box(0.035,0.2,0.05),hairM,0.1,-0.05,0.02,H);put(box(0.035,0.2,0.05),hairM,-0.1,-0.05,0.02,H);
+      put(box(0.16,0.05,0.02),shared('collar',0xd8d4c8,1),0,0.6,0.1,T0);    // uniform collar + ribbon
+      put(box(0.06,0.04,0.012),shared('ribbon',0x8a1a24,.8),0,0.56,0.115,T0);
+      put(cyl(0.17,0.25,0.3,14),shared('skirt',0x2a3a4a,1),0,0.8,0);          // pleated skirt
+    }
+    if(look==='park'){
+      const rim=shared('rim',0x202020,.4,{metalness:.6});
+      for(const sx of [1,-1])put(hgeo('lens',()=>new THREE.TorusGeometry(0.02,0.004,6,14)),rim,0.041*sx,0.014,0.112,H);
+      put(box(0.1,0.24,0.01),shared('shirt',0xe8e4dc,1),0,0.46,0.111,T0);    // shirt + tie under the jacket
+      put(box(0.03,0.22,0.012),shared('ptie',0x5a1a1a,.8),0,0.44,0.118,T0);
+    }
+    if(look==='player'){                                                     // hoodie + backpack
+      put(sph(0.12,12,8),top,0,0.72,-0.06,T0,1.1,0.55,0.9);
+      put(box(0.3,0.36,0.14),shared('pack',0x4a3d2e,1),0,0.36,-0.17,T0);
+      for(const sx of [1,-1])put(box(0.03,0.36,0.02),shared('strap',0x2a2218,1),0.1*sx,0.4,0.115,T0);
+    }
   }
-  const limbSkin=opts.zombie?(ZLOOK&&TEX.zskin?zMats(ZLOOK[opts.ztype]||ZLOOK.shambler).skin:skin):cloth;
-  parts.armL=new THREE.Group();parts.armL.position.set(-0.33,1.48,0);g.add(parts.armL);
-  parts.armR=new THREE.Group();parts.armR.position.set(0.33,1.48,0);g.add(parts.armR);
-  for(const arm of [parts.armL,parts.armR]){
-    mk(0.11,0.34,0.12,limbSkin,0,-0.17,0,arm);            // upper arm
-    const fore=mk(0.095,0.3,0.1,limbSkin,0,-0.46,0.03,arm);fore.rotation.x=-0.3; // forearm, reaching forward
-    mk(0.1,0.09,0.12,limbSkin,0,-0.63,0.06,arm);          // hand
+  // ---- arms: children of the torso, shoulder pivots (local +x is the body's LEFT after the 180° turn)
+  parts.armL=new THREE.Group();parts.armL.position.set(brute?0.3:0.235,0.52,0);T0.add(parts.armL);
+  parts.armR=new THREE.Group();parts.armR.position.set(brute?-0.3:-0.235,0.52,0);T0.add(parts.armR);
+  for(const [side,arm] of [['L',parts.armL],['R',parts.armR]]){
+    const torn=Z&&side==='L';                                               // one sleeve ripped away
+    put(sph(0.064,10,8),torn?skin:armTop,0,0,0,arm);
+    put(cyl(0.052,0.043,0.28),torn?skin:armTop,0,-0.15,0,arm);
+    const elbow=new THREE.Group();elbow.position.set(0,-0.29,0);elbow.rotation.x=-0.22;arm.add(elbow);
+    put(sph(0.043,8,6),torn?skin:foreM,0,0,0,elbow);
+    put(cyl(0.043,0.034,0.26),foreM,0,-0.13,0,elbow);
+    const hand=new THREE.Group();hand.position.set(0,-0.29,0);elbow.add(hand);
+    put(sph(0.04,10,8),RB?top:skin,0,0,0,hand,0.72,1.15,0.5);
+    put(cap(0.012,0.03),RB?top:skin,side==='L'?-0.028:0.028,0.012,0.018,hand).rotation.z=side==='L'?0.5:-0.5;
+    if(Z){for(let i=0;i<3;i++)put(box(0.008,0.05,0.008),skin,-0.016+i*0.016,-0.05,0.004,hand).rotation.x=0.3;} // clawed fingers
+    parts['elbow'+side]=elbow;parts['hand'+side]=hand;
   }
-  parts.legL=new THREE.Group();parts.legL.position.set(-0.13,0.9,0);g.add(parts.legL);
-  parts.legR=new THREE.Group();parts.legR.position.set(0.13,0.9,0);g.add(parts.legR);
-  for(const leg of [parts.legL,parts.legR]){
-    mk(0.15,0.46,0.17,cloth,0,-0.23,0,leg);               // thigh
-    mk(0.13,0.42,0.15,opts.zombie?limbSkin:cloth,0,-0.64,0.01,leg); // shin
-    mk(0.14,0.07,0.22,cloth,0,-0.86,-0.03,leg);           // foot
+  // ---- legs: root children, hip pivots (face -Z)
+  parts.legL=new THREE.Group();parts.legL.position.set(-(brute?0.13:0.098),0.9,0);g.add(parts.legL);
+  parts.legR=new THREE.Group();parts.legR.position.set(brute?0.13:0.098,0.9,0);g.add(parts.legR);
+  for(const [side,leg] of [['L',parts.legL],['R',parts.legR]]){
+    const rip=Z&&side==='R';                                                // a torn trouser leg
+    put(cyl(0.074,0.057,0.44),thighM,0,-0.22,0,leg);
+    const knee=new THREE.Group();knee.position.set(0,-0.44,0);leg.add(knee);
+    put(sph(0.056,8,6),rip?skin:shinM,0,0,0,knee);
+    put(cyl(0.056,0.042,0.4),rip?skin:shinM,0,-0.2,0,knee);
+    const sh=put(cap(0.046,0.13),RB?top:shoe,0,-0.43,-0.045,knee,1,0.72,1);sh.rotation.x=Math.PI/2;
+    parts['knee'+side]=knee;
   }
-  if(!opts.zombie){
-    const pack=mk(0.34,0.42,0.16,new THREE.MeshStandardMaterial({color:0x4a3d2e,roughness:1}),0,1.3,0.2);
-    const lightM=mk(0.07,0.07,0.22,new THREE.MeshStandardMaterial({color:0x333,metalness:.6,emissive:0xffdd88,emissiveIntensity:.4}),0.31,1.28,-0.2,parts.armR);
+  if(opts.look==='player'||(!Z&&!RB&&!opts.look)){
+    const lightM=put(box(0.05,0.05,0.16),std(0x333333,.5,{metalness:.6,emissive:0xffdd88,emissiveIntensity:.4}),0,-0.02,0.07,parts.handR);
     parts.light=lightM;
   }
   parts.g=g;
@@ -2604,6 +2768,7 @@ const ZTYPES={
   crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:6,aimH:0.5},   // drags itself, lunges at your ankles
   watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
   park:{speed:1.5,chase:4.5,hp:6,dmg:16,scale:1.0,sight:16,aimH:1.15},     // Mr. Park, freshly turned
+  jieun:{speed:1.6,chase:4.6,hp:5,dmg:14,scale:0.94,sight:16,aimH:1.1},    // Ji-eun, if she dies
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -2614,16 +2779,18 @@ const ZLOOK={
   crawler:{cloth:'zgown',eye:0xff2a1a,hair:0x141210},
   watcher:{cloth:'zclothB',eye:0xd8d8d8,hair:0x060606}, // pale cold eyes. it watches.
   park:{cloth:'zclothA',eye:0xff3a1a,hair:0x4a4640},    // the biology teacher's suit and tie
+  jieun:{cloth:'zuniform',eye:0xff3a1a,hair:0x151010},  // her school uniform
 };
-const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park'];
+const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun'];
 const _ZMAT={};
 function zMats(lk){
   if(_ZMAT[lk.cloth])return _ZMAT[lk.cloth];
   const mkTex=c=>{const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;};
   _ZMAT[lk.cloth]={
-    skin:new THREE.MeshStandardMaterial({map:mkTex(TEX.zskin),roughness:.92}),
-    cloth:new THREE.MeshStandardMaterial({map:mkTex(TEX[lk.cloth]),roughness:1}),
-    face:TEX.zface?new THREE.MeshStandardMaterial({map:mkTex(TEX.zface),roughness:.92}):null,
+    skin:new THREE.MeshStandardMaterial({map:mkTex(TEX.zskin),color:0x8f897e,roughness:.95}),   // tinted down: no glowing-white skin under the flashlight
+    cloth:new THREE.MeshStandardMaterial({map:mkTex(TEX[lk.cloth]),color:0x9a9a9a,roughness:1}),
+    // the painted face covers the FRONT of the head sphere only (clamped: the rest is plain skin tone)
+    face:TEX.zface?new THREE.MeshStandardMaterial({map:(()=>{const t=mkTex(TEX.zface);t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping;t.repeat.set(2.78,2);t.offset.set(-0.194,-0.56);return t;})(),color:0x8f897e,roughness:.95}):null,
   };
   return _ZMAT[lk.cloth];
 }
@@ -2669,10 +2836,10 @@ class Zombie{
   }
   hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
     if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
-  hit(dmg,byRemote){
+  hit(dmg,byRemote,kind='melee'){
     if(this.dead)return;
     this.hp-=dmg;this.hurtT=0.25;
-    play('hurt',{pos:this.g.position,vol:.8,ref:16});
+    play(kind==='bullet'?'hitBullet':'hitMelee',{pos:this.g.position,vol:kind==='bullet'?.75:.95,ref:16});
     burst(this.g.position.clone().add(new THREE.Vector3(0,1.25*this.cfg.scale,0)),this.robot?0xffd23f:0x8a0a0f,8,2.2,0.06);
     if(this.hp<=0){this.die(byRemote);return;}
     this.state='chase';this.loseT=0;this.staggerT=0.35;
@@ -2685,6 +2852,7 @@ class Zombie{
     decal(this.f,p.x,p.z,rand(0.6,1.0),pick(MAT.blood));
     if(!byRemote){G.stats.kills++;hudStats();}
     if(G.host&&G.mp)netBroadcast({t:'ev',k:'zdie',id:this.id});
+    if(this.type==='jieun'){showSub(T('jieun_zdead'),4,true);}
     if(this.type==='park'&&!G.flags.parkDead){
       G.flags.parkDead=true;netFlag('parkDead');
       showSub(T(MD.id==='lite'?'park_dead_l':'park_dead'),4,true);
@@ -2699,6 +2867,8 @@ class Zombie{
       if(d<bd){bd=d;best={x:px,z:pz,floor:pfloor,p:pref};}
     };
     if(!player.dead&&!player.down&&G.started)consider(player.pos.x,player.pos.z,player.floor,'local');
+    const je=companion();
+    if(je){const q=je.parts.g.position;consider(q.x,q.z,je.f,'jieun');}
     if(G.mp)for(const r of net.remotes.values()){
       if(r.down||r.dead)continue;
       consider(r.x,r.z,r.floor||0,'r'+r.id);
@@ -2958,7 +3128,7 @@ function spawnZombie(f,x,zz,type,room){
   return z;
 }
 
-/* ---------- survivors you find and talk to ([ENTER]) ----------
+/* ---------- survivors you find and talk to ([E]) ----------
    They never wander after you: Mr. Park lies where he fell, Ji-eun stays hidden. */
 class SurvivorNPC{
   constructor(key,f,x,z,opts={}){
@@ -2968,8 +3138,9 @@ class SurvivorNPC{
     this.pose=opts.pose||'stand';
     this.li=-1;this.gone=false;this.convulse=false;
     this.follow=false;this.fireT=1;this.stuckT=0;this.walkPh=0;
+    this.hpMax=opts.hp||100;this.hp=this.hpMax;this.hurtT=0;this.warned=false;
     this.name=T(MD.id==='lite'?(opts.nameKeyL||opts.nameKey):opts.nameKey);
-    this.parts=buildHumanoid({skin:opts.skin||0xb59a86,cloth:opts.cloth||0x3a4a5c});
+    this.parts=buildHumanoid({skin:opts.skin||0xb59a86,cloth:opts.cloth||0x3a4a5c,look:key,hair:opts.hair,pants:opts.pants});
     const g=this.parts.g;
     g.rotation.order='YXZ';
     this.yaw=opts.yaw||0;this.ph=rand(0,TAU);
@@ -3000,10 +3171,12 @@ class SurvivorNPC{
   placeLabel(){
     const c=this.center();
     this.label.position.set(c.x,this.parts.g.position.y+(this.pose==='stand'?2.25:1.25)-(this.pose==='sit'?-0.72:0),c.z);
+    if(this.bar){this.bar.position.set(c.x,this.label.position.y-0.2,c.z);this.bar.visible=this.follow&&!this.gone;}
   }
   update(dt,t){
     const g=this.parts.g;
     g.visible=this.label.visible=!this.gone;
+    if(this.bar)this.bar.visible=this.follow&&!this.gone;
     if(this.gone)return;
     if(this.follow){
       if(!G.mp||G.host)this.followUpdate(dt,t);
@@ -3031,6 +3204,31 @@ class SurvivorNPC{
     }
   }
   canTalk(){return !this.gone&&questAt(this.talkQuest);}
+  /* ---- companion health: zombies hit her; at 0 she dies (and, in Nightmare, turns) ---- */
+  damage(dmg){
+    if(this.gone||!this.follow||this.hp<=0)return;
+    this.hp=Math.max(0,this.hp-dmg);this.hurtT=0.3;this.regenWait=4;
+    play('hitMelee',{pos:this.parts.g.position,vol:.8,ref:16});
+    burst(this.parts.g.position.clone().add(new THREE.Vector3(0,1.2,0)),MD.blood?0x8a0a0f:0xffd23f,8,2.2,0.06);
+    this.drawBar();
+    if(this.hp<this.hpMax*0.35&&!this.warned){this.warned=true;toast(T('t_jieun_hurt'));}
+    if(this.hp<=0)jieunDies(false);
+  }
+  drawBar(){
+    if(!this.bar){
+      const c=document.createElement('canvas');c.width=128;c.height=16;
+      const t=new THREE.CanvasTexture(c);
+      this.bar=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));
+      this.bar.scale.set(0.9,0.11,1);this.bar.userData.c=c;
+      world.levels[this.f].add(this.bar);
+    }
+    const c=this.bar.userData.c,x=c.getContext('2d'),k=clamp(this.hp/this.hpMax,0,1);
+    if(x&&x.fillRect){
+      x.clearRect(0,0,128,16);x.fillStyle='rgba(0,0,0,.75)';x.fillRect(0,0,128,16);
+      x.fillStyle=k>0.5?'#5fd35f':(k>0.25?'#e0b030':'#e03030');x.fillRect(2,2,124*k,12);
+    }
+    this.bar.material.map.needsUpdate=true;
+  }
   /* ---- companion (Ji-eun after the talk): follows you floor to floor and shoots what gets close ---- */
   startFollow(){
     if(this.follow)return;
@@ -3038,14 +3236,16 @@ class SurvivorNPC{
     const p=this.parts;
     p.legL.rotation.x=p.legR.rotation.x=0;p.armL.rotation.x=p.armR.rotation.x=0;p.torso.rotation.x=0.05;
     p.g.position.y=this.f*CFG.FH;
+    this.drawBar();
     if(!this.gun){ // a security-office pistol in her right hand
-      this.gun=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.07,0.2),new THREE.MeshStandardMaterial({color:0x23262b,metalness:.8,roughness:.35}));
-      this.gun.position.set(0,-0.66,-0.1);p.armR.add(this.gun);
+      this.gun=new THREE.Mesh(new THREE.BoxGeometry(0.045,0.2,0.07),new THREE.MeshStandardMaterial({color:0x23262b,metalness:.8,roughness:.35}));
+      this.gun.position.set(0,-0.1,0.02);(p.handR||p.armR).add(this.gun);   // barrel runs along the forearm
     }
   }
   setFloor(f){
     if(f===this.f)return;
     this.f=f;world.levels[f].add(this.parts.g);world.levels[f].add(this.label);
+    if(this.bar)world.levels[f].add(this.bar);
   }
   /* reappear just behind the player (companions never get lost on stairs or behind doors) */
   catchUp(){
@@ -3080,6 +3280,9 @@ class SurvivorNPC{
       this.yaw+=angDiff(this.yaw,Math.atan2(p.x-player.pos.x,p.z-player.pos.z))*Math.min(1,dt*8);
       moving=true;
     }else this.stuckT=0;
+    // she patches herself up when it's quiet
+    this.regenWait=Math.max(0,(this.regenWait||0)-dt);
+    if(this.regenWait<=0&&this.hp<this.hpMax){this.hp=Math.min(this.hpMax,this.hp+3*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;}
     // fight: short bursts at the nearest zombie she can see
     this.fireT-=dt;
     let target=null,td=8;
@@ -3098,7 +3301,7 @@ class SurvivorNPC{
         burst(hand,0xffd27a,4,2.4,0.04);
         emitNoise(p.x,p.z,this.f,10);
         if((!G.mp||G.host)&&Math.random()<0.55){
-          target.hit(1,true);
+          target.hit(1,true,'bullet');
           burst(target.g.position.clone().add(new THREE.Vector3(0,1.2*target.cfg.scale,0)),MD.blood?0x8a0a0f:0xffd23f,6,2.4,0.05);
         }
       }
@@ -3120,6 +3323,39 @@ class SurvivorNPC{
   }
 }
 function npcByKey(k){return world.npcs.find(n=>n.key===k);}
+/* Ji-eun while she is with you and alive (zombies can target her) */
+function companion(){
+  const je=npcByKey('jieun');
+  return (je&&je.follow&&!je.gone&&je.hp>0&&!G.flags.jieunDead)?je:null;
+}
+/* Ji-eun dies: in Nightmare she rises as a zombie a few seconds later; in Daylight she just heads back */
+function jieunDies(quiet,remote){
+  const je=npcByKey('jieun');
+  if(!je||G.flags.jieunDead)return;
+  G.flags.jieunDead=true;
+  if(!quiet&&!remote)netFlag('jieunDead');
+  je.hp=0;je.follow=false;
+  if(je.bar)je.bar.visible=false;
+  if(MD.id==='lite'){je.gone=true;if(!quiet)toast(T('jieun_out_l'));return;}
+  if(quiet){je.gone=true;return;}
+  // she drops, twitches, then gets up
+  const p=je.parts;
+  p.g.rotation.order='YXZ';p.g.rotation.x=Math.PI/2;je.baseY=je.f*CFG.FH+0.16;p.g.position.y=je.baseY;
+  je.pose='lying';je.convulse=true;
+  showSub(T('jieun_dying'),4,true);
+  play('pscream',{pos:p.g.position,vol:.8,ref:20,rate:1.25});
+  setTimeout(()=>{
+    if(!world.built||je.gone)return;
+    je.gone=true;
+    if(G.mp&&!G.host)return;
+    const q=p.g.position;
+    const z=spawnZombie(je.f,q.x,q.z,'jieun',{x0:-23,x1:15.8,z0:-1.6,z1:1.6,door:null});
+    z.yaw=je.yaw;z.g.rotation.y=z.yaw;z.riseT=z.riseDur=1.6;z.g.rotation.x=Math.PI/2;
+    play('zroar',{pos:z.g.position,vol:1.1,ref:30,rate:1.15});
+    player.shakeT=Math.max(player.shakeT,0.4);
+    showSub(T('jieun_turn'),3.5,true);
+  },4000);
+}
 /* after the talk: Park's blue card (and his medkit) lie beside his hand */
 function spawnParkItems(){
   const npc=npcByKey('park');if(!npc)return;
@@ -3176,7 +3412,11 @@ function dealZombieDamage(z){
   // choose damaged human (local player or remotes — host authoritative)
   const dmg=z.cfg.dmg*MD.zDmg*(z.f===CFG.FLOORS&&G.flags.finale?ROOF.DMG:1);
   if(!G.mp||G.host){
-    if(player.pos.distanceTo(z.g.position)<1.8*z.cfg.scale&&!player.dead&&!player.down){
+    const hum=z.nearestHuman();
+    const je=companion();
+    if(je&&hum&&hum.p==='jieun'){ // it went for Ji-eun
+      if(je.f===z.f&&je.parts.g.position.distanceTo(z.g.position)<1.8*z.cfg.scale)je.damage(dmg);
+    }else if(player.pos.distanceTo(z.g.position)<1.8*z.cfg.scale&&!player.dead&&!player.down){
       damagePlayer(dmg,z.g.position);
     }
     if(G.mp)for(const r of net.remotes.values()){
@@ -3221,7 +3461,7 @@ function onPlayerDown(){
   $('downedOv').style.display='flex';
   $('downedOv').querySelector('h2').textContent=MD.id==='lite'?T('down_hl'):T('down_h');
   $('downedTxt').textContent=downText();
-  play('scream',{vol:1});
+  play('pscream',{vol:1});
   if(G.mp)netSend({t:'ev',k:'down',id:G.myId});
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'down',id:G.myId});
 }
@@ -3244,7 +3484,7 @@ function onPlayerDeath(){
     $('death').style.display='flex';
     $('death').querySelector('h1').textContent=MD.id==='lite'?T('death_l'):T('death_h');
     $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
-    $('respawnTxt').textContent=T('death_left',{n:G.lives});
+    $('respawnTxt').textContent=G.lives>0?T('death_left',{n:G.lives}):T('death_last');
     $('btnRespawn').classList.remove('hidden');
     $('btnRespawn').textContent=T('btn_respawn');
     $('btnDeathMenu').classList.add('hidden');
@@ -3256,7 +3496,7 @@ function onPlayerDeath(){
     $('downedOv').style.display='flex';
     $('downedOv').querySelector('h2').textContent=MD.id==='lite'?T('down_hl'):T('down_h');
     $('downedTxt').textContent=downText();
-    play('scream',{vol:1});
+    play('pscream',{vol:1});
   }
   if(player.dead)play('stinger',{vol:.9});
   if(G.mp)netSend({t:'ev',k:player.dead?'dead':'down',id:G.myId});
@@ -3380,7 +3620,7 @@ function pistolHit(origin,dir,f){
     }
   }
   if(best){
-    best.hit(head?GUN.HEAD:GUN.DMG);
+    best.hit(head?GUN.HEAD:GUN.DMG,false,'bullet');
     const hp=origin.clone().add(dir.clone().multiplyScalar(bt));
     burst(hp,MD.blood?0x8a0a0f:0xffd23f,head?16:10,3,0.06);
     return true;
@@ -3455,7 +3695,7 @@ function updatePlayer(dt,t){
     if(player.vy<-9)play('pstepRun',{vol:.5,rate:0.85});
     player.pos.y=g;player.vy=0;player.grounded=true;
   }else player.grounded=false;
-  if(KEY.Space&&player.grounded&&!G.holdNear&&!G.uiLock){player.vy=CFG.JUMP;player.grounded=false;play('pstepWalk',{vol:.4});}
+  if(KEY.Space&&player.grounded&&!G.uiLock){player.vy=CFG.JUMP;player.grounded=false;play('pstepWalk',{vol:.4});}
   // floor tracking
   const nf=clamp(Math.round(player.pos.y/CFG.FH),0,CFG.FLOORS);
   if(nf!==player.floor){player.floor=nf;onFloorChange(nf);}
@@ -3518,7 +3758,7 @@ function updatePlayer(dt,t){
         const back=((-Math.sin(z.yaw))*fx+(-Math.cos(z.yaw))*fz)>0.4;
         if(G.mp&&!G.host){ // co-op guest: the host owns zombie health
           netSend({t:'ev',k:'zhit',id:z.id,dmg:back?2:1});
-          z.hurtT=0.25;play('hurt',{pos:z.g.position,vol:.8,ref:16});
+          z.hurtT=0.25;play('hitMelee',{pos:z.g.position,vol:.95,ref:16});
           burst(z.g.position.clone().add(new THREE.Vector3(0,1.25*z.cfg.scale,0)),z.robot?0xffd23f:0x8a0a0f,8,2.2,0.06);
         }else z.hit(back?2:1);
         let zx2=z.g.position.x+fx*0.4,zz2=z.g.position.z+fz*0.4;
@@ -3676,7 +3916,7 @@ function pointBlocked(x,y,z,f){
 /* =====================================================================
    SECTION E — INTERACT · CCTV · QUEST · EVENTS · HUD
 ===================================================================== */
-let holdAct=null;      // a HOLD-[SPACE] job in progress: {kind,label,t,dur,apply,mesh,base,fx}
+let holdAct=null;      // a HOLD-[Q] job in progress: {kind,label,t,dur,apply,mesh,base,fx}
 let extractProg=0;
 const pings=[];
 let playerMaxFloor=0;
@@ -3856,7 +4096,8 @@ function applyFlag(n){
     if(p&&!p.gone){p.convulse=true;setTimeout(()=>{if(G.host)spawnParkZombie(false);else p.gone=true;},4200);}
   }
   else if(n==='parkDead'){const p=npcByKey('park');if(p)p.gone=true;}
-  else if(n==='jieunTalked'){spawnJieunCard();const je=npcByKey('jieun');if(je)je.startFollow();}
+  else if(n==='jieunTalked'){spawnJieunCard();const je=npcByKey('jieun');if(je&&!G.flags.jieunDead)je.startFollow();}
+  else if(n==='jieunDead'){G.flags.jieunDead=false;jieunDies(false,true);}
   else if(n==='flareLit')lightRoofFlare(true);
 }
 /* rebuild the visible story state from flags (continue / language switch / late join) */
@@ -3867,7 +4108,7 @@ function restoreStory(){
     if(!G.flags.parkDead&&(!G.mp||G.host))spawnParkZombie(true);
     park.gone=true;
   }
-  if(G.flags.jieunTalked){spawnJieunCard();if(je){je.li=je.lines.length-1;je.startFollow();}}
+  if(G.flags.jieunTalked){spawnJieunCard();if(je){je.li=je.lines.length-1;if(G.flags.jieunDead)je.gone=true;else je.startFollow();}}
   if(G.flags.flareLit)lightRoofFlare(true);
   for(const g of world.gates)g.refreshLamp();
   updateShutterBtn();
@@ -3943,8 +4184,9 @@ function doorPoint(d){
 }
 /* ---------------- interaction: three keys, three kinds of action ----------------
    [E]           tap  — take, open/close, read, use a terminal, swipe a card
-   [HOLD SPACE]  hold — physical work: pry / kick boards, pull a breaker, light the flare, revive
-   [ENTER]       tap  — talk to a survivor (again for the next line)
+   [Q]           tap  — kick boards in (one kick per tap)
+   [HOLD Q]      hold — physical work: pry boards, pull a breaker, light the flare, revive
+   [E]           also talks to a survivor (again for the next line); the target you look at wins
    Items and survivors must be in plain sight: nothing is usable through a wall. */
 const ITEM_LABEL={battery:'l_batt',flare:'l_flare',medkit:'l_medkit',crowbar:'l_crowbar',flashlight:'l_torch',note:'l_note',pistol:'l_pistol',ammo:'l_ammo'};
 function itemQuest(it){ // story items belong to one mission step
@@ -3997,7 +4239,7 @@ function interactTargets(){
     const score=d*(2-facing)*prio;
     if(score>=best[slot])return;
     if(los&&!losClear(px,pz,x,z,pf))return;
-    best[slot]=score;out[slot]={x,z,...o};
+    best[slot]=score;out[slot]={x,z,score:slot==='enter'?score/1.5:score,...o};
   };
   for(const it of world.items){
     if(it.taken||it.f!==pf)continue;
@@ -4032,13 +4274,14 @@ function interactTargets(){
   for(const npc of world.npcs){
     if(npc.gone||npc.f!==pf)continue;
     const c=npc.center();
-    add('enter',c.x,c.z,npc.f,{label:T('l_talk',{n:npc.name}),fn:()=>npc.talk()},true);
+    const tq={park:['q_park','q_parktalk'],jieun:['q_jieun','q_jtalk']}[npc.key]||[];
+    add('enter',c.x,c.z,npc.f,{label:T('l_talk',{n:npc.name}),fn:()=>npc.talk()},true,tq.some(k=>qi===QI[k])?0.15:1);   // talking is the objective: it beats a battery at your feet
   }
   if(world.terminal&&pf===world.terminal.f){
     add('e',world.terminal.x,world.terminal.z+0.9,pf,{label:T(G.flags.power?'l_cctv':'l_cctv_bak'),fn:()=>{
       if(!G.flags.cctvSeen&&!questAt('q_arch')){notYet();return;}
       openCCTV();   // the archive runs on backup power — the story is always available
-    }});
+    }},false,(qi===QI.q_arch||qi===QI.q_shutter)?0.35:1);
   }
   // the elevator: a dead end with a story
   if(Math.abs(px-15.5)<1.7&&Math.abs(Math.abs(pz)-2.05)<1.0){
@@ -4065,16 +4308,15 @@ function interactTargets(){
 function updateInteract(dt){
   updateAmbientLights();
   const tg=interactTargets();
-  G.holdNear=!!tg.hold||!!holdAct;   // Space is "work" here, not "jump"
+  G.holdNear=!!tg.hold||!!holdAct;
   const eDown=!!KEY.KeyE&&!ePrev;ePrev=!!KEY.KeyE;          // edge-triggered: holding E never spam-toggles
-  const enDown=!!KEY.Enter&&!enterPrev;enterPrev=!!KEY.Enter;
-  const spDown=!!KEY.Space&&!spacePrev;spacePrev=!!KEY.Space;
+  const spDown=!!KEY.KeyQ&&!spacePrev;spacePrev=!!KEY.KeyQ;   // [Q] = physical work
   const rows=[];
   let bar=-1;
   const ex=updateExtraction(dt);
   if(ex){rows.push(ex.row);bar=ex.p;}
   if(holdAct){
-    if(!KEY.Space||player.dead||player.down||G.uiLock||G.paused)cancelHold();
+    if(!KEY.KeyQ||player.dead||player.down||G.uiLock||G.paused)cancelHold();
     else{
       holdAct.t+=dt;animateHold(dt);
       const a=holdAct;
@@ -4095,14 +4337,15 @@ function updateInteract(dt){
       else if(workProg[h.id])bar=workProg[h.id]/h.dur;   // a job you walked away from
     }
   }
-  if(tg.e){rows.push({key:'e',label:tg.e.label});if(eDown)tg.e.fn();}
-  if(tg.enter){rows.push({key:'enter',label:tg.enter.label});if(enDown)tg.enter.fn();}
+  // [E] does both "use" and "talk": the target you look at (or the one the objective needs) wins
+  const eT=(tg.e&&tg.enter)?(tg.enter.score<=tg.e.score?tg.enter:tg.e):(tg.e||tg.enter);
+  if(eT){rows.push({key:'e',label:eT.label});if(eDown)eT.fn();}
   if(!rows.length&&tg.info){rows.push({key:null,label:tg.info.label});if(eDown||spDown)toast(T('t_need_crowbar2'));}
   showPrompt(rows);setBar(bar);
 }
 const workProg={};   // jobs you let go of keep their progress (id -> seconds held)
 let kickCd=0,camKick=0;
-/* one kick per [SPACE] tap: you can stop between kicks to fight */
+/* one kick per [Q] tap: you can stop between kicks to fight */
 function doKick(h){
   if(kickCd>0)return;
   if(h.quest&&!questAt(h.quest)){notYet();return;}
@@ -4196,7 +4439,7 @@ function lightRoofFlare(quiet){
   ex.ring.material.emissive.setHex(0xff5533);
   if(quiet||!first)return;
   netFlag('flareLit');
-  G.flareT=0;G.waveT=1.5;extractProg=0;
+  G.flareT=0;G.waveT=ROOF.FIRST_WAVE;extractProg=0;   // roofSpawned keeps counting from the arrival (cap = ROOF.TOTAL)
   toast(T('t_flarelit'));
   play('flare',{vol:1});play('alarm',{vol:.55,force:true});
   setLoop('chopper',0.7);
@@ -4232,25 +4475,27 @@ function updateExtraction(dt){
 function roofWaves(dt){
   G.flareT=(G.flareT||0)+dt;
   if(G.mp&&!G.host)return;
-  G.waveT=(G.waveT??2)-dt;
+  G.waveT=(G.waveT??ROOF.FIRST_WAVE)-dt;
   if(G.waveT<=0){
     G.waveT=ROOF.WAVE_EVERY*(MD.id==='lite'?1.4:1);
     let alive=0;
     for(const z of world.zombies)if(!z.dead&&z.f===CFG.FLOORS)alive++;
-    const n=Math.min(ROOF.MAX_ALIVE-alive,ROOF.WAVE_N);
+    const n=Math.max(0,Math.min(ROOF.MAX_ALIVE-alive,ROOF.WAVE_N,ROOF.TOTAL-(G.roofSpawned||0)));
+    G.roofSpawned=(G.roofSpawned||0)+n;
     for(let i=0;i<n;i++){
       let x,z;
       if(Math.random()<0.6){x=rand(15,18.5);z=pick([rand(-3.5,-0.4),rand(2.4,4.5)]);}   // out of the roof door
       else if(Math.random()<0.5){x=rand(-20,12);z=pick([-9.2,9.2]);}                    // over the parapet
       else{x=-23.2;z=rand(-8,8);}
-      const type=(G.flareT>12&&Math.random()<0.3)?'crawler':'runner';
+      const r=Math.random();   // mostly shamblers: the roof is a siege, not a sprint
+      const type=(G.flareT>12&&r<0.15)?'crawler':(r<0.4?'runner':'shambler');
       const zb=spawnZombie(CFG.FLOORS,x,z,type,ROOF_AREA);
       zb.state='chase';zb.loseT=0;
     }
     if(n>0)play('snarl',{pos:new THREE.Vector3(16,CFG.ROOF_Y,0),vol:.9,ref:40});
   }
-  if(G.flareT>14&&!G.flags.roofBrute){
-    G.flags.roofBrute=true;
+  if(G.flareT>14&&!G.flags.roofBrute&&(G.roofSpawned||0)<ROOF.TOTAL){
+    G.flags.roofBrute=true;G.roofSpawned=(G.roofSpawned||0)+1;
     const b=spawnZombie(CFG.FLOORS,17.5,-2.2,'brute',ROOF_AREA);b.state='chase';
     play('zroar',{pos:b.g.position,vol:1.2,ref:40,rate:0.8});
   }
@@ -4315,21 +4560,24 @@ function openCCTV(){
   if(document.exitPointerLock)document.exitPointerLock();   // free the mouse for the RELEASE button
   updateShutterBtn();
   play('click',{vol:.8});
-  if(!G.flags.cctvSeen&&!RESTORING)runCctvArchive();
+  if(!G.flags.cctvSeen&&!RESTORING&&!archiveRunning)runCctvArchive();
 }
-function closeCCTV(){G.uiLock=null;$('cctv').style.display='none';ePrev=enterPrev=true;lockPointer();}
+function closeCCTV(){G.uiLock=null;$('cctv').style.display='none';ePrev=enterPrev=true;lockPointer();questCheck();}
 /* the archive: a timestamped evacuation record that explains the whole building */
+/* it only counts once it has played to the end — leave early and it starts over next time */
+let archiveRunning=false;
 function runCctvArchive(){
-  G.flags.cctvSeen=true;
+  archiveRunning=true;
   const box=$('cctvLog'),txt=$('cctvLogTxt');
   box.style.display='flex';txt.textContent='';
   const lines=[T('cl_h'),T('cl1'),T('cl2'),T('cl3'),T('cl4'),T('cl5')];
   let i=0;
   const step=()=>{
-    if(G.uiLock!=='cctv'){box.style.display='none';return;}
+    if(G.uiLock!=='cctv'){box.style.display='none';archiveRunning=false;return;}
     if(i>=lines.length){
       txt.textContent+='\n'+T('cl_note');
       play('click',{vol:.3,force:true});
+      G.flags.cctvSeen=true;archiveRunning=false;
       setTimeout(()=>{
         box.style.display='none';
         toast(T('t_objdone'));
@@ -4571,7 +4819,7 @@ function updateEvents(dt){
     if(MD.jumpscares)setTimeout(()=>play('thunder',{vol:.8}),1200);
     setLoop('chopper',0.35);
     radio(T('radio_finale'));
-    G.flareT=0;G.waveT=2;G.flags.roofBrute=G.flags.roofWatcher=false;
+    G.flareT=0;G.waveT=ROOF.FIRST_WAVE;G.roofSpawned=3;G.flags.roofBrute=G.flags.roofWatcher=false;   // the 3 below count toward ROOF.TOTAL
     if(!G.mp||G.host){
       for(let i=0;i<3;i++){
         const z=spawnZombie(CFG.FLOORS,rand(-21,-10),rand(-8,8),i===2?'shambler':'runner',ROOF_AREA);
@@ -5114,13 +5362,13 @@ function onKey(code){
   if(G.uiLock==='note'&&(code==='KeyE'||code==='Escape'||code==='Enter')){closeNote();return;}
   if(G.uiLock==='cctv'){
     if(code==='KeyE'||code==='Escape'){closeCCTV();return;}
-    if(code==='Enter'){releaseShutter();return;}
+    if(code==='KeyQ'||code==='Enter'){releaseShutter();return;}
     if(code==='KeyA'||code==='ArrowLeft'){camFloor=(camFloor+CFG.FLOORS-1)%CFG.FLOORS;drawCCTV();play('click',{vol:.4});}
     if(code==='KeyD'||code==='ArrowRight'){camFloor=(camFloor+1)%CFG.FLOORS;drawCCTV();play('click',{vol:.4});}
     return;
   }
   if(player.dead){
-    if(code==='Enter'&&G.respawnPending)respawnPlayer(); // [ENTER] = confirm: respawn instantly
+    if((code==='KeyE'||code==='Enter')&&G.respawnPending)respawnPlayer(); // [E] = confirm: respawn instantly
     return;
   }
   switch(code){
@@ -5141,7 +5389,7 @@ function onKey(code){
       else toast(T('t_nopistol'));
       break;
     case 'Tab':toggleGoals(true);break;
-    case 'KeyQ':{
+    case 'KeyZ':{   // co-op ping (Q is physical work)
       const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
       const px=player.pos.x+fx*4,pz=player.pos.z+fz*4;
       addPing(px,pz,player.floor,G.myName);
@@ -5389,6 +5637,28 @@ function drawIntro(cv,kind,alpha,zoom,t){
   x.restore();
   if(alpha!==undefined){x.fillStyle=`rgba(0,0,0,${clamp(1-alpha,0,1)})`;x.fillRect(0,0,W,H);}
 }
+// Size a comic canvas (16:9) so the canvas + the text under it fit the window without scrolling.
+function fitComic(layerId,wrapId){
+  const layer=$(layerId),wrap=$(wrapId);
+  if(!layer||!wrap||layer.style.display==='none'||typeof getComputedStyle!=='function')return;
+  const cs=getComputedStyle(layer);
+  let used=parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom);
+  for(const el of layer.children){
+    if(el===wrap||getComputedStyle(el).display==='none')continue;
+    const m=getComputedStyle(el);
+    used+=el.offsetHeight+parseFloat(m.marginTop)+parseFloat(m.marginBottom);
+  }
+  for(const el of wrap.children){ // text inside the wrap (below the canvas)
+    if(el.tagName==='CANVAS'||el.tagName==='BUTTON'||getComputedStyle(el).display==='none')continue;
+    const m=getComputedStyle(el);
+    used+=el.offsetHeight+parseFloat(m.marginTop)+parseFloat(m.marginBottom);
+  }
+  const availH=Math.max(120,window.innerHeight-used-4);
+  const w=Math.max(200,Math.min(900,window.innerWidth*0.92,availH*16/9));
+  wrap.style.width=w+'px';
+}
+function fitComics(){fitComic('prologue','introWrap');fitComic('chapter','chWrap');}
+window.addEventListener('resize',fitComics);
 function showPrologue(){
   $('menu').style.display='none';$('lobby').style.display='none';
   $('prologue').style.display='flex';
@@ -5410,10 +5680,14 @@ function showPrologue(){
     $('introCap').style.display='none';
     $('missionBrief').style.display='block';
     const box=$('briefTxt');box.innerHTML='';
+    const ps=[0,1,2].map(k=>{ // lay out all lines now (hidden) so the layout never jumps
+      const p=document.createElement('p');p.textContent=T('br'+(k+1));p.style.opacity='0';p.style.transition='opacity .6s';
+      box.appendChild(p);return p;
+    });
     let i=0;
     const step=()=>{
       if(!introState||i>=3)return;
-      const p=document.createElement('p');p.textContent=T('br'+(i+1));box.appendChild(p);
+      ps[i].style.opacity='1';
       i++;setTimeout(step,1300);
     };
     step();
@@ -5429,6 +5703,7 @@ function showPrologue(){
       $('missionBrief').style.display='none';
       $('introCap').innerHTML=panels[i].cap;
     }
+    fitComics();
   };
   cv.onclick=()=>{ // the first click also unlocks the audio context
     ensureAudio();
@@ -5472,7 +5747,8 @@ function showChapter(ch){
   const show=i=>{
     chapterState.i=i;chapterState.t0=performance.now();
     $('chTitle').textContent=T(ch.title);
-    $('chCap').textContent=i===ch.paint.length-1?T(ch.cap):'';
+    $('chCap').textContent=T(ch.cap); // always laid out, shown on the last panel
+    $('chCap').style.visibility=i===ch.paint.length-1?'visible':'hidden';
     $('chDots').textContent=ch.paint.map((_,k)=>k===i?'●':'○').join(' ');
   };
   const finish=()=>{
@@ -5494,6 +5770,7 @@ function showChapter(ch){
     else chapterState.finish();
   };
   $('chapter').style.display='flex';
+  fitComics();
   play('stinger',{vol:.6,force:true});
   show(0);
   chapterState.timer=setInterval(()=>{
@@ -5589,7 +5866,7 @@ function showPause(b){
 }
 
 /* ---------------- save / continue (solo runs) ---------------- */
-const SAVE_FLAGS=['power','power2','shutter','cctvSeen','secFound','parkFound','parkTalked','parkTurned','parkDead','reach4','jieunFound','jieunTalked','reachRoof'];
+const SAVE_FLAGS=['power','power2','shutter','cctvSeen','secFound','parkFound','parkTalked','parkTurned','parkDead','reach4','jieunFound','jieunTalked','jieunDead','reachRoof'];
 function saveGame(){
   if(G.mp||!G.started||G.flags.victory)return;
   try{
@@ -5672,6 +5949,7 @@ $('modeScary').onclick=()=>setSelMode('scary');
 $('modeLite').onclick=()=>setSelMode('lite');
 setSelMode(G.selMode);
 function resetWorld(){
+  archiveRunning=false;
   for(const g of world.levels)if(g.parent)g.parent.remove(g);
   for(const f of flares){if(f.g.parent)f.g.parent.remove(f.g);}
   flares.length=0;
@@ -5680,7 +5958,7 @@ function resetWorld(){
   world.cols=Array.from({length:CFG.FLOORS+1},()=>[]);
   world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];world.npcs=[];
   world.furn=[];world.keep=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
-  world.roomDoor={};world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
+  world.roomDoor={};world.frontWalls=[];world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
   world.slotLights=[];
   for(const li of (world.flareLights||[]))if(li.parent)li.parent.remove(li); // pooled lights live in the scene — recycle, don't re-add
   world.flareLights=[];

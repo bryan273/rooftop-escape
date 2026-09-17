@@ -27,15 +27,15 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 
 | Floor | Steps |
 |---|---|
-| Ground | Flashlight at reception → kick the janitor closet open (tap **Space** ×3) → take the crowbar |
-| 1 | Pry the boards off the stairwell gate (**hold Space**) |
+| Ground | Flashlight at reception → kick the janitor closet open (tap **Q** ×3) → take the crowbar |
+| 1 | Pry the boards off the stairwell gate (**hold Q**) |
 | 2 | Find the security room → watch the CCTV archive → red keycard → start the generator → open the gate with the red card |
-| 3 | **Mr. Park** lies bitten right outside the stairwell → talk to him (**Enter**) → take his blue card → he turns → **put him down** |
-| 2 (back down) | Release the Floor 3 shutter from the CCTV terminal (**Enter** in the terminal) |
+| 3 | **Mr. Park** lies bitten right outside the stairwell → talk to him (**E**) → take his blue card → he turns → **put him down** |
+| 2 (back down) | Release the Floor 3 shutter from the CCTV terminal (**Q** in the terminal) |
 | 4 | The dark floor: reset the utility breaker → open the gate with the blue card |
-| 5 | Containment breach. **Find Ji-eun** (no marker; listen for her) in the room zombies can't enter → talk → take the rooftop key. **She joins you** and shoots at zombies that get close |
+| 5 | Containment breach. **Find Ji-eun** (no marker; listen for her) in the room zombies can't enter → talk → take the rooftop key. **She joins you** and shoots at zombies that get close. Zombies attack her too (160 HP, heals slowly when it is quiet); if she dies she turns |
 | 5–6 | Open the Floor 5 gate (the breaker released it) → open the rooftop gate with the yellow card |
-| Roof | **Light the signal flare** in the circle (hold Space) → **stay in the circle for 30 s** while the building empties onto the roof. Stepping out makes the clock run backwards |
+| Roof | **Light the signal flare** in the circle (hold Q) → **stay in the circle for 30 s** while the building empties onto the roof. Stepping out makes the clock run backwards |
 
 ## 🎮 Controls
 
@@ -44,9 +44,9 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | **W A S D** | Move |
 | **Mouse** / **Arrow keys** | Look (click the game once to capture the mouse) |
 | **Shift** | Sprint (loud, attracts enemies) |
-| **Space** | Jump. Near a job it does the job instead: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) |
-| **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards |
-| **Enter** | Talk to survivors (again for the next line) · respawn · release the shutter in the terminal |
+| **Space** | Jump |
+| **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards · talk to survivors (again for the next line) · respawn |
+| **Q** | Physical work: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) · release the shutter in the terminal |
 | **F** | Flashlight (drains battery) |
 | **G** | Throw a flare (lures enemies away; on the roof it pulls attackers off you) |
 | **H** | Use a medkit (+60 HP) |
@@ -55,18 +55,18 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | **LMB** | Attack. Hold it for **full-auto** with the SMG |
 | **V** | 1st / 3rd person |
 | **Tab** (hold) | Mission plan |
-| **T / Q** | Chat / ping (co-op) |
+| **T / Z** | Chat / ping (co-op) |
 | **Esc** | Pause / settings |
 
-The prompt in the middle of the screen always shows the key: amber **E**, blue **SPACE / HOLD SPACE**, green **ENTER**. Prompts appear only for things you can actually see; nothing works through a wall.
+The prompt in the middle of the screen always shows the key: amber **E**, blue **Q / HOLD Q**. Prompts appear only for things you can actually see; nothing works through a wall.
 
 ## 🧠 How to survive
 
-- **Weapons:** the **SMG** is on the security desk (Floor 2). It comes with 30 rounds, and every ammo box adds 20. Hold LMB to fire. Head shots do double damage. Walls stop bullets. The **crowbar** does double damage from behind and still connects when a zombie is right in your face.
+- **Weapons:** the **SMG** is on the security desk (Floor 2). It comes with 30 rounds, and every ammo box adds 20. Ammo rooms: **STORAGE** (Floor 3, north-west), **ARMORY** (Floor 5, north-east) and a crate on the roof. Hold LMB to fire. Head shots do double damage. Walls stop bullets. The **crowbar** does double damage from behind and still connects when a zombie is right in your face.
 - **Read the ring.** The circle around your crosshair shows where enemies are moving. Red means one is chasing you.
 - **Light is a resource.** Floors 4–6 have no power. Pick up batteries, and the bar updates as soon as you do.
 - **Flares > fights.** Throw one and walk the other way.
-- **The rooftop** is the hardest fight: the zombies up there always know where you are. Keep medkits and ammo for it, and throw a flare when they bunch up.
+- **The rooftop** is the hardest fight: the zombies up there always know where you are (small waves every 11 s, at most 30 in total). Keep medkits and ammo for it, and throw a flare when they bunch up.
 
 ## 🔊 Audio
 
@@ -116,7 +116,7 @@ npm run test:coop                 # co-op world (4 tool sets)
 3. The host presses **Start**.
 
 - The host's browser runs the world. Mission progress is shared by the whole squad.
-- Downed friends can be revived by **holding Space** next to them.
+- Downed friends can be revived by **holding Q** next to them.
 - Connections are peer-to-peer (PeerJS/WebRTC). Very strict school or office networks may block them; a phone hotspot usually fixes that.
 
 ## 🌍 Deploy (GitHub Pages)

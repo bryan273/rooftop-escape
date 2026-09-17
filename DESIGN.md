@@ -44,38 +44,38 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 | # | Step | Where | Key |
 |---|---|---|---|
 | 1 | Flashlight | Reception, Ground | E |
-| 2 | Crowbar | Janitor closet (kick 3× first) | Space ×3, E |
-| 3 | Pry the Floor 1 gate boards | Stairwell, Floor 1 | hold Space |
+| 2 | Crowbar | Janitor closet (kick 3× first) | Q ×3, E |
+| 3 | Pry the Floor 1 gate boards | Stairwell, Floor 1 | hold Q |
 | 4 | Find the security room | Floor 2 | — |
-| 5 | Watch the CCTV archive | Terminal | E |
+| 5 | Watch the CCTV archive (counts only when it plays to the end) | Terminal | E |
 | 6 | Red keycard | Security desk | E |
-| 7 | Start the generator | Same room | hold Space |
+| 7 | Start the generator | Same room | hold Q |
 | 8 | Open the Floor 2 gate (red; reader needs power) | Stairwell | E |
 | 9 | Check on the man in the hall | Floor 3, right outside the stairwell | — |
-| 10 | Talk to Mr. Park (bitten, lying on the floor) | Floor 3 | Enter ×3 |
+| 10 | Talk to Mr. Park (bitten, lying on the floor) | Floor 3 | E ×3 |
 | 11 | Take his blue card; he says "RUN" and **turns** 4 s later | Beside his hand | E |
 | 12 | Put Mr. Park down (6 HP zombie, name tag) | Floor 3 | LMB |
-| 13 | Release the Floor 3 shutter | Floor 2 terminal | E, then Enter |
+| 13 | Release the Floor 3 shutter | Floor 2 terminal | E, then Q |
 | 14 | Go through the shutter to Floor 4 | Stairwell | — |
-| 15 | Reset the utility breaker | Floor 4 ELECTRICAL | hold Space |
+| 15 | Reset the utility breaker | Floor 4 ELECTRICAL | hold Q |
 | 16 | Open the Floor 4 gate (blue) | Stairwell | E |
 | 17 | **Find Ji-eun** (no marker; her noises are spatial) | Floor 5, safe room | — |
-| 18 | Talk to Ji-eun → **she joins you** | Safe room | Enter ×4 |
+| 18 | Talk to Ji-eun → **she joins you** | Safe room | E ×4 |
 | 19 | Rooftop key (yellow) | At her feet | E |
 | 20 | Open the Floor 5 gate (breaker released it) | Stairwell | E |
 | 21 | Open the rooftop gate (yellow) | Floor 6 | E |
 | 22 | Reach the roof | — | — |
-| 23 | Light the signal flare | Landing circle | hold Space |
+| 23 | Light the signal flare | Landing circle | hold Q |
 | 24 | Stay in the circle 30 s (outside = the clock runs back) | Landing circle | — |
 
 **Skip protection:** a step only completes while it is the current step ("get to floor X" steps latch only while current), and every story item, gate, terminal, breaker and survivor refuses before its step with *"Not yet — first: …"*. The objective updates the moment a gate opens.
 
 ## 5. Interaction model
 
-- **[E] tap:** take, open/close, read, use the terminal, swipe a card.
-- **[SPACE]:** physical work. **Tap** to kick (one kick per tap, screen shake, 3 kicks). **Hold** to pry, pull a breaker, light the flare or revive; letting go keeps the progress. Space only jumps when no job is in reach.
-- **[ENTER]:** talk (next line), respawn, release the shutter inside the terminal.
-- Prompts can show several rows at once (for example "E Open door" and "ENTER Talk to Mr. Park"). Targets need line of sight, the one you **look at** wins, and the item your current objective needs gets priority.
+- **[E] tap:** take, open/close, read, use the terminal, swipe a card, talk (next line), respawn. When a survivor and an object are both in reach, the one you look at wins (the current objective gets priority).
+- **[Q]:** physical work. **Tap** to kick (one kick per tap, screen shake, 3 kicks). **Hold** to pry, pull a breaker, light the flare or revive; letting go keeps the progress. Inside the terminal Q releases the shutter.
+- **[Space]** only jumps. **[Z]** pings (co-op), **[T]** chats.
+- Prompts can show several rows at once (for example "E Open door" and "HOLD Q Pry the boards off"). Targets need line of sight, the one you **look at** wins, and the item your current objective needs gets priority.
 - Work is animated: planks shudder and creak while prying (the crowbar levers in first person), then fall off as physical planks that land on the floor. Breaker handles travel.
 
 ## 6. Threat system
@@ -97,7 +97,7 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 | Mr. Park | rises from the floor after turning | 6 / 16 |
 | The Watcher | scripted lurker/pursuer (Floors 5–6, roof) | 14 / 26 |
 
-**Rooftop:** zombies always know where you are (×1.05 speed, ×1.2 after the flare), attack a little slower (wind-up ×0.85, 1.35 s cooldown). Waves of 3 every 7 s from the roof door and over the parapet (max 11 alive), a brute at 14 s and the Watcher at 21 s. A **fresh flare pulls roof zombies off you for 4.5 s** (not brutes). Balance check: a simulated fighting bot with 100 HP, 3 medkits and human-like aim survives, taking about 45–105 damage.
+**Rooftop:** zombies always know where you are but are slower than downstairs (×0.85 speed, ×0.95 after the flare) and slower to swing (wind-up ×1.1, 1.6 s cooldown, ×0.85 damage). First wave after 5 s, then 2 every 11 s from the roof door and over the parapet (mostly shamblers, max 7 alive, **at most 30 in total**), a brute at 14 s and the Watcher at 21 s. An ammo crate waits by the roof door. A **fresh flare pulls roof zombies off you for 4.5 s** (not brutes). Balance check: a simulated fighting bot with 100 HP, 3 medkits and human-like aim survives.
 
 ## 8. Weapons & items
 
@@ -117,7 +117,7 @@ Supplies spawn only on open floor, never inside walls, desks, beds or lockers.
 ## 9. Survivors
 
 - **Mr. Park** (biology teacher): bitten, lying in the Floor 3 hall; never moves. After the talk his blue card and a medkit lie beside him. Taking the card makes him convulse, say "RUN", and rise as a zombie.
-- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. After the talk she **follows you** (catches up across stairs and floors) and shoots zombies she can see within 8 m (about 0.9 shots/s, 55 % hits). She takes no damage.
+- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. After the talk she **follows you** (catches up across stairs and floors) and shoots zombies she can see within 8 m (about 0.9 shots/s, 55 % hits). Zombies target her too: 160 HP with a health bar, slow regeneration after 4 s without hits. At 0 HP she falls and, in Nightmare, rises 4 s later as a zombie (5 HP); in Daylight she retreats.
 
 ## 10. Audio
 
