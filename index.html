@@ -308,7 +308,7 @@
     <div id="paneHow" class="hidden">
       <div id="menuHow">
         <b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host's choice applies to the whole co-op squad.<br>
-        <b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (20 floors) and board the rescue helicopter / drone.<br>
+        <b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (6 floors) and board the rescue helicopter / drone.<br>
         <b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>,
         hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br>
         <b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br>
@@ -434,7 +434,7 @@ const $=id=>document.getElementById(id);
 const NOLOCK=new URLSearchParams(location.search).has('nolock'); // debug/trackpad mode: no pointer-lock pause
 const MOUSE_FALLBACK=false;  // true = never use pointer lock (trackpad-friendly)
 const CFG={
-  FLOORS:20, FH:3.4,
+  FLOORS:7, FH:3.4,
   PLATE:{x0:-24,x1:24,z0:-11,z1:11},
   TOWER:{x0:16,x1:24,z0:-2.5,z1:2.5},
   LANE:{x0:17,x1:23,z0:0.6,z1:1.8},      // stair lane footprint (hole in plates)
@@ -471,34 +471,32 @@ let LANG='en';
 try{LANG=localStorage.getItem('zf_lang')==='zh'?'zh':'en';}catch(e){}
 const I18N={
 en:{
- sl0:'One soda spilled on the charging dock and now EVERY helper-bot wants a hug. The drone-copter picks you up from the roof — go, go, go!',
- sl1:'Floor 2. The CCTV room controls the gates. Also there\'s a snack stash. Priorities.',
- sl2:'Floor 3. The bots drew on the walls with paint. Sorry about that.',
- sl5:'Floor 6. The server room door is stuck — the bots taped a "DO NOT ENTER (we are shy)" sign on it.',
- sl7:'Floor 8. Bright and… beepy. Ji-woo says hi from floor 12.',
- sl9:'Halfway! Hydrate. Stretch. Keep climbing.',
- sl11:'Floor 12. BOT PARADE! They lined up to escort you. Politely. At speed.',
- sl14:'Floor 15. The infirmary bot is handing out juice boxes. The yellow card is under the bed.',
- sl20:'THE ROOF! Green smoke, big friendly drone. Hold the circle and wave!',
- sub_scary:'Seowon High School · Outbreak Night',sub_lite:'Seowon High School · Helper-Bot Mischief Day',
+ sl0:'Ground floor. Emergency lights, sealed doors… and a phone that is about to die.',
+ sl1:'Floor 1. Classrooms. Take it slow — listen before you open anything.',
+ sl2:'Floor 2. The security room still has backup power. The cameras saw everything.',
+ sl3:'Floor 3. Someone is knocking. Or breathing. Investigate — or don\'t.',
+ sl4:'Floor 4. The dark floor. The lights here gave up hours ago.',
+ sl5:'FLOOR 5. THE LAB. The alarms — Ji-woo, tell me you hear the alarms—',
+ sl6:'Floor 6. Administration. It is TOO quiet up here. Keep your light low.',
+ sub_scary:'Seowon High School · The Last Night',sub_lite:'Seowon High School · Helper-Bot Mischief Day',
  m_modelabel:'GAME MODE',m_namelabel:'YOUR NAME',lbl_lang:'Language',m_solo:'Solo Escape',m_host:'Host Co-op',m_join:'Join Co-op',m_connect:'Connect',
  m_roomcode:'ROOM CODE',tab_play:'Play',tab_how:'How to play',wake:'— CLICK TO WAKE UP —',
  footer:'A fan-made zombie escape · Three.js + WebAudio · free to deploy',
  mode_scary:'NIGHTMARE',mode_lite:'DAYLIGHT DRILL',
  mode_scary_d:'Dark halls · zombies · blood · jump scares · heartbeat',
  mode_lite_d:'Bright & friendly · silly helper-bots · paint splats · zero scares',
- howto:'<b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host\'s choice applies to the whole co-op squad.<br><b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (20 floors) and board the rescue helicopter / drone.<br><b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>, hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br><b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br><b>Look.</b> <span style="color:#ff8080">Bloodstains</span> (or paint splats!) around a door mean something inside. Flashlight [F] — it eats battery; grab batteries everywhere.<br><b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud. <b>Pistol [2]</b> found on Floor 2.<br><b>Co-op:</b> host a room and share the code — up to 4 survivors. Downed friends can be revived [hold E].<br>Requires a keyboard + mouse. Click the game once to lock the mouse.',
+ howto:'<b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host\'s choice applies to the whole co-op squad.<br><b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (6 floors) and board the rescue helicopter / drone.<br><b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>, hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br><b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br><b>Look.</b> <span style="color:#ff8080">Bloodstains</span> (or paint splats!) around a door mean something inside. Flashlight [F] — it eats battery; grab batteries everywhere.<br><b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud. <b>Pistol [2]</b> found on Floor 2.<br><b>Co-op:</b> host a room and share the code — up to 4 survivors. Downed friends can be revived [hold E].<br>Requires a keyboard + mouse. Click the game once to lock the mouse.',
  cont:'CONTINUE — FLOOR {n} · {m}',
  lb_title:'SURVIVORS LOBBY',lb_share:'SHARE THIS ROOM CODE WITH YOUR FRIENDS',lb_copy:'click the code to copy · friends press “Join Co-op” and type it',
  lb_startn:'Start escape ({n} survivors)',lb_start0:'Start solo anyway',lb_wait:'Waiting for host…',lb_leave:'Leave',lb_copied:'COPIED!',
  hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'9MM [2]',
- floor:'FLOOR {n}',floor0:'FLOOR 1 — ENTRANCE',roof:'ROOFTOP — EXTRACTION',
+ floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',wp_roof:'⬆ STAIRWELL — to the ROOFTOP',
  hint:'[E] interact · [F] flashlight · [G] flare · [H] medkit · [1]/[2] weapon<br>[LMB] attack · [V] camera · [Q] ping · [Arrows] look · [Enter] chat · [Tab] goals',
  pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
  ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> interact / hold</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1/2</b> crowbar/pistol</div><div><b>V</b> 1st/3rd person</div><div><b>Q</b> ping marker</div><div><b>Tab</b> objectives</div><div><b>Enter</b> chat</div><div><b>Esc</b> pause</div>',
  goals_title:'ESCAPE PLAN',
- cctv_hint:'◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal',cctv_cam:'CAM {n} — FLOOR {m}',
- shutter_btn:'RELEASE FLOOR 6 SHUTTER',note_close:'[E] / [ESC] put it down',
+ cctv_hint:'◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal',cctv_cam:'CAM {n} — {m}',
+ shutter_btn:'RELEASE FLOOR 4 SHUTTER',note_close:'[E] / [ESC] put it down',
  death_h:'YOU DIED',death_l:'YOU GOT BONKED',death_p:'The building keeps your bones.',death_pl:'The bots gently roll you to a safe corner. Restarting…',
  respawn:'Respawning in {n}s…',down_h:'YOU ARE DOWN',down_hl:'TACKLED!',
  down_mp:'A friend can revive you — hold on!',down_mp_l:'A friend can un-bonk you — hold on!',down_sp:'Nobody left to help you…',down_sp_l:'The bots are politely waiting. Ow.',
@@ -514,44 +512,38 @@ en:{
  chat_ph:'say something… (Enter to send)',
  msg_creating:'Creating room…',t_midjoin:'Joining an escape in progress…',lb_squad:'SURVIVORS',msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
  msg_slow:'Still connecting… PeerJS needs a few seconds.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
- pro_ss:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You are alone. Ji-woo is on the radio from somewhere above: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Scavenge what you can. <em>Don\'t stop moving.</em>',
- pro_sm:'It was supposed to be one all-nighter at <em>Seowon High</em> — study camp, phones dead, doors locked at 10.<br><br>Then the screaming started on the third floor, and the teachers stopped answering.<br><br>You and your friends got split in the dark. Ji-woo is on the radio: the <em>military helicopter</em> lands at midnight — on the <em>rooftop</em>. Twenty floors. Find each other. <em>Don\'t stop moving.</em>',
+ pro_ss:'It was supposed to be one all-nighter at <em>Seowon High</em>. Study camp. Phones collected at the door. Main doors locked at 22:00.<br><br>At 23:12, on the third floor, a student bit a teacher. By 23:20, the corridor was <em>running</em>.<br><br>The emergency lights turned red. The voice on the PA tried to sound calm. It didn\'t.<br><br>Then the teachers stopped answering.<br><br>You wake on the entrance-hall floor. The building is silent. You are not alone.',
+ pro_sm:'It was supposed to be one all-nighter at <em>Seowon High</em>. Study camp. Phones collected at the door. Doors locked at 22:00.<br><br>At 23:12, on the third floor, a student bit a teacher. By 23:20, the corridor was <em>running</em>.<br><br>The emergency lights turned red. Then the teachers stopped answering.<br><br>You and your friends wake on the entrance-hall floor, split in the dark. You are not alone.',
  pro_ls:'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. <em>Say excuse me.</em>',
  pro_lm:'It was <em>Science Fair prep night</em> at Seowon High — until somebody spilled a soda on the charging dock.<br><br>Now every <em>helper-bot</em> in the building wants to hug you at 15 km/h. They mean well. They really do.<br><br>Ji-woo is on the radio: the <em>rescue drone-copter</em> lands on the <em>rooftop</em> in one hour. Twenty floors of overly enthusiastic robots. Find your friends. <em>Say excuse me.</em>',
  radio_intro:'The stairwell is the only way up. Watch the blood on the floors — it marks where they nest.',
  radio_intro_l:'The stairwell is the only way up. The bots followed paint footprints everywhere — cute, but watch the ring.',
  radio_cont:'Back in the tower. The stairwell remembers you.',radio_cont_l:'Back in the tower! The bots saved your spot in the queue.',
  radio_name:'Ji-woo (radio)',
- q0:'Find a flashlight in the entrance hall.',q1:'Kick open the janitor closet (south-east room, Floor 1) and grab the crowbar.',
- q2:'Head up to Floor 2 — find the CCTV & power room.',q3:'Take the RED keycard from the CCTV room desk (Floor 2).',
- q4:'Unlock the Floor 3 stairwell gate with the red card.',q5:'The Floor 6 shutter is sealed — restore power at the Floor 2 generator.',
- q6:'Power restored. Use the CCTV terminal (Floor 2) to release the Floor 6 shutter.',
- q7:'Get back to Floor 6 and climb on. Blue keycard waits in the boarded server room (Floor 6).',
- q8:'Open the server rack room (Floor 6) and take the BLUE keycard.',q9:'Unlock the Floor 8 stairwell gate.',
- q10:'Floors 8–9 are dark. Climb. Find the GREEN keycard in the records office (Floor 9).',
- q11:'Unlock the Floor 11 gate.',q12:'CONTAINMENT BREACH on Floor 12 — get above it. Now.',
- q13:'Floor 15 gate is magnet-locked. Reset the breaker — Electrical room, Floor 11.',
- q14:'Go back up and unlock the Floor 15 gate.',q15:'Take the YELLOW keycard from the infirmary (Floor 15).',
- q16:'Unlock the Floor 17 gate.',q17:'Floor 19 stairwell is boarded — pry it open.',q18:'REACH THE ROOFTOP.',
- q19:'Hold the extraction circle. The helicopter is coming.',
- s0:'You woke up on the ground floor. The main doors are sealed. Ji-woo said the military helicopter comes at midnight — to the roof.',
- s1:'Floor 2. The CCTV room still has power cells. Generator too, maybe.',s2:'Floor 3. Something smeared the walls up here.',
- s3:'Floor 4. The lights here have been dead for days.',s4:'Floor 5. You can hear the security shutter humming ahead.',
- s5:'Floor 6. The server room door is boarded from the inside…',s6:'Floor 7. Don\'t count the dead. Just climb.',
- s7:'Floor 8. No lights at all. Ji-woo is somewhere above.',s8:'Floor 9. The records office… something is still in there.',
- s9:'Halfway up. Breathe. Keep climbing.',s10:'Floor 11. The electrical room hums behind the south-east room.',
- s11:'Floor 12. The alarm. THEY KNOW YOU ARE HERE.',s12:'Floor 13. Keep moving. Don\'t fight all of them.',
- s13:'Floor 14. The breaker below died when the alarm tripped.',s14:'Floor 15. The infirmary still smells of antiseptic and worse.',
- s15:'Floor 16. Two dark floors left.',s16:'Floor 17. They know which stairwell you use.',
- s17:'Floor 18. One boarded door. You know what to do.',s18:'Floor 19. The roof door is open. Don\'t look back.',
- s20:'THE ROOF. Hold at the green smoke. Don\'t look down the stairwell.',
- radio_horde:'GET ABOVE FLOOR 12! DON\'T STOP!',radio_horde_l:'The bots arranged a surprise parade. Past floor 12, please!',
+ q0:'Find a flashlight in the entrance hall.',q1:'The janitor closet (Ground, south-east) has a crowbar.',
+ q2:'Pry the boards off the Floor 2 stairwell gate.',q3:'Reach Floor 2 — find the security room.',
+ q_arch:'Use the CCTV terminal — watch the evacuation record.',q4:'Take the RED keycard from the security desk.',
+ q5:'Restore main power — generator, security room (Floor 2).',q6:'Unlock the Floor 3 stairwell gate with the red card.',
+ q7:'Floor 3: find the survivor. (Follow sounds. Check rooms.)',q8:'Release the Floor 4 shutter from the CCTV terminal.',
+ q9:'Get past the Floor 4 shutter.',q10:'THE DARK FLOOR: find the BLUE card (Floor 4, lab prep room).',
+ q11:'Reset the utility breaker (Floor 4, electrical room).',q12:'Unlock the Floor 5 gate.',
+ q13:'CONTAINMENT BREACH — get above Floor 5.',q14:'Floor 5: find the other survivor.',
+ q15:'Take the rooftop access key.',q16:'Unlock the rooftop stairwell gate.',
+ q18:'THE LAST FLOOR: reach the rooftop.',q19:'Hold the extraction circle. Survive until the helicopter.',
+ s0:'Can you hear me? I\'m somewhere above you. A helicopter reaches the rooftop at midnight. There\'s only one way out: up.',
+ s1:'Floor 1. Classrooms. There\'s a crowbar in the janitor closet downstairs — the stair gate is boarded.',
+ s2:'Floor 2. The security room still has backup power. Check the cameras — find out what happened here.',
+ s3:'Floor 3. People were hiding on that floor. If you hear knocking… it\'s not a ghost.',
+ s4:'Floor 4. The dark floor. Don\'t run — running wakes them. Batteries first.',
+ s5:'Floor 5. The lab. The whole floor is a quarantine that failed. Get above it FAST.',
+ s6:'Floor 6. Administration. It should not be this quiet. Something is wrong with this floor.',
+ radio_horde:'GET ABOVE FLOOR 5! DON\'T STOP!',radio_horde_l:'The bots arranged a surprise parade. Past Floor 5, please!',
  radio_finale:'Pilot: green smoke, hold the circle! We\'re coming down — keep them off you!',
  t_objdone:'Objective complete',t_need_crowbar:'Boarded shut. You need a crowbar.',
  t_need_crowbar2:'You need a crowbar. (The janitor closet on Floor 1 can be kicked open.)',
  t_batt:'Battery +40%',t_flare:'Flare acquired — press G to throw.',t_medkit:'Medkit acquired — press H to use.',
  t_crowbar:'Crowbar — pry boards, swing at heads. [1] to select.',t_pistol:'PISTOL — LMB to fire, [1]/[2] to switch weapons.',
- t_ammo:'9mm +6 rounds.',t_torch:'Flashlight — press F to toggle.',t_notorch:'No flashlight yet — check the reception desk, Floor 1.',
+ t_ammo:'9mm +6 rounds.',t_torch:'Flashlight — press F to toggle.',t_notorch:'No flashlight yet — check the reception desk (Ground floor).',
  t_batdead:'Battery is dead.',t_noflare:'No flares left.',t_nomedi:'No medkits.',
  t_empty:'Click — empty. Find 9mm boxes, or press [1] for the crowbar.',t_nopistol:'No pistol yet — the security guard left one in the CCTV office (Floor 2).',
  t_w_melee:'Crowbar out.',t_w_pistol:'Pistol out — {n} rounds.',t_up:'Back on your feet. Watch yourself.',
@@ -559,7 +551,7 @@ en:{
  t_power2:'SUB-BREAKER ON — Floor 15 gate released',t_shutter:'FLOOR 6 SHUTTER RELEASED',t_boards:'Boards pried off.',
  t_friendcard:'A friend found the {c} keycard.',t_friendpower2:'A friend reset the sub-breaker — Floor 15 gate is open.',
  t_friendpower:'A friend restored MAIN POWER.',t_friendshutter:'A friend released the Floor 6 shutter.',
- t_revived:'You helped {n} up.',t_horde:'⚠ CONTAINMENT BREACH — FLOOR 12',t_horde_l:'🤖 BOT PARADE — FLOOR 12',
+ t_revived:'You helped {n} up.',t_horde:'⚠ CONTAINMENT BREACH — FLOOR 5',t_horde_l:'🤖 BOT PARADE — FLOOR 5',
  t_disc:'Disconnected from host.',t_ping:'📡 {n} pinged {f}',t_joined:'{n} joined.',
  l_open:'Open door',l_close:'Close door',l_pry:'Pry boards (hold)',l_kick:'Kick boards open (hold)',l_boarded:'Boarded — need crowbar',
  l_gpry:'Pry gate boards (hold)',l_gboarded:'Boarded gate — need crowbar',l_gate:'Try gate',
@@ -569,7 +561,7 @@ en:{
  l_pistol:'Take PISTOL (+8 rounds)',l_ammo:'Take 9mm ammo (+6)',l_card:'Take {c} keycard',
  g_locked:'Locked. Requires the {c} keycard.',g_accept:'{c} keycard accepted.',
  g_shutter1:'Security shutter. No power — find the generator (Floor 2).',g_shutter2:'Powered. Release it from the CCTV terminal (Floor 2).',
- g_power:'Magnetic lock engaged. Reset the breaker on Floor 11.',
+ g_power:'Magnetic lock engaged. Reset the utility breaker on Floor 4.',
  sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_stairs_to:'STAIRS ➜',wp_up:'⬆ STAIRWELL — end of the hall (EAST) · to FLOOR {n}',wp_down:'⬇ STAIRWELL — end of the hall (EAST) · back to FLOOR {n}',wp_here:'OBJECTIVE · {d} m',radio_stairs:'The stairwell is the tower at the EAST end of the hall — follow the green arrows on the floor, through the glowing arch.',hint_stairtop:'Top of the stairs — step out SIDEWAYS onto the landing, then follow the signs to the next flight.',sg_ooo:'OUT OF ORDER',sg_drinks:'DRINKS',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_records:'RECORDS',sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_elev:'ELEVATOR — OUT OF ORDER',
@@ -578,23 +570,26 @@ en:{
  rn10:'STAFF ROOM',rn11:'OFFICE A',rn12:'OFFICE B',rn13:'ARCHIVE',rn14:'MEETING RM',rn15:'COPY ROOM',
  rn20:'LAB 1',rn21:'LAB 2',rn22:'COUNSELING',rn23:'DARKROOM',rn24:'STORAGE A',rn25:'STORAGE B',
  rn30:'DORM A',rn31:'DORM B',rn32:'COMMONS',rn33:'LAUNDRY',rn34:'PANTRY',rn35:'GYM STORE',
- n1t:"JANITOR'S LOG",n1b:'Third night shift this week. The bio lab on 6 keeps calling me to mop up "spills". Whatever they are, they smell wrong. Locked the stairwell gate like they asked. Red card is with the CCTV people on 2.',
- n2t:'CCTV OPERATOR NOTE',n2b:'Cameras 6 and up are dead. Feed 12 shows SOMETHING pacing the east stairwell every night at 2AM. Principal says ignore it. I\'m not ignoring it. Red keycard is on this desk — take it if you\'re reading this.',
- n3t:'SERVER ROOM SIGN-IN',n3b:'Blue access card stays in the rack room. Last entry: "Subject 0 transferred to roof-level lab. God forgive us." The rack room door has been boarded from the INSIDE.',
- n4t:'RECORDS SLIP',n4b:'Green clearance card issued to Dr. Moon. If you found this office after dark, do not go back the way you came. They hunt by sound first, sight second.',
- n5t:'ELECTRICAL WARNING',n5b:'Main feed cut from the roof. Sub-breaker here only powers the upper stairwell locks. Flip it, and the 15th floor gate releases. Watch the dark between here and there.',
- n6t:'INFIRMARY INTAKE',n6b:'Yellow card belongs to the head nurse. Bite victims don\'t turn for about an hour. She taped the card under the bed. She also stopped breathing yesterday. The tape is still there.',
- n7t:'TORN DIARY PAGE',n7b:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to 14 before the shouting started. If anyone reads this — RUN, don\'t count the dead.',
+ n1t:"JANITOR'S LOG",n1b:'Third night shift this week. The bio lab on 5 keeps calling me to mop up "spills". Whatever they are, they smell wrong. Locked the stairwell gate like they asked. Red card is with the CCTV people on 2.',
+ n2t:'CCTV OPERATOR NOTE',n2b:'Cameras 4 and up are dead. Feed 6 shows SOMETHING pacing the east stairwell every night at 2AM. It knows where the camera is. It looks BACK. Principal says ignore it. Red keycard is on this desk — take it if you\'re reading this.',
+ n3t:'LAB PREP ROOM SIGN-IN',n3b:'Blue access card stays in the prep room. Last entry: "Subject 0 transferred from the Floor 5 lab. God forgive us." The door has been boarded from the INSIDE.',
+ n4t:'NOTE ON A BACKPACK',n4b:'We hid in the gym. Too loud. Too open. WE WENT UP. If anyone reads this — the east stairwell still works, but the dark floors… bring flares. And don\'t answer if something calls your name. — S.M.',
+ n5t:'ELECTRICAL WARNING',n5b:'Main feed cut from the roof. The utility breaker here only powers the upper gate. Flip it, and the Floor 6 gate releases. Watch the dark between here and there.',
+ n6t:'INFIRMARY INTAKE',n6b:'Bite victims don\'t turn for about an hour. That\'s what the sheet says. They took the head nurse down to the Floor 5 lab at her own request. Nobody has written anything since.',
+ n7t:'TORN DIARY PAGE',n7b:'Day 3? The helicopters come at midnight. They said the roof. Our class made it to Floor 6 before the shouting started. If anyone reads this — RUN, don\'t count the dead.',
  n8t:'PAINTED ON THE WALL',n8b:'THE ROOF IS THE WAY OUT. THEY HATE THE LIGHT. HOLD AT THE SMOKE AND DON\'T LOOK DOWN THE STAIRWELL.',
  lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW',death_left:'Retries left: {n}',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',l_talk:'Talk to {n}',
  npc1_name:'Mr. Park (wounded)',
- npc1_1:'Shh! Keep your voice down… I teach biology here. Room 312. It started in OUR lab, on Floor 12.',
- npc1_2:'Take my flares — the dark floors eat flashlight batteries. And whatever you hear on Floor 12, do NOT open those doors.',
- npc1_3:'My students ran up ahead of me. If you meet any of them and they are… different now — you do what you have to. Go.',
- npc2_name:'Ji-eun (student)',
- npc2_1:'You\'re not one of THEM. Okay. Okay okay okay. I\'m Ji-eun — I\'ve been hiding since the Floor 12 alarm.',
- npc2_2:'The head nurse kept a YELLOW keycard taped under her bed in the infirmary, one floor up. She\'s… still in there. Don\'t make noise.',
- npc2_3:'Take my medkits. When you reach the roof — wave something at the windows. I\'ll be watching for you. Good luck.',
+ npc1_1:'Who\'s there?! Stay back — don\'t come closer. I\'ll swing, I swear I will.',
+ npc1_2:'…You\'re alive? A student? God. Okay. Park. I teach biology — my room was on 5, next to the lab. It started THERE.',
+ npc1_3:'Where is everyone? Most went upstairs. Some never made it. The ones who hid in the gym went quiet two nights ago.',
+ npc1_4:'What\'s upstairs? Dark. Too dark. And there was one that wasn\'t like the others. It didn\'t chase us. It WATCHED us. Take my supplies — I\'m not leaving this room.',
+ npc2_name:'Ji-eun (survivor)',
+ npc2_1:'Stay back! Don\'t— …you\'re alive? Here. TAKE the rooftop key — yellow card. I copied it from the office before the locks dropped.',
+ npc2_2:'How long have I been here? Since the alarms. Two nights? Three? You stop counting.',
+ npc2_3:'What happened? I SAW people change. Not all at once. Some got violent. Some became… different.',
+ npc2_4:'There\'s one that watches. It doesn\'t rush. It hides when you look at it. Then it follows. The roof is the only way out — but don\'t stay there.',
+ t_parkgift:'Mr. Park gave you a medkit and a battery.',
  mis:'MISSION: ESCAPE THE BUILDING',obj_upd:'OBJECTIVE UPDATED',q_arch:'Use the CCTV terminal — watch the evacuation record.',
  ch2_t:'CHAPTER 2 — WHAT THE CAMERAS SAW',ch2_c:'Floor 2. The security room still has power — backup only. Whatever happened in this school tonight, the cameras recorded every minute of it.',
  ch3_t:'CHAPTER 3 — THE DARK FLOORS',ch3_c:'The shutter groans open on Floor 6. Above it the building is dead: no lights, no cameras, no telling what is waiting on the landings. Flares first. Courage second.',
@@ -602,89 +597,132 @@ en:{
  ch5_t:'CHAPTER 5 — MIDNIGHT',ch5_c:'The roof. Cold air, green smoke, and the helicopter holding at the circle. Behind you the roof door slams against the wall. You made it this far. Hold the circle.',
  objective_n:'OBJECTIVE {n}/{t} —',
  w0:'The building is black. You can\'t survive what you can\'t see.',
- w1:'Security controls this building. Find out what happened — and find a way up.',
- w2:'The terminal runs on backup power. Its record will tell you what happened here.',
- w3:'The log says the floor-gate keys were left on the security desk. This desk.',
- w4:'Boarded rooms hide supplies — and worse. The janitor\'s closet on Floor 1 has a crowbar.',
- w5:'The elevator is dead and the Floor 6 shutter has no power. The generator in this room can fix that.',
- w6:'Power is on. Use the terminal to release the Floor 6 shutter — the only way further up.',
- w7:'The Floor 3 stairwell gate takes the RED card. Climb.',
- w8:'The shutter is open. Get back to the stairwell and climb past Floor 6.',
- w9:'The boarded server room on Floor 6 hides the BLUE card.',
- w10:'The Floor 8 gate takes the BLUE card.',
- w11:'Floors 8–9 are dark. The GREEN card is in the records office on Floor 9.',
- w12:'The Floor 11 gate takes the GREEN card.',
- w13:'The alarm on Floor 12 is a containment breach. Get ABOVE it. Now.',
- w14:'The breach killed the sub-breaker. Reset it — Electrical room, Floor 11 — to free the Floor 15 gate.',
- w15:'Sub-power on. The Floor 15 gate is released. Climb.',
- w16:'The infirmary on Floor 15 hides the YELLOW card.',
- w17:'The Floor 17 gate takes the YELLOW card.',
- w18:'The Floor 19 stairwell is boarded. Pry it.',
- w19:'THE ROOF. The helicopter holds at the green smoke.',
- w20:'Hold the circle. Do not let them reach you. The helicopter is coming.',
+ w1:'Boarded rooms hide tools. You will need something to pry with.',
+ w2:'The main staircase is a dead end. The stairwell tower is the only way up.',
+ w2b:'',w3:'Security controls this building. Its cameras will tell you what happened.',
+ w4:'The record will tell you where everyone went — and what locked the gates.',
+ w5:'The floor-gate keys were left on the security desk. This desk.',
+ w6:'The generator in this room is dead. So is everything above Floor 3.',
+ w7:'The Floor 3 gate takes the RED card. Climb.',
+ w8:'Someone else made it through tonight. Find them — or don\'t. Your call.',
+ w9:'The Floor 4 shutter is powered down. Release it from the terminal.',
+ w10:'Past the shutter, the stairwell continues into the dark.',
+ w11:'The lab prep room on 4 still has a BLUE card in it.',
+ w12:'The Floor 6 gate is on backup power. The utility breaker on 4 can change that.',
+ w13:'The Floor 5 gate is open. What is on Floor 5… is not contained.',
+ w14:'Do not stay on 5. Get above it.',
+ w15:'You are not alone up here. Someone is hiding.',
+ w16:'The roof is the only way out — and the key opens the last gate.',
+ w17:'The last gate is unlocked. Floor 6 is quiet. Too quiet.',
+ w18:'The helicopter is holding. Get to the roof.',
+ w19:'Thirty seconds. Everything in the building heard the helicopter.',
+ rb1:'Good, a light. Keep the beam low. There\'s a crowbar in the janitor closet — Ground floor, south-east.',
+ rb2:'Boards off? The stairwell tower is the only way up. Floor by floor.',
+ rb3:'Floor 1. Classrooms. Listen at every door before you open it.',
+ rb4:'That\'s the security room. The terminal has backup power — watch the archive.',
+ rb5:'You saw it. Everyone ran UP. The gate keys are on the desk in front of you.',
+ rb6:'Red card. But the gates are useless without power — the generator is in that room.',
+ rb7:'MAIN POWER. Floor 3 gate will take the red card now. Go.',
+ rb8:'Someone is up there. I heard knocking on my end too. Your call whether to look.',
+ rb9:'The Floor 4 shutter needs the terminal. Power\'s on — release it.',
+ rb10:'Shutter open. Floor 4 is dark. I mean REALLY dark. Batteries first.',
+ rb11:'Blue card. The Floor 5 gate — and Floor 5 — is the lab floor. Stay quiet.',
+ rb12:'Sub-breaker on. The Floor 6 gate is released.',
+ rb13:'Breach on 5. GET ABOVE IT. Don\'t fight, don\'t hide — CLIMB.',
+ rb14:'You\'re above the breach. Breathe. Someone else survived up there — I\'m sure of it.',
+ rb15:'A rooftop key? Then the last gate is yours. The roof, then. Midnight.',
+ rb16:'The last gate. After this there\'s only the roof.',
+ rb17:'Floor 6. Too quiet. Keep moving.',
+ rb18:'THE ROOF. Green smoke, hold the circle. Don\'t look down the stairwell.',
+ rb19:'Thirty seconds. Hold the circle. HOLD IT.',
  br_h:'DAY 1 — 23:47 · SEOWON HIGH SCHOOL',
- br1:'Study camp. The city fell in a single night — you woke on the entrance-hall floor and the main doors are sealed.',
- br2:'Ji-woo, a student who made it upstairs, is on the radio: a military helicopter reaches the ROOFTOP at midnight.',
- br3:'Twenty floors. No elevator. And something is moving in the dark between you and the roof.',
+ br1:'Study camp. Phones collected. Doors locked at 22:00. Then the screaming started — and the teachers stopped answering.',
+ br2:'Ji-woo, a student who made it upstairs, is on the radio: a military helicopter reaches the ROOFTOP at MIDNIGHT.',
+ br3:'Six floors. No elevator. And something is moving in the dark between you and the roof.',
  br_m:'MAIN OBJECTIVE: ESCAPE — REACH THE ROOFTOP',
  cl_h:'CCTV ARCHIVE — BACKUP POWER',cl_note:'A RED keycard sits on this desk. The generator in this room restores main power.',
- cl1:'23:31 · CAM 12 — STUDENTS MOVING UP. STAIRWELL IS THE ONLY ROUTE.',cl2:'23:33 · CONTAINMENT FAILED — FLOOR 12 SEALED.',
- cl3:'23:34 · ELEVATORS DISABLED — SECURITY PROTOCOL 7.',cl4:'23:35 · STAIRWELL GATES LOCKED. KEYCARDS HELD: SECURITY DESK (THIS ROOM).',cl5:'23:36 · SIGNAL LOST.',
+ cl1:'23:31 · CAM 12 — STUDENTS MOVING UP. STAIRWELL IS THE ONLY ROUTE.',cl2:'23:33 · EMERGENCY LOCKDOWN BEGINS.',
+ cl3:'23:34 · FLOOR 5 LABORATORY SEALED — CONTAINMENT FAILURE.',cl4:'23:35 · ELEVATORS DISABLED. 23:36 · MAIN GATES LOCKED.',cl5:'23:37 · SECURITY LEAVES. 23:38 · CAM 5 OFFLINE. 23:41 · CAM 6 — MOVEMENT.',
+ cl_note2:'JI-WOO (radio): "That wasn\'t there before. Something happened upstairs."',
  l_cctv_bak:'Use CCTV terminal (backup power)',l_elev:'Try the elevator',
  elev_dead:'ELEVATOR — NO POWER. Security cut it (Protocol 7). The stairwell at the end of the hall is the only way up.',
  elev_jam:'ELEVATOR — OUT OF ORDER. Something is knocking on the other side of the doors. Don\'t.',
- gw_red:'CCTV room, Floor 2',gw_blue:'server room, Floor 6',gw_green:'records office, Floor 9',gw_yellow:'infirmary, Floor 15',
+ gw_red:'security room, Floor 2',gw_blue:'lab prep room, Floor 4',gw_green:'records office',gw_yellow:'Ji-eun, Floor 5',
  g_locked2:'Locked. It takes the {c} keycard — {where}.',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',
- rb1:'Good, a light. Keep the beam low — they notice it. The security room is upstairs, Floor 2.',
- rb2:'That\'s the CCTV room. The terminal has backup power — watch the archive. It will tell you what happened.',
- rb3:'You saw it. Everyone ran UP. The floor gates locked behind them — the keys are on the desk in front of you.',
- rb4:'Red card. The Floor 3 gate takes it — but arm yourself first. The janitor\'s closet on Floor 1 has a crowbar.',
- rb5:'A crowbar. Boards, doors, skulls — it handles all three. Now back to Floor 2 and restore the power.',
- rb6:'Main power on! The shutter relay is still dead though — release Floor 6 from the CCTV terminal.',
- rb7:'Shutter released. Get past Floor 6. Its server room is boarded from the INSIDE — the BLUE card is racked there.',
- rb8:'Gate\'s open. Quietly now. They hunt by sound first, sight second.',
- rb9:'The blue card is racked in the server room. Read the sign-in sheet — the last entry went up to the roof lab.',
- rb10:'Blue card. The Floor 8 gate is yours. Beyond that it\'s pitch dark. Flares first, courage second.',
- rb11:'Past Floor 8. If your light dies in there — stop. Listen. Then walk.',
- rb12:'Dr. Moon\'s card. She locked herself in the records office. She never signed out.',
- rb13:'Halfway. Floor 12 is the bio lab. If any alarm sounds up there — don\'t be on 12.',
- rb14:'You\'re above the breach. Breathe. The alarm killed the sub-breaker on 11 — reset it for the 15 gate.',
- rb15:'Sub-power on. The infirmary on 15 hides the yellow card — taped under the bed. She\'s still there too.',
- rb16:'Floor 15 gate released. I\'m sorry about the nurse. Keep climbing.',
- rb17:'Yellow card accepted. Two gates left. The stairwell smells like them now.',
- rb18:'The 17 gate is open. They know your stairs now — don\'t stop on the landings.',
- rb19:'Last boards pried. The roof door stands open. I\'ll see you in the sun.',
+ rb1:'Good, a light. Keep the beam low — they notice it. There\'s a crowbar in the janitor closet, Ground floor.',
+ rb2:'Boards pried? The stairwell tower is the only way up. Floor by floor. No elevator.',
+ rb3:'Floor 1. Classrooms. Listen at every door before you touch the handle.',
+ rb4:'That\'s the security room. The terminal has backup power — watch the archive. It\'ll explain everything.',
+ rb5:'You saw the record. The gate keys are on the desk in front of you. Take the red one.',
+ rb6:'Red card. Now the generator — same room. The gates above are dead without it.',
+ rb7:'MAIN POWER. The Floor 3 gate will take the red card. Go.',
+ rb8:'Someone else is in this building. Knocking, on my end too. Whether you look — that\'s up to you.',
+ rb9:'You found him? Good. Old teachers are tough. The Floor 4 shutter needs the terminal — release it.',
+ rb10:'Shutter released. Floor 4 is the dark floor. Batteries. Flares. Stay quiet.',
+ rb11:'Blue card. Floor 5 is the lab floor. What leaked out of there… you\'ll see. Quietly now.',
+ rb12:'Sub-breaker on — Floor 6 gate released.',
+ rb13:'BREACH ON 5. Don\'t fight it, don\'t hide from it — CLIMB.',
+ rb14:'You\'re above the breach. Breathe. Check the survivor corner up there. Please.',
+ rb15:'A rooftop key. Then the last gate is yours. It\'s almost midnight.',
+ rb16:'The last gate is open. Floor 6… something\'s wrong with Floor 6. It\'s too quiet.',
+ rb17:'Keep your light low. If you see something at the end of a corridor — don\'t approach it.',
+ rb18:'THE ROOF. Green smoke, hold the circle. Help is thirty seconds out.',
+ rb19:'Thirty seconds. Whatever comes out of that door — hold the circle.',
+ ph1t:"A STUDENT'S PHONE (3%)",ph1b:'One new voice message, 23:29:\n\n"Everyone went to the gym. Someone said the roof was safe."\n\n(static)\n\n"…They were wrong."',
+ bc_t:'EMERGENCY BROADCAST',bc_b:'MILITARY RELAY — 23:54\n\n"Extraction remains scheduled. Rooftop. Midnight. Hold at the signal smoke."\n\n"Do not engage the infected. Do not use elevators. Conserve your voice. Move between rooms, never along corridors."',
+ radio_powerfail:'Wait. Did your lights just go out? …That wasn\'t me. Something pulled the feed.',
+ knock_sub:'<i>Knock. Knock. Knock.</i> It\'s coming from the north-side rooms.',
+ jieun_sub:'<i>Scuffling. A bottle rolls across the floor.</i> Someone is in the south-west rooms.',
+ park_fate:'I\'m coming up. I\'m coming up right now — don\'t leave without—',
+ w_seen:'<i>At the end of the corridor — something tall. Standing very still. Watching.</i>',
+ w_gone:'<i>You blink. It\'s gone.</i>',
+ w_chase:'<b style="color:#ff6b6b">IT STOPPED HIDING. RUN.</b>',
+ w_roof:'<i>It is here too. It looks at the helicopter. Then at you.</i>',
+ p_extract:'EXTRACTION IN {n}s — HOLD THE CIRCLE',
+ phone_buzz:'Your phone buzzes. 3%.',
+ phone_msg:'If you\'re alive, don\'t use your phone.',
+ phone_die:'The phone dies.',
+ radio_powerfail:'Wait. Did your lights just go out? …That wasn\'t me. Something pulled the feed.',
+ knock_sub:'<i>Knock. Knock. Knock.</i> It\'s coming from the north-side rooms.',
+ jieun_sub:'<i>Scuffling. A bottle rolls across the floor.</i> Someone is in the south-west rooms.',
+ park_fate:'I\'m coming up. I\'m coming up right now — don\'t leave without—',
+ w_seen:'<i>At the end of the corridor — something tall. Standing very still. Watching.</i>',
+ w_gone:'<i>You blink. It\'s gone.</i>',
+ w_chase:'<b style="color:#ff6b6b">IT STOPPED HIDING. RUN.</b>',
+ w_roof:'<i>It is here too. It looks at the helicopter. Then at you.</i>',
+ p_extract:'EXTRACTION IN {n}s — HOLD THE CIRCLE',
+ phone_buzz:'Your phone buzzes. 3%.',
+ phone_msg:'If you\'re alive, don\'t use your phone.',
+ phone_die:'The phone dies.',
  rb20:'The roof! Green smoke, hold the circle. Whatever crawls up after you — the helicopter is faster.',
 },
 zh:{
- sl0:'汽水洒在充电底座上，现在每台助手机器人都想要一个拥抱。无人机会到楼顶接你——快快快！',
- sl1:'2层。监控室控制着各道门。这里还藏着零食。分清主次。',
- sl2:'3层。机器人在墙上画满了颜料。不好意思啦。',
- sl5:'6层。服务器室的门卡住了——机器人贴了张“请勿入内（我们害羞）”的牌子。',
- sl7:'8层。明亮，而且…哔哔的。智宇在12层跟你打招呼。',
- sl9:'一半了！喝口水，伸个懒腰，继续爬。',
- sl11:'12层。机器人大游行！它们排队护送你。非常有礼貌。而且非常快。',
- sl14:'15层。医务室机器人在发果汁。黄卡在床底下。',
- sl20:'天台！绿色烟雾，大大的友好无人机。守住圆圈，挥挥手！',
- sub_scary:'书元高中 · 爆发之夜',sub_lite:'书元高中 · 助手机器人捣乱日',
+ sl0:'地面大厅。应急灯、封死的大门……还有一部快没电的手机。',
+ sl1:'1层。教室。放慢速度——开任何门之前，先听。',
+ sl2:'2层。保安室还有备用电源。摄像头看到了一切。',
+ sl3:'3层。有人在敲门。或者……在呼吸。查，还是不查，由你决定。',
+ sl4:'4层。黑暗楼层。这里的灯几个小时前就放弃了。',
+ sl5:'5层。实验室。警报——智宇，告诉我你也听到警报了——',
+ sl6:'6层。行政区。这里安静得反常。压低手电。',
+ sub_scary:'书元高中 · 最后一夜',sub_lite:'书元高中 · 助手机器人捣乱日',
  m_modelabel:'游戏模式',m_namelabel:'你的名字',lbl_lang:'语言',m_solo:'单人逃生',m_host:'创建联机',m_join:'加入联机',m_connect:'连接',
  m_roomcode:'房间代码',tab_play:'开始',tab_how:'玩法说明',wake:'— 点击苏醒 —',
  footer:'粉丝自制丧尸逃生游戏 · Three.js + WebAudio · 免费部署',
  mode_scary:'噩梦模式',mode_lite:'日间演习',
  mode_scary_d:'黑暗走廊 · 丧尸 · 血迹 · 惊吓场面 · 心跳音效',
  mode_lite_d:'明亮友好 · 呆萌机器人 · 颜料泼溅 · 零惊吓',
- howto:'<b>两种模式：</b>🧟 <b>噩梦模式</b>——黑暗、丧尸、血迹、惊吓场面。🤖 <b>日间演习</b>——明亮、友好的机器人、颜料泼溅、零惊吓（适合儿童或热身）。联机时以房主的模式为准。<br><b>目标：</b>从大厅一路爬到<b>天台</b>（20层），登上救援直升机/无人机。<br><b>楼梯间的门</b>上了锁——找到<span style="color:#ff8080">钥匙卡</span>、恢复<b>供电</b>、在2层<b>监控终端</b>操作、用<b>撬棍</b>撬开木板门。你将不得不折返。<br><b>听。</b>准星周围的光弧会指示附近敌人的方向（绝地求生风格）。<br><b>看。</b>门口的<span style="color:#ff8080">血迹</span>（或颜料！）说明里面有什么。手电筒 [F]——很耗电，记得到处捡电池。<b>手枪 [2]</b> 在2层。<br><b>照明弹 [G]</b> 可以引开敌人。<b>医疗包 [H]</b> 回血。<b>C 蹲下</b>潜行。<b>Shift 冲刺</b>很吵。<br><b>联机：</b>创建房间并分享代码——最多4名幸存者。倒地的队友可以按住 E 救起。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
+ howto:'<b>两种模式：</b>🧟 <b>噩梦模式</b>——黑暗、丧尸、血迹、惊吓场面。🤖 <b>日间演习</b>——明亮、友好的机器人、颜料泼溅、零惊吓（适合儿童或热身）。联机时以房主的模式为准。<br><b>目标：</b>从大厅爬到<b>天台</b>（6层），登上救援直升机/无人机。<br><b>楼梯间的门</b>上了锁——找到<span style="color:#ff8080">钥匙卡</span>、恢复<b>供电</b>、在2层<b>监控终端</b>操作、用<b>撬棍</b>撬开木板门。你将不得不折返。<br><b>听。</b>准星周围的光弧会指示附近敌人的方向（绝地求生风格）。<br><b>看。</b>门口的<span style="color:#ff8080">血迹</span>（或颜料！）说明里面有什么。手电筒 [F]——很耗电，记得到处捡电池。<b>手枪 [2]</b> 在2层。<br><b>照明弹 [G]</b> 可以引开敌人。<b>医疗包 [H]</b> 回血。<b>C 蹲下</b>潜行。<b>Shift 冲刺</b>很吵。<br><b>联机：</b>创建房间并分享代码——最多4名幸存者。倒地的队友可以按住 E 救起。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
  cont:'继续游戏 — 第 {n} 层 · {m}',
  lb_title:'幸存者大厅',lb_share:'把这个房间代码分享给你的朋友',lb_copy:'点击代码复制 · 朋友点“加入联机”后输入即可',
  lb_startn:'开始逃生（{n} 名幸存者）',lb_start0:'仍要单人开始',lb_wait:'等待房主…',lb_leave:'离开',lb_copied:'已复制！',
  hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍',hud_flare:'照明弹 [G]',hud_med:'医疗包 [H]',hud_cards:'钥匙卡',hud_ammo:'9毫米 [2]',
- floor:'第 {n} 层',floor0:'第 1 层 — 大厅',roof:'天台 — 撤离点',
+ floor:'第 {n} 层',floor0:'地面 — 大厅',roof:'天台 — 撤离点',fl_ground:'地面',wp_roof:'⬆ 楼梯间——通往天台',
  hint:'[E] 互动 · [F] 手电筒 · [G] 照明弹 · [H] 医疗包 · [1]/[2] 切换武器<br>[左键] 攻击 · [V] 视角 · [Q] 标记 · [方向键] 转视角 · [Enter] 聊天 · [Tab] 目标',
  pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
  ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>C</b> 蹲下潜行</div><div><b>E</b> 互动/长按</div><div><b>F</b> 手电筒</div><div><b>G</b> 照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1/2</b> 撬棍/手枪</div><div><b>V</b> 第一/第三人称</div><div><b>Q</b> 标记</div><div><b>Tab</b> 目标列表</div><div><b>Enter</b> 聊天</div><div><b>Esc</b> 暂停</div>',
  goals_title:'逃生计划',
- cctv_hint:'◀ ▶ / A D — 切换摄像头 · [E] 或 [Esc] — 离开终端',cctv_cam:'摄像头 {n} — 第 {m} 层',
- shutter_btn:'解除6层卷帘门',note_close:'[E] / [ESC] 放下纸条',
+ cctv_hint:'◀ ▶ / A D — 切换摄像头 · [E] 或 [Esc] — 离开终端',cctv_cam:'摄像头 {n} — {m}',
+ shutter_btn:'解除4层卷帘门',note_close:'[E] / [ESC] 放下纸条',
  death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。正在重启…',
  respawn:'{n} 秒后重生…',down_h:'你倒下了',down_hl:'被扑倒了！',
  down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地围观。哎哟。',
@@ -700,52 +738,46 @@ zh:{
  chat_ph:'说点什么…（回车发送）',
  msg_creating:'正在创建房间…',t_midjoin:'正在加入进行中的逃生…',lb_squad:'幸存者',msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
  msg_slow:'仍在连接…PeerJS 需要几秒钟。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
- pro_ss:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你孤身一人。智宇在楼上通过无线电告诉你：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。捡起一切能用的东西。<em>别停下。</em>',
- pro_sm:'本来只是书元高中的一普通通宵自习——手机没电，晚上十点锁门。<br><br>然后三楼传来了尖叫声，老师们再也没有回应。<br><br>你和朋友们在黑暗中走散了。智宇在无线电里说：<em>军用直升机</em>午夜降落——就在<em>天台</em>。二十层楼。找到彼此。<em>别停下。</em>',
+ pro_ss:'本该只是书元高中的一夜通宵自习。收集手机。晚上十点锁大门。<br><br>23:12，三楼，一个学生咬了一位老师。23:20，走廊已经在<em>奔跑</em>。<br><br>应急灯转成红色。广播里的声音试图保持镇定。失败了。<br><br>然后，老师们再也没有回应。<br><br>你在门厅的地板上醒来。大楼一片死寂。你，不是一个人。',
+ pro_sm:'本该只是书元高中的一夜通宵自习。收集手机。晚上十点锁大门。<br><br>23:12，三楼，一个学生咬了一位老师。23:20，走廊已经在<em>奔跑</em>。<br><br>应急灯转成红色。然后，老师们再也没有回应。<br><br>你和朋友们在门厅醒来，散落在黑暗里。你，不是一个人。',
  pro_ls:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。它们是好意的，真的。<br><br>智宇在无线电里说：<em>救援无人机</em>一小时后降落<em>天台</em>。二十层楼热情过头的机器人。<em>记得说“借过”。</em>',
  pro_lm:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。它们是好意的，真的。<br><br>智宇在无线电里说：<em>救援无人机</em>一小时后降落<em>天台</em>。二十层楼热情过头的机器人。找到你的朋友。<em>记得说“借过”。</em>',
  radio_intro:'楼梯间是唯一的上楼通道。留意地上的血迹——那是它们巢穴的标记。',
  radio_intro_l:'楼梯间是唯一的上楼通道。机器人到处踩了颜料脚印——挺可爱，但盯紧光弧。',
  radio_cont:'回到大楼。楼梯间还记得你。',radio_cont_l:'回到大楼！机器人帮你留了队的位置。',
  radio_name:'智宇（对讲机）',
- q0:'在大厅找到手电筒。',q1:'踹开杂物间（1层东南房间），拿走撬棍。',
- q2:'上到2层——找到监控配电室。',q3:'从2层监控室桌上拿走红色钥匙卡。',
- q4:'用红卡打开3层楼梯间的门。',q5:'6层卷帘门被封——去2层发电机恢复供电。',
- q6:'供电恢复。在2层监控终端解除6层卷帘门。',
- q7:'回到6层继续向上。蓝色钥匙卡在6层被木板封住的服务器室里。',
- q8:'打开服务器室（6层），拿走蓝色钥匙卡。',q9:'打开8层楼梯间的门。',
- q10:'8–9层一片漆黑。继续爬。绿色钥匙卡在9层档案室。',
- q11:'打开11层的门。',q12:'12层收容失效——立刻向上突破！',
- q13:'15层的门被电磁锁锁住。去11层电气室重置断路器。',
- q14:'回到上面，打开15层的门。',q15:'从15层医务室拿走黄色钥匙卡。',
- q16:'打开17层的门。',q17:'19层楼梯口被木板封住——撬开它。',q18:'登上天台！',
- q19:'守住撤离圈。直升机马上就到。',
- s0:'你在一层醒来。大门被封死了。智宇说军用直升机午夜会来——到楼顶接人。',
- s1:'2层。监控室还有电池。也许发电机也是。',s2:'3层。这里的墙上有奇怪涂抹的痕迹。',
- s3:'4层。这里的灯坏了好多天了。',s4:'5层。你能听到前方卷帘门的嗡嗡声。',
- s5:'6层。服务器室的门是从里面封住的…',s6:'7层。别数死者了。只管往上爬。',
- s7:'8层。完全没有灯。智宇就在上面某处。',s8:'9层。档案室里…还有东西在。',
- s9:'爬到一半了。喘口气。继续。',s10:'11层。电气室在东南房间后面嗡嗡作响。',
- s11:'12层。警报响了。它们知道你在这。',s12:'13层。别停。不必跟所有家伙纠缠。',
- s13:'14层。楼下那个断路器在警报触发时跳闸了。',s14:'15层。医务室还散发着消毒水和更糟的气味。',
- s15:'16层。还剩两层黑暗。',s16:'17层。它们知道你走哪个楼梯间了。',
- s17:'18层。最后一扇木板门。你知道该怎么做。',s18:'19层。天台门开着。别回头。',
- s20:'天台。守在绿色烟雾旁。别朝楼梯间下面看。',
- radio_horde:'冲过12层！别停！',radio_horde_l:'机器人安排了一场惊喜游行。请到12层以上！',
+ q0:'在大厅找到手电筒。',q1:'杂物间（地面东南角）有一根撬棍。',
+ q2:'撬开1层楼梯间大门上的木板。',q3:'到达2层——找到保安室。',
+ q_arch:'使用监控终端——查看撤离记录。',q4:'从保安桌上拿走红色钥匙卡。',
+ q5:'恢复主电源——2层保安室的发电机。',q6:'用红卡打开3层楼梯间的门。',
+ q7:'3层：找到幸存者。（跟着声音。搜房间。）',q8:'在2层监控终端解除4层卷帘门。',
+ q9:'通过4层卷帘门。',q10:'黑暗楼层：找到蓝色门卡（4层实验室准备室）。',
+ q11:'合上公用断路器（4层电气室）。',q12:'打开5层的门。',
+ q13:'收容失效——立刻离开5层！',q14:'5层：找到另一名幸存者。',
+ q15:'拿走天台通行钥匙。',q16:'打开通往天台的楼梯门。',
+ q18:'最后一层：登上天台。',q19:'守住撤离圈。坚持到直升机降落。',
+ s0:'能听到吗？我在你楼上某处。直升机午夜到天台。唯一的路：向上。',
+ s1:'1层。教室。楼下杂物间有撬棍——楼梯门被木板钉死了。',
+ s2:'2层。保安室还有备用电源。看看摄像头——搞清楚这里发生了什么。',
+ s3:'3层。有人在那层躲过。如果你听到敲门声……那不是鬼。',
+ s4:'4层。黑暗楼层。别跑——跑动会吵醒它们。先备好电池。',
+ s5:'5层。实验室。整层都是失效的隔离区。马上离开这层。',
+ s6:'6层。行政区。这里不该这么安静。这层不对劲。',
+ radio_horde:'冲过5层！别停！',radio_horde_l:'机器人安排了一场惊喜游行。请到5层以上！',
  radio_finale:'飞行员：绿色烟雾，守住圆圈！我们正在下降——别让它们靠近你！',
  t_objdone:'目标完成',t_need_crowbar:'被木板封住了。你需要撬棍。',
  t_need_crowbar2:'你需要撬棍。（1层的杂物间可以直接踹开。）',
  t_batt:'电池 +40%',t_flare:'获得照明弹——按 G 投掷。',t_medkit:'获得医疗包——按 H 使用。',
  t_crowbar:'撬棍——可撬木板、攻击头部。[1] 选用。',t_pistol:'手枪——左键射击，[1]/[2] 切换武器。',
- t_ammo:'9毫米 +6 发。',t_torch:'手电筒——按 F 开关。',t_notorch:'还没有手电筒——去1层前台看看。',
+ t_ammo:'9毫米 +6 发。',t_torch:'手电筒——按 F 开关。',t_notorch:'还没有手电筒——去地面层前台看看。',
  t_batdead:'电池耗尽了。',t_noflare:'没有照明弹了。',t_nomedi:'没有医疗包了。',
  t_empty:'咔哒——空仓。去找9毫米弹药，或按 [1] 换撬棍。',t_nopistol:'还没有手枪——保安把枪落在了2层监控室。',
  t_w_melee:'已切换撬棍。',t_w_pistol:'已切换手枪——{n} 发。',t_up:'重新站了起来。小心点。',
  t_respawn:'你在楼梯间醒来。继续前进。',t_power:'主电源已恢复',
- t_power2:'断路器已合闸——15层的门已解锁',t_shutter:'6层卷帘门已解除',t_boards:'木板被撬开。',
- t_friendcard:'队友找到了{c}钥匙卡。',t_friendpower2:'队友重置了断路器——15层的门已打开。',
- t_friendpower:'队友恢复了主电源。',t_friendshutter:'队友解除了6层卷帘门。',
- t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效 — 12层',t_horde_l:'🤖 机器人大游行 — 12层',
+ t_power2:'断路器已合闸——6层的门已解锁',t_shutter:'4层卷帘门已解除',t_boards:'木板被撬开。',
+ t_friendcard:'队友找到了{c}钥匙卡。',t_friendpower2:'队友重置了断路器——6层的门已打开。',
+ t_friendpower:'队友恢复了主电源。',t_friendshutter:'队友解除了4层卷帘门。',
+ t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效 — 5层',t_horde_l:'🤖 机器人大游行 — 5层',
  t_disc:'与房主断开连接。',t_ping:'📡 {n} 标记了{f}',t_joined:'{n} 加入了。',
  l_open:'开门',l_close:'关门',l_pry:'撬开木板（长按）',l_kick:'踹开木板（长按）',l_boarded:'被木板封住——需要撬棍',
  l_gpry:'撬开门上木板（长按）',l_gboarded:'门被木板封住——需要撬棍',l_gate:'尝试开门',
@@ -755,7 +787,7 @@ zh:{
  l_pistol:'拿取手枪（+8发）',l_ammo:'拿取9毫米弹药（+6）',l_card:'拿取{c}钥匙卡',
  g_locked:'已上锁。需要{c}钥匙卡。',g_accept:'{c}钥匙卡已验证。',
  g_shutter1:'安全卷帘门。没有电力——去2层找发电机。',g_shutter2:'已通电。请在2层监控终端解除。',
- g_power:'电磁锁锁定。请重置11层的断路器。',
+ g_power:'电磁锁锁定。请重置4层的公用断路器。',
  sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_stairs_to:'楼梯 ➜',wp_up:'⬆ 楼梯间——大厅尽头（东侧）· 前往第 {n} 层',wp_down:'⬇ 楼梯间——大厅尽头（东侧）· 返回第 {n} 层',wp_here:'目标 · {d} 米',radio_stairs:'楼梯间在大厅最东边的塔楼里——跟着地上的绿色箭头，穿过发光的拱门。',hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，跟着指示牌走向下一段楼梯。',sg_ooo:'暂停使用',sg_drinks:'饮料',sg_access:'{c} 通行',
  sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_records:'档案室',sg_infir:'医务室',sg_roof:'天台通道',sg_elev:'电梯 — 停用',
@@ -764,83 +796,98 @@ zh:{
  rn10:'教师办公室',rn11:'办公室A',rn12:'办公室B',rn13:'档案间',rn14:'会议室',rn15:'文印室',
  rn20:'实验室1',rn21:'实验室2',rn22:'心理室',rn23:'暗房',rn24:'储藏室A',rn25:'储藏室B',
  rn30:'宿舍A',rn31:'宿舍B',rn32:'公共区',rn33:'洗衣房',rn34:'配餐室',rn35:'器材室',
- n1t:'保洁员日志',n1b:'这周第三次夜班了。6层的生物实验室总让我去拖“洒出来的东西”。不管那是什么，气味都不对劲。按他们的要求锁了楼梯间的门。红卡在2层监控室的人手里。',
- n2t:'监控员留言',n2b:'6层往上的摄像头都坏了。12号画面每天凌晨2点都有东西在东楼梯间踱步。校长说别管。我可做不到。红钥匙卡就在这张桌上——看到这张纸条就拿走吧。',
- n3t:'服务器室签到表',n3b:'蓝色门禁卡留在机架室。最后一条记录：“0号样本已转移至楼顶实验室。上帝原谅我们。”机架室的门是从里面封住的。',
- n4t:'档案室便签',n4b:'绿色权限卡发给文博士。如果你在天黑后找到这间办公室，千万别从来路返回。它们先靠听觉，再靠视觉。',
- n5t:'电气警告',n5b:'主电源从楼顶被切断。这里的分断路器只供上层楼梯门的锁。合上它，15层的门就会解锁。小心这一路的黑暗。',
- n6t:'医务室登记',n6b:'黄卡是护士长的。被咬的人大约一小时后才会转变。她把卡贴在了床底。她昨天也停止了呼吸。胶带还在。',
- n7t:'撕下的日记',n7b:'第3天？直升机午夜会来。他们说去楼顶。我们班爬到14层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
+ n1t:'保洁员日志',n1b:'这周第三次夜班了。5层的生物实验室总让我去拖“洒出来的东西”。不管那是什么，气味都不对劲。按他们的要求锁了楼梯间的门。红卡在2层保安室的人手里。',
+ n2t:'监控员留言',n2b:'4层往上的摄像头都坏了。6号画面每天凌晨2点都有东西在东楼梯间踱步。它知道摄像头在哪。它会往回看。校长说别管。我可做不到。红钥匙卡就在这张桌上——看到这张纸条就拿走吧。',
+ n3t:'实验室准备室签到表',n3b:'蓝色门禁卡留在准备室。最后一条记录：“0号样本已从5层实验室转移。上帝原谅我们。”这扇门是从里面封住的。',
+ n4t:'书包上的便签',n4b:'我们躲在体育馆。太吵。太空旷。我们上去了。如果有人看到这张纸——东侧楼梯间还能走，但黑暗的楼层……带上照明弹。还有，如果有东西喊你的名字，别回答。—— S.M.',
+ n5t:'电气警告',n5b:'主电源从楼顶被切断。这里的公用断路器只供上层楼梯门的锁。合上它，6层的门就会解锁。小心这一路的黑暗。',
+ n6t:'医务室登记',n6b:'登记表写着：被咬的人大约一小时后才会转变。他们应护士长自己的要求，把她送去了5层实验室。从那以后，再没人写过任何东西。',
+ n7t:'撕下的日记',n7b:'第3天？直升机午夜会来。他们说去楼顶。我们班爬到6层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
  n8t:'墙上的涂写',n8b:'天台是出路。它们怕光。守在烟雾旁，别朝楼梯间下面看。',
  lives_lbl:'剩余重生',btn_respawn:'立即重生',death_left:'剩余重生次数：{n}',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',l_talk:'和 {n} 交谈',
  npc1_name:'朴老师（受伤）',
- npc1_1:'嘘……小声点。我在这教生物。312实验室——一切都是从12层我们的实验室开始的。',
- npc1_2:'拿走我的照明弹——黑暗楼层最耗手电电量。在12层不管听到什么，都千万别开门。',
- npc1_3:'我的学生们先跑上去了。如果你遇到他们，而他们已经……变了样——你只能做你该做的事。快走。',
- npc2_name:'智恩（学生）',
- npc2_1:'你不是“它们”。好。好好。我叫智恩——12层警报响起后我就一直躲在这里。',
- npc2_2:'护士长在楼上的医务室里，床底下贴着一张黄色钥匙卡。她……她还在里面。千万别出声。',
- npc2_3:'医疗包拿去。到了天台——朝窗户挥挥手里的东西，我会看着你。加油。',
+ npc1_1:'谁？！退后——别过来。我手里有东西，我会动手的。',
+ npc1_2:'……你还活着？学生？天啊。好。我姓朴，教生物——我的办公室在5层，就在实验室旁边。一切是从那里开始的。',
+ npc1_3:'其他人呢？大部分往楼上跑了。有些没能跑到。躲体育馆的那批，两天前就没声音了。',
+ npc1_4:'楼上有什么？黑暗。太黑了。还有一个……一个和其它不一样的。它不追人。它只是“看着”我们。拿走我的物资——我不会离开这个房间。',
+ npc2_name:'智恩（幸存者）',
+ npc2_1:'站住！别过—— ……你还活着？给，拿着天台钥匙——黄卡。锁门之前我从办公室配了一把。',
+ npc2_2:'我在这多久了？从警报响起开始。两晚？三晚？数着数着就不数了。',
+ npc2_3:'发生了什么？我亲眼看见人“变”。不是一下子。有的变得暴力。有的变得……不一样。',
+ npc2_4:'有一个会“看”的。它不急。你盯着它，它就藏起来。然后它跟着你。天台是唯一的出路——但别在天台停留。',
+ t_parkgift:'朴老师给了你一个医疗包和一块电池。',
  mis:'任务：逃出大楼',obj_upd:'目标已更新',q_arch:'使用监控终端——查看撤离记录。',
  ch2_t:'第二章 — 摄像头看到了什么',ch2_c:'2层。保安室还有电——只是备用电源。今晚学校里发生的一切，摄像头都记录了下来。',
- ch3_t:'第三章 — 黑暗楼层',ch3_c:'6层的卷帘门嘎嘎开启。再往上，整栋楼死了：没有灯，没有摄像头，不知道平台上等着什么。先拿照明弹。再谈勇气。',
- ch4_t:'第四章 — 收容失效',ch4_c:'12层是生物实验室。警报说收容几小时前就失败了。你身下的门全开了——里面的每一样东西都知道你在哪。',
+ ch3_t:'第三章 — 黑暗楼层',ch3_c:'4层的卷帘门嘎嘎开启。再往上，整栋楼死了：没有灯，没有摄像头，不知道楼梯平台上等着什么。先拿电池。再谈勇气。',
+ ch4_t:'第四章 — 收容失效',ch4_c:'5层是生物实验室。警报说收容几小时前就失败了。你身下的门全开了——里面的每一样东西都知道你在哪。',
  ch5_t:'第五章 — 午夜',ch5_c:'天台。冷空气，绿色烟雾，直升机守在圆圈旁。身后天台的门撞在墙上。你走到了这里。守住圆圈。',
  objective_n:'目标 {n}/{t} —',
  w0:'大楼一片漆黑。看不见，就活不下去。',
- w1:'保安室控制着整栋楼。搞清楚这里发生了什么——并找到上楼的路。',
- w2:'终端用备用电源运行。它的记录会告诉你这里发生了什么。',
- w3:'记录说楼层的门禁卡留在了保安桌上。就是这张桌。',
- w4:'被木板封住的房间里藏着物资——还有更糟的东西。1层的杂物间有一根撬棍。',
- w5:'电梯没电了，6层的卷帘门也断了电。这个房间里的发电机可以解决。',
- w6:'来电了。用终端解除6层卷帘门——那是继续上楼唯一的路。',
- w7:'3层楼梯间的门用红色门卡。爬上去。',
- w8:'卷帘门开了。回到楼梯间，爬过6层。',
- w9:'6层被木板封住的服务器室里藏着蓝色门卡。',
- w10:'8层的门用蓝色门卡。',
- w11:'8–9层一片漆黑。绿色门卡在9层档案室。',
- w12:'11层的门用绿色门卡。',
- w13:'12层的警报是收容失效。立刻到它上面去。',
- w14:'警报烧毁了分断路器。去11层电气室合闸，15层的门才会开。',
- w15:'分闸合上。15层的门已解锁。继续爬。',
- w16:'15层医务室里藏着黄色门卡。',
- w17:'17层的门用黄色门卡。',
- w18:'19层楼梯口被木板封着。撬开它。',
- w19:'天台。直升机守在绿色烟雾旁。',
- w20:'守住圆圈。别让它们碰到你。直升机马上就到。',
+ w1:'封着的房间里藏着工具。你会需要撬东西的东西。',
+ w2:'主楼梯是死路。东侧楼梯塔是唯一的上楼路。',
+ w3:'保安室控制着这栋楼。它的摄像头会告诉你发生了什么。',
+ w4:'记录会告诉你所有人去了哪——以及门是被什么锁上的。',
+ w5:'楼层的门禁卡留在了保安桌上。就是这张桌。',
+ w6:'这个房间的发电机坏了。3层以上的所有东西都没电。',
+ w7:'3层的门认红卡。爬。',
+ w8:'今晚还有别人活着。找不找——由你决定。',
+ w9:'4层卷帘门断电了。用终端解除它。',
+ w10:'过了卷帘门，楼梯间一路通向黑暗。',
+ w11:'4层的实验室准备室里还有一张蓝色门卡。',
+ w12:'6层的门用的是备用电。4层的公用断路器可以改变这件事。',
+ w13:'5层的门开了。5层上的东西……已经不在收容状态了。',
+ w14:'别留在5层。往上走。',
+ w15:'这层不只有你。有人躲着。',
+ w16:'天台是唯一的出路——这把钥匙能打开最后一道门。',
+ w17:'最后一道门开了。6层很安静。安静得反常。',
+ w18:'直升机在等。上天台。',
+ w19:'三十秒。大楼里所有的东西都听到直升机了。',
  br_h:'第一天 — 23:47 · 书元高中',
  br1:'通宵自习。城市在一夜之间沦陷——你在门厅的地板上醒来，大门被封死了。',
  br2:'逃到楼上的学生智宇在无线电里说：军用直升机午夜降落天台。',
- br3:'二十层楼。电梯停用。而在你和天台之间的黑暗里，有什么东西在动。',
+ br3:'六层楼。电梯停用。而在你和天台之间的黑暗里，有什么东西在动。',
  br_m:'主要目标：逃生——登上天台',
  cl_h:'监控存档 — 备用电源',cl_note:'这张桌上有一张红色门卡。这个房间里的发电机可以恢复主电源。',
- cl1:'23:31 · 12号镜头——学生正在向上撤离。楼梯间是唯一的路线。',cl2:'23:33 · 收容失败——12层已封闭。',
- cl3:'23:34 · 电梯停用——保安协议7。',cl4:'23:35 · 楼层门已全部锁闭。门卡留存：保安桌（本房间）。',cl5:'23:36 · 信号中断。',
+ cl1:'23:31 · 12号镜头——学生正在向上撤离。楼梯间是唯一的路线。',cl2:'23:33 · 紧急封锁开始。',
+ cl3:'23:34 · 5层实验室封闭——收容失败。',cl4:'23:35 · 电梯停用。23:36 · 大门锁闭。',cl5:'23:37 · 保安撤离。23:38 · 5号摄像头离线。23:41 · 6号摄像头——检测到移动。',
  l_cctv_bak:'使用监控终端（备用电源）',l_elev:'试试电梯',
  elev_dead:'电梯——没有电。保安把它切断了（协议7）。大厅尽头的楼梯间是唯一上楼的路。',
  elev_jam:'电梯——停用。有东西在门的另一侧敲。别开。',
- gw_red:'2层监控室',gw_blue:'6层服务器室',gw_green:'9层档案室',gw_yellow:'15层医务室',
+ gw_red:'2层保安室',gw_blue:'4层实验室准备室',gw_green:'档案室',gw_yellow:'智恩，5层',
  g_locked2:'已上锁。需要{c}门卡——{where}。',sg_allfloors:'楼梯间 ➜ 通往所有楼层',
- rb1:'有光了？好。光束压低——它们会注意到。保安室在楼上，2层。',
- rb2:'这就是监控室。终端用备用电源运行——看看存档。它会告诉你发生了什么。',
- rb3:'你看到了。所有人都往楼上跑。楼层门在他们身后锁上了——钥匙就在你面前的桌上。',
- rb4:'红卡。3层的门认它——但先武装自己。1层的杂物间有撬棍。',
- rb5:'撬棍。木板、门、还有头骨——它都能搞定。现在回2层恢复供电。',
- rb6:'主电源恢复了！不过卷帘门的继电器还是断电——去监控终端解除6层。',
- rb7:'卷帘门已解除。爬过6层。那里的服务器室是从里面封死的——蓝卡就在机架上。',
- rb8:'门开了。保持安静。它们先靠听觉，再靠视觉。',
- rb9:'蓝卡在服务器室的机架上。看看签到表——最后一条记录去了楼顶实验室。',
- rb10:'蓝卡。8层的门归你了。再往上全黑。先拿照明弹，再谈勇气。',
- rb11:'闯过8层了。手电要是灭了对——停下。听。再走。',
- rb12:'文博士的卡。她把自己锁进了档案室，再没签到离开。',
- rb13:'一半了。12层是生物实验室。上面警报一响——别待在12层。',
- rb14:'你在失效区上方了。喘口气。警报烧掉了11层的分断路器——合上它，15层的门才会开。',
- rb15:'分闸合上了。15层医务室的黄卡——贴在床底下。她也在那里。抱歉。',
- rb16:'15层的门开了。护士的事我很难过。继续爬。',
- rb17:'黄卡已验证。还剩两道门。楼梯间已经有它们的气味了。',
- rb18:'17层的门开了。它们记住你的楼梯了——别在平台停留。',
- rb19:'最后一批木板撬开了。天台的门开着。太阳下见。',
- rb20:'天台！绿色烟雾，守住圆圈。不管什么爬上来——直升机更快。',
+ rb1:'有光了？好。光束压低——它们会注意到。地面层的杂物间里有撬棍。',
+ rb2:'木板撬开了？楼梯塔是唯一的上楼路。一层一层来。没有电梯。',
+ rb3:'1层。教室。碰任何门把手之前，先听。',
+ rb4:'这就是保安室。终端有备用电——看看存档。它会解释一切。',
+ rb5:'你看到记录了。门禁卡就在你面前的桌上。拿红色的。',
+ rb6:'红卡。但门没电就是死的——发电机就在这个房间。',
+ rb7:'主电源恢复！3层的门现在认红卡。走。',
+ rb8:'这栋楼里还有别人。我这边也听到敲门了。查不查，由你。',
+ rb9:'你找到他了？好。老教师命硬。4层的卷帘门要用终端解除——去吧。',
+ rb10:'卷帘门开了。4层是黑暗楼层。电池。照明弹。保持安静。',
+ rb11:'蓝卡。5层是实验层。从那里漏出来的东西……你马上会见到。安静。',
+ rb12:'分闸合上——6层的门解锁了。',
+ rb13:'5层收容失效。别打，别藏——往上爬。',
+ rb14:'你在失效区上方了。喘口气。上面还有幸存者，我确定。去看看。',
+ rb15:'天台钥匙？那最后一道门就是你的了。快到午夜了。',
+ rb16:'最后一道门。过了这里就只有天台了。',
+ rb17:'6层。太安静了。压低手电。',
+ rb18:'天台！绿色烟雾，守住圆圈。救援三十秒后到。',
+ rb19:'三十秒。不管那扇门里出来什么——守住圆圈。',
+ ph1t:'学生的手机（3%）',ph1b:'一条新语音留言，23:29：\n\n“大家都去体育馆了。有人说天台是安全的。”\n\n（杂音）\n\n“……他们错了。”',
+ bc_t:'紧急广播',bc_b:'军方中继 — 23:54\n\n“撤离计划不变。天台。午夜。守在信号烟雾处。”\n\n“不要与感染者交战。不要使用电梯。少说话。在房间之间移动，不要沿走廊走。”',
+ radio_powerfail:'等等。你的灯是不是刚灭了？……不是我。有什么东西切断了电源。',
+ knock_sub:'<i>咚。咚。咚。</i>声音来自北侧的房间。',
+ jieun_sub:'<i>窸窸窣窣。一个瓶子滚过地板。</i>西南边的房间里有人。',
+ park_fate:'我上来了。我现在就上来——别丢下我——',
+ w_seen:'<i>走廊尽头——一个高高的影子。站着一动不动。看着。</i>',
+ w_gone:'<i>你眨了下眼。它不见了。</i>',
+ w_chase:'<b style="color:#ff6b6b">它不躲了。快跑。</b>',
+ w_roof:'<i>它也在这里。它看了看直升机。然后看向你。</i>',
+ p_extract:'撤离倒计时 {n} 秒——守住圆圈',
+ phone_buzz:'你的手机震了一下。电量3%。',
+ phone_msg:'如果你还活着，别用手机。',
+ phone_die:'手机关机了。',
 }};
 function T(k,vars){
   let d=(I18N[LANG]&&I18N[LANG][k]!==undefined)?I18N[LANG][k]:I18N.en[k];
@@ -1100,16 +1147,16 @@ function buildTextures(){
     x.fillStyle=bg;x.fillRect(0,0,w,h);x.strokeStyle=fg;x.lineWidth=3;x.strokeRect(4,4,w-8,h-8);
     x.fillStyle=fg;x.font='bold 26px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';x.fillText(txt,w/2,h/2+1);
   });
-  TEX.destLabel=f=>makeCanvas(256,128,(x,w,h)=>{   // the floor you reach at the top of this flight
+  TEX.destLabel=f=>makeCanvas(256,128,(x,w,h)=>{   // the level you reach at the top of this flight
     const dest=f+1;
     x.fillStyle='#0d2010';x.fillRect(0,0,w,h);x.strokeStyle='#59ff7a';x.lineWidth=5;x.strokeRect(6,6,w-12,h-12);
-    x.fillStyle='#a8ffb8';x.font='bold 50px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
-    x.fillText(dest>=19?T('fl_roof'):T('fl_floor',{n:dest+1}),w/2,h/2);
+    x.fillStyle='#a8ffb8';x.font='bold 44px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
+    x.fillText(dest>=CFG.FLOORS?T('fl_roof'):(dest===0?T('fl_ground'):T('fl_floor',{n:dest})),w/2,h/2);
   });
   TEX.floorLabel=f=>makeCanvas(256,128,(x,w,h)=>{
     x.fillStyle='#3a3a3c';x.fillRect(0,0,w,h);x.strokeStyle='#8a8a8a';x.lineWidth=4;x.strokeRect(5,5,w-10,h-10);
-    x.fillStyle='#ffd9a0';x.font='bold 52px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
-    x.fillText(f===19?T('fl_roof'):T('fl_floor',{n:f+1}),w/2,h/2);
+    x.fillStyle='#ffd9a0';x.font='bold 44px Consolas,monospace';x.textAlign='center';x.textBaseline='middle';
+    x.fillText(f>=CFG.FLOORS?T('fl_roof'):(f===0?T('fl_ground'):T('fl_floor',{n:f})),w/2,h/2);
   });
   TEX.board=makeCanvas(128,128,(x,w,h)=>{
     x.clearRect(0,0,w,h);
@@ -1653,9 +1700,9 @@ class GateC{
   }
 }
 
-/* gate plan: gate i blocks ascent from floor i to i+1 */
+/* gate plan: gate i blocks ascent from level i to i+1 (levels: 0=GROUND,1..6=FLOORS,7=ROOF) */
 const GATE_PLAN={
-  2:'card-red',5:'shutter',6:'board',7:'card-blue',10:'card-green',14:'power',16:'card-yellow',18:'board'
+  1:'board',2:'card-red',3:'shutter',4:'card-blue',5:'power',6:'card-yellow'
 };
 
 /* ---------- items ---------- */
@@ -1715,13 +1762,14 @@ class Pickup{
 }
 function notesList(){return [
   {id:'n1',f:0,x:-21.5,z:-1.1,y:0.1,title:T('n1t'),body:T('n1b')},
-  {id:'n2',f:1,x:-6.5,z:-4.2,y:0.85,title:T('n2t'),body:T('n2b')},
-  {id:'n3',f:5,x:-22,z:-8,y:0.12,title:T('n3t'),body:T('n3b')},
-  {id:'n4',f:8,x:-6,z:6,y:0.1,title:T('n4t'),body:T('n4b')},
-  {id:'n5',f:10,x:12,z:-4,y:0.12,title:T('n5t'),body:T('n5b')},
-  {id:'n6',f:14,x:12,z:5,y:0.1,title:T('n6t'),body:T('n6b')},
-  {id:'n7',f:17,x:-6,z:-5,y:0.1,title:T('n7t'),body:T('n7b')},
-  {id:'n8',f:19,x:20,z:-1,y:1.6,title:T('n8t'),body:T('n8b')},
+  {id:'n2',f:2,x:-6.5,z:-4.2,y:0.85,title:T('n2t'),body:T('n2b')},
+  {id:'n3',f:4,x:-22,z:-8,y:0.12,title:T('n3t'),body:T('n3b')},
+  {id:'n4',f:3,x:-6,z:6,y:0.1,title:T('n4t'),body:T('n4b')},
+  {id:'n5',f:4,x:12,z:-4,y:0.12,title:T('n5t'),body:T('n5b')},
+  {id:'n6',f:5,x:12,z:5,y:0.1,title:T('n6t'),body:T('n6b')},
+  {id:'n7',f:6,x:-6,z:-5,y:0.1,title:T('n7t'),body:T('n7b')},
+  {id:'n8',f:7,x:20,z:-1,y:1.6,title:T('n8t'),body:T('n8b')},
+  {id:'bcast',f:6,x:2,z:-8.6,y:0.1,title:T('bc_t'),body:T('bc_b')},
 ];}
 
 /* ---------- room themes ---------- */
@@ -1731,7 +1779,7 @@ const ROOM_NAMES=()=>[
   [T('rn20'),T('rn21'),T('rn22'),T('rn23'),T('rn24'),T('rn25')],
   [T('rn30'),T('rn31'),T('rn32'),T('rn33'),T('rn34'),T('rn35')],
 ];
-function themeOf(f){return f<5?0:(f<11?1:(f<16?2:3));}
+function themeOf(f){return f<2?0:(f<3?1:(f<5?2:3));} // classrooms G-1, offices 2, labs 3-4, dorms 5-6
 
 /* ---------- furniture ---------- */
 /* Every door gets a keep-clear box (corridor side + room side) so random furniture
@@ -2110,27 +2158,29 @@ function buildFloor(f){
   let zCount;
   if(MD.jumpscares){
     if(f<=1)zCount=1;
-    else if(f<=4)zCount=irand(1,2)+Math.floor(f*0.3);
-    else zCount=irand(4,5)+Math.floor(f*0.7);
+    else if(f<=3)zCount=irand(2,3)+Math.floor(f*0.4);
+    else if(f===6)zCount=irand(1,2);            // Floor 6: unnaturally quiet. On purpose.
+    else zCount=irand(3,4)+Math.floor(f*0.8);
   }else zCount=irand(3,4)+Math.floor(f*0.55);
   for(let i=0;i<zCount;i++){
     const r=pick(rooms);
     let type='shambler';
     const roll=Math.random();
-    if(f>=5&&roll<0.26)type='runner';
-    else if(f>=11&&roll<0.41)type='brute';
-    else if(f>=8&&roll<0.56)type='crawler';
-    else if(f>=7&&roll<0.68)type='screamer';
+    if(f>=2&&roll<0.22)type='runner';
+    else if(f>=5&&roll<0.38)type='brute';
+    else if(f>=4&&roll<0.54)type='crawler';
+    else if(f>=3&&roll<0.66)type='screamer';
     const zx=rand(r.x0+1.5,r.x1-1.5),zz=rand(r.z0+1.5,r.z1-1.5);
     spawnZombie(f,zx,zz,type,r);
   }
-  // special floors
+  // special floors (levels: 0=GROUND, 1..6 = FLOORS 1..6, 7 = ROOF)
   if(f===0)specialEntrance(L,y);
-  if(f===1)specialCCTV(L,y);
-  if(f===5)specialServer(L,y);
-  if(f===10)specialElectrical(L,y);
-  if(f===8){new Pickup('card-green',8,-6,y+0.09,6,{id:'story-card-green'});signOn(8,-3,y+2.5,1.46,Math.PI,TEX.sign(T('sg_records'),'#101020','#59ff7a'),2,0.44);}  if(f===14){new Pickup('card-yellow',14,12,y+0.09,5,{id:'story-card-yellow'});signOn(14,12,y+2.5,1.46,Math.PI,TEX.sign(T('sg_infir'),'#101020','#59ff7a'),2,0.44);}
-  if(f===19)specialTop(L,y);
+  if(f===2)specialCCTV(L,y);
+  if(f===4){specialServer(L,y);specialElectrical(L,y);}
+  if(f===3)signOn(3,-9,y+2.5,1.46,Math.PI,TEX.sign('WE WENT UP  →','#0a1a0d','#59ff7a'),2.2,0.5);
+  if(f===4)signOn(4,-9,y+2.5,1.46,Math.PI,TEX.sign('THEY ARE NOT ALL THE SAME','#200','#ff5050'),2.6,0.42);
+  if(f===5)signOn(5,12,y+2.5,1.46,Math.PI,TEX.sign(T('sg_infir'),'#101020','#59ff7a'),2,0.44);
+  if(f===CFG.FLOORS-1)specialTop(L,y);
   pruneFurniture();
   pruneDoorBlockers(f);
 }
@@ -2154,51 +2204,54 @@ function specialEntrance(L,y){
   world.f0door=world.roomDoor['0:S2'];
 }
 function specialCCTV(L,y){
-  // S2 = CCTV & POWER (x[-10,2] z[-10,-1.6])
-  world.roomDoor['1:S2'].label='CCTV & POWER';
+  // S2 = CCTV & POWER (x[-10,2] z[-10,-1.6]) — FLOOR 2
+  world.roomDoor['2:S2'].label='CCTV & POWER';
   // generator
-  const gen=addBox(1,0.8,y+0.8,-8.8,1.4,1.6,1.0,MAT.gen,{los:true});
+  const gen=addBox(2,0.8,y+0.8,-8.8,1.4,1.6,1.0,MAT.gen,{los:true});
   const handle=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.34,0.1),new THREE.MeshStandardMaterial({color:0xaa1111,emissive:0xff2222,emissiveIntensity:1.6}));
   handle.position.set(0,1.0,0.55);gen.add(handle);
-  world.breakers.main={mesh:handle,f:1,x:0.8,z:-8.25};
+  world.breakers.main={mesh:handle,f:2,x:0.8,z:-8.25};
   // terminal desk with monitors
-  addBox(1,-5,y+0.4,-4.2,2.4,0.8,1.0,MAT.desk);
+  addBox(2,-5,y+0.4,-4.2,2.4,0.8,1.0,MAT.desk);
   for(let i=0;i<3;i++){
-    const mon=addBox(1,-5.8+i*0.8,y+1.25,-4.45,0.62,0.5,0.08,MAT.screen,{col:false});
+    const mon=addBox(2,-5.8+i*0.8,y+1.25,-4.45,0.62,0.5,0.08,MAT.screen,{col:false});
     world.termMons=world.termMons||[];world.termMons.push(mon);
   }
-  world.terminal={f:1,x:-5,z:-4.2};
+  world.terminal={f:2,x:-5,z:-4.2};
   const cl=new THREE.PointLight(0x59ff7a,3,7,2);cl.position.set(-5,y+2.2,-4.2);L.add(cl);
-  new Pickup('card-red',1,-4.4,y+0.84,-4.0,{id:'story-card-red'});
+  new Pickup('card-red',2,-4.4,y+0.84,-4.0,{id:'story-card-red'});
   // co-op: a sidearm + spare rounds for each survivor
   const side=G.mp?[[-4.18,-3.95],[-3.92,-3.95],[-4.18,-4.35],[-3.92,-4.35]]:[[-4.05,-4.0]];
-  side.forEach((pp,i)=>new Pickup('pistol',1,pp[0],y+0.85,pp[1],{id:i===0?'story-pistol':'story-pistol'+(i+1)}));
+  side.forEach((pp,i)=>new Pickup('pistol',2,pp[0],y+0.85,pp[1],{id:i===0?'story-pistol':'story-pistol'+(i+1)}));
   const ammoSpots=G.mp?[[-6.0,-3.95],[-5.62,-3.95],[-6.0,-4.35],[-5.62,-4.35]]:[[-5.5,-4.6]];
-  ammoSpots.forEach((pp,i)=>new Pickup('ammo',1,pp[0],y+0.86,pp[1],{id:'story-ammo'+(i+1)}));
-  signOn(1,-5,y+2.6,-1.44,0,TEX.sign(T('sg_cctv'),'#101020','#59ff7a'),2.4,0.5);
+  ammoSpots.forEach((pp,i)=>new Pickup('ammo',2,pp[0],y+0.86,pp[1],{id:'story-ammo'+(i+1)}));
+  signOn(2,-5,y+2.6,-1.44,0,TEX.sign(T('sg_cctv'),'#101020','#59ff7a'),2.4,0.5);
+  // the storage-corner phone (optional discovery, Floor 2)
+  new Pickup('note',2,-9,y+0.1,-9,{id:'phone'});
 }
 function specialElectrical(L,y){
-  // S3 = ELECTRICAL (x[2,16] z[-10,-1.6]) — breaker 2
-  const box=addBox(10,9,y+0.8,-9.2,1.2,1.6,0.6,MAT.gen,{los:true});
+  // S3 = ELECTRICAL (x[2,16] z[-10,-1.6]) — utility breaker, FLOOR 4
+  const box=addBox(4,9,y+0.8,-9.2,1.2,1.6,0.6,MAT.gen,{los:true});
   const handle=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.34,0.1),new THREE.MeshStandardMaterial({color:0x117711,emissive:0x33ff66,emissiveIntensity:1.6}));
   handle.position.set(0,0,0.36);box.add(handle);
-  world.breakers.sub={mesh:handle,f:10,x:9,z:-8.9};
-  new Pickup('note',10,8,y+0.95,-8.2,{id:'n5'});
-  signOn(10,9,y+2.5,-1.44,0,TEX.sign(T('sg_elec'),'#101020','#59ff7a'),2,0.44);
+  world.breakers.sub={mesh:handle,f:4,x:9,z:-8.9};
+  new Pickup('note',4,8,y+0.95,-8.2,{id:'n5'});
+  signOn(4,9,y+2.5,-1.44,0,TEX.sign(T('sg_elec'),'#101020','#59ff7a'),2,0.44);
 }
 function specialServer(L,y){
-  // S1 inner boarded rack room x[-24,-19] z[-10,-6], doorway in z=-6 wall
-  addWall(5,-19,-10,-19,-6);
-  addWall(5,-24,-6,-21.3,-6);
-  addWall(5,-19.9,-6,-19,-6);
-  addWall(5,-21.3,-6,-19.9,-6,{y:y+2.25,h:CFG.FH-2.25});
-  new DoorC(5,-21.3,-6,1.4,'x',{boarded:true,swing:-1,id:'rack-door',label:'Pry boards'});
-  for(let i=0;i<3;i++)addBox(5,-23+i*1.3,y+1.1,-9,0.8,2.2,0.8,MAT.dark,{los:true});
-  new Pickup('card-blue',5,-21,y+0.12,-8,{id:'story-card-blue'});
-  signOn(5,-17,y+2.5,-1.44,0,TEX.sign(T('sg_server'),'#101020','#59ff7a'),2,0.44);
+  // S1 inner boarded rack room x[-24,-19] z[-10,-6], doorway in z=-6 wall — FLOOR 4
+  addWall(4,-19,-10,-19,-6);
+  addWall(4,-24,-6,-21.3,-6);
+  addWall(4,-19.9,-6,-19,-6);
+  addWall(4,-21.3,-6,-19.9,-6,{y:y+2.25,h:CFG.FH-2.25});
+  new DoorC(4,-21.3,-6,1.4,'x',{boarded:true,swing:-1,id:'rack-door',label:'Pry boards'});
+  for(let i=0;i<3;i++)addBox(4,-23+i*1.3,y+1.1,-9,0.8,2.2,0.8,MAT.dark,{los:true});
+  new Pickup('card-blue',4,-21,y+0.12,-8,{id:'story-card-blue'});
+  signOn(4,-17,y+2.5,-1.44,0,TEX.sign(T('sg_server'),'#101020','#59ff7a'),2,0.44);
 }
 function specialTop(L,y){
-  signOn(19,15.84,y+2.4,0.2,-Math.PI/2,TEX.sign(T('sg_roof'),'#06180a','#59ff7a'),1.8,0.45);
+  const topF=CFG.FLOORS-1;
+  signOn(topF,15.84,y+2.4,0.2,-Math.PI/2,TEX.sign(T('sg_roof'),'#06180a','#59ff7a'),1.8,0.45);
 }
 
 /* ---------- rooftop ---------- */
@@ -2208,13 +2261,13 @@ function buildRoof(){
   const pf=(x0,z0,x1,z1)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,0.3,z1-z0),MAT.dark);m.position.set((x0+x1)/2,y-0.15,(z0+z1)/2);m.receiveShadow=true;L.add(m);};
   pf(-24,-10,LA.x0,10);pf(LA.x0,-10,LA.x1,LA.z0);pf(LA.x0,LA.z1,LA.x1,10);pf(LA.x1,-10,24,10);
   // parapet
-  addWall(20,-24,-10,-24,10,{h:1.05,mat:MAT.wallDark});
-  addWall(20,-24,10,24,10,{h:1.05,mat:MAT.wallDark});
-  addWall(20,-24,-10,24,-10,{h:1.05,mat:MAT.wallDark});
-  addWall(20,24,-10,24,10,{h:1.05,mat:MAT.wallDark});
+  addWall(CFG.FLOORS,-24,-10,-24,10,{h:1.05,mat:MAT.wallDark});
+  addWall(CFG.FLOORS,-24,10,24,10,{h:1.05,mat:MAT.wallDark});
+  addWall(CFG.FLOORS,-24,-10,24,-10,{h:1.05,mat:MAT.wallDark});
+  addWall(CFG.FLOORS,24,-10,24,10,{h:1.05,mat:MAT.wallDark});
   // lane guard walls on roof
-  addWall(20,LA.x0,LA.z0-0.05,24,LA.z0+0.05,{h:1.0,mat:MAT.rail,los:false});
-  addWall(20,LA.x0,LA.z1-0.05,24,LA.z1+0.05,{h:1.0,mat:MAT.rail,los:false});
+  addWall(CFG.FLOORS,LA.x0,LA.z0-0.05,24,LA.z0+0.05,{h:1.0,mat:MAT.rail,los:false});
+  addWall(CFG.FLOORS,LA.x0,LA.z1-0.05,24,LA.z1+0.05,{h:1.0,mat:MAT.rail,los:false});
   // helipad
   const padC=makeCanvas(256,256,(x,w,h)=>{x.fillStyle='#2b2b2e';x.fillRect(0,0,w,h);x.strokeStyle='#e8e4da';x.lineWidth=10;x.beginPath();x.arc(w/2,h/2,100,0,TAU);x.stroke();x.fillStyle='#e8e4da';x.font='bold 150px Arial';x.textAlign='center';x.textBaseline='middle';x.fillText('H',w/2,h/2+8);});
   const padT=new THREE.CanvasTexture(padC);padT.colorSpace=THREE.SRGBColorSpace;
@@ -2268,11 +2321,11 @@ function buildRoof(){
       L.add(cl);world.clouds.push(cl);
     }
     // rooftop AC units for the sunny look
-    for(let i=0;i<3;i++)addBox(20,rand(-16,-4),y+0.7,rand(-6,-3),1.6,1.2,1.4,MAT.metal,{los:true});
-    addBox(20,-10,y+0.55,6,0.9,1.0,0.9,MAT.metal,{los:true});
+    for(let i=0;i<3;i++)addBox(CFG.FLOORS,rand(-16,-4),y+0.7,rand(-6,-3),1.6,1.2,1.4,MAT.metal,{los:true});
+    addBox(CFG.FLOORS,-10,y+0.55,6,0.9,1.0,0.9,MAT.metal,{los:true});
   }
   // rooftop zombies (finale wave, spawned later)
-  signOn(20,16.1,y+1.9,0.2,-Math.PI/2,TEX.floorLabel(19),1.1,0.55);
+  signOn(CFG.FLOORS,16.1,y+1.9,0.2,-Math.PI/2,TEX.floorLabel(19),1.1,0.55);
 }
 
 /* ---------- build all ---------- */
@@ -2285,9 +2338,10 @@ function buildWorld(){
   for(const[k,type]of Object.entries(GATE_PLAN))new GateC(+k,type);
   // notes
   for(const n of notesList())new Pickup('note',n.f,n.x,n.y,n.z,{id:n.id});
-  // survivor NPCs you can meet along the climb (story + a small gift)
-  new SurvivorNPC(3,-20.5,7.2,'npc1_name',['npc1_1','npc1_2','npc1_3'],()=>{INV.flare+=2;hudInv();toast(T('t_flare'));});
-  new SurvivorNPC(13,-20.5,-7,'npc2_name',['npc2_1','npc2_2','npc2_3'],()=>{INV.medkit+=2;hudInv();toast(T('t_medkit'));});
+  // survivor NPCs you can meet along the climb (story + a small gift).
+  // They stay hidden until their discovery event runs — the player finds them.
+  new SurvivorNPC(3,-20.5,7.2,'npc1_name',['npc1_1','npc1_2','npc1_3','npc1_4'],()=>{INV.medkit++;INV.battery=Math.min(100,INV.battery+40);player.battery=INV.battery;hudInv();hudStats();toast(T('t_parkgift'));},{hiddenFlag:'parkKnock'});
+  new SurvivorNPC(5,-20.5,-7,'npc2_name',['npc2_1','npc2_2','npc2_3','npc2_4'],()=>{G.cards.yellow=true;hudInv();questCheck();toast(T('g_accept',{c:'YELLOW'}));directorChase();},{hiddenFlag:'jieunKnock'});
   // flashlight spot (attached to camera later) is in player section
 }
 
@@ -2619,6 +2673,7 @@ const ZTYPES={
   brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:9,aimH:1.4},
   screamer:{speed:1.3,chase:3.4,hp:2,dmg:10,scale:0.98,sight:14,aimH:1.15}, // hospital gown; screams in the whole floor
   crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:8,aimH:0.5},   // drags itself, lunges at your ankles
+  watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:16,aimH:1.25},// THE WATCHER — predator; scripted states
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -2627,6 +2682,7 @@ const ZLOOK={
   brute:{cloth:'zclothB',eye:0xff1a10,hair:0x111008},
   screamer:{cloth:'zgown',eye:0xcfe8ff,hair:0x201808},
   crawler:{cloth:'zgown',eye:0xff2a1a,hair:0x141210},
+  watcher:{cloth:'zclothB',eye:0xd8d8d8,hair:0x060606}, // pale cold eyes. it watches.
 };
 const _ZMAT={};
 function zMats(lk){
@@ -2942,8 +2998,9 @@ function spawnZombie(f,x,zz,type,room){
 
 /* ---------- friendly survivor NPCs you can meet and talk to ---------- */
 class SurvivorNPC{
-  constructor(f,x,z,nameKey,lineKeys,give){
+  constructor(f,x,z,nameKey,lineKeys,give,opts={}){
     this.f=f;this.name=T(nameKey);this.lineKeys=lineKeys;this.li=-1;this.gave=false;this.give=give;
+    this.hiddenFlag=opts.hiddenFlag||null;
     this.parts=buildHumanoid({skin:0xb59a86,cloth:0x3a4a5c});
     this.parts.name=nameSprite(this.name,'#ffd9a0');
     this.parts.name.position.y=2.25;
@@ -2952,10 +3009,14 @@ class SurvivorNPC{
     world.levels[f].add(this.parts.g);
     this.ph=rand(0,TAU);this.yaw=rand(0,TAU);
     this.parts.g.rotation.y=this.yaw;
+    this.parts.g.visible=!this.hiddenFlag; // discovered only when the event says so
     clearArea(f,x,z,1.5); // never let a desk overlap a survivor
     world.npcs.push(this);
   }
+  ready(){return !this.hiddenFlag||!!G.flags[this.hiddenFlag];}
   update(dt,t){
+    if(!this.ready()){this.parts.g.visible=false;return;}
+    this.parts.g.visible=true;
     const g=this.parts.g;
     if(player.floor===this.f&&dist2(g.position.x,g.position.z,player.pos.x,player.pos.z)<8*8){
       const ty=Math.atan2(player.pos.x-g.position.x,player.pos.z-g.position.z);
@@ -2967,11 +3028,13 @@ class SurvivorNPC{
     this.parts.armL.rotation.x=br;this.parts.armR.rotation.x=-br;
   }
   talk(){
+    if(!this.ready())return;
     this.li=(this.li+1)%this.lineKeys.length;
     const key=this.lineKeys[this.li];
     const line=T(key);
     if(line&&line!==key)showSub('<b>'+this.name+':</b> '+line,6.5);
     play('radio',{vol:.5,force:true});
+    if(this.li===0&&!G.flags[this.hiddenFlag+'_talk'])G.flags[this.hiddenFlag+'_talk']=true;
     if(!this.gave){this.gave=true;this.give();}
   }
 }
@@ -3036,17 +3099,17 @@ function onPlayerDeath(){
   player.down=false;
   $('downedOv').style.display='none';
   if(typeof G.lives==='number'&&G.lives>0){
-    // retries left: FAST, seamless respawn — brief dip to black, wake at the checkpoint
+    // retries left: the RESPAWN button is live IMMEDIATELY — no waiting
     G.lives--;
-    G.respawnPending=true; // this death is paid for; the countdown must complete even at 0 lives
-    player.dead=true;player.respawnT=2.2;
+    G.respawnPending=true;
+    player.dead=true;
     $('death').style.display='flex';
     $('death').querySelector('h1').textContent=MD.id==='lite'?T('death_l'):T('death_h');
     $('deathTxt').textContent=MD.id==='lite'?T('death_pl'):T('death_p');
     $('respawnTxt').textContent=T('death_left',{n:G.lives});
     $('btnRespawn').classList.remove('hidden');
     $('btnDeathMenu').classList.add('hidden');
-    // pointer stays locked — no menus, no friction, back in the fight in ~2s
+    // pointer stays locked — one click and you're back in the fight
   }else{
     // out of retries: HELP-TO-RESPAWN mode — only a friend can pick you up now
     player.dead=false;player.down=true;player.bleedT=G.mp?45:12;
@@ -3140,6 +3203,8 @@ function firePistol(){
   const dir=new THREE.Vector3();camera.getWorldDirection(dir);
   muzzle.position.copy(camera.position).add(dir.clone().multiplyScalar(0.7));
   muzzle.intensity=50;muzzleT=0.07;
+  // gunshots wake the Watcher if it is lurking nearby
+  if(WATCHER.state==='lurk'&&WATCHER.z&&Math.abs(WATCHER.z.f-player.floor)<=1)watcherPursue(14);
   burst(camera.position.clone().add(dir.clone().multiplyScalar(0.9)),0xffd27a,6,3,0.05);
   hudInv();
   if(!G.mp||G.host)pistolHit(camera.position,dir);
@@ -3173,12 +3238,7 @@ function updatePlayer(dt,t){
   player.dmgFlash=Math.max(0,player.dmgFlash-dt*1.6);
   $('dmg').style.opacity=Math.min(1,player.dmgFlash*0.9+(player.hp<30?0.35+Math.sin(t*6)*0.1:0));
   if(player.dead){
-    if(G.respawnPending){
-      player.respawnT-=dt;
-      $('respawnTxt').textContent=T('respawn',{n:Math.ceil(Math.max(0,player.respawnT))})+' · '+T('death_left',{n:G.lives});
-      if(player.respawnT<=0)respawnPlayer();
-    }
-    return;
+    return; // respawn happens only when the player clicks RESPAWN NOW
   }
   if(player.down){
     player.bleedT-=dt;
@@ -3502,34 +3562,32 @@ function hudInv(){
 /* ---------------- quest (the mission chain) ---------------- */
 const QUEST=[
   {k:'q0',done:()=>INV.flashlight},
-  {k:'q2',done:()=>playerMaxFloor>=1},
-  {k:'q_arch',done:()=>G.flags.cctvSeen},
-  {k:'q3',done:()=>G.cards.red},
   {k:'q1',done:()=>INV.crowbar},
+  {k:'q2',done:()=>G.gatesOpen.has(1)},
+  {k:'q3',done:()=>playerMaxFloor>=2},
+  {k:'q_arch',done:()=>G.flags.cctvSeen},
+  {k:'q4',done:()=>G.cards.red},
   {k:'q5',done:()=>G.flags.power},
-  {k:'q6',done:()=>G.flags.shutter6},
-  {k:'q4',done:()=>G.gatesOpen.has(2)},
-  {k:'q7',done:()=>G.gatesOpen.has(5)},
-  {k:'q8',done:()=>G.cards.blue},
-  {k:'q9',done:()=>G.gatesOpen.has(7)},
-  {k:'q10',done:()=>G.cards.green},
-  {k:'q11',done:()=>G.gatesOpen.has(10)},
-  {k:'q12',done:()=>playerMaxFloor>=12},
-  {k:'q13',done:()=>G.flags.power2},
-  {k:'q14',done:()=>G.gatesOpen.has(14)},
+  {k:'q6',done:()=>G.gatesOpen.has(2)},
+  {k:'q7',done:()=>G.flags.parkKnock_talk},
+  {k:'q8',done:()=>G.flags.shutter6},
+  {k:'q9',done:()=>G.gatesOpen.has(3)},
+  {k:'q10',done:()=>G.cards.blue},
+  {k:'q11',done:()=>G.flags.power2},
+  {k:'q12',done:()=>G.gatesOpen.has(4)},
+  {k:'q13',done:()=>playerMaxFloor>=6},
+  {k:'q14',done:()=>G.flags.jieunKnock_talk},
   {k:'q15',done:()=>G.cards.yellow},
-  {k:'q16',done:()=>G.gatesOpen.has(16)},
-  {k:'q17',done:()=>G.gatesOpen.has(18)},
-  {k:'q18',done:()=>player.floor>=20||G.flags.finale},
+  {k:'q16',done:()=>G.gatesOpen.has(6)},
+  {k:'q18',done:()=>player.floor>=7||G.flags.finale},
   {k:'q19',done:()=>G.flags.victory},
 ];
 /* where the current objective lives (x,z,floor). Stairs/roof handled by the resolver below. */
 const QUEST_POS=[
-  {x:-22.6,z:1.15,f:0},{x:-4.0,z:-5.6,f:1},{x:-5.0,z:-4.2,f:1},{x:-4.4,z:-4.0,f:1},{x:14.6,z:-8.6,f:0},
-  {x:0.8,z:-8.8,f:1},{x:-5.0,z:-4.2,f:1},{x:17.6,z:1.2,f:2},{x:17.6,z:1.2,f:5},{x:-21,z:-8,f:5},
-  {x:17.6,z:1.2,f:7},{x:-6,z:6,f:8},{x:17.6,z:1.2,f:10},{x:17.6,z:1.2,f:12},{x:9,z:-8.9,f:10},
-  {x:17.6,z:1.2,f:14},{x:12,z:5,f:14},{x:17.6,z:1.2,f:16},{x:17.6,z:1.2,f:18},{x:16.8,z:1.2,f:19},
-  {x:2,z:3.5,f:CFG.FLOORS},
+  {x:-22.6,z:1.15,f:0},{x:14.6,z:-8.6,f:0},{x:17.6,z:1.2,f:1},{x:-4.0,z:-5.6,f:2},{x:-5.0,z:-4.2,f:2},
+  {x:-4.4,z:-4.0,f:2},{x:0.8,z:-8.8,f:2},{x:17.6,z:1.2,f:2},{x:-20.5,z:7.2,f:3},{x:-5.0,z:-4.2,f:2},
+  {x:17.6,z:1.2,f:3},{x:-21,z:-8,f:4},{x:9,z:-8.9,f:4},{x:17.6,z:1.2,f:4},{x:17.6,z:1.2,f:5},
+  {x:-20.5,z:-7,f:5},{x:-20.5,z:-7,f:5},{x:17.6,z:1.2,f:6},{x:17.6,z:1.2,f:7},{x:2,z:3.5,f:CFG.FLOORS},
 ];
 /* Angle from the player's facing to the current objective (0 = straight ahead, +right). */
 function waypointDir(){
@@ -3600,7 +3658,7 @@ function onFloorChange(f){
   playerMaxFloor=Math.max(playerMaxFloor,f);
   CHECK.floor=Math.max(CHECK.floor,Math.min(f,CFG.FLOORS-1));
   for(let i=0;i<world.levels.length;i++)world.levels[i].visible=(Math.abs(i-f)<=1);
-  $('floorLbl').textContent=f>=CFG.FLOORS?T('roof'):(f===0?T('floor0'):T('floor',{n:f+1}));
+  $('floorLbl').textContent=f>=CFG.FLOORS?T('roof'):(f===0?T('floor0'):T('floor',{n:f}));
   if(!G.floorsSeen.has(f)){
     G.floorsSeen.add(f);
     if(storyLine(f))radio(storyLine(f));
@@ -3743,9 +3801,22 @@ function updateInteract(dt){
         for(const r of net.remotes.values()){total++;if(!r.dead&&Math.hypot(r.x-world.extract.x,r.z-world.extract.z)<2.2)inRing++;}
       }
       if(inRing>=total){
-        extractProg+=dt/8;
-        showPrompt(T('p_hold'),false);
+        extractProg+=dt/30; // 30-second survival countdown
+        showPrompt(T('p_extract',{n:Math.ceil(30-extractProg*30)}),false);
         showBar(extractProg);
+        // staged waves from the rooftop door — the building empties onto the roof
+        if(extractProg>0.35&&!G.extW1){G.extW1=true;play('stinger',{vol:.6,force:true});
+          for(let i=0;i<3;i++){const z=spawnZombie(CFG.FLOORS,15.5+rand(0,2.5),rand(-1.5,1.5),'runner',{x0:-20,x1:20,z0:-8,z1:8,door:null});
+            z.state='investigate';z.invest={x:2,z:3.5};z.investT=60;}}
+        if(extractProg>0.65&&!G.extW2){G.extW2=true;
+          for(let i=0;i<3;i++){const z=spawnZombie(CFG.FLOORS,15.5+rand(0,2.5),rand(-1.5,1.5),i===0?'brute':'runner',{x0:-20,x1:20,z0:-8,z1:8,door:null});
+            z.state='investigate';z.invest={x:2,z:3.5};z.investT=60;}}
+        if(extractProg>0.8&&!G.extW3){G.extW3=true; // the Watcher, one last time
+          watcherSpawn(CFG.FLOORS,15.5,1.2,'lurk');
+          showSub(T('w_roof'),4);}
+        if(extractProg>0.9&&WATCHER.state==='lurk'){
+          watcherDespawn();
+          showSub('<i>'+(LANG==='zh'?'(探照灯扫过。它消失在烟雾里。)':'(The spotlight sweeps past. It is gone into the smoke.)')+'</i>',3);}
         if(extractProg>=1)doVictory();
       }else{
         extractProg=Math.max(0,extractProg-dt);
@@ -3878,6 +3949,68 @@ function directorChase(){
     showSub('<i>The card beeped. Something answered it.</i>',3);
   },2600+rand(0,2500));
 }
+
+/* ---------------- THE WATCHER — a predator on scripted states ----------------
+   lurk: stands where it spawned; if you look at it too long (or get close) it vanishes.
+   pursue: full chase for a LIMITED time, then it breaks off.
+   Introduced in fragments: a sighting (F5) -> following (F6) -> final chase. */
+const WATCHER={z:null,state:'off',seenT:0,timer:0,sighted:false};
+function watcherSpawn(f,x,zz,mode){
+  if(!MD.jumpscares||G.mp||WATCHER.z)return;
+  const w=spawnZombie(f,x,zz,'watcher',{x0:x-5,x1:x+5,z0:zz-5,z1:zz+5,door:null});
+  w.state='idle';w.waitT=99999;
+  WATCHER.z=w;WATCHER.state=mode;WATCHER.seenT=0;WATCHER.timer=0;
+}
+function watcherDespawn(){
+  if(!WATCHER.z)return;
+  const i=world.zombies.indexOf(WATCHER.z);
+  if(i>=0)world.zombies.splice(i,1);
+  if(world.zmap)world.zmap.delete(WATCHER.z.id);
+  if(WATCHER.z.g.parent)WATCHER.z.g.parent.remove(WATCHER.z.g);
+  WATCHER.z=null;WATCHER.state='off';
+}
+function watcherPursue(sec){
+  if(!MD.jumpscares||G.mp)return;
+  if(!WATCHER.z){
+    const fx=Math.sin(player.yaw),fz=Math.cos(player.yaw); // behind you
+    watcherSpawn(player.floor,clamp(player.pos.x+fx*10,-22,14),clamp(player.pos.z+fz*10,-9,9),'pursue');
+  }
+  if(!WATCHER.z)return;
+  WATCHER.state='pursue';WATCHER.timer=sec;
+  WATCHER.z.state='chase';WATCHER.z.loseT=0;
+  play('zroar',{pos:WATCHER.z.g.position,vol:1.2,ref:36});
+  showSub(T('w_chase'),3);
+  markDanger(player.floor,sec+4);
+}
+function watcherUpdate(dt){
+  if(G.mp)return;
+  if(!WATCHER.z){WATCHER.state='off';return;}
+  const w=WATCHER.z,g=w.g;
+  if(w.dead){WATCHER.z=null;WATCHER.state='off';return;} // you actually killed it. respect.
+  const dx=g.position.x-player.pos.x,dz=g.position.z-player.pos.z;
+  const d=Math.hypot(dx,dz);
+  if(WATCHER.state==='lurk'){
+    w.state='idle';w.waitT=99999; // it just stands there. watching.
+    const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+    const looking=d>0.1&&(fx*dx+fz*dz)/d>0.75&&d<15&&losClear(player.pos.x,player.pos.z,g.position.x,g.position.z,player.floor);
+    if(looking)WATCHER.seenT+=dt;else WATCHER.seenT=Math.max(0,WATCHER.seenT-dt*0.5);
+    if((looking&&WATCHER.seenT>1.3)||d<5){
+      play('whisper',{vol:.9});
+      showSub(T('w_gone'),2.5);
+      watcherDespawn();
+    }else if(d>22)watcherDespawn();
+  }else if(WATCHER.state==='pursue'){
+    w.state='chase';w.loseT=0;
+    WATCHER.timer-=dt;
+    if(player.floor>=CFG.FLOORS){ // you slam the roof door on it
+      watcherDespawn();
+      play('clunk',{vol:1});
+      showSub('<i>'+(LANG==='zh'?'(你身后的天台门砰地关上了。)':'(The roof door slams shut behind you.)')+'</i>',3);
+      return;
+    }
+    if(WATCHER.timer<=0)watcherDespawn(); // it breaks off. this time.
+  }
+}
 function updateShutterBtn(){
   const b=$('shutterBtn');
   const show=G.flags.power&&!G.flags.shutter6;
@@ -3928,30 +4061,17 @@ function drawCCTV(){
   for(let i=0;i<40;i++)x.fillRect(rand(0,W),rand(0,H),rand(20,90),1);
   x.fillStyle='rgba(0,0,0,0.22)';
   for(let yy=0;yy<H;yy+=4)x.fillRect(0,yy,W,2);
-  $('cctvLbl').textContent=T('cctv_cam',{n:String(camFloor+1).padStart(2,'0'),m:camFloor+1});
+  $('cctvLbl').textContent=T('cctv_cam',{n:String(camFloor).padStart(2,'0'),m:camFloor>=CFG.FLOORS?T('fl_roof'):(camFloor===0?T('fl_ground'):T('floor',{n:camFloor}))});
 }
 
 /* ---------------- events (scripted scares) ---------------- */
-let burstDone=false,hordeDone=false,finaleDone=false;
+let hordeDone=false,finaleDone=false;
 const blackoutDone=new Set();
-const BLACKOUTS=new Set([3,8,16]);
+const BLACKOUTS=new Set([1,4]);
 let ambT=20;
 let scareT=95;
 function updateEvents(dt){
   if(G.paused)return; // a chapter comic is up: the world holds its breath
-  // classroom burst (first reveal)
-  if(!burstDone&&world.f0door&&player.floor===0){
-    const p=doorPoint(world.f0door);
-    if(dist2(player.pos.x,player.pos.z,p.x,p.z)<9){
-      burstDone=true;
-      markDanger(0,18);
-      world.f0door.setOpen(true,true);
-      play('stinger',{vol:1});
-      player.shakeT=MD.jumpscares?0.5:0.2;
-      spawnZombie(0,p.x+(p.z>0?1:-1)*1.5,p.z+(p.z>0?1.5:-1.5),'runner',{x0:p.x-4,x1:p.x+4,z0:2,z1:9,door:null});
-      showSub(MD.jumpscares?'<b style="color:#ff6b6b">IT SAW YOU.</b> RUN.':'<b style="color:#3a86ff">A helper-bot rolled out.</b> Excuse you!',3);
-    }
-  }
   // blackouts (scary only — lite gets a harmless blink)
   if(BLACKOUTS.has(player.floor)&&!blackoutDone.has(player.floor)&&G.started){
     blackoutDone.add(player.floor);
@@ -3976,17 +4096,35 @@ function updateEvents(dt){
       showSub('<i>The lights blinked. Phew.</i>',2);
     }
   }
-  // horde
-  if(!hordeDone&&player.floor===11){
+  // CONTAINMENT BREACH — Floor 5, the lab. Multiple doors, staged.
+  if(!hordeDone&&player.floor===5){
     hordeDone=true;
-    markDanger(11,45);markDanger(12,45);
+    markDanger(5,60);
     play('alarm',{vol:1,force:true});setTimeout(()=>play('alarm',{vol:.8,force:true}),2100);
     toast(T(MD.jumpscares?'t_horde':'t_horde_l'));
-    for(let i=0;i<(MD.jumpscares?9:7);i++){
-      const z=spawnZombie(11+irand(0,1),rand(-20,14),pick([rand(-1,1),rand(3,8),rand(-8,-3)]),'runner',{x0:-22,x1:15,z0:-9,z1:9,door:null});
-      z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
+    // first one door… then another… then the corridor
+    const waves=[[2600,2],[5200,3],[8400,4]];
+    for(const[delay,n]of waves){
+      setTimeout(()=>{
+        if(!G.started||G.mode!=='playing')return;
+        for(let i=0;i<n;i++){
+          const z=spawnZombie(5,rand(-20,14),pick([rand(-1,1),rand(3,8),rand(-8,-3)]),'runner',{x0:-22,x1:15,z0:-9,z1:9,door:null});
+          z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=40;
+        }
+        play('stinger',{vol:.6,force:true});
+      },delay);
     }
     radio(T(MD.jumpscares?'radio_horde':'radio_horde_l'));
+  }
+  // JI-EUN — movement in the survivor corner, after the breach (player chooses to look)
+  if(hordeDone&&G.flags.jieunKnock!==true&&!G.flags.jieunKnock_talk&&player.floor===5&&G.started){
+    G.flags.jieunKnock=true;
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing'||player.floor!==5)return;
+      play('zstep',{pos:new THREE.Vector3(-20.5,5*CFG.FH,-7),vol:.8,ref:20,rate:0.7});
+      setTimeout(()=>play('clunk',{pos:new THREE.Vector3(-20.5,5*CFG.FH,-7),vol:.7,ref:18,rate:1.2}),900);
+      showSub(T('jieun_sub'),4.5);
+    },22000+rand(0,10000));
   }
   // finale
   if(!finaleDone&&player.floor===CFG.FLOORS){
@@ -3996,15 +4134,44 @@ function updateEvents(dt){
     play('alarm',{vol:1,force:true});
     setLoop('chopper',0.55);
     radio(T('radio_finale'));
-    for(let i=0;i<8;i++){
+    G.extW1=G.extW2=G.extW3=false;
+    for(let i=0;i<4;i++){
       const a=rand(0,TAU),zx=2+Math.cos(a)*rand(6,12),zz=Math.sin(a)*rand(4,8);
-      const z=spawnZombie(CFG.FLOORS,zx,zz,Math.random()<0.5?'runner':'shambler',{x0:-20,x1:20,z0:-8,z1:8,door:null});
+      const z=spawnZombie(CFG.FLOORS,zx,zz,'runner',{x0:-20,x1:20,z0:-8,z1:8,door:null});
       z.state='investigate';z.invest={x:2,z:3.5};z.investT=60;
     }
-    // finale heavies
-    for(let i=0;i<(MD.jumpscares?2:1);i++){
+    // one heavy, early — the rest arrive with the countdown
+    for(let i=0;i<1;i++){
       const z=spawnZombie(CFG.FLOORS,rand(-6,10),pick([8,-8]),'brute',{x0:-20,x1:20,z0:-8,z1:8,door:null});
       z.state='investigate';z.invest={x:2,z:3.5};z.investT=90;
+    }
+  }
+  // F5 — THE WATCHER: first true sighting, after Ji-eun's warning
+  if(hordeDone&&G.flags.jieunKnock_talk&&!WATCHER.sighted&&WATCHER.state==='off'&&player.floor===5&&G.started){
+    WATCHER.sighted=true;
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing'||player.floor!==5)return;
+      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+      watcherSpawn(5,clamp(player.pos.x+fx*13,-22,14),clamp(player.pos.z+fz*13,-9,9),'lurk');
+      showSub(T('w_seen'),4.5);
+      play('zbreath',{vol:.8,ref:26,rate:0.6});
+    },14000);
+  }
+  // F6 — the Watcher is following now
+  if(player.floor===6&&G.started&&MD.jumpscares&&!G.mp){
+    if(!G.flags.w6a&&G.time>10){
+      G.flags.w6a=true;
+      setTimeout(()=>{
+        if(!G.started||player.floor!==6)return;
+        const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+        watcherSpawn(6,clamp(player.pos.x+fx*12,-22,14),clamp(player.pos.z+fz*12,-9,9),'lurk');
+        showSub(T('w_seen'),4.5);
+      },24000);
+    }
+    if(!G.flags.w6b&&G.gatesOpen.has(6)){ // the final gate is open — it stops hiding
+      G.flags.w6b=true;
+      radio(T('radio_wait'));
+      setTimeout(()=>watcherPursue(24),2000);
     }
   }
   // strategic ambience: the building talks — distant moans, impacts, settling doors.
@@ -4020,8 +4187,9 @@ function updateEvents(dt){
     else if(roll<0.64)play('buzz',{vol:.35});                             // failing fluorescent hum
     else if(roll<0.8)play('clang',{pos:farP,vol:.45,ref:34});             // a distant impact
     else if(roll<0.92)play('creak',{pos:farP,vol:.5,ref:26,rate:0.9});    // a door settling somewhere
-    else if(player.floor>=10)play('alarm',{vol:.2,force:true});           // far-off alarm, upper floors
+    else if(player.floor>=5)play('alarm',{vol:.2,force:true});            // far-off alarm, upper floors
   }
+  // random ambience — strategic: the building talks
   // director scares: controlled, paced — never a constant drumbeat
   scareT-=dt;
   if(scareT<=0){
@@ -4068,65 +4236,68 @@ function ambientScare(){
   }
 }
 
-/* ---------------- director: scripted beat the first time you enter a floor ---------------- */
+/* ---------------- director: scripted beats (semi-scripted — never moves the player) ---------------- */
 const directorDone=new Set();
 function directorBeat(f){
   if(directorDone.has(f)||!G.started)return;
   directorDone.add(f);
   const scary=MD.jumpscares;
-  if(f===2){
+  if(f===1){
+    // FIRST CONTACT: only after the player has light and has looked around a bit
     if(scary){
-      play('whisper',{vol:.9});
-      play('clang',{pos:new THREE.Vector3(0,f*CFG.FH,0),vol:.5,ref:30,rate:0.7});
-      showSub('<i>The lights shudder. Somewhere below, a door bangs shut.</i>',3.5);
-      // THE DIRECTOR CHOOSES: a different room hosts the welcome party every run
       setTimeout(()=>{
-        if(!G.started||G.mode!=='playing'||player.floor!==2)return;
-        const doorEntries=Object.entries(world.roomDoor).filter(([k,d])=>k.startsWith('2:')&&d);
-        if(!doorEntries.length)return;
-        const[,door]=pick(doorEntries);
-        const p=doorPoint(door);
-        const roomZ=p.z>0?1:-1;
-        const z=spawnZombie(2,p.x+rand(-0.6,0.6),p.z+roomZ*1.6,'runner',{x0:p.x-4,x1:p.x+4,z0:Math.min(p.z,p.z+roomZ*5),z1:Math.max(p.z,p.z+roomZ*5),door});
-        if(!door.open)door.setOpen(true,true);
-        play('stinger',{vol:.9});
-        z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
-        showSub('<b style="color:#ff6b6b">A door just burst open — it heard you.</b>',3);
-      },3200+rand(0,2500));
-    }else play('beep',{vol:.4});
-  }else if(f===5){
-    // as you arrive, something inside a room hits its door open
-    const cand=world.doors.filter(d=>d.f===f&&!d.open&&!d.boarded);
-    if(cand.length){
-      const d=pick(cand);
-      setTimeout(()=>{if(G.started&&G.mode==='playing'){d.setOpen(true,true);play('growl3',{pos:d.g.position,vol:.9,ref:24});}},2600);
-      if(scary)showSub('<i>Inside a room, something just hit the door.</i>',3);
+        if(!G.started||G.mode!=='playing'||player.floor!==1||player.dead)return;
+        const cand=world.doors.filter(d=>d.f===1&&!d.open&&!d.boarded);
+        if(cand.length){
+          const d=pick(cand);d.setOpen(true,true);
+          const p=doorPoint(d);
+          const z=spawnZombie(1,p.x+(p.z>0?1:-1)*1.2,p.z+(p.z>0?1.2:-1.2),'runner',{x0:p.x-4,x1:p.x+4,z0:2,z1:9,door:null});
+          z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
+        }
+        play('stinger',{vol:1});
+        player.shakeT=0.5;
+        markDanger(1,20);
+        showSub('<b style="color:#ff6b6b">IT SAW YOU. RUN.</b>',3);
+      },20000+rand(0,15000));
     }
-  }else if(f===9&&scary){
-    // the dark floor sends a crawler
+  }else if(f===3){
+    // THE KNOCKING — Mr. Park's hiding spot (player chooses to investigate or not)
     setTimeout(()=>{
-      if(!G.started||G.mode!=='playing')return;
-      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
-      const zx=clamp(player.pos.x-fx*7,-22,14),zz=clamp(player.pos.z-fz*7,-9,9);
-      const z=spawnZombie(9,zx,zz,'crawler',{x0:zx-4,x1:zx+4,z0:zz-4,z1:zz+4,door:null});
-      z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=25;
-      play('snarl',{pos:z.g.position,vol:1,ref:22});
-    },3200);
-  }else if(f===16&&scary){
-    // fresh runners cut off your retreat
+      if(!G.started||G.mode!=='playing'||player.floor!==3)return;
+      G.flags.parkKnock=true;
+      const npc=world.npcs.find(n=>n.hiddenFlag==='parkKnock');
+      const pp=npc?npc.parts.g.position:new THREE.Vector3(-20.5,3*CFG.FH,7.2);
+      let k=0;
+      const knock=()=>{if(k++<3){play('clunk',{pos:pp.clone(),vol:.9,ref:22,rate:1.4});setTimeout(knock,420);}};
+      knock();
+      showSub(T('knock_sub'),4.5);
+      markDanger(3,15);
+    },30000+rand(0,20000));
+  }else if(f===4){
+    // POWER FAILURE — the dark floor loses even its emergency lights
     setTimeout(()=>{
-      if(!G.started||G.mode!=='playing')return;
-      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
-      for(let i=0;i<2;i++){
-        const zx=clamp(player.pos.x-fx*8+rand(-3,3),-22,14),zz=clamp(player.pos.z-fz*8+rand(-3,3),-9,9);
-        const z=spawnZombie(16,zx,zz,'runner',{x0:zx-4,x1:zx+4,z0:zz-4,z1:zz+4,door:null});
-        z.state='investigate';z.invest={x:player.pos.x,z:player.pos.z};z.investT=30;
-      }
+      if(!G.started||G.mode!=='playing'||player.floor!==4)return;
+      const arr=[];
+      world.levels[4].traverse(o=>{if(o.isPointLight){o.userData.base=o.userData.base||o.intensity;arr.push(o);}});
+      for(const pl of arr)pl.intensity=0;
       play('whisper',{vol:1});
-      showSub('<i>Footsteps. Behind you. Fresh ones.</i>',3);
-    },2800);
-  }else if(f===19){
-    if(scary){play('stinger',{vol:.8});showSub('<i>The roof door groans in the wind above you.</i>',3);}
+      radio(T('radio_powerfail'));
+      markDanger(4,30);
+      setTimeout(()=>{for(const pl of arr)pl.intensity=pl.userData.base;play('clunk',{vol:.7});},5000);
+    },18000+rand(0,12000));
+  }else if(f===6){
+    // the last floor: too quiet. And then Mr. Park calls.
+    setTimeout(()=>{
+      if(!G.started||G.mode!=='playing'||!G.flags.parkKnock_talk||G.flags.parkFate)return;
+      G.flags.parkFate=true;
+      showSub('<b>Mr. Park (radio):</b> '+T('park_fate'),5.5);
+      setTimeout(()=>{play('scream',{vol:.9,force:true});play('radio',{vol:.5,force:true});
+        showSub('<i>(static)</i>',2.5);
+        // what is left of him, on THIS floor — he almost made it
+        decal(6,2,-8,0.9,pick(MAT.blood));
+        new Pickup('medkit',6,2.4,6*CFG.FH+0.12,-8.3,{id:'park-medkit'});
+      },4200);
+    },32000+rand(0,15000));
   }
 }
 
@@ -4174,8 +4345,9 @@ function drawRing(){
     }
     const wp=$('wpText');
     if(wp){
-      if(qt.up){
-        wp.textContent=T(qt.down?'wp_down':'wp_up',{n:qt.floor+1});
+      if(qt.floor>=CFG.FLOORS){wp.textContent=T('wp_roof');wp.style.color='#9fd0ff';}
+      else if(qt.up){
+        wp.textContent=T(qt.down?'wp_down':'wp_up',{n:qt.floor});
         wp.style.color=qt.down?'#9fd0ff':'#ffd23f';
       }else{
         wp.textContent=T('wp_here',{d:Math.round(d)});
@@ -4390,7 +4562,7 @@ function applySnap(s){
     r.down=!!(p[6]&4);r.dead=!!(p[6]&8);
   }
   for(const[id,r]of net.remotes){if(!seen.has(id)){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
-  const TYPES=['shambler','runner','brute','screamer','crawler'];
+  const TYPES=['shambler','runner','brute','screamer','crawler','watcher'];
   for(const a of s.zb){
     let z=world.zmap&&world.zmap.get(a[0]);
     if(!z){
@@ -4558,7 +4730,7 @@ function introPanels(){
   const pro=lite?(G.mp?T('pro_lm'):T('pro_ls')):(G.mp?T('pro_sm'):T('pro_ss'));
   const caps=pro.split('<br><br>');
   const ps=[{cap:'',draw:'title'}];
-  const draws=lite?['schoolDay','bots','drone']:['exterior','corridor','eyes'];
+  const draws=lite?['schoolDay','bots','drone']:['exterior','corridor','ch4a','hall','eyes'];
   draws.forEach((d,i)=>ps.push({cap:caps[i]||caps[caps.length-1]||'',draw:d}));
   return ps;
 }
@@ -4737,6 +4909,14 @@ function drawIntro(cv,kind,alpha,zoom,t){
       x.fillStyle='rgba(255,42,26,0.7)';x.fillRect(hx+W*0.006,hh-H*0.02,W*0.006,H*0.006);x.fillRect(hx+W*0.016,hh-H*0.02,W*0.006,H*0.006);
     }
     vign();
+  }else if(kind==='hall'){ // empty hallway, red emergency wash — the teachers stopped answering
+    x.fillStyle='#020203';x.fillRect(0,0,W,H);
+    x.fillStyle='#0b0b0f';x.fillRect(W*0.2,H*0.3,W*0.6,H*0.52);
+    x.fillStyle='#13131a';
+    for(let i=0;i<4;i++)x.fillRect(W*(0.26+i*0.13),H*0.34,W*0.06,H*0.42);
+    x.fillStyle='rgba(255,60,40,0.10)';x.fillRect(0,H*0.18,W,H*0.12);
+    x.fillStyle='rgba(255,60,40,0.05)';x.fillRect(0,0,W,H);
+    vign();grain();
   }else if(kind==='drone'){
     const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#2a3a55');sky.addColorStop(1,'#4a6a8a');x.fillStyle=sky;x.fillRect(0,0,W,H);
     for(let i=0;i<40;i++){x.fillStyle='rgba(255,255,255,0.5)';x.fillRect(Math.random()*W,Math.random()*H*0.5,1.5,1.5);}
@@ -4817,10 +4997,10 @@ function showPrologue(){
 
 /* ---------------- mid-game chapter comics ---------------- */
 const CHAPTERS=[
-  {id:'c2',when:()=>playerMaxFloor>=1,   paint:['ch2a','ch2b','ch2c'],title:'ch2_t',cap:'ch2_c'},
-  {id:'c3',when:()=>G.gatesOpen.has(5),  paint:['ch3a','ch3b','eyes'],title:'ch3_t',cap:'ch3_c'},
-  {id:'c4',when:()=>playerMaxFloor>=11,  paint:['ch4a','ch4b','ch4c'],title:'ch4_t',cap:'ch4_c'},
-  {id:'c5',when:()=>player.floor>=20,    paint:['ch5a','drone','ch5c'],title:'ch5_t',cap:'ch5_c'},
+  {id:'c2',when:()=>playerMaxFloor>=2,   paint:['ch2a','ch2b','ch2c'],title:'ch2_t',cap:'ch2_c'},
+  {id:'c3',when:()=>G.gatesOpen.has(3),  paint:['ch3a','ch3b','eyes'],title:'ch3_t',cap:'ch3_c'},
+  {id:'c4',when:()=>playerMaxFloor>=5,   paint:['ch4a','ch4b','ch4c'],title:'ch4_t',cap:'ch4_c'},
+  {id:'c5',when:()=>player.floor>=7,     paint:['ch5a','drone','ch5c'],title:'ch5_t',cap:'ch5_c'},
 ];
 let chapterState=null;
 function updateChapters(){
@@ -4922,7 +5102,11 @@ function beginGame(cont){
   if(cont){
     setTimeout(()=>radio(T(MD.id==='lite'?'radio_cont_l':'radio_cont')),1500);
   }else{
-    setTimeout(()=>radio(T(MD.id==='lite'?'radio_intro_l':'radio_intro')),2500);
+    // the phone beat: one last message, then the dark
+    setTimeout(()=>showSub('<i>'+(MD.jumpscares?T('phone_buzz'):'…')+'</i>',2.4),1200);
+    setTimeout(()=>{showSub('<b>Ji-woo:</b> '+T('phone_msg'),4.5);play('radio',{vol:.5,force:true});},4300);
+    setTimeout(()=>showSub('<i>'+(MD.jumpscares?T('phone_die'):'…')+'</i>',2),8300);
+    setTimeout(()=>radio(T(MD.id==='lite'?'radio_intro_l':'radio_intro')),11000);
   }
 }
 function showPause(b){
@@ -4937,7 +5121,7 @@ function saveGame(){
   if(G.mp||!G.started||G.flags.victory)return;
   try{
     localStorage.setItem('zf_save',JSON.stringify({
-      mode:MD.id,ts:Date.now(),
+      v:2,mode:MD.id,ts:Date.now(),
       qi,cards:G.cards,flags:{power:G.flags.power,power2:G.flags.power2,shutter6:G.flags.shutter6,cctvSeen:G.flags.cctvSeen},
       inv:{crowbar:INV.crowbar,flare:INV.flare,medkit:INV.medkit,fl:INV.flashlight,pistol:INV.pistol,ammo:INV.ammo,weapon:player.weapon},
       battery:Math.round(player.battery),hp:Math.round(player.hp),
@@ -4949,7 +5133,10 @@ function saveGame(){
   }catch(e){}
 }
 function loadSave(){
-  try{return JSON.parse(localStorage.getItem('zf_save')||'null');}catch(e){return null;}
+  try{const s=JSON.parse(localStorage.getItem('zf_save')||'null');
+    if(!s||s.v!==2)return null; // pre-restructure saves are incompatible
+    return s;}
+  catch(e){return null;}
 }
 function clearSave(){try{localStorage.removeItem('zf_save');}catch(e){}}
 function applySave(s){
@@ -5090,7 +5277,7 @@ $('btnLobbyLeave').onclick=()=>location.reload();
 $('btnResume').onclick=()=>showPause(false);
 $('btnQuit').onclick=()=>location.reload();
 $('btnDeathMenu').onclick=()=>location.reload();
-$('btnRespawn').onclick=()=>{if(player.dead&&G.lives>0)player.respawnT=0.01;};
+$('btnRespawn').onclick=()=>{if(player.dead&&G.respawnPending)respawnPlayer();};
 $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;
@@ -5131,6 +5318,7 @@ function loop(){
     updateInteract(dt);
     updateChapters();
     for(const z of world.zombies)z.update(dt,G.time);
+    watcherUpdate(dt);
     updateFlares(dt,G.time);
     updateEvents(dt);
     updateSub(dt);
@@ -5150,7 +5338,7 @@ function loop(){
         net.snapT=0;
         const ps=[['H',+player.pos.x.toFixed(2),+player.pos.z.toFixed(2),+player.pos.y.toFixed(2),+player.yaw.toFixed(2),player.floor,flagsBits(),G.myName]];
         for(const r of net.remotes.values())ps.push([r.id,+r.x.toFixed(2),+r.z.toFixed(2),+ (r.y||0).toFixed(2),+r.yaw.toFixed(2),r.f||0,r.fl||0,r.name]);
-        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,['shambler','runner','brute','screamer','crawler'].indexOf(z.type)]);
+        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,['shambler','runner','brute','screamer','crawler','watcher'].indexOf(z.type)]);
         netBroadcast({t:'snap',ps,zb});
       }
       for(const r of net.remotes.values())if(r.vis)r.vis.update(dt,r);
