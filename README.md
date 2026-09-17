@@ -1,59 +1,41 @@
-A# 🧟 ROOFTOP ESCAPE — Outbreak
+# 🧟 ROOFTOP ESCAPE — Outbreak
 
 > **▶ PLAY IT LIVE: https://bryan273.github.io/rooftop-escape/**
 
-A 3D first-person zombie survival escape game in **one single HTML file**. Inspired by *All of Us Are Dead* + PUBG-style audio indicators + escape-room puzzles.
+A 3D first-person zombie survival escape game that runs in the browser. Inspired by *All of Us Are Dead*, with PUBG-style audio indicators and escape-room puzzles.
+
+**The story:** a study night at Seowon High goes wrong. At 23:12 a scream comes from the biology lab on Floor 5, and at 23:36 the school shuts itself down: the gates lock, and the elevators and power are cut. You wake up in the entrance hall. A military helicopter will land on the roof at midnight, but only if it sees a signal flare. Six floors stand between you and the roof.
 
 ## 🌐 Languages
 
-**English / 简体中文** — switch with the **EN / 中文** buttons at the top of the menu. Everything is translated: menu, tutorial, story, radio dialogue, objectives, HUD labels, room names, wall signs, notes, all toasts, death/victory screens. The choice is remembered, and switching language mid-run rebuilds the world in place (keeping your progress).
+**English / 简体中文.** Switch with the buttons on the menu. Everything is translated, and switching mid-run rebuilds the world without losing your progress.
 
 ## 🎭 Two game modes
 
 | | 🧟 **NIGHTMARE** | 🤖 **DAYLIGHT DRILL** |
 |---|---|---|
 | Vibe | Dark, tense, gory | Bright, silly, zero scares |
-| Enemies | Zombies (red glowing eyes) | Helper-bots with screen faces & antennae (4 color tints) |
-| Lighting | Pitch black + flashlight, flickering fluorescents, red emergencies | Fully lit, daylight through windows, blue sky |
-| Blood | Bloodstains & pools | Colorful paint splats |
-| Sounds | Growls, screams, jump-scare stingers, reverb | Servos, beeps, boings, happy alarm |
-| Events | Blackouts, door bursts, containment horde, thunder | Harmless light blinks, "bot parades" |
-| Balance | Full damage/speed | −50% damage, −15% enemy speed, slower battery drain, +70% loot |
-| Death text | "YOU DIED" | "YOU GOT BONKED" |
+| Enemies | Zombies (red glowing eyes) | Helper-bots with screen faces |
+| Lighting | Emergency lights on the lower floors only; Floors 4–6 have **no power** | Fully lit |
+| Balance | Full damage/speed | −50 % damage, −15 % speed, more loot |
 
-Pick a mode on the main menu (remembered for next time). In co-op, **the host's mode applies to the whole squad**. Both modes share the same 20-floor escape puzzles, threat ring, CCTV, co-op, and rooftop finale.
+In co-op, **the host's mode applies to the whole squad**.
 
-## ✨ Features
+## 🗺 The mission chain (24 steps, strictly in order)
 
-- **20 floors + rooftop finale** (with heavy brutes joining the last stand), ~45–75 min playthrough
-- **Auto-save & Continue** — solo runs checkpoint to your browser every 5 seconds; the menu shows a **CONTINUE** button so a refresh never loses your climb
-- **First-person** camera with a **third-person toggle** (V) — visible player body in 3rd person
-- **First-person view-model**: your arm holds the crowbar/flashlight, swings on attack, sways as you walk
-- **PUBG-style directional threat ring** — segments around your crosshair light up when enemies walk/run near you, even through walls (red = chasing in Nightmare, blue = chasing in Daylight)
-- **Smart enemies**: they hear sprinting and creaking doors, chase up the real staircase, **force closed doors open** (you'll hear the bang first), and **wounded ones drip blood/paint trails** you can track (or be tracked by)
-- **Escape-room progression**: keycards, power generators, CCTV terminal, boarded doors, back-tracking down and up the tower
-- **Flashlight with battery drain**, flares, medkits, crowbar; melee sparks/blood particle bursts
-- **Environmental detail**: room windows (night glow / daylight), ceiling pipes, vending machines, water coolers, elevator (permanently out of order… but it dings), posters, scattered papers, dust motes floating in your flashlight beam (Nightmare)
-- **[Tab] objectives overlay** — hold Tab any time to see the full escape plan with your progress
-- **Co-op multiplayer for up to 4 players** (PeerJS — no server needed, room codes)
-- **Horror soundscape** (Nightmare): a calm sub-bass drone bed, real CC0 zombie voice recordings embedded in the file (moans, snarls, screams, wet feeding — from [OpenGameArt](https://opengameart.org/)), a tension shimmer that swells when something is hunting you, plus synthesized footsteps, heartbeat, stingers, elevator ding, helicopter — with spooky reverb
-- **Zero external assets, zero build step, zero backend.** Every sound is either synthesized live (Web Audio API) or base64-embedded into the single file (`_assets/` holds the CC0 sources + the embed script). Free to deploy anywhere that serves static files.
+Every step has to be finished before the next one unlocks. Anything that belongs to a later step refuses and tells you what to do first, so no step can be skipped. The panel at the top left always shows the current step, **where** it is and **which key** to use. Hold **[Tab]** to see the whole plan.
 
----
-
-## ▶ Run it
-
-**Just double-click `index.html`** (needs internet once, to load Three.js from CDN).
-
-Or serve it locally (identical result):
-
-```bash
-# any ONE of these
-python -m http.server 8080     # then open http://localhost:8080
-npx serve .
-```
-
-Tip: add `?nolock=1` to the URL for a debug/trackpad mode that doesn't pause when the mouse pointer isn't captured.
+| Floor | Steps |
+|---|---|
+| Ground | Flashlight at reception → kick the janitor closet open (tap **Space** ×3) → take the crowbar |
+| 1 | Pry the boards off the stairwell gate (**hold Space**) |
+| 2 | Find the security room → watch the CCTV archive → red keycard → start the generator → open the gate with the red card |
+| 3 | **Mr. Park** lies bitten right outside the stairwell → talk to him (**Enter**) → take his blue card → he turns → **put him down** |
+| 2 (back down) | Release the Floor 3 shutter from the CCTV terminal (**Enter** in the terminal) |
+| 4 | The dark floor: reset the utility breaker → open the gate with the blue card |
+| 5 | Containment breach. **Find Ji-eun** (no marker; listen for her) in the room zombies can't enter → talk → take the rooftop key. **She joins you** and shoots at zombies that get close |
+| 5–6 | Open the Floor 5 gate (the breaker released it) → open the rooftop gate with the yellow card |
+| Roof | **Light the signal flare** in the circle (hold Space) → **stay in the circle for 30 s** while the building empties onto the roof. Stepping out makes the clock run backwards |
 
 ## 🎮 Controls
 
@@ -61,72 +43,95 @@ Tip: add `?nolock=1` to the URL for a debug/trackpad mode that doesn't pause whe
 |---|---|
 | **W A S D** | Move |
 | **Mouse** / **Arrow keys** | Look (click the game once to capture the mouse) |
-| **Shift** | Sprint — loud, attracts enemies |
-| **Space** | Jump |
-| **C** | Crouch (sneak — enemies notice you later) |
-| **E** | Interact / hold for boards, breakers, revives |
-| **F** | Flashlight on/off (drains battery) |
-| **G** | Throw flare (distracts enemies for ~15 s) |
-| **H** | Use medkit (+60 HP) |
-| **1 / 2** | Weapon: crowbar / pistol |
-| **LMB** | Attack with the equipped weapon |
-| **V** | Toggle 1st / 3rd person |
-| **Q** | Ping a marker for teammates |
-| **Tab** (hold) | Objectives overlay |
-| **Enter** | Chat (co-op) |
-| **Esc** | Pause / settings (sensitivity, volume, FOV) |
+| **Shift** | Sprint (loud, attracts enemies) |
+| **Space** | Jump. Near a job it does the job instead: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) |
+| **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards |
+| **Enter** | Talk to survivors (again for the next line) · respawn · release the shutter in the terminal |
+| **F** | Flashlight (drains battery) |
+| **G** | Throw a flare (lures enemies away; on the roof it pulls attackers off you) |
+| **H** | Use a medkit (+60 HP) |
+| **C** | Crouch / sneak |
+| **1 / 2** | Crowbar / SMG |
+| **LMB** | Attack. Hold it for **full-auto** with the SMG |
+| **V** | 1st / 3rd person |
+| **Tab** (hold) | Mission plan |
+| **T / Q** | Chat / ping (co-op) |
+| **Esc** | Pause / settings |
+
+The prompt in the middle of the screen always shows the key: amber **E**, blue **SPACE / HOLD SPACE**, green **ENTER**. Prompts appear only for things you can actually see; nothing works through a wall.
 
 ## 🧠 How to survive
 
-0. **Weapons:** find the **PISTOL** on the CCTV desk (Floor 2) — press **[2]** to draw, **LMB** to fire (one-shots shamblers, loud!). **[1]** = crowbar (2.3 m reach, backstab = double). Before either, LMB is a shove. Watch the windup: zombies telegraph for ~0.5 s before biting — sidestep, and after any hit you get 0.8 s of invulnerability.
-1. **Read the ring.** The circle around your crosshair lights orange/blue = an enemy is walking nearby, **red (Nightmare) / bright blue (Daylight) = it's chasing you**. The direction of the segment = the direction of the threat.
-2. **Read the floor.** Bloodstains (or paint splats) pooled around a door mean something is nesting inside. Boarded doors hide loot — pry them with the crowbar (loud!). Chasing enemies **bang doors open** — a closed door buys ~2 seconds, boards buy safety.
-3. **Manage the flashlight.** It eats battery (~6 min per full charge in Nightmare, ~13 in Daylight). Batteries are scattered everywhere. Below 20 % it flickers and dims.
-4. **The stairwell is life.** Gates between floors are locked — the objective tracker (top-left) always tells you what unlocks the next one. You *will* have to go back down.
-5. **Flares > fights.** Throw one (G) down a corridor and walk the other way. Gunshots attract everything within 15 m.
+- **Weapons:** the **SMG** is on the security desk (Floor 2). It comes with 30 rounds, and every ammo box adds 20. Hold LMB to fire. Head shots do double damage. Walls stop bullets. The **crowbar** does double damage from behind and still connects when a zombie is right in your face.
+- **Read the ring.** The circle around your crosshair shows where enemies are moving. Red means one is chasing you.
+- **Light is a resource.** Floors 4–6 have no power. Pick up batteries, and the bar updates as soon as you do.
+- **Flares > fights.** Throw one and walk the other way.
+- **The rooftop** is the hardest fight: the zombies up there always know where you are. Keep medkits and ammo for it, and throw a flare when they bunch up.
 
-### Progression (spoiler-light)
-Entrance → find flashlight & crowbar → Floor 2 CCTV room (red keycard + generator) → Floor 6 security shutter (release it remotely from the CCTV terminal — yes, you go back down) → dark floors 8–9 (flares) → Floor 12 containment-breach horde → Floor 11 breaker backtrack → Floor 20 → **rooftop extraction hold** under the helicopter.
+## 🔊 Audio
+
+- Recorded sound effects (Mixkit free license) in `assets/sfx/`: footsteps, door creaks, heartbeat, gunshots, alarms, roars. There is also a real helicopter loop and thunder in `assets/`.
+- CC0 zombie voice recordings (OpenGameArt) are embedded in `js/vox.js` and mixed with the samples for variety.
+- Every sound also has a synthesized fallback, so the game never goes silent.
+- Debug: add `?heartonly=1` to the URL to mute everything except the heartbeat.
+
+## 📁 Project layout
+
+```
+index.html        page markup
+css/style.css     all styles
+js/game.js        the game (one ES module: world, AI, missions, UI, co-op)
+js/vox.js         embedded zombie voice clips (generated by _assets/embed_vox.py)
+assets/           recorded sound effects + helicopter / thunder
+_sim/             headless test harness (Node)
+_assets/          source mp3s for js/vox.js
+.nojekyll         serve the folder as-is on GitHub Pages
+```
+
+## ▶ Run it locally
+
+The game uses ES modules and loads sound files, so it needs a local web server. Opening `index.html` by double-clicking won't work.
+
+```bash
+python -m http.server 8080     # then open http://localhost:8080
+# or: npx serve .
+```
+
+After pulling updates, hard-refresh with **Ctrl+F5**. Add `?nolock=1` for trackpad/debug mode, which doesn't pause when the mouse isn't captured.
+
+## 🧪 Tests
+
+A headless simulation runs the real game code in Node. It plays the whole mission chain with real key presses and checks every step, the skip protection, combat, stairs, reachability, saves, translations and rooftop difficulty (a fighting bot must survive).
+
+```bash
+npm test                          # Nightmare + Daylight
+npm run test:zh                   # Chinese
+npm run test:coop                 # co-op world (4 tool sets)
+```
 
 ## 👥 Co-op multiplayer
 
-1. One player clicks **Host Co-op** — a 5-letter room code appears (e.g. `VRVTX`).
-2. Friends click **Join Co-op**, type the code, connect, and wait in the lobby.
-3. Host presses **Start** — everyone wakes up together (late joiners spawn at the host's checkpoint floor).
-- The **host's browser runs the world** (zombies, puzzles). If the host leaves, the room closes.
-- Works peer-to-peer via WebRTC (PeerJS's free cloud broker). Works across the internet in most home networks; a few very strict corporate/school NATs may block it — a phone hotspot fixes that.
-- Downed friends can be revived: walk to them and **hold E** for 3 s. Dead players respawn after 25 s at the tower.
+1. One player clicks **Host Co-op** and gets a 5-letter room code.
+2. Friends click **Join Co-op** and type the code.
+3. The host presses **Start**.
 
-## 🌍 Deploy it free
+- The host's browser runs the world. Mission progress is shared by the whole squad.
+- Downed friends can be revived by **holding Space** next to them.
+- Connections are peer-to-peer (PeerJS/WebRTC). Very strict school or office networks may block them; a phone hotspot usually fixes that.
 
-The whole game is one static file — pick any:
+## 🌍 Deploy (GitHub Pages)
 
-**GitHub Pages** (this folder is already a repo candidate)
-```bash
-git init && git add index.html && git commit -m "Rooftop Escape"
-git branch -M main
-git remote add origin https://github.com/<you>/<repo>.git
-git push -u origin main
-# GitHub.com → Settings → Pages → Source: main branch → Save
-# live at https://<you>.github.io/<repo>/
-```
-
-**Netlify Drop** — go to https://app.netlify.com/drop and drag `index.html` in. Done, instant https link.
-
-**Vercel** — `npx vercel` in this folder, accept defaults.
-
-**itch.io** — zip `index.html`, upload at https://itch.io/game-new as "HTML — playable in browser", check "this file will be played in the browser".
-
+Push the repository and enable **Settings → Pages → Deploy from branch → main / root**. All paths are relative and `.nojekyll` is included, so the site works as-is at `https://<you>.github.io/<repo>/`. Netlify Drop, Vercel and itch.io also work: upload the whole folder, not just `index.html`.
 
 ## 🛠 Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| Black screen after menu | No internet — Three.js comes from a CDN. Load once online. |
-| No sound | Browsers start audio only after a click — click "wake up". |
-| Mouse doesn't turn | Click the game once to capture the pointer (or use `?nolock=1`). |
-| Low FPS | The game auto-drops resolution once. Close other tabs; Chrome is fastest. |
-| Friend can't join | Both sides need normal home internet; strict school/office NATs block WebRTC — try a hotspot. |
+| Black screen or nothing loads | Serve the folder over http (see above); Three.js loads from a CDN, so go online once. |
+| Old behaviour after an update | Hard-refresh (Ctrl+F5). |
+| No sound | Browsers start audio only after a click. |
+| Mouse doesn't turn | Click the game once (or use `?nolock=1`). |
+| Friend can't join | Try a phone hotspot; strict networks block WebRTC. |
 
 ---
-Made with Three.js + Web Audio + PeerJS. Zombie voice recordings CC0 via OpenGameArt. Fan-made, non-commercial.
+Made with Three.js + Web Audio + PeerJS. Zombie voices CC0 via OpenGameArt; sound effects from Mixkit (free license). Fan-made and non-commercial.

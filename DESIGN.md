@@ -1,153 +1,144 @@
-# ROOFTOP ESCAPE — Full Game Design Document
+# ROOFTOP ESCAPE — Game Design Document
 
-> 3D first/third-person zombie survival escape · single HTML file · co-op multiplayer · free static hosting.
+> 3D first/third-person zombie survival escape · browser game (static files) · co-op multiplayer · free static hosting.
 > Concept: *All of Us Are Dead* atmosphere + PUBG-style spatial-audio indicators + escape-room puzzle gates.
 
 ---
 
 ## 1. High concept
 
-You fell asleep during a study camp at **Seowon High School**. The outbreak started on the third floor. A military helicopter extracts survivors from the **rooftop at midnight**. Climb **20 floors**, scavenge tools, solve the building's locks, and don't stop moving.
+A study night at **Seowon High School**. At 23:12 the outbreak starts in the **biology lab on Floor 5**; at 23:36 the school **shuts down**: gates lock and the elevators and power are cut. You wake in the entrance hall. A military helicopter reaches the **rooftop at midnight**, but it will only land where it sees a **signal flare**. Climb **6 floors**, solve the locks in order, and survive the roof.
 
-**Two modes** (chosen on the menu, persisted; the host's choice syncs to co-op clients via the `start` message — the whole world is built *after* mode selection):
+**Two modes** (chosen on the menu; in co-op the host's choice applies):
 
 | System | 🧟 NIGHTMARE | 🤖 DAYLIGHT DRILL |
 |---|---|---|
-| Fog / sky | Near-black, exp fog 0.052, starfield + moon | Light blue fog 0.026, blue sky, sun sprite, drifting clouds |
-| Light rig | ~55 % of fluorescents on (some flickering), red emergencies, no ambient | 100 % fluorescents + hemisphere light |
-| Textures | Grim concrete, grime, dark tiles | Bright warm palette, no grunge overlays |
-| Decals | Blood splats/pools | Random-hue paint splats |
-| Posters | SPORTS FESTIVAL / MISSING… | SCIENCE FAIR! / ROBOT CLUB 🤖 |
-| Enemies | Zombies, red glowing eyes | Helper-bots: screen face, cyan eyes, antenna + bulb, chest panel, 4 tints |
-| Enemy tuning | 100 % speed/damage | ×0.85 speed, ×0.5 damage |
-| Economy | Base loot, 6-min battery | ×1.7 loot, ~13-min battery |
-| Audio | Growl set + reverb (generated impulse convolver) | Sound-map layer swaps growls→servo/whir/beep, scream→boing, alarm→happy arpeggio; no tension layer |
-| Events | Blackouts + spawn-behind, thunder, stingers | Light blink (no spawn), beeps |
-| HUD | Red threat ring | Blue threat ring |
-| Death | "YOU DIED — the building keeps your bones" | "YOU GOT BONKED — bots politely wait" |
+| Lighting | Battery emergency lighting on Ground–3, **no power on 4–6** (Floor 5 keeps its alarm strobes); room signs dark where there is no power; exit signs stay lit | Fully lit + hemisphere light |
+| Enemies | Zombies (red eyes) | Helper-bots (screen face, antenna) |
+| Tuning | 100 % speed/damage | ×0.85 speed, ×0.5 damage, ×1.7 loot |
+| Audio | Recorded SFX + zombie voices + reverb | Sounds remapped to servo/beep/boing |
+| Death | "YOU DIED" | "YOU GOT BONKED" |
 
-Implementation: a `MODES` table + `MD` (active mode params) global consulted at texture build, world build, audio init, AI construction, event and UI time; the sound remap (`LMAP`) resolves buffer names at play time so every existing call site switches automatically.
-
-- **Perspective:** first person (default), third person toggle `[V]`
-- **Session length:** ~45–75 minutes (20 floors + finale)
-- **Players:** 1 solo, or 2–4 co-op
-- **Death model:** downed (60 s bleed-out, revivable) → timed respawn at the highest checkpoint floor; the run itself never fully resets
+- **Session:** ~30–45 minutes · **Players:** solo or 2–4 co-op
+- **Death model:** 3 retries per run (respawn at the stairwell of the highest floor reached); co-op players get downed and can be revived first.
 
 ## 2. Core loop
 
 ```
-enter floor → scout (listen to ring / read bloodstains) → scavenge (batteries, flares, medkits)
-   → solve floor gate (keycard / power / CCTV / boards) → climb → repeat → ROOFTOP FINALE
+enter floor → read the mission panel (what · where · which key) → scout (ring, blood, sounds)
+   → do the step → the next step unlocks → climb → … → ROOFTOP: flare → hold the circle 30 s
 ```
 
-Deliberate **back-tracking**: twice per run the fix for a gate lives 4–6 floors *below* you, forcing re-descents through territory you already cleared — the building is never "done with you".
+Two deliberate **back-tracks**: the Floor 3 shutter is released from the Floor 2 terminal, and the Floor 5 gate is powered by the breaker on Floor 4.
 
 ## 3. The building
 
-One consistent tower. Identical footprint per floor (so you learn it):
+Levels: 0 = Ground, 1–6 = Floors, 7 = Roof. Identical footprint per floor: 40 m corridor, 6 rooms (3 north, 3 south), stair tower at the east end with a gate per floor, roof with a helipad, parapet and the landing circle.
 
-| Zone | Geometry |
-|---|---|
-| Corridor | 40 m central hallway, flickering fluorescent fixtures (some broken) |
-| Rooms | 6 rooms/floor (3 north, 3 south) with hinged doors; theme changes with height |
-| Stair tower | East end. Open archway from corridor, visible portcullis-style **gate** per floor, a real walkable staircase (analytic ramp + step meshes), railings, per-floor signage |
-| Rooftop | Helipad, parapet, green **extraction circle**, helicopter with searchlight, finale horde |
+Room themes: classrooms (Ground–1), offices (2), labs (3–4), dorms (5–6).
 
-**Themes by band:** Floors 1–5 school (desks, blackboards, lockers, posters) → 6–11 offices (cubicles, shelves) → 12–16 labs/infirmary (benches, racks, beds) → 17–20 dorms/maintenance.
+Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER (Floor 2: terminal, generator, red card, SMG) · boarded prep room + ELECTRICAL (Floor 4) · **Ji-eun's hiding room** (Floor 5, south-west; no zombie spawns there or can walk in).
 
-Environmental storytelling: blood decals pooled at "nest" doors, readable notes (8 lore notes), posters, "MISSING" flyers, sealed main entrance, out-of-order elevator (occasionally dings…).
+## 4. The mission chain (strict order)
 
-## 4. Gate plan (the escape-room spine)
+| # | Step | Where | Key |
+|---|---|---|---|
+| 1 | Flashlight | Reception, Ground | E |
+| 2 | Crowbar | Janitor closet (kick 3× first) | Space ×3, E |
+| 3 | Pry the Floor 1 gate boards | Stairwell, Floor 1 | hold Space |
+| 4 | Find the security room | Floor 2 | — |
+| 5 | Watch the CCTV archive | Terminal | E |
+| 6 | Red keycard | Security desk | E |
+| 7 | Start the generator | Same room | hold Space |
+| 8 | Open the Floor 2 gate (red; reader needs power) | Stairwell | E |
+| 9 | Check on the man in the hall | Floor 3, right outside the stairwell | — |
+| 10 | Talk to Mr. Park (bitten, lying on the floor) | Floor 3 | Enter ×3 |
+| 11 | Take his blue card; he says "RUN" and **turns** 4 s later | Beside his hand | E |
+| 12 | Put Mr. Park down (6 HP zombie, name tag) | Floor 3 | LMB |
+| 13 | Release the Floor 3 shutter | Floor 2 terminal | E, then Enter |
+| 14 | Go through the shutter to Floor 4 | Stairwell | — |
+| 15 | Reset the utility breaker | Floor 4 ELECTRICAL | hold Space |
+| 16 | Open the Floor 4 gate (blue) | Stairwell | E |
+| 17 | **Find Ji-eun** (no marker; her noises are spatial) | Floor 5, safe room | — |
+| 18 | Talk to Ji-eun → **she joins you** | Safe room | Enter ×4 |
+| 19 | Rooftop key (yellow) | At her feet | E |
+| 20 | Open the Floor 5 gate (breaker released it) | Stairwell | E |
+| 21 | Open the rooftop gate (yellow) | Floor 6 | E |
+| 22 | Reach the roof | — | — |
+| 23 | Light the signal flare | Landing circle | hold Space |
+| 24 | Stay in the circle 30 s (outside = the clock runs back) | Landing circle | — |
 
-Gate *i* blocks the stairwell between floor *i* and *i+1*.
+**Skip protection:** a step only completes while it is the current step ("get to floor X" steps latch only while current), and every story item, gate, terminal, breaker and survivor refuses before its step with *"Not yet — first: …"*. The objective updates the moment a gate opens.
 
-| Gate | Type | Solution |
+## 5. Interaction model
+
+- **[E] tap:** take, open/close, read, use the terminal, swipe a card.
+- **[SPACE]:** physical work. **Tap** to kick (one kick per tap, screen shake, 3 kicks). **Hold** to pry, pull a breaker, light the flare or revive; letting go keeps the progress. Space only jumps when no job is in reach.
+- **[ENTER]:** talk (next line), respawn, release the shutter inside the terminal.
+- Prompts can show several rows at once (for example "E Open door" and "ENTER Talk to Mr. Park"). Targets need line of sight, the one you **look at** wins, and the item your current objective needs gets priority.
+- Work is animated: planks shudder and creak while prying (the crowbar levers in first person), then fall off as physical planks that land on the floor. Breaker handles travel.
+
+## 6. Threat system
+
+- **Threat ring:** 24 segments around the crosshair; orange = moving nearby, red = chasing.
+- **Line of sight** only tests walls at the eye level of that floor.
+- **Senses:** forward cone; crouch halves sight, flashlight extends it. Hearing: sprint 13 m, walk 5 m, crouch 2 m, doors 5–9 m, kicks 9 m, gunshots 15 m.
+- Chasing zombies force closed doors after ~1.6 s (never Ji-eun's door). Wounded zombies leave trails.
+
+## 7. Enemies
+
+| Type | Notes | HP / dmg |
 |---|---|---|
-| 3 | Keycard | **RED** card — CCTV office desk, Floor 2 |
-| 6 | Security shutter | Restore **power** (generator, Floor 2) then **release remotely from the CCTV terminal** (Floor 2) → forces a full backtrack |
-| 7 | Boarded | **Crowbar** (hold E 2.6 s, very loud) |
-| 8 | Keycard | **BLUE** card — boarded server rack room, Floor 6 |
-| 11 | Keycard | **GREEN** card — records office, Floor 9 (guarded) |
-| 15 | Magnetic lock | Reset **sub-breaker**, Electrical room Floor 11 — reached *after* the Floor 12 horde, i.e. go back DOWN |
-| 17 | Keycard | **YELLOW** card — infirmary, Floor 15 |
-| 19 | Boarded | Crowbar again → roof access |
-| Rooftop | Finale | Hold the extraction circle 8 s while the horde climbs out of the stairwell |
+| Shambler | slow patrol | 3 / 14 |
+| Runner | fresh student, fast | 2 / 18 |
+| Crawler | ankle lunges (Floor 4+) | 2 / 12 |
+| Screamer | alerts the floor (Floor 3+) | 2 / 10 |
+| Brute | tank (Floor 5+) | 8 / 30 |
+| Mr. Park | rises from the floor after turning | 6 / 16 |
+| The Watcher | scripted lurker/pursuer (Floors 5–6, roof) | 14 / 26 |
 
-The objective tracker (top-left) always states the current goal; radio subtitles narrate every floor's first visit.
+**Rooftop:** zombies always know where you are (×1.05 speed, ×1.2 after the flare), attack a little slower (wind-up ×0.85, 1.35 s cooldown). Waves of 3 every 7 s from the roof door and over the parapet (max 11 alive), a brute at 14 s and the Watcher at 21 s. A **fresh flare pulls roof zombies off you for 4.5 s** (not brutes). Balance check: a simulated fighting bot with 100 HP, 3 medkits and human-like aim survives, taking about 45–105 damage.
 
-## 5. Threat system — the PUBG indicator
-
-- **Threat ring:** 24 segments around the crosshair. Zombies on your floor within 17 m paint segments: **dim orange** = idle/walk (only when close), **orange** = investigating, **red** = chasing. Segment position = direction (left/right/behind). Works through walls — it represents *sound*.
-- **Diegetic audio:** positional growls and shuffling steps (Web Audio, stereo-panned + distance-attenuated). Chase growls are on a shorter loop.
-- **Heartbeat:** tempo scales with proximity of the nearest hunter; tension music layer fades in within 12 m.
-- **Visual clues:** bloodstain pools mark nest rooms; blood trails on stairs; glowing eyes in darkness.
-
-## 6. Zombies
-
-| Type | Behaviour | Stats |
-|---|---|---|
-| Shambler | Slow patrol, room-bound | 3 hits, 14 dmg |
-| Runner | Appears floor 6+, faster senses | 2 hits, 18 dmg |
-| Brute | Floors 12+, tank | 8 hits, 30 dmg |
-
-**Senses:** raycast line-of-sight (raycast against wall colliders) + ~100° forward cone; sight range shrinks if you crouch, grows if your flashlight is on. **Hearing:** sprint = 13 m noise, walk = 5 m, crouch = 2 m, door creak = 9 m, board-breaking = 16 m, thrown flare = 22 m pull. **Door forcing:** a chasing/investigating enemy that reaches a closed (unboarded) door knocks (bang cue) and forces it open after ~1.6 s — closed doors delay, not stop, the hunt; boarded doors remain player-safe. **Wound trails:** enemies below max HP drip small blood/paint decals as they move (capped pool of 140, recycled) — trackable both ways. Backstab (attacking an unaware zombie from behind) deals double damage. Off-screen floors freeze for performance.
-
-**Navigation:** patrol between room centre ↔ doorway ↔ corridor stretch; investigate last noise; chase with wall-sliding steering; can climb the actual staircase after you if you cross floors (the horde finale uses this). Backstab (attacking an unaware zombie from behind) deals double damage. Off-screen floors freeze for performance.
-
-**Scare direction:** scripted beats (a door bursting open on Floor 1, total blackouts with a spawn-behind on floors 4/9/17, the Floor 12 alarm horde, rooftop finale) + a random ambient director (distant clangs, whispers, thunder, light flickers) every 25–50 s.
-
-## 7. Items & economy
+## 8. Weapons & items
 
 | Item | Effect |
 |---|---|
-| Flashlight | SpotLight attached to camera, casts real shadows. 100 % ≈ 6 min. Flickers < 18 %. |
-| Battery | +40 % flashlight |
-| Flare | Thrown (G): red light source, burns ~15 s, attracts zombies |
-| Medkit | +60 HP (H) |
-| Crowbar | Pry boards + melee weapon |
-| Keycards ×4 | Unlock colour-matched gates |
-| Notes ×8 | Lore reading |
+| Flashlight | Camera spotlight with shadows; ~6 min per charge |
+| Battery | +40 % (HUD updates live) |
+| SMG | Full-auto (0.11 s), 1 dmg per bullet, head shot 2, small spread + recoil climb; 30 rounds on pickup, **+20 per ammo box**; walls stop bullets; point-blank shots land |
+| Crowbar | Melee; double damage from behind; wide arc at point-blank; pries boards |
+| Flare | Thrown light; lures zombies |
+| Medkit | +60 HP |
+| Keycards | Red / Blue / Yellow |
+| Notes ×10 | Lore; always on open floor at their own floor height |
 
-Health does not regen; stamina regens out of combat. Sprint is a *luxury and a liability*.
+Supplies spawn only on open floor, never inside walls, desks, beds or lockers.
 
-## 8. CCTV terminal (Floor 2)
+## 9. Survivors
 
-After main power: a full-screen green-phosphor monitor. Top-down schematic of **any floor**: rooms, corridor, stair tower, live zombie blips (red = chasing, orange = idle), teammate blips (green). Used to release the Floor 6 shutter remotely and to plan routes ("is the corridor ahead clear?"). CRT scanlines + static.
+- **Mr. Park** (biology teacher): bitten, lying in the Floor 3 hall; never moves. After the talk his blue card and a medkit lie beside him. Taking the card makes him convulse, say "RUN", and rise as a zombie.
+- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. After the talk she **follows you** (catches up across stairs and floors) and shoots zombies she can see within 8 m (about 0.9 shots/s, 55 % hits). She takes no damage.
 
-## 9. Multiplayer (co-op, up to 4)
+## 10. Audio
 
-- **Transport:** PeerJS WebRTC, free public broker. Host creates a 5-letter room code; friends join by code. **No server, no cost.**
-- **Model:** host-authoritative. Host simulates zombies, gates, items, events; broadcasts world snapshots (8 Hz, quantized). Clients send position/flags at 12 Hz and request discrete actions (doors, pickups, revives) which the host validates and relays.
-- **Shared world state:** keycards, gates, power, boards, and item pickups are world-global (one player's pickup feeds the team); consumables (batteries/medkits/flares) are personal.
-- **Remote avatars:** humanoid models with name tags, walk animation, downed/dead poses.
-- **Co-op revival:** downed → 60 s bleed-out → teammate hold-E revive. Death → 25 s respawn at checkpoint. Extraction requires the whole squad in the circle.
-- Chat (Enter) + ping markers (Q).
-- World state snapshot sent on join so latecomers inherit progress; they spawn at the host's checkpoint floor.
-
-## 10. Audio (100 % synthesized, no files)
-
-Buffer-synthesized at load: zombie growls (3 pitch variants), screams, shuffling steps, player footsteps, door creaks, board clangs, breaker clunks, gate/shutter rumbles, flare fizz, radio blips, alarm siren, thunder, heartbeat, jump-scare stinger (detuned saw cluster + noise burst), ambient drone, chase-tension pulse, helicopter rotor loop, victory chords. Stereo-panned and distance-attenuated relative to camera = the "PUBG ear" effect for free.
+- Recorded SFX in `assets/sfx/` (Mixkit free license, from the `fix/heartbeat-sound` branch) plus a real helicopter loop and thunder; CC0 zombie voice clips in `js/vox.js`. For voices, `play()` alternates between recordings and samples. Everything falls back to synthesized buffers.
+- Heartbeat: louder, and the tempo races with threat. `?heartonly=1` debug mode.
+- Spatial: stereo panning + distance attenuation relative to the camera.
 
 ## 11. Visuals & performance
 
-- Three.js (CDN ES module), ACES tonemapping, exponential fog, canvas-generated textures (concrete, tiles, grime, blood/paint, posters, signage).
-- **First-person view-model:** arm + crowbar (or flashlight with glowing lens) parented to the camera; bob/sway while walking, arc swing animation on attack, hidden in third person.
-- **Particles:** sprite pool for hit bursts (blood in Nightmare / yellow-blue sparks in Daylight / wood chips when prying boards); 220 additive dust motes drifting around the player and catching the flashlight (Nightmare only).
-- **Set dressing:** room windows with mode-tinted emissive glow + frames, ceiling pipe runs along corridors, vending machines with glowing fronts + DRINKS signs, water coolers, scattered papers (Nightmare).
-- Lighting: sparse per-floor point lights (some flickering), red emergency lights (Nightmare), flashlight spotlight with 1024px shadow map, emissive screen/exit-sign accents, hemisphere fill (Daylight).
-- **Floor culling:** only current floor ±1 is visible/simulated → hundreds of rooms and ~200 zombies stay smooth. Auto resolution drop if FPS < 38.
-- Procedural animation: walk-cycle limb swings, chase poses, windup lunge, corpse falls, per-zombie hit-flash (cloned materials). Player body appears in third person / to teammates.
+Three.js r160 (CDN importmap), ACES tonemapping, fog, canvas textures, view-model (crowbar / SMG / flashlight), particle bursts, falling planks, flare smoke. **Fixed light inventory per floor** (lights are dimmed, never removed) so shaders never recompile on stairs. Only the current floor ±1 renders and simulates. Resolution drops automatically at low FPS.
 
 ## 12. UI
 
-Title menu (solo / host / join, name, how-to-play, **Continue-run button when a solo save exists**) · survivors lobby with copyable room code · prologue story card (per mode) · HUD (HP/stamina/battery bars, inventory slots, keycard icons, floor label, objective tracker, toasts, radio subtitles, interact prompt with hold-progress bar, threat ring) · **[Tab] escape-plan overlay** (completed / current / upcoming objectives) · pause menu with sensitivity/volume/FOV · CCTV overlay · note reader · downed/death/respawn screens · victory screen with run stats · live error banner for support.
+Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line + "HOW" panel with keys, threat ring, waypoint or "search the rooms" hint, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV · notes · chapter comics · death/respawn · victory.
 
-**Save/Continue:** solo runs auto-save to localStorage every 5 s (mode, quest index, cards, flags, inventory, battery, HP, checkpoint floor, runtime, kills/deaths, opened gates, broken boards, taken items, seen floors). The menu shows CONTINUE with floor + mode; continuing rebuilds the world in the saved mode, restores state silently, and spawns at the stairwell checkpoint. Winning clears the save. Co-op runs don't save.
+**Saves (solo):** every 5 s to localStorage, format v3 (step key, flags, inventory, gates, boards, items). The roof is replayed from its start after a continue.
 
-**Rooftop finale:** horde of 8 plus heavy brutes (2 in Nightmare / 1 friendly chunky bot in Daylight) converging on the extraction circle while the helicopter descends.
+## 13. Co-op
 
-**Ambient director extras:** distant clangs, whispers, thunder (Nightmare), and the dead elevator occasionally *ding*ing somewhere on your floor.
+PeerJS/WebRTC, host-authoritative. Progress is shared: the step index (`qi`) and story flags (`flag`) are broadcast. Guests' crowbar hits are sent to the host (`zhit`). Late joiners get the snapshot after their world is built. Ji-eun's position is synced in snapshots. Saves are solo only.
 
-## 13. Tech & deployment
+## 14. Tech & deployment
 
-Single `index.html` (≈2,700 lines): HTML + CSS + JS module. Imports: `three@0.160` via importmap (unpkg), `peerjs@1.5` UMD. No build step, no backend, no assets. Deploys free on GitHub Pages / Netlify Drop / Vercel / itch.io.
+`index.html` + `css/style.css` + `js/game.js` (one ES module) + `js/vox.js` + `assets/`. No build step, no backend. GitHub Pages (with `.nojekyll`), Netlify, Vercel or itch.io. Tests: `npm test` (`_sim/build.mjs` builds a Node copy of the game with a stub renderer; `_sim/harness.mjs` runs it).

@@ -1,0 +1,13 @@
+{
+  "name": "rooftop-escape",
+  "private": true,
+  "description": "3D zombie survival escape game (static site). Scripts run the headless simulation tests.",
+  "type": "module",
+  "scripts": {
+    "serve": "python -m http.server 8080",
+    "build:sim": "node _sim/build.mjs",
+    "test": "node _sim/build.mjs && node _sim/harness.mjs scary && node _sim/harness.mjs lite",
+    "test:zh": "node _sim/build.mjs && node _sim/harness.mjs scary zh",
+    "test:coop": "node _sim/build.mjs && node _sim/harness.mjs scary coop"
+  }
+}
