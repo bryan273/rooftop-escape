@@ -152,4 +152,4 @@ PeerJS/WebRTC, host-authoritative. Progress is shared: the step index (`qi`) and
 
 ## 14. Tech & deployment
 
-`index.html` + `css/style.css` + `js/game.js` (one ES module) + `js/vox.js` + `assets/`. No build step, no backend. GitHub Pages (with `.nojekyll`), Netlify, Vercel or itch.io. Tests: `npm test` (`_sim/build.mjs` builds a Node copy of the game with a stub renderer; `_sim/harness.mjs` runs it).
+`index.html` (landing page) + `play.html` (game) + `css/` + `js/game.js` (one ES module) + `js/vox.js` + `assets/`. No build step, no backend. GitHub Pages (with `.nojekyll`), Netlify, Vercel or itch.io. Tests: `npm test` (`_sim/build.mjs` builds a Node copy of the game with a stub renderer; `_sim/harness.mjs` runs it).

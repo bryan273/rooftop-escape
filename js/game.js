@@ -2583,8 +2583,6 @@ function buildHumanoid(opts={}){
     put(box(0.045,0.024,0.025),shared('zmouth',0x140002,1),0,-0.052,0.097,H);  // open mouth
     const tooth=shared('tooth',0xa89d80,.6);
     for(let i=0;i<4;i++)put(box(0.008,0.011,0.006),tooth,-0.017+i*0.011,-0.046,0.1,H);   // teeth inside the mouth, not a white grid
-    const jaw=put(box(0.06,0.018,0.05),shared('jawM',0x3e2422,.7),0,-0.086,0.07,H);jaw.rotation.x=0.22;   // slack jaw
-    put(box(0.03,0.06,0.003),blood,0.004,-0.1,0.104,H);                      // blood down the chin
     put(sph(0.03,8,6),blood,0.062,-0.018,0.08,H,0.6,1,0.4);                 // torn cheek
     if(ztype!=='screamer'){                                                  // matted, patchy hair
       put(hgeo('hairZ',()=>new THREE.SphereGeometry(0.118,14,8,0,Math.PI*2,0,Math.PI*0.42)),hairM,0,0.012,-0.006,H);
@@ -2610,7 +2608,7 @@ function buildHumanoid(opts={}){
       put(cyl(0.17,0.25,0.3,14),skirtM,0,0.8,0);
     }
     // ---- wounds: a few, different on every body, still wet and running
-    const raw=shared('woundRaw',0x5c0a0c,.3),crater=shared('woundDark',0x1e0203,.6),drip=shared('drip',0x5a0407,.18,{metalness:.15});
+    const raw=shared('woundRaw',0x3a0507,.55),crater=shared('woundDark',0x120102,.8),drip=shared('drip',0x5a0407,.18,{metalness:.15});
     const bone=shared('bone',0xd9d0b4,.6);
     parts.wounds=[];
     const wound=(parent,x,y,z,size,dripLen,dirZ=1)=>{

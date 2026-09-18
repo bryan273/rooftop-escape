@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROOFTOP ESCAPE — Outbreak</title>
+<meta name="description" content="A 3D first-person zombie escape through a six-floor high school. Runs in the browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%9F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="err"></div>
+
+<!-- screen fx -->
+<div id="vig" class="layer"></div>
+<div id="dmg" class="layer"></div>
+<canvas id="grain" class="layer"></canvas>
+<div id="fade" class="layer"></div>
+
+<!-- HUD -->
+<div id="hud" class="layer">
+  <div id="xh"></div>
+  <div id="wpText"></div>
+  <canvas id="ring" width="280" height="280"></canvas>
+  <div id="topL">
+    <div id="floorLbl">FLOOR 1 — ENTRANCE</div>
+    <div id="squad" style="display:none"></div>
+    <div id="missionTag"></div>
+    <div id="obj"></div>
+    <div id="missionWindow">
+      <span class="x" id="missionX">✕</span>
+      <div class="t" id="mwTag"></div>
+      <div class="m" id="mwTxt"></div>
+    </div>
+  </div>
+  <div id="hintKey"></div>
+  <div id="bars">
+    <div class="bar"><span class="ico" id="icoHp">HEALTH</span><div class="fill" id="hpFill"></div></div>
+    <div class="bar"><span class="ico" id="icoSt">STAMINA</span><div class="fill" id="stFill"></div></div>
+    <div class="bar"><span class="ico" id="icoBt">FLASHLIGHT</span><div class="fill" id="btFill"></div></div>
+  <div id="livesLbl"></div>
+  </div>
+  <div id="invRow">
+    <div class="slot off" id="slotCrowbar"><div class="n">☰</div><span id="slotCrowbarL">CROWBAR</span></div>
+    <div class="slot off" id="slotFlare"><div class="n">0</div><span id="slotFlareL">FLARE [G]</span></div>
+    <div class="slot off" id="slotMed"><div class="n">0</div><span id="slotMedL">MEDKIT [H]</span></div>
+    <div class="slot off" id="slotAmmo"><div class="n" id="ammoN">0</div><span id="slotAmmoL">9MM [2]</span></div>
+    <div class="slot off" id="slotCards"><div class="n" id="cardIcons"></div><span id="slotCardsL">KEYCARDS</span></div>
+  </div>
+  <div id="toasts"></div>
+  <div id="objBanner"><h2 id="objBannerH">OBJECTIVE UPDATED</h2><p id="objBannerTxt"></p></div>
+  <div id="subtitle"></div>
+  <div id="prompt" class="hidden"></div>
+  <div id="promptBar" class="hidden"><div class="fill" id="promptFill"></div></div>
+  <div id="chat">
+    <div id="chatFeed"></div>
+    <input type="text" id="chatIn" maxlength="120" placeholder="say something… (Enter to send)">
+  </div>
+  <div id="downedOv"><div class="txt"><h2 style="color:#ff6b6b;letter-spacing:6px">YOU ARE DOWN</h2>
+    <p id="downedTxt">Crawling in blood… hold on.</p></div></div>
+  <div id="lockHint">🖱️ CLICK THE GAME TO CAPTURE THE MOUSE</div>
+</div>
+
+<!-- MAIN MENU -->
+<div id="menu" class="layer">
+  <a id="homeLink" href="index.html">← Home</a>
+  <h1 class="flicker">ROOFTOP <span>ESCAPE</span></h1>
+  <div class="sub" id="menuSub">Seowon High School · Outbreak Night</div>
+  <div id="menuCard">
+    <div class="menuTabs">
+      <button class="btn small on" id="tabPlay">Play</button>
+      <button class="btn small" id="tabHow">How to play</button>
+    </div>
+    <div class="langRow">
+      <span id="lblLang">Language</span>
+      <button class="btn small" id="langEn">English</button>
+      <button class="btn small" id="langZh">中文</button>
+    </div>
+    <div id="panePlay">
+      <div class="row"><label id="lblMode">Game mode</label>
+        <div class="modeRow">
+          <div class="modeCard on" id="modeScary"><span class="em">🧟</span><b id="modeTitleScary">NIGHTMARE</b><span id="modeDescScary">Dark halls · zombies · blood · jump scares · heartbeat</span></div>
+          <div class="modeCard" id="modeLite"><span class="em">🤖</span><b id="modeTitleLite">DAYLIGHT DRILL</b><span id="modeDescLite">Bright &amp; friendly · silly helper-bots · paint splats · zero scares</span></div>
+        </div>
+      </div>
+      <div class="row"><label id="lblName">Your name</label><input type="text" id="nameIn" maxlength="16" placeholder="Survivor"></div>
+      <div class="row">
+        <button class="btn hidden" id="btnContinue">Continue Run</button>
+        <button class="btn" id="btnSolo">Solo Escape</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnHost">Host Co-op</button>
+        <button class="btn" id="btnJoin">Join Co-op</button>
+      </div>
+      <div class="row hidden" id="joinRow">
+        <input type="text" id="codeIn" maxlength="8" placeholder="ROOM CODE" style="text-transform:uppercase">
+        <button class="btn" id="btnConnect">Connect</button>
+      </div>
+      <div id="menuMsg"></div>
+    </div>
+    <div id="paneHow" class="hidden">
+      <div id="menuHow">
+        <b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host's choice applies to the whole co-op squad.<br>
+        <b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (6 floors) and board the rescue helicopter / drone.<br>
+        <b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>,
+        hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br>
+        <b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br>
+        <b>Look.</b> <span style="color:#ff8080">Bloodstains</span> (or paint splats!) around a door mean something inside. Flashlight [F] — it eats battery; grab batteries everywhere.<br>
+        <b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud.<br>
+        <b>Co-op:</b> host a room and share the code — up to 4 survivors. Downed friends can be revived [hold E].<br>
+        Requires a keyboard + mouse. Click the game once to lock the mouse.
+      </div>
+    </div>
+  </div>
+  <div id="menuFooter" style="margin-top:18px;color:#5c564e;font-size:12px;letter-spacing:2px">A fan-made zombie escape · Three.js + WebAudio · free to deploy</div>
+</div>
+
+<!-- LOBBY -->
+<div id="lobby" class="layer">
+  <h2 style="letter-spacing:6px" id="lbTitle">SURVIVORS LOBBY</h2>
+  <div class="hint" id="lbHint1" style="margin-top:20px">SHARE THIS ROOM CODE WITH YOUR FRIENDS</div>
+  <div class="code" id="lobbyCode" title="click to copy">----</div>
+  <div class="hint" id="lbHint2">click the code to copy · friends press “Join Co-op” and type it</div>
+  <div id="lobbyList"></div>
+  <div id="lbHostNote" class="hint" style="max-width:420px;color:#c9a227;line-height:1.6"></div>
+  <button class="btn" id="btnStart" disabled>Start (waiting…)</button>
+  <button class="btn small" id="btnLobbyLeave">Leave</button>
+</div>
+
+<!-- PROLOGUE / INTRO COMIC -->
+<div id="prologue" class="layer">
+  <div id="introWrap">
+    <button class="btn small" id="introSkip">SKIP ▶</button>
+    <canvas id="introCv" width="960" height="540"></canvas>
+    <div id="introCap"></div>
+    <div id="introDots"></div>
+  </div>
+  <div id="missionBrief">
+    <h3 id="briefH"></h3>
+    <div id="briefTxt"></div>
+    <p class="main" id="briefM"></p>
+  </div>
+  <div class="go hidden" id="prologueGo">— CLICK TO WAKE UP —</div>
+</div>
+
+<!-- GOALS OVERLAY -->
+<div id="goals"><h3 id="goalsTitle">ESCAPE PLAN</h3><div id="goalsList"></div></div>
+
+<!-- PAUSE -->
+<div id="pause" class="layer">
+  <div class="panel">
+    <h2 id="pauseTitle">PAUSED</h2>
+    <div class="opt"><span id="optSensL">Mouse sensitivity</span><input type="range" id="sensR" min="20" max="200" value="100"></div>
+    <div class="opt"><span id="optVolL">Volume</span><input type="range" id="volR" min="0" max="100" value="80"></div>
+    <div class="opt"><span id="optFovL">Field of view</span><input type="range" id="fovR" min="60" max="95" value="72"></div>
+    <div id="ctrlList">
+      <div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div>
+      <div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> use / talk · <b>Q</b> kick / hold</div>
+      <div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div>
+      <div><b>LMB</b> attack / shove</div><div><b>V</b> 1st/3rd person</div><div><b>Q</b> ping marker</div>
+      <div><b>Tab</b> objectives</div><div><b>T</b> chat</div><div><b>Esc</b> pause</div>
+    </div>
+    <div style="margin-top:20px;text-align:center">
+      <button class="btn" id="btnResume">Resume</button>
+      <button class="btn" id="btnQuit">Quit to menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- CCTV -->
+<div id="cctv" class="layer">
+  <div id="cctvTop">
+    <button class="btn small" id="camPrev">◀</button>
+    <div id="cctvLbl">CAM 01 — FLOOR 1</div>
+    <button class="btn small" id="camNext">▶</button>
+  </div>
+  <canvas id="cctvC" width="880" height="495"></canvas>
+  <div id="cctvHint">◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal</div>
+  <button class="btn hidden release" id="shutterBtn">RELEASE FLOOR 3 SHUTTER</button>
+  <div id="cctvLog"><div class="t" id="cctvLogTxt"></div></div>
+</div>
+
+<!-- NOTE -->
+<div id="note" class="layer"><div class="paper"><h3 id="noteTitle"></h3><div id="noteBody"></div>
+  <div class="close" id="noteClose">[E] / [ESC] put it down</div></div></div>
+
+<!-- JI-EUN: THE CHOICE -->
+<div id="choice" class="layer">
+  <div class="box">
+    <div id="choiceWarn">⚠ DECIDE NOW</div>
+    <div id="choiceQ"></div>
+    <div id="choiceBar"><div id="choiceFill"></div><span id="choiceTime">7s</span></div>
+    <div class="btns">
+      <button class="cbtn trust" id="choiceTrust"></button>
+      <button class="cbtn kill" id="choiceKill"></button>
+    </div>
+  </div>
+</div>
+<button id="giveMed">💉 GIVE JI-EUN A MEDKIT</button>
+
+<!-- CHAPTER COMICS -->
+<div id="chapter" class="layer">
+  <div class="wrap" id="chWrap">
+    <button class="btn small" id="chSkip">SKIP ▶</button>
+    <canvas id="chCv" width="960" height="540"></canvas>
+  </div>
+  <div id="chTitle"></div>
+  <div id="chCap"></div>
+  <div id="chDots"></div>
+</div>
+
+<!-- DEATH -->
+<div id="death" class="layer">
+  <h1>YOU DIED</h1>
+  <p id="deathTxt">The building keeps your bones.</p>
+  <p id="respawnTxt" style="color:var(--amber)"></p>
+  <button class="btn hidden" id="btnRespawn">RESPAWN NOW</button>
+  <button class="btn hidden" id="btnDeathMenu">Quit to menu</button>
+</div>
+
+<!-- VICTORY -->
+<div id="victory" class="layer">
+  <h1>EXTRACTED</h1>
+  <p style="color:#8fa8c8;letter-spacing:4px;margin-top:8px">The helicopter lifts away from Seowon High. You made it.</p>
+  <div class="stats" id="vicStats"></div>
+  <button class="btn" id="btnVicMenu">Back to menu</button>
+</div>
+
+<script src="js/vox.js"></script>
+<script type="module" src="js/game.js"></script>
+</body>
+</html>

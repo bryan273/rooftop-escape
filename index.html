@@ -2,235 +2,157 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ROOFTOP ESCAPE — Outbreak</title>
-<meta name="description" content="A 3D first-person zombie escape through a six-floor high school. Runs in the browser.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%9F%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="css/style.css">
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rooftop Escape — Outbreak at Seowon High</title>
+<meta name="description" content="A free 3D zombie survival escape game in your browser. Six floors, one helicopter, midnight. Solo or co-op with friends.">
+<meta property="og:title" content="Rooftop Escape — Outbreak at Seowon High">
+<meta property="og:description" content="Six floors. One helicopter. Midnight. A free 3D zombie escape game you play in the browser — solo or with friends.">
+<meta property="og:image" content="assets/promo/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧟</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
-<canvas id="c"></canvas>
-<div id="err"></div>
 
-<!-- screen fx -->
-<div id="vig" class="layer"></div>
-<div id="dmg" class="layer"></div>
-<canvas id="grain" class="layer"></canvas>
-<div id="fade" class="layer"></div>
+<header class="nav">
+  <a class="brand" href="#top">ROOFTOP ESCAPE</a>
+  <nav>
+    <a href="#story">Story</a>
+    <a href="#features">Features</a>
+    <a href="#screens">Screens</a>
+    <a href="#how">How to play</a>
+    <a href="#team">Team</a>
+    <a class="navPlay" href="play.html">Play</a>
+  </nav>
+</header>
 
-<!-- HUD -->
-<div id="hud" class="layer">
-  <div id="xh"></div>
-  <div id="wpText"></div>
-  <canvas id="ring" width="280" height="280"></canvas>
-  <div id="topL">
-    <div id="floorLbl">FLOOR 1 — ENTRANCE</div>
-    <div id="squad" style="display:none"></div>
-    <div id="missionTag"></div>
-    <div id="obj"></div>
-    <div id="missionWindow">
-      <span class="x" id="missionX">✕</span>
-      <div class="t" id="mwTag"></div>
-      <div class="m" id="mwTxt"></div>
+<!-- HERO: first 5 seconds — what it is, how it feels, one button -->
+<section class="hero" id="top">
+  <div class="heroBg" role="img" aria-label="Infected students in green school uniforms shamble down a dark corridor into a flashlight beam"></div>
+  <div class="heroIn">
+    <p class="kicker">Seowon High School · 23:47</p>
+    <h1>ROOFTOP<br>ESCAPE</h1>
+    <p class="tag">Six floors. One helicopter. <em>Midnight.</em></p>
+    <p class="lede">A first-person zombie survival escape game that runs in your browser. Climb a locked-down school, solve the stairwell locks in order, decide who to trust — then hold the rooftop until the helicopter lands.</p>
+    <div class="cta">
+      <a class="btn primary" href="play.html">▶ PLAY NOW — FREE</a>
+      <a class="btn ghost" href="#how">How to play</a>
+    </div>
+    <ul class="meta">
+      <li>🖱️ Keyboard + mouse</li><li>⏱️ 30–45 min</li><li>👥 Solo or 2–4 co-op</li><li>🌐 English · 中文</li><li>🔓 No download, no sign-up</li>
+    </ul>
+  </div>
+  <a class="scroll" href="#story" aria-label="Scroll down">▾</a>
+</section>
+
+<!-- STORY -->
+<section class="band" id="story">
+  <div class="wrap two">
+    <div>
+      <h2>The last night of study camp</h2>
+      <p>Phones collected. Doors locked at 22:00. At 23:12 a scream comes from the biology lab on Floor 5. At 23:36 the school shuts itself down — gates, elevators, power.</p>
+      <p>You wake up in the entrance hall. Your friend Ji-woo is on the radio: a military helicopter reaches the <strong>rooftop at midnight</strong>, and it will only land where it sees a <strong>signal flare</strong>.</p>
+      <p class="quiet">On the way up you'll meet a wounded teacher who won't be human much longer — and a girl hiding with blood on her sleeve. You'll have seven seconds to decide about her.</p>
+    </div>
+    <figure class="shot"><img src="assets/promo/closeup.jpg" alt="An infected student in a bloody green uniform lunges into the flashlight" loading="lazy"></figure>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="band alt" id="features">
+  <div class="wrap">
+    <h2>What makes it different</h2>
+    <div class="grid">
+      <article><span>🔗</span><h3>A mission chain you can't skip</h3><p>24 steps across 6 floors, strictly in order. Keycards, a generator, a CCTV archive, a breaker two floors away — and deliberate back-tracking through infested halls.</p></article>
+      <article><span>🧟</span><h3>Bodies that are broken</h3><p>Every infected student limps on a different leg, drags a turned-in foot, lolls, twitches — some have an arm that no longer works. Their wounds keep bleeding onto the floor.</p></article>
+      <article><span>⏳</span><h3>Seven seconds to decide</h3><p>Ji-eun has the rooftop key. Is she bitten? Trust her or end it — the game won't tell you until after. Wait too long and they find you both.</p></article>
+      <article><span>🎧</span><h3>Horror you hear first</h3><p>A 24-segment threat ring shows where they move. Real recorded footsteps, heartbeat, roars and door creaks, all spatial — the heartbeat races when something is close.</p></article>
+      <article><span>🚁</span><h3>A last stand on the roof</h3><p>Light the flare, then hold the landing circle for 30 seconds while the building empties onto the roof. Step out and the clock runs backwards.</p></article>
+      <article><span>👥</span><h3>Co-op or kid-friendly</h3><p>Share a 5-letter room code and climb together (revive downed friends). Or switch to <em>Daylight Drill</em>: fully lit, silly helper-bots, zero scares.</p></article>
     </div>
   </div>
-  <div id="hintKey"></div>
-  <div id="bars">
-    <div class="bar"><span class="ico" id="icoHp">HEALTH</span><div class="fill" id="hpFill"></div></div>
-    <div class="bar"><span class="ico" id="icoSt">STAMINA</span><div class="fill" id="stFill"></div></div>
-    <div class="bar"><span class="ico" id="icoBt">FLASHLIGHT</span><div class="fill" id="btFill"></div></div>
-  <div id="livesLbl"></div>
-  </div>
-  <div id="invRow">
-    <div class="slot off" id="slotCrowbar"><div class="n">☰</div><span id="slotCrowbarL">CROWBAR</span></div>
-    <div class="slot off" id="slotFlare"><div class="n">0</div><span id="slotFlareL">FLARE [G]</span></div>
-    <div class="slot off" id="slotMed"><div class="n">0</div><span id="slotMedL">MEDKIT [H]</span></div>
-    <div class="slot off" id="slotAmmo"><div class="n" id="ammoN">0</div><span id="slotAmmoL">9MM [2]</span></div>
-    <div class="slot off" id="slotCards"><div class="n" id="cardIcons"></div><span id="slotCardsL">KEYCARDS</span></div>
-  </div>
-  <div id="toasts"></div>
-  <div id="objBanner"><h2 id="objBannerH">OBJECTIVE UPDATED</h2><p id="objBannerTxt"></p></div>
-  <div id="subtitle"></div>
-  <div id="prompt" class="hidden"></div>
-  <div id="promptBar" class="hidden"><div class="fill" id="promptFill"></div></div>
-  <div id="chat">
-    <div id="chatFeed"></div>
-    <input type="text" id="chatIn" maxlength="120" placeholder="say something… (Enter to send)">
-  </div>
-  <div id="downedOv"><div class="txt"><h2 style="color:#ff6b6b;letter-spacing:6px">YOU ARE DOWN</h2>
-    <p id="downedTxt">Crawling in blood… hold on.</p></div></div>
-  <div id="lockHint">🖱️ CLICK THE GAME TO CAPTURE THE MOUSE</div>
-</div>
+</section>
 
-<!-- MAIN MENU -->
-<div id="menu" class="layer">
-  <h1 class="flicker">ROOFTOP <span>ESCAPE</span></h1>
-  <div class="sub" id="menuSub">Seowon High School · Outbreak Night</div>
-  <div id="menuCard">
-    <div class="menuTabs">
-      <button class="btn small on" id="tabPlay">Play</button>
-      <button class="btn small" id="tabHow">How to play</button>
-    </div>
-    <div class="langRow">
-      <span id="lblLang">Language</span>
-      <button class="btn small" id="langEn">English</button>
-      <button class="btn small" id="langZh">中文</button>
-    </div>
-    <div id="panePlay">
-      <div class="row"><label id="lblMode">Game mode</label>
-        <div class="modeRow">
-          <div class="modeCard on" id="modeScary"><span class="em">🧟</span><b id="modeTitleScary">NIGHTMARE</b><span id="modeDescScary">Dark halls · zombies · blood · jump scares · heartbeat</span></div>
-          <div class="modeCard" id="modeLite"><span class="em">🤖</span><b id="modeTitleLite">DAYLIGHT DRILL</b><span id="modeDescLite">Bright &amp; friendly · silly helper-bots · paint splats · zero scares</span></div>
-        </div>
-      </div>
-      <div class="row"><label id="lblName">Your name</label><input type="text" id="nameIn" maxlength="16" placeholder="Survivor"></div>
-      <div class="row">
-        <button class="btn hidden" id="btnContinue">Continue Run</button>
-        <button class="btn" id="btnSolo">Solo Escape</button>
-      </div>
-      <div class="row">
-        <button class="btn" id="btnHost">Host Co-op</button>
-        <button class="btn" id="btnJoin">Join Co-op</button>
-      </div>
-      <div class="row hidden" id="joinRow">
-        <input type="text" id="codeIn" maxlength="8" placeholder="ROOM CODE" style="text-transform:uppercase">
-        <button class="btn" id="btnConnect">Connect</button>
-      </div>
-      <div id="menuMsg"></div>
-    </div>
-    <div id="paneHow" class="hidden">
-      <div id="menuHow">
-        <b>Two modes:</b> 🧟 <b>NIGHTMARE</b> — dark, zombies, blood, jump scares. 🤖 <b>DAYLIGHT DRILL</b> — bright, friendly robots, paint splats, zero scares (great for kids or warm-ups). The host's choice applies to the whole co-op squad.<br>
-        <b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> (6 floors) and board the rescue helicopter / drone.<br>
-        <b>Stairwell gates</b> are locked — find <span style="color:#ff8080">keycards</span>, restore <b>power</b>,
-        hack the <b>CCTV terminal</b> (Floor 2) and pry <b>boarded doors</b> with the <b>crowbar</b>. You will have to go back down.<br>
-        <b>Listen.</b> The ring around your crosshair lights up when enemies walk or run nearby (PUBG-style).<br>
-        <b>Look.</b> <span style="color:#ff8080">Bloodstains</span> (or paint splats!) around a door mean something inside. Flashlight [F] — it eats battery; grab batteries everywhere.<br>
-        <b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud.<br>
-        <b>Co-op:</b> host a room and share the code — up to 4 survivors. Downed friends can be revived [hold E].<br>
-        Requires a keyboard + mouse. Click the game once to lock the mouse.
-      </div>
+<!-- SCREENS -->
+<section class="band" id="screens">
+  <div class="wrap">
+    <h2>From the game</h2>
+    <p class="sub">Real in-game captures — nothing pre-rendered.</p>
+    <div class="gallery">
+      <figure><img src="assets/promo/hero.jpg" alt="Infected students fill a dark corridor" loading="lazy"><figcaption>Floor after floor, they come out of the classrooms.</figcaption></figure>
+      <figure><img src="assets/promo/choice.jpg" alt="DECIDE NOW: trust Ji-eun or kill her, 7 second timer" loading="lazy"><figcaption>The choice: seven seconds, two buttons.</figcaption></figure>
+      <figure><img src="assets/promo/cast.jpg" alt="Ji-eun in her cardigan and a turned Mr. Park in his suit" loading="lazy"><figcaption>Ji-eun, and what is left of Mr. Park.</figcaption></figure>
+      <figure><img src="assets/promo/roof.jpg" alt="The signal flare burning in the landing circle on the rooftop" loading="lazy"><figcaption>Midnight: the flare is lit. Hold the circle.</figcaption></figure>
+      <figure><img src="assets/promo/daylight.jpg" alt="Daylight Drill mode with friendly helper robots" loading="lazy"><figcaption>Daylight Drill: same building, zero scares.</figcaption></figure>
+      <figure><img src="assets/promo/closeup.jpg" alt="Close-up of an infected student" loading="lazy"><figcaption>Point-blank. The crowbar still connects.</figcaption></figure>
     </div>
   </div>
-  <div id="menuFooter" style="margin-top:18px;color:#5c564e;font-size:12px;letter-spacing:2px">A fan-made zombie escape · Three.js + WebAudio · free to deploy</div>
-</div>
+</section>
 
-<!-- LOBBY -->
-<div id="lobby" class="layer">
-  <h2 style="letter-spacing:6px" id="lbTitle">SURVIVORS LOBBY</h2>
-  <div class="hint" id="lbHint1" style="margin-top:20px">SHARE THIS ROOM CODE WITH YOUR FRIENDS</div>
-  <div class="code" id="lobbyCode" title="click to copy">----</div>
-  <div class="hint" id="lbHint2">click the code to copy · friends press “Join Co-op” and type it</div>
-  <div id="lobbyList"></div>
-  <div id="lbHostNote" class="hint" style="max-width:420px;color:#c9a227;line-height:1.6"></div>
-  <button class="btn" id="btnStart" disabled>Start (waiting…)</button>
-  <button class="btn small" id="btnLobbyLeave">Leave</button>
-</div>
-
-<!-- PROLOGUE / INTRO COMIC -->
-<div id="prologue" class="layer">
-  <div id="introWrap">
-    <button class="btn small" id="introSkip">SKIP ▶</button>
-    <canvas id="introCv" width="960" height="540"></canvas>
-    <div id="introCap"></div>
-    <div id="introDots"></div>
-  </div>
-  <div id="missionBrief">
-    <h3 id="briefH"></h3>
-    <div id="briefTxt"></div>
-    <p class="main" id="briefM"></p>
-  </div>
-  <div class="go hidden" id="prologueGo">— CLICK TO WAKE UP —</div>
-</div>
-
-<!-- GOALS OVERLAY -->
-<div id="goals"><h3 id="goalsTitle">ESCAPE PLAN</h3><div id="goalsList"></div></div>
-
-<!-- PAUSE -->
-<div id="pause" class="layer">
-  <div class="panel">
-    <h2 id="pauseTitle">PAUSED</h2>
-    <div class="opt"><span id="optSensL">Mouse sensitivity</span><input type="range" id="sensR" min="20" max="200" value="100"></div>
-    <div class="opt"><span id="optVolL">Volume</span><input type="range" id="volR" min="0" max="100" value="80"></div>
-    <div class="opt"><span id="optFovL">Field of view</span><input type="range" id="fovR" min="60" max="95" value="72"></div>
-    <div id="ctrlList">
-      <div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div>
-      <div><b>Space</b> jump</div><div><b>C</b> crouch (sneak)</div><div><b>E</b> use / talk · <b>Q</b> kick / hold</div>
-      <div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div>
-      <div><b>LMB</b> attack / shove</div><div><b>V</b> 1st/3rd person</div><div><b>Q</b> ping marker</div>
-      <div><b>Tab</b> objectives</div><div><b>T</b> chat</div><div><b>Esc</b> pause</div>
+<!-- HOW TO PLAY -->
+<section class="band alt" id="how">
+  <div class="wrap two">
+    <div>
+      <h2>How to play</h2>
+      <ol class="loop">
+        <li><b>Start</b> — press <em>Play</em>, choose Nightmare or Daylight, solo or co-op.</li>
+        <li><b>Intro</b> — a short comic sets up the night (skippable).</li>
+        <li><b>Learn as you go</b> — the panel top-left always shows the current step, where it is and which key to press. Hold <kbd>Tab</kbd> for the full plan.</li>
+        <li><b>Survive</b> — scavenge, sneak, fight, back-track. Three retries per run.</li>
+        <li><b>Win or lose</b> — reach the helicopter, or the building keeps you. Restart from the menu (solo runs auto-save).</li>
+      </ol>
     </div>
-    <div style="margin-top:20px;text-align:center">
-      <button class="btn" id="btnResume">Resume</button>
-      <button class="btn" id="btnQuit">Quit to menu</button>
+    <div>
+      <table class="keys">
+        <tr><td><kbd>W A S D</kbd></td><td>Move · <kbd>Shift</kbd> sprint (loud) · <kbd>C</kbd> sneak</td></tr>
+        <tr><td><kbd>Mouse</kbd></td><td>Look · <kbd>LMB</kbd> attack (hold for full-auto)</td></tr>
+        <tr><td><kbd>E</kbd></td><td>Take · open · read · use · talk</td></tr>
+        <tr><td><kbd>Q</kbd></td><td>Tap to kick boards · hold to pry, pull a breaker, light the flare</td></tr>
+        <tr><td><kbd>F</kbd> <kbd>G</kbd> <kbd>H</kbd></td><td>Flashlight · throw a flare · medkit</td></tr>
+        <tr><td><kbd>1</kbd> <kbd>2</kbd></td><td>Crowbar · SMG</td></tr>
+        <tr><td><kbd>Space</kbd></td><td>Jump</td></tr>
+      </table>
+      <p class="quiet small">Best in Chrome or Edge on a laptop/desktop. Click the game once to capture the mouse. Co-op uses peer-to-peer WebRTC — strict school networks may block it (a phone hotspot fixes that).</p>
     </div>
   </div>
-</div>
+</section>
 
-<!-- CCTV -->
-<div id="cctv" class="layer">
-  <div id="cctvTop">
-    <button class="btn small" id="camPrev">◀</button>
-    <div id="cctvLbl">CAM 01 — FLOOR 1</div>
-    <button class="btn small" id="camNext">▶</button>
-  </div>
-  <canvas id="cctvC" width="880" height="495"></canvas>
-  <div id="cctvHint">◀ ▶ / A D — switch camera · [E] or [Esc] — leave terminal</div>
-  <button class="btn hidden release" id="shutterBtn">RELEASE FLOOR 3 SHUTTER</button>
-  <div id="cctvLog"><div class="t" id="cctvLogTxt"></div></div>
-</div>
-
-<!-- NOTE -->
-<div id="note" class="layer"><div class="paper"><h3 id="noteTitle"></h3><div id="noteBody"></div>
-  <div class="close" id="noteClose">[E] / [ESC] put it down</div></div></div>
-
-<!-- JI-EUN: THE CHOICE -->
-<div id="choice" class="layer">
-  <div class="box">
-    <div id="choiceWarn">⚠ DECIDE NOW</div>
-    <div id="choiceQ"></div>
-    <div id="choiceBar"><div id="choiceFill"></div><span id="choiceTime">7s</span></div>
-    <div class="btns">
-      <button class="cbtn trust" id="choiceTrust"></button>
-      <button class="cbtn kill" id="choiceKill"></button>
+<!-- FEEDBACK -->
+<section class="band feedback" id="feedback">
+  <div class="wrap center">
+    <h2>Played it? Tell us.</h2>
+    <p>We're collecting feedback for the next build — what scared you, where you got stuck, what felt unfair.</p>
+    <div class="cta center">
+      <a class="btn primary" href="https://github.com/bryan273/rooftop-escape/issues/new?labels=feedback&title=Feedback%3A%20&body=**Mode%20(Nightmare%2FDaylight)%3A**%20%0A**How%20far%20did%20you%20get%3A**%20%0A**Best%20moment%3A**%20%0A**Most%20frustrating%20moment%3A**%20%0A**Bugs%3A**%20" target="_blank" rel="noopener">Leave feedback on GitHub</a>
+      <a class="btn ghost" href="play.html">Play again</a>
     </div>
+    <p class="quiet small">Or scan the poster QR code and send us a message in the class WeChat group.</p>
   </div>
-</div>
-<button id="giveMed">💉 GIVE JI-EUN A MEDKIT</button>
+</section>
 
-<!-- CHAPTER COMICS -->
-<div id="chapter" class="layer">
-  <div class="wrap" id="chWrap">
-    <button class="btn small" id="chSkip">SKIP ▶</button>
-    <canvas id="chCv" width="960" height="540"></canvas>
+<!-- TEAM -->
+<section class="band alt" id="team">
+  <div class="wrap">
+    <h2>Team Rooftop Escape</h2>
+    <p class="sub">AI + Innovation Design Capstone · Week 1 hackathon · Open FIESTA, Tsinghua SIGS. Built with coding agents on one shared repository, split by feature ownership.</p>
+    <div class="grid team">
+      <article><h3>Bryan Tjandra</h3><p class="role">Core gameplay &amp; systems</p><p>Engine, building generation, stairs &amp; physics, mission chain, combat, co-op netcode, tests, i18n.</p></article>
+      <article><h3>Phan Ngoc Anh</h3><p class="role">Experience, UI &amp; story</p><p>Survival-horror overhaul, the six-floor story, chapter comics, mission window, respawn flow.</p></article>
+      <article><h3>侯嘉琪</h3><p class="role">Audio</p><p>Recorded sound effects, the heartbeat and tension system, helicopter and thunder.</p></article>
+    </div>
+    <p class="links">
+      <a href="https://github.com/bryan273/rooftop-escape/blob/main/docs/PROJECT.md">📄 Project document</a>
+      <a href="poster.html">🖼️ Poster</a>
+      <a href="https://github.com/bryan273/rooftop-escape">💻 Source on GitHub</a>
+    </p>
   </div>
-  <div id="chTitle"></div>
-  <div id="chCap"></div>
-  <div id="chDots"></div>
-</div>
+</section>
 
-<!-- DEATH -->
-<div id="death" class="layer">
-  <h1>YOU DIED</h1>
-  <p id="deathTxt">The building keeps your bones.</p>
-  <p id="respawnTxt" style="color:var(--amber)"></p>
-  <button class="btn hidden" id="btnRespawn">RESPAWN NOW</button>
-  <button class="btn hidden" id="btnDeathMenu">Quit to menu</button>
-</div>
+<footer>
+  <p>Fan-made, non-commercial. Inspired by <em>All of Us Are Dead</em>. Three.js · Web Audio · PeerJS. Zombie voices CC0 (OpenGameArt), sound effects Mixkit free license.</p>
+</footer>
 
-<!-- VICTORY -->
-<div id="victory" class="layer">
-  <h1>EXTRACTED</h1>
-  <p style="color:#8fa8c8;letter-spacing:4px;margin-top:8px">The helicopter lifts away from Seowon High. You made it.</p>
-  <div class="stats" id="vicStats"></div>
-  <button class="btn" id="btnVicMenu">Back to menu</button>
-</div>
-
-<script src="js/vox.js"></script>
-<script type="module" src="js/game.js"></script>
 </body>
 </html>

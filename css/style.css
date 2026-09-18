@@ -233,3 +233,6 @@ h1,h2{font-family:"Arial Black","Segoe UI",sans-serif;letter-spacing:4px}
 .cbtn.kill{border-left:4px solid #e03030}.cbtn.kill:hover{background:#2a0f10}
 #giveMed{display:none;position:fixed;right:22px;bottom:92px;z-index:21;padding:9px 14px;background:rgba(10,30,18,.85);color:#bff5d2;border:1px solid #3ad488;font-family:inherit;font-size:13px;letter-spacing:1px;cursor:pointer}
 #giveMed:hover{background:rgba(20,60,36,.95)}
+
+#homeLink{position:absolute;top:16px;left:18px;font-size:13px;letter-spacing:2px;color:#9a938a;text-decoration:none;border-bottom:1px solid #444}
+#homeLink:hover{color:#fff;border-color:#fff}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rooftop Escape — Poster</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧟</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* A promotional poster, 1080 × 1528 (A-series ratio). Exported to poster.png. */
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1a1d;display:flex;justify-content:center;padding:24px;font-family:Inter,"Segoe UI",sans-serif}
+.poster{position:relative;width:1080px;height:1528px;overflow:hidden;background:#060607;color:#e8e4da;flex-shrink:0}
+.art{position:absolute;inset:0 0 auto;height:900px;background:url(assets/promo/hero.jpg) 50% 50%/auto 112% no-repeat}
+.art::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 60% at 52% 48%,#0000 30%,#060607cc 80%),
+  linear-gradient(180deg,#060607 0%,#06060700 18%,#06060700 60%,#060607 100%)}
+.grain{position:absolute;inset:0;opacity:.07;background-image:repeating-linear-gradient(0deg,#fff 0 1px,#0000 1px 3px)}
+.top{position:absolute;top:44px;left:60px;right:60px;display:flex;justify-content:space-between;font:600 17px/1 Oswald,sans-serif;letter-spacing:.3em;color:#ff4a4a}
+.top span:last-child{color:#cfc8bb}
+.title{position:absolute;left:0;right:0;top:700px;text-align:center}
+.title h1{font:700 176px/.86 Oswald,Impact,sans-serif;letter-spacing:.02em;color:#f1ede4;text-shadow:0 0 60px #c1272d88,0 6px 0 #000}
+.title h1 b{color:#d42a31;font-weight:700}
+.title p{margin-top:22px;font:500 38px/1 Oswald,sans-serif;letter-spacing:.14em}
+.title p em{color:#ff4a4a;font-style:normal}
+.hooks{position:absolute;left:60px;right:60px;top:1112px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.hooks div{border-top:3px solid #c1272d;padding-top:12px}
+.hooks b{display:block;font:700 25px/1.1 Oswald,sans-serif;letter-spacing:.04em}
+.hooks span{display:block;margin-top:6px;font-size:17px;line-height:1.4;color:#b8b1a5}
+.bottom{position:absolute;left:60px;right:60px;bottom:56px;display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.play b{display:block;font:700 42px/1 Oswald,sans-serif;letter-spacing:.06em;color:#fff}
+.play span{display:block;margin-top:10px;font:600 21px/1.3 Consolas,monospace;color:#3ad488}
+.play small{display:block;margin-top:12px;font-size:15px;color:#8f887e;letter-spacing:.04em}
+.badges{display:flex;gap:10px;margin-top:16px}
+.badges i{font-style:normal;font-size:14px;padding:5px 11px;border:1px solid #3a3a40;color:#cfc8bb}
+.qr{text-align:center}
+.qr img{width:176px;height:176px;border:8px solid #e8e4da;display:block}
+.qr span{display:block;margin-top:8px;font:600 14px/1 Oswald,sans-serif;letter-spacing:.2em;color:#cfc8bb}
+</style>
+</head>
+<body>
+<div class="poster" id="poster">
+  <div class="art"></div>
+  <div class="grain"></div>
+  <div class="top"><span>SEOWON HIGH · 23:47</span><span>AN OUTBREAK SURVIVAL GAME</span></div>
+  <div class="title">
+    <h1>ROOFTOP<br><b>ESCAPE</b></h1>
+    <p>SIX FLOORS. ONE HELICOPTER. <em>MIDNIGHT.</em></p>
+  </div>
+  <div class="hooks">
+    <div><b>NO STEP SKIPPED</b><span>24 locks, 6 floors, in order — through the halls they own.</span></div>
+    <div><b>7 SECONDS</b><span>She has the rooftop key. Is she bitten? Trust her — or don't.</span></div>
+    <div><b>HOLD THE ROOF</b><span>Light the flare. Survive 30 seconds in the circle.</span></div>
+  </div>
+  <div class="bottom">
+    <div class="play">
+      <b>PLAY FREE IN YOUR BROWSER</b>
+      <span>bryan273.github.io/rooftop-escape</span>
+      <div class="badges"><i>🧟 Nightmare</i><i>🤖 Daylight</i><i>👥 Co-op 2–4</i><i>EN · 中文</i></div>
+      <small>AIID Capstone · Open FIESTA, Tsinghua SIGS · 侯嘉琪 · Phan Ngoc Anh · Bryan Tjandra</small>
+    </div>
+    <div class="qr"><img src="assets/promo/qr.svg" alt="QR code to bryan273.github.io/rooftop-escape"><span>SCAN TO PLAY</span></div>
+  </div>
+</div>
+</body>
+</html>
