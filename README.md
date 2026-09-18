@@ -126,7 +126,7 @@ npm run test:coop                 # co-op world (4 tool sets)
 
 - The host's browser runs the world. Mission progress is shared by the whole squad.
 - Downed friends can be revived by **holding Q** next to them.
-- Connections are peer-to-peer (PeerJS/WebRTC). Very strict school or office networks may block them; a phone hotspot usually fixes that.
+- Connections are peer-to-peer (PeerJS/WebRTC). Very strict school or office networks, and VPN/proxy apps, can block them; a phone hotspot with the VPN off usually fixes that. The game tries for about 25 seconds, then tells you what to check.
 
 ## 🌍 Deploy (GitHub Pages)
 

@@ -81,7 +81,7 @@ en:{
  lb_hostnote:'Host: keep this tab open and in front — the whole building runs on your computer.',
  msg_creating:'Creating room…',t_midjoin:'Joining an escape in progress…',t_midkit:'Starter kit: flashlight, crowbar and a few 9mm rounds.',lb_squad:'SURVIVORS',
  msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
- msg_slow:'Still connecting… PeerJS needs a few seconds.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
+ msg_slow:'Still connecting… some networks take up to 15 seconds.',msg_retry:'No answer yet — trying again…',msg_noroom:'Room {c} not found. Check the code, and keep the host\'s lobby open.',msg_p2pfail:'Couldn\'t reach the host. Try: both on the same Wi-Fi or a phone hotspot, turn off any VPN/proxy, then join again.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
  /* ---- HUD ---- */
  hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR [1]',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'SMG [2]',
  floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',fl_roof:'ROOF',fl_floor:'F{n}',
@@ -368,7 +368,7 @@ zh:{
  lb_hostnote:'房主：请保持此页面打开并在前台——整栋楼都在你的电脑上运行。',
  msg_creating:'正在创建房间…',t_midjoin:'正在加入进行中的逃生…',t_midkit:'新手装备：手电筒、撬棍和几发9毫米子弹。',lb_squad:'幸存者',
  msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
- msg_slow:'仍在连接…PeerJS 需要几秒钟。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
+ msg_slow:'仍在连接…部分网络需要最多 15 秒。',msg_retry:'暂无响应——正在重试…',msg_noroom:'找不到房间 {c}。请检查代码，并让房主保持大厅打开。',msg_p2pfail:'无法连接到房主。请尝试：连同一个 Wi-Fi 或手机热点，关闭 VPN/代理，然后重新加入。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
  hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍 [1]',hud_flare:'照明弹 [G]',hud_med:'医疗包 [H]',hud_cards:'钥匙卡',hud_ammo:'冲锋枪 [2]',
  floor:'第 {n} 层',floor0:'地面 — 大厅',roof:'天台 — 撤离点',fl_ground:'地面',fl_roof:'天台',fl_floor:'{n}层',
  wp_roof:'⬆ 楼梯间——上到天台',wp_up:'⬆ 楼梯间——走廊东端 · 上到{f}',wp_down:'⬇ 楼梯间——走廊东端 · 下到{f}',
@@ -5449,6 +5449,14 @@ function netEv(fn){NETAPPLY=true;try{fn();}finally{NETAPPLY=false;}}
 function netSend(msg){if(NETAPPLY)return;if(net.con&&net.con.open)net.con.send(msg);}
 function netBroadcast(msg){if(NETAPPLY)return;for(const c of net.conns)if(c.open)c.send(msg);}
 const net={peer:null,con:null,conns:[],remotes:new Map(),code:null,ready:false,posT:0,snapT:0,cid:1};
+// STUN servers reachable both inside and outside China (Google's alone is blocked there, so peers
+// on different networks never found a route and the join just hung). PeerJS's TURN kept as a last resort.
+const PEER_OPTS={debug:0,config:{iceServers:[
+  {urls:['stun:stun.cloudflare.com:3478','stun:stun.l.google.com:19302']},
+  {urls:['stun:stun.miwifi.com:3478','stun:stun.chat.bilibili.com:3478']},
+  {urls:'turn:eu-0.turn.peerjs.com:3478',username:'peerjs',credential:'peerjsp'},
+]}};
+const JOIN_TRY_MS=12000;
 
 function genCode(){const cs='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=cs[irand(0,cs.length-1)];return s;}
 function menuMsg(t){$('menuMsg').textContent=t;}
@@ -5457,7 +5465,7 @@ function hostRoom(){
   const code=genCode();
   G.mp=true;G.host=true;G.myId='H';G.myName=getName();
   menuMsg(T('msg_creating'));
-  net.peer=new Peer('zfesc-'+code,{debug:0});
+  net.peer=new Peer('zfesc-'+code,PEER_OPTS);
   net.peer.on('open',()=>{net.ready=true;net.code=code;$('lobbyCode').textContent=code;showLobby();});
   net.peer.on('error',e=>{
     if(e.type==='unavailable-id'){try{net.peer.destroy();}catch(_){ } hostRoom();}
@@ -5473,18 +5481,31 @@ function hostRoom(){
     });
   });
 }
-function joinRoom(code){
-  menuMsg(T('msg_connecting',{c:code}));
-  net.peer=new Peer({debug:0});
-  net.peer.on('open',()=>{
-    const con=net.peer.connect('zfesc-'+code,{reliable:true});
+function joinRoom(code,attempt=1){
+  if(net.peer){try{net.peer.destroy();}catch(_){}}
+  net.ready=false;net.con=null;
+  menuMsg(T(attempt>1?'msg_retry':'msg_connecting',{c:code}));
+  const peer=net.peer=new Peer(PEER_OPTS);
+  const live=()=>net.peer===peer;   // ignore events from an attempt we already gave up on
+  const slow=setTimeout(()=>{if(live()&&!net.ready)menuMsg(T('msg_slow'));},6000);
+  const give=setTimeout(()=>{       // no route found: retry once with a fresh peer, then explain
+    if(!live()||net.ready)return;
+    if(attempt<2)joinRoom(code,attempt+1);
+    else{menuMsg(T('msg_p2pfail'));try{peer.destroy();}catch(_){}}
+  },JOIN_TRY_MS);
+  const stop=()=>{clearTimeout(slow);clearTimeout(give);};
+  peer.on('open',()=>{
+    if(!live())return;
+    const con=peer.connect('zfesc-'+code,{reliable:true});
     net.con=con;
-    con.on('open',()=>{con.send({t:'hello',name:G.myName});menuMsg(T('msg_connected'));});
-    con.on('data',d=>onData(d,con));
-    con.on('close',()=>{if(G.mode!=='playing'){menuMsg(T('msg_hostclosed'));}else{toast(T('t_disc'));location.reload();}});
-    setTimeout(()=>{if(!net.ready)menuMsg(T('msg_slow'));},6000);
+    con.on('open',()=>{if(!live())return;con.send({t:'hello',name:G.myName});menuMsg(T('msg_connected'));});
+    con.on('data',d=>{if(d&&d.t==='welcome')stop();onData(d,con);});
+    con.on('close',()=>{if(!live())return;if(G.mode!=='playing'){menuMsg(T('msg_hostclosed'));}else{toast(T('t_disc'));location.reload();}});
   });
-  net.peer.on('error',e=>menuMsg('Network error: '+e.type));
+  peer.on('error',e=>{
+    if(!live())return;stop();
+    menuMsg(e.type==='peer-unavailable'?T('msg_noroom',{c:code}):T('msg_neterr',{e:e.type}));
+  });
 }
 function lobbyNames(){return [G.myName,...[...net.remotes.values()].map(r=>r.name)];}
 function onData(d,con){
