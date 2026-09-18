@@ -231,6 +231,20 @@ if(isMobileDevice()){
 </div>
 <button id="giveMed">💉 GIVE JI-EUN A MEDKIT</button>
 
+<!-- JI-EUN: THE SUSPICION (big when you find her, then a side panel that fills with clues) -->
+<div id="suspect">
+  <div id="susH">⚠ SUSPICIOUS SURVIVOR</div>
+  <div id="susWho"></div>
+  <ul id="susClues"></ul>
+  <div class="susMeter"><span id="susMeterLbl">SUSPICION</span><div id="susBar"><div id="susFill"></div></div></div>
+  <div id="susTell"></div>
+</div>
+<!-- JI-EUN: THE TRUTH -->
+<div id="verdict"><div class="vbox"><div id="vdH"></div><div id="vdP"></div><div id="vdCard"></div></div></div>
+
+<!-- THE ENDING -->
+<div id="cine"><div class="lb top"></div><div class="lb bot"></div><div id="lidT"></div><div id="lidB"></div><div id="cineFade"></div><div id="cineSkip"></div></div>
+
 <!-- CHAPTER COMICS -->
 <div id="chapter" class="layer">
   <div class="wrap" id="chWrap">
@@ -253,8 +267,9 @@ if(isMobileDevice()){
 
 <!-- VICTORY -->
 <div id="victory" class="layer">
-  <h1>EXTRACTED</h1>
-  <p style="color:#8fa8c8;letter-spacing:4px;margin-top:8px">The helicopter lifts away from Seowon High. You made it.</p>
+  <div class="vicTrophy">🏆</div>
+  <h1 id="vicH">CONGRATULATIONS</h1>
+  <p id="vicP" style="color:#8fa8c8;letter-spacing:4px;margin-top:8px">YOU SURVIVED THE LAST NIGHT AT SEOWON HIGH</p>
   <div class="stats" id="vicStats"></div>
   <button class="btn" id="btnVicMenu">Back to menu</button>
 </div>

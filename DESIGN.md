@@ -60,7 +60,7 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 | 15 | Reset the utility breaker | Floor 4 ELECTRICAL | hold Q |
 | 16 | Open the Floor 4 gate (blue) | Stairwell | E |
 | 17 | **Find Ji-eun** (no marker; her noises are spatial) | Floor 5, safe room | — |
-| 18 | Talk to Ji-eun → **the choice** (7 s): trust or kill | Safe room | E ×4, then 1 / 2 |
+| 18 | Talk to Ji-eun (suspicion panel fills with clues) → **the choice** (7 s): trust or kill → verdict | Safe room | E ×4, then 1 / 2 |
 | 19 | Rooftop key (yellow) | At her feet | E |
 | 20 | Open the Floor 5 gate (breaker released it) | Stairwell | E |
 | 21 | Open the rooftop gate (yellow) | Floor 6 | E |
@@ -91,7 +91,7 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 |---|---|---|
 | Shambler | slow patrol | 3 / 14 |
 | Runner | fresh student, fast | 2 / 18 |
-| Crawler | ankle lunges (Floor 4+) | 2 / 12 |
+| Crawler | flat on its belly, slow; short ankle lunge (Floor 4+) | 2 / 12 |
 | Screamer | alerts the floor (Floor 3+) | 2 / 10 |
 | Brute | tank (Floor 5+) | 8 / 30 |
 | Mr. Park | rises from the floor after turning | 6 / 16 |
@@ -117,7 +117,8 @@ Supplies spawn only on open floor, never inside walls, desks, beds or lockers.
 ## 9. Survivors
 
 - **Mr. Park** (biology teacher): bitten, lying in the Floor 3 hall; never moves. After the talk his blue card and a medkit lie beside him. Taking the card makes him convulse, say "RUN", and rise as a zombie.
-- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. She is written as a **threat, not a rescue**: blood on her sleeve, a bandaged forearm she keeps hiding, four evasive lines. Nothing before the choice says whether she is bitten.
+- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. Finding her pops a big **SUSPICIOUS SURVIVOR** panel (then it docks on the right): each of her four lines adds a clue (blood, shaking, hidden bandage, a wound that "burns" — and finally "her eyes are clear") and moves a suspicion meter; the heartbeat rises until you decide. After the choice a verdict fills the screen: **YOU WERE RIGHT — Ji-eun is human** / **WRONG CHOICE — you killed your friend** / **TOO LATE**. The yellow card drops either way.
+- **Ji-eun as a companion:** chooses her own spot beside or behind you, waits and scans the dark, runs to catch up when she falls behind or loses sight of you, backs off from close zombies while shooting, and speaks short lines (guilt about Min-ho, fear, thanks for a medkit).
   - **The choice** (`startJieunChoice`): after her last line the game locks input, frees the mouse and shows two buttons with a **7-second bar** — *[1] trust* / *[2] kill* — over a flashing red warning, one alert beep per second (faster under 3 s) and frightened breathing.
   - **Trust:** she joins at 45/160 HP — slower, shoots about half as often, bent over. She only self-heals to 60 %; a **medkit** ([E] beside her, or the on-screen button) puts her back on her feet (+80).
   - **Kill:** she drops instantly, and only then do you see her arm: a cut from a door, no bite. The yellow card drops either way.
@@ -136,13 +137,13 @@ Supplies spawn only on open floor, never inside walls, desks, beds or lockers.
 
 **Characters** are built in code (`buildHumanoid`): capsule torso on a waist pivot, sphere head, tapered limbs with elbow/knee joints, hands and shoes. The infected wear the school's **green uniform** (three blood-soaked variants, girls get a plaid skirt and long hair), have a painted dead face on the front of the head sphere, glowing sunken eyes, a slack jaw, and **2–4 randomly placed wounds** (bite at the neck, chest, side, forehead, shoulder, forearm with bone showing, thigh) that keep dripping blood onto the floor. Mr. Park keeps his suit and tie; Ji-eun wears a cardigan, plaid skirt and knee socks with blood on the sleeve.
 
-**Movement** (`animateBody`): every body is broken in its own way — a warped stride phase (hurry on the good leg, stall on the bad), a locked knee and a turned-in dragging foot, the body dipping and rolling onto the bad leg, a twisting spine, a head lolling to one side, sudden neck/spine jerks, and often one arm hanging dead. Runners flail, brutes are heavy and slow, crawlers drag a leg behind them.
+**Movement** (`animateBody`): every body is broken in its own way — a warped stride phase (hurry on the good leg, stall on the bad), a locked knee and a turned-in dragging foot, the body dipping and rolling onto the bad leg, a twisting spine, a head lolling to one side, sudden neck/spine jerks, and often one arm hanging dead. Runners flail, brutes are heavy and slow, crawlers lie flat and haul themselves on their forearms. Each zombie also rolls a pace (slow 0.8× / normal / fast 1.18×). Footsteps are tied to distance actually covered, so a blocked or knocking zombie makes no steps. Zombies never press into a closed door (they stay a body-width back).
 
 Three.js r160 (CDN importmap), ACES tonemapping, fog, canvas textures, view-model (crowbar / SMG / flashlight), particle bursts, falling planks, flare smoke. **Fixed light inventory per floor** (lights are dimmed, never removed) so shaders never recompile on stairs. Only the current floor ±1 renders and simulates. Resolution drops automatically at low FPS.
 
 ## 12. UI
 
-Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line + "HOW" panel with keys, threat ring, waypoint or "search the rooms" hint, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV · notes · chapter comics · death/respawn · victory.
+Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line + "HOW" panel with keys, threat ring, waypoint or "search the rooms" hint, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV · notes · chapter comics · death/respawn · ending cutscene (ladder pickup, lift-off, eyes closing) · winner screen.
 
 **Saves (solo):** every 5 s to localStorage, format v3 (step key, flags, inventory, gates, boards, items). The roof is replayed from its start after a continue.
 

@@ -48,7 +48,7 @@ Design questions we set ourselves:
 | Start | `play.html` menu: mode (Nightmare/Daylight), language, solo / host / join, continue a saved run |
 | Onboarding | A skippable intro comic with its own soundscape, then a mission brief. In game, the top-left panel always shows the current step, **where** it is and **which key** to press; `[Tab]` shows the whole plan |
 | Gameplay | Explore → find the item/lock → solve it → the next step unlocks → climb (see §5) |
-| Win / Lose | Win: helicopter extraction screen. Lose: death screen with 3 retries per run (respawn at the highest floor reached); out of retries = run over |
+| Win / Lose | Win: a pickup cutscene (ladder, lift-off, the hero falls asleep) then a winner screen with time, kills, times down and what happened to Ji-eun. Lose: death screen with 3 retries per run (respawn at the highest floor reached); out of retries = run over |
 | Restart | Respawn button, "quit to menu", or continue from the auto-save (solo) |
 
 **Minute-to-minute loop:** read the mission panel → scout (threat ring, blood around doors, sounds) → sneak or fight → take the item / open the lock → climb.
@@ -60,7 +60,7 @@ Design questions we set ourselves:
 - **Threat ring.** 24 segments show where infected are moving; red means one is chasing you.
 - **Stealth and senses.** Zombies see in a cone (crouching halves it, a flashlight extends it) and hear sprinting, doors, kicks and gunshots at different ranges.
 - **Resources.** Flashlight battery, flares (lure enemies), medkits, a crowbar (double damage from behind), a full-auto SMG with limited ammo and dedicated ammo rooms.
-- **Survivors.** Mr. Park is bitten and lying in the hall: talk to him, take his keycard, then he turns and you must put him down. Ji-eun hides in a safe room with blood on her sleeve; after the talk you get **7 seconds** to trust or kill her (see §6).
+- **Survivors.** Mr. Park is bitten and lying in the hall: talk to him, take his keycard, then he turns and you must put him down. Ji-eun hides in a safe room with blood on her sleeve. A big **SUSPICIOUS SURVIVOR** warning appears when you find her; each line she says adds a clue and moves a suspicion meter while your heartbeat speeds up. After the talk you get **7 seconds** to trust or kill her, and a verdict screen tells you the truth (she is human). Saved, she acts as an AI companion: keeps you in sight, picks her own spot, backs away from zombies while shooting, and talks (see §6).
 - **Rooftop finale.** Light the flare, then hold the landing circle for 30 s while zombies climb onto the roof. Leaving the circle makes the clock run backwards.
 - **Infected that move like broken bodies.** Each zombie has its own limp side, a locked knee and a dragging foot, a lolling head, sudden neck jerks and sometimes a dead arm. Wounds keep bleeding onto the floor.
 
@@ -69,7 +69,7 @@ Design questions we set ourselves:
 | Decision | Why | Trade-off |
 |---|---|---|
 | **Strict order, no skipping** | Early playtests jumped from step 7 to 13 when a later item happened to be found first, which broke the story | Less freedom; we compensate with clear "where + which key" hints |
-| **Ji-eun is ambiguous until after the choice** | A choice only matters if you can't read the answer. Her lines are evasive, her name has no "survivor" tag, the truth is revealed only after you kill her | Some players will kill an innocent — that is the point |
+| **Ji-eun is ambiguous until after the choice** | A choice only matters if you can't read the answer. Clues point both ways (blood, a hidden wound that "burns" — but clear eyes); the truth is shown right after the choice | Some players will kill an innocent — that is the point, and the verdict screen makes it land |
 | **7-second timer, and not choosing is a choice** | A timer turns a menu into a panic. Timing out lets the horde into the safe room | Needs strong audio/visual urgency (flashing warning, beeps, breathing) |
 | **Trusting her costs you** | She joins exhausted (45/160 HP) and needs your medkit, so "trust" is a resource decision, not a free ally | — |
 | **One key per verb** | Players asked for consistent controls; `E` for "use", `Q` for "work", `Space` only jumps | Q also lost its old co-op ping role (moved to `Z`) |

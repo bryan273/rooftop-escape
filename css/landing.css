@@ -97,3 +97,5 @@ footer{padding:30px 20px 40px;text-align:center;color:#6f6a62;font-size:13px}
 @keyframes mnFlash{50%{background:#4a3510}}
 body.isMobile .nav{position:relative;background:#08080a}
 body.isMobile .hero{padding-top:40px;min-height:auto}
+.grid article .term{display:inline-block;margin:0 0 8px;padding:2px 8px;border:1px solid #c1272d88;background:#c1272d18;color:#ff9a9a;font:600 11px/1.5 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.grid article b{color:#fff}

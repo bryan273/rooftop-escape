@@ -603,7 +603,11 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     step('Ji-eun joins you ('+CHOICE+'), weak',je.follow&&je.hp<=50,`follow=${je.follow} hp=${je.hp}`);
     // give her a medkit
     INV.medkit=Math.max(INV.medkit,1);
-    const jp=je.parts.g.position;tp(jp.x-0.9,jp.z+0.3,5,jp.x,jp.z);   // the key lies on her other side
+    // she walks around now (and may stand next to loot): meet her in a clear stretch of the corridor
+    const jp=je.parts.g.position;
+    const spot=[[-12,0],[-6,0],[4,0],[-18,0]].find(([x,z])=>!world.items.some(i=>!i.taken&&i.f===5&&Math.hypot(i.g.position.x-x,i.g.position.z-z)<3))||[-12,0];
+    jp.set(spot[0],5*CFG.FH,spot[1]);je.goal={x:spot[0],z:spot[1]};je.goalT=30;
+    tp(spot[0]-1.0,spot[1],5,spot[0],spot[1]);
     const mk0=INV.medkit,hp0=je.hp;
     const lbl=(g.interactTargets().e||{}).label;
     tap('KeyE');

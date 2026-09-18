@@ -67,7 +67,8 @@ en:{
  mode_scary:'NIGHTMARE',mode_lite:'DAYLIGHT DRILL',
  mode_scary_d:'Dark halls · zombies · blood · jump scares · heartbeat',
  mode_lite_d:'Bright & friendly · silly helper-bots · paint splats · zero scares',
- howto:'<b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> — 6 floors — light the <b>signal flare</b> and survive <b>30 seconds</b> in the landing circle until the helicopter picks you up.<br>'+
+ howto:'<div class="hl"><b>What makes it special:</b> 🔀 <b>Branching story</b> — your 7-second choice about Ji-eun changes what happens next · 🧠 <b>AI companion</b> who fights, retreats and talks · 🔗 <b>24-step mission chain</b> · 🎧 <b>Heartbeat tension system</b> · 🚁 <b>Last stand</b> + cinematic ending.</div>'+
+  '<b>Goal:</b> climb from the entrance hall to the <b>rooftop</b> — 6 floors — light the <b>signal flare</b> and survive <b>30 seconds</b> in the landing circle until the helicopter picks you up.<br>'+
   '<b>Missions are a chain.</b> Every step must be finished in order before the next one unlocks — the panel top-left always shows the current step and which key to use. Hold <b>[Tab]</b> for the whole plan.<br>'+
   '<b>Controls:</b> <b>[E]</b> take items · open doors · read notes · use terminals · swipe keycards · <b>talk</b> to survivors (again for the next line). '+
   '<b>[Q]</b> for physical work: <b>tap</b> it to kick boards in, <b>hold</b> it to pry boards, pull breakers, light the flare or revive a friend (you can let go and come back — progress is kept). <b>[Space]</b> only jumps.<br>'+
@@ -102,6 +103,43 @@ en:{
  down_help:'No retries left — a friend can HOLD [Q] next to you to help you up. Nobody coming? The run ends here.',
  death_restart:'The run is over. You will start again from the beginning.',
  lives_lbl:'RETRIES',btn_respawn:'RESPAWN NOW — [E]',death_left:'Respawning. Retries left after this: {n}',death_last:'This was your last retry — you get ONE more life. Die again and the run ends.',death_out:'No retries left. The tower keeps you.',skip:'SKIP ▶',
+ /* ---- Ji-eun: suspicion, verdict, her voice ---- */
+ sus_h:"⚠ SUSPICIOUS SURVIVOR",sus_hl:"🤔 SUSPICIOUS?",
+ sus_who:"JI-EUN · alone on the infected floor",sus_whol:"JI-EUN · alone on the bot floor",
+ sus_tell:"She might be <b>INFECTED</b>. Watch her closely while you talk <b>[E]</b>. When the talk ends you have <b>7 seconds</b> to decide: <b>TRUST</b> her or <b>KILL</b> her.",
+ sus_telll:"Is she secretly a <b>bot</b>? Talk to her <b>[E]</b> and look for clues. Then you have <b>7 seconds</b> to decide.",
+ sus_meter:"SUSPICION",
+ sus_c0:"🩸 Blood on her sleeve, her hands, her cardigan",sus_c1:"😰 Shaking and sweating — won’t let you near",
+ sus_c2:"🩹 Hides a bandage on her left arm",sus_c3:"🔥 Says the wound “burns” — like the bitten ones did",
+ sus_c4:"👁 …but her eyes are clear, and she still sounds like herself",
+ sus_c0l:"🎨 Paint splats on her sleeve",sus_c1l:"🙈 Won’t let you come close",sus_c2l:"💡 Something on her arm… blinking?",
+ sus_c3l:"🤖 Says “beep” by accident",sus_c4l:"👁 …but she laughs like a real person",
+ vd_trust_h:"YOU WERE RIGHT",vd_trust:"Ji-eun is <b>HUMAN</b>. The blood was Min-ho’s. The wound is a cut from a door.",
+ vd_kill_h:"WRONG CHOICE",vd_kill:"Ji-eun was <b>HUMAN</b>. You killed your friend.<br>The wound was only a cut from a door.",
+ vd_time_h:"TOO LATE",vd_time:"Ji-eun is <b>HUMAN</b> — but you hesitated, and they heard you. <b>Fight!</b>",
+ vd_trust_l:"Ji-eun is a <b>real person</b>! Team-up time.",vd_kill_hl:"WRONG CALL",vd_kill_l:"Ji-eun was a <b>real person</b>. She walks home, a bit sad.",
+ vd_card:"The <b style=\"color:#ffd23f\">YELLOW KEYCARD</b> is on the floor beside her — take it <b>[E]</b>.",
+ jb_1:"“…Thank you for not leaving me in there.”",jb_2:"“I keep thinking about Min-ho. I held the door shut. I just… held it.”",
+ jb_3:"“If I start acting weird… you do it. Okay? Promise me.”",jb_4:"“My hands won’t stop shaking. Keep going — I’m right behind you.”",
+ jb_5:"“We’re really going to make it to the roof, right? Say yes.”",jb_see:"“Behind you— no, THERE!”",
+ jb_hurt:"“I’m okay… I’m okay. Keep moving.”",jb_med:"“…Thank you. Really. I thought you’d let me die.”",
+ jbl_1:"“Thanks for teaming up!”",jbl_2:"“These bots are SO clingy.”",jbl_3:"“If I start beeping, that’s a joke. Probably.”",
+ jbl_4:"“Onward! Roof or bust!”",jbl_5:"“Snacks after this. Big snacks.”",jbl_see:"“Bot incoming!”",jbl_hurt:"“Oof. Still fine!”",jbl_med:"“Thanks! Good as new.”",
+ sg_elev:"ELEVATOR",
+ /* ---- the ending ---- */
+ end_1:"The helicopter drops out of the dark, rotors screaming. A rope ladder hits the roof.",
+ end_2:"Hands grab your wrists and haul you up. The roof falls away beneath your feet.",
+ end_3j:"Ji-eun climbs in after you. She doesn’t let go of your sleeve.",
+ end_3k:"The seat next to you stays empty. You keep seeing Ji-eun’s face.",
+ end_3n:"Below you, Seowon High keeps screaming. Smaller. Smaller.",
+ end_4:"The rotor hum is the safest sound in the world. You haven’t slept since… you can’t remember.",
+ end_5:"Your eyes close.",
+ end_1l:"The rescue drone-copter whirs down out of the sky. A friendly rope ladder unrolls.",
+ end_2l:"Up you go! The bots below wave their little arms.",
+ end_4l:"The seat is soft. The hum is cozy. What a night.",end_5l:"Zzz…",
+ end_skip:"[Space] skip",
+ vic_h:"CONGRATULATIONS",vic_sub:"YOU SURVIVED THE LAST NIGHT AT SEOWON HIGH",vic_subl:"YOU ESCAPED THE BOT-POCALYPSE",
+ st_je:"Ji-eun: ",je_saved:"saved — she escaped with you",je_killed:"killed by you (she was human)",je_turned:"lost — she turned",je_left:"left behind",je_out:"went home safe",
  vic:'EXTRACTED',vic_p:'The helicopter lifts away from Seowon High. You made it.',vic_pl:'The rescue drone whisks you away from Seowon High. The bots wave goodbye. 🤖',
  st_time:'Time: ',st_kills:'Zombies put down: ',st_killsl:'Bots bounced: ',st_down:'Times down: ',st_squad:'Squad: {n} survivors',st_solo:'Solo escape',
  ring_a:'🟠 A faint arc — something is moving on that side. Listen. Guess.',
@@ -254,9 +292,9 @@ en:{
  park_tag:'MR. PARK',
  npc2_name:'Ji-eun',
  npc2_1:'Don\'t— don\'t come any closer. …I\'m fine. I\'m FINE. Stop staring at me.',
- npc2_2:'The blood? It\'s not mine. It\'s Min-ho\'s. He was… he isn\'t Min-ho anymore. <i>(She pulls her sleeve down over the bandage.)</i>',
- npc2_3:'My arm? I cut it on the door. That\'s all. It just… burns a little. It\'s nothing.',
- npc2_4:'I have the ROOFTOP key. Take me with you. Please. …Or don\'t. I can see what you\'re thinking.',
+ npc2_2:'The blood? It\'s not mine. It\'s Min-ho\'s. My lab partner. I held the door and he— he isn\'t Min-ho anymore. <i>(She pulls her sleeve down over the bandage.)</i>',
+ npc2_3:'My arm? I cut it on the door when I ran. It just… burns a little. Everyone who got bitten said it burns. …I know how that sounds.',
+ npc2_4:'I\'ve been sitting here an hour, waiting to change. I don\'t feel different. I just feel scared. …I have the ROOFTOP key. Please don\'t leave me here.',
  ch_warn:'⚠ DECIDE NOW',ch_q:'Is Ji-eun infected? Take her with you — or end it before it\'s too late.',
  ch_trust:'[1] TRUST HER',ch_trust_d:'take her with you',ch_kill:'[2] KILL HER',ch_kill_d:'don\'t take the risk',
  ch_q_l:'Is Ji-eun a bot in disguise? Team up — or send her home?',ch_kill_l:'[2] SEND HER HOME',ch_kill_dl:'don\'t take the risk',
@@ -268,7 +306,7 @@ en:{
  t_jieun_weak:'Ji-eun is exhausted and hurt — stand next to her and press [E] to give her a medkit.',
  l_givemed:'Give Ji-eun a medkit (+80)',t_gavemed:'Ji-eun is patched up — she can keep up now.',
  btn_givemed:'💉 GIVE JI-EUN A MEDKIT',t_givemed_far:'Get next to Ji-eun first.',
- t_jieun_join:'Ji-eun joins you — she follows you and shoots anything that gets close. Keep her alive: zombies go for her too.',
+ t_jieun_join:'Ji-eun joins you — she stays near you, keeps you in sight and shoots anything that gets close. Keep her alive: zombies go for her too.',
  t_jieun_hurt:'Ji-eun is badly hurt — cover her!',
  jieun_dying:'<b>Ji-eun:</b> “It bit me… I’m sorry… r-run…”',
  jieun_turn:'<i>Ji-eun gets up. Her eyes are wrong.</i> Put her down.',
@@ -354,7 +392,8 @@ zh:{
  mode_scary:'噩梦模式',mode_lite:'日间演习',
  mode_scary_d:'黑暗走廊 · 丧尸 · 血迹 · 惊吓场面 · 心跳音效',
  mode_lite_d:'明亮友好 · 呆萌机器人 · 颜料泼溅 · 零惊吓',
- howto:'<b>目标：</b>从大厅爬到<b>天台</b>（共6层），点燃<b>信号照明弹</b>，在降落圈里坚持<b>30秒</b>，等直升机接你。<br>'+
+ howto:'<div class="hl"><b>特色：</b>🔀 <b>分支剧情</b>——你对智恩的7秒选择会改变之后的故事 · 🧠 <b>AI同伴</b>会战斗、后撤、说话 · 🔗 <b>24步任务链</b> · 🎧 <b>心跳紧张系统</b> · 🚁 <b>天台死守</b>+电影式结局。</div>'+
+  '<b>目标：</b>从大厅爬到<b>天台</b>（共6层），点燃<b>信号照明弹</b>，在降落圈里坚持<b>30秒</b>，等直升机接你。<br>'+
   '<b>任务是一条链。</b>每一步都必须按顺序完成，下一步才会解锁——左上角面板永远显示当前步骤和要按的键。按住 <b>[Tab]</b> 查看完整计划。<br>'+
   '<b>操作：</b><b>[E]</b> 拾取物品 · 开关门 · 阅读纸条 · 使用终端 · 刷门卡 · 与幸存者<b>对话</b>（再按一次看下一句）。'+
   '<b>[Q]</b> 做体力活：<b>连按</b>踹开木板，<b>按住</b>撬木板、拉电闸、点燃照明弹、扶起队友（中途松手也会保留进度）。<b>[空格]</b> 只用来跳跃。<br>'+
@@ -388,6 +427,41 @@ zh:{
  down_help:'没有重试机会了——队友可以在你身边按住 [Q] 扶起你。没人来？本次逃亡就到此为止。',
  death_restart:'逃亡失败。你将从头开始。',
  lives_lbl:'剩余重生',btn_respawn:'立即重生 — [E]',death_left:'正在重生。之后还剩 {n} 次重生',death_last:'这是你最后一次重生——你只剩这一条命了。再死一次，本次逃亡就结束。',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',
+ sus_h:"⚠ 可疑的幸存者",sus_hl:"🤔 可疑？",
+ sus_who:"智恩 · 独自躲在感染楼层",sus_whol:"智恩 · 独自躲在机器人楼层",
+ sus_tell:"她可能已经<b>被感染</b>。交谈时<b>[E]</b>仔细观察她。对话结束后，你只有<b>7秒</b>做决定：<b>相信</b>她，还是<b>杀了</b>她。",
+ sus_telll:"她其实是<b>机器人</b>吗？和她交谈<b>[E]</b>，寻找线索。然后你有<b>7秒</b>做决定。",
+ sus_meter:"怀疑度",
+ sus_c0:"🩸 袖子、双手、开衫上都是血",sus_c1:"😰 发抖、冒冷汗——不让你靠近",
+ sus_c2:"🩹 把左臂的绷带藏起来",sus_c3:"🔥 说伤口“烧得慌”——被咬的人也这么说",
+ sus_c4:"👁 ……但她眼神清醒，说话还是她自己",
+ sus_c0l:"🎨 袖子上有油漆点",sus_c1l:"🙈 不让你靠近",sus_c2l:"💡 她手臂上……有东西在闪？",
+ sus_c3l:"🤖 不小心说了一声“哔”",sus_c4l:"👁 ……但她笑起来像个真人",
+ vd_trust_h:"你判断对了",vd_trust:"智恩是<b>人类</b>。那血是珉浩的，伤口只是被门划的。",
+ vd_kill_h:"错误的选择",vd_kill:"智恩是<b>人类</b>。你杀了你的朋友。<br>那伤口只是被门划的。",
+ vd_time_h:"太迟了",vd_time:"智恩是<b>人类</b>——但你犹豫了，它们听见了。<b>战斗！</b>",
+ vd_trust_l:"智恩是<b>真人</b>！组队出发。",vd_kill_hl:"判断失误",vd_kill_l:"智恩是<b>真人</b>。她有点难过地回家了。",
+ vd_card:"<b style=\"color:#ffd23f\">黄色门禁卡</b>就在她身边的地上——按<b>[E]</b>拿走。",
+ jb_1:"“……谢谢你没有把我丢在那里。”",jb_2:"“我一直在想珉浩。我把门抵住了。我就只是……抵住了。”",
+ jb_3:"“要是我开始不对劲……你就动手。好吗？答应我。”",jb_4:"“我的手一直在抖。继续走——我就在你后面。”",
+ jb_5:"“我们真的能到天台的，对吧？说是。”",jb_see:"“你后面——不，那边！”",
+ jb_hurt:"“我没事……我没事。继续走。”",jb_med:"“……谢谢你。真的。我以为你会让我死。”",
+ jbl_1:"“谢谢你和我组队！”",jbl_2:"“这些机器人也太黏人了。”",jbl_3:"“如果我开始哔哔叫，那是开玩笑。大概吧。”",
+ jbl_4:"“前进！不到天台不罢休！”",jbl_5:"“结束后去吃零食。很多零食。”",jbl_see:"“机器人来了！”",jbl_hurt:"“哎哟。还好！”",jbl_med:"“谢谢！满血复活。”",
+ sg_elev:"电梯",
+ end_1:"直升机从黑暗中俯冲而下，旋翼轰鸣。一条绳梯落在天台上。",
+ end_2:"有人抓住你的手腕把你拉上去。天台在你脚下远去。",
+ end_3j:"智恩跟着你爬了进来。她一直抓着你的袖子不放。",
+ end_3k:"你身边的座位空着。你总是看见智恩的脸。",
+ end_3n:"脚下的书元高中还在尖叫。越来越小。越来越小。",
+ end_4:"旋翼的嗡嗡声是世上最安全的声音。你已经不记得上次睡觉是什么时候了……",
+ end_5:"你闭上了眼睛。",
+ end_1l:"救援无人直升机从天而降，放下一条友好的绳梯。",
+ end_2l:"上去吧！下面的机器人挥着小手。",
+ end_4l:"座位软软的，嗡嗡声很舒服。真是漫长的一夜。",end_5l:"呼呼……",
+ end_skip:"[空格] 跳过",
+ vic_h:"恭喜你",vic_sub:"你在书元高中的最后一夜活了下来",vic_subl:"你逃出了机器人大暴走",
+ st_je:"智恩：",je_saved:"获救——她和你一起逃了出来",je_killed:"被你杀死（她是人类）",je_turned:"失去了——她变异了",je_left:"被留下了",je_out:"平安回家了",
  vic:'成功撤离',vic_p:'直升机载你飞离书元高中。你活下来了。',vic_pl:'救援无人机带你飞离书元高中。机器人向你挥手告别。🤖',
  st_time:'用时：',st_kills:'消灭丧尸：',st_killsl:'弹开的机器人：',st_down:'倒地次数：',st_squad:'小队：{n} 名幸存者',st_solo:'单人逃生',
  ring_a:'🟠 微弱的光弧——那个方向有东西在动。听。猜。',
@@ -536,9 +610,9 @@ zh:{
  park_tag:'朴老师',
  npc2_name:'智恩',
  npc2_1:'别——别再靠近了。……我没事。我没事！别盯着我看。',
- npc2_2:'血？不是我的。是珉浩的。他……他已经不是珉浩了。<i>（她把袖子往下拉，盖住绷带。）</i>',
- npc2_3:'我的手臂？是被门划的。就这样。只是……有点烧。没什么。',
- npc2_4:'我有天台钥匙。带我走吧。求你。……或者别带。我看得出你在想什么。',
+ npc2_2:'血？不是我的。是珉浩的，我的实验搭档。我抵住了门，然后他——他已经不是珉浩了。<i>（她把袖子往下拉，盖住绷带。）</i>',
+ npc2_3:'我的手臂？逃跑时被门划的。只是……有点烧。被咬的人都说会烧。……我知道这听起来像什么。',
+ npc2_4:'我在这里坐了一个小时，等着自己变异。我没觉得有什么不同，只是很害怕。……我有天台钥匙。求你别把我丢在这里。',
  ch_warn:'⚠ 立刻决定',ch_q:'智恩被感染了吗？带她一起走——还是趁来得及结束这一切？',
  ch_trust:'[1] 相信她',ch_trust_d:'带她一起走',ch_kill:'[2] 杀了她',ch_kill_d:'不冒这个险',
  ch_q_l:'智恩是伪装的机器人吗？组队——还是送她回家？',ch_kill_l:'[2] 送她回家',ch_kill_dl:'不冒这个险',
@@ -550,7 +624,7 @@ zh:{
  t_jieun_weak:'智恩又累又伤——站到她身边按 [E] 给她医疗包。',
  l_givemed:'给智恩医疗包（+80）',t_gavemed:'智恩包扎好了——她能跟上了。',
  btn_givemed:'💉 给智恩医疗包',t_givemed_far:'先走到智恩身边。',
- t_jieun_join:'智恩加入了你——她会跟着你，并射击靠近的丧尸。保护好她：丧尸也会攻击她。',
+ t_jieun_join:'智恩加入了你——她会待在你附近、不让你离开视线，并射击靠近的丧尸。保护好她：丧尸也会攻击她。',
  t_jieun_hurt:'智恩伤得很重——掩护她！',
  jieun_dying:'<b>智恩：</b>“它咬到我了……对不起……快、快跑……”',
  jieun_turn:'<i>智恩站了起来。她的眼神不对了。</i>解决她。',
@@ -2043,13 +2117,15 @@ function buildFloor(f){
   for(const sx of [-20,-12,-4,4,11]){
     signOn(f,sx,y+2.15,1.46,Math.PI,TEX.sign(T('sg_stairs_to'),'#06180a','#59ff7a'),1.7,0.34,EXIT_GLOW);
   }
-  // elevator (deco) on the east corridor wall — occasionally dings…
-  for(const ez of [-2.05,2.05]){
-    const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.1),MAT.metal);
-    panel.position.set(15.84,y+1.05,ez);panel.rotation.y=-Math.PI/2;L.add(panel);
-    const seam=new THREE.Mesh(new THREE.PlaneGeometry(0.04,2.1),MAT.dark);
-    seam.position.set(15.82,y+1.05,ez);seam.rotation.y=-Math.PI/2;L.add(seam);
-    signOn(f,15.79,y+2.32,ez,-Math.PI/2,TEX.sign(T('sg_ooo'),'#200','#ff5050'),1.15,0.26);
+  // the elevator: in the stair tower, on its south wall, facing you as you come through the arch
+  {
+    const EX=ELEV.x,EZ=TOW.z0+0.07;
+    const frame=new THREE.Mesh(new THREE.BoxGeometry(1.9,2.45,0.08),MAT.dark);frame.position.set(EX,y+1.22,EZ);L.add(frame);
+    const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.6,2.2),MAT.metal);panel.position.set(EX,y+1.1,EZ+0.05);L.add(panel);
+    const seam=new THREE.Mesh(new THREE.PlaneGeometry(0.04,2.2),MAT.dark);seam.position.set(EX,y+1.1,EZ+0.06);L.add(seam);
+    const btn=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.26,0.04),MAT.dark);btn.position.set(EX+1.15,y+1.2,EZ+0.02);L.add(btn);
+    signOn(f,EX,y+2.62,EZ+0.07,0,TEX.sign(T('sg_elev'),'#200','#ff5050'),1.5,0.3);
+    signOn(f,EX,y+2.3,EZ+0.08,0,TEX.sign(T('sg_ooo'),'#200','#ff5050'),1.15,0.24);
   }
   // ---- rooms
   const dN=8.4,dS=8.4;
@@ -2707,7 +2783,15 @@ function buildHumanoid(opts={}){
   }
   if(look==='jieun'){ // a torn strip of blouse tied round her left forearm, soaked through. Hers? Someone else's?
     put(cyl(0.047,0.047,0.07,10),shared('bandage',0xd8cfc4,1),0,-0.14,0,parts.elbowL);
-    put(sph(0.022,8,6),shared('bandBlood',0x6a070a,.4),0,-0.14,0.043,parts.elbowL,1,1.3,0.4);
+    put(sph(0.03,8,6),shared('bandBlood2',0x4a0306,.85),0,-0.14,0.043,parts.elbowL,1,1.5,0.3);
+    const jb=shared('jBlood',0x3a0305,.9);
+    put(sph(0.05,10,8),jb,0.06,0.42,0.095,parts.torso,1,1.5,0.14);        // soaked patches down the front
+    put(sph(0.035,10,8),jb,-0.08,0.22,0.095,parts.torso,1,1.8,0.14);
+    put(sph(0.03,8,6),jb,0.1,0.52,0.08,parts.torso,1,1,0.18);
+    const sc=shared('jScratch',0x5a0507,.8);                            // fresh scratches down the right forearm
+    for(let i=0;i<3;i++){const m=put(box(0.009,0.11,0.008),sc,-0.02+i*0.017,-0.13,0.046,parts.elbowR);m.rotation.z=0.25;}
+    if(parts.handL)put(sph(0.024,8,6),jb,0,-0.02,0.02,parts.handL,1,1,0.4);   // blood on her hands
+    if(parts.handR)put(sph(0.024,8,6),jb,0,-0.02,0.02,parts.handR,1,1,0.4);
   }
   parts.g=g;
   parts.torso.castShadow=true;   // only torso/head cast shadows (perf)
@@ -2908,15 +2992,16 @@ function setupPlayerBody(){
 }
 
 /* ---------- zombies ---------- */
+const ELEV={x:19.8};   // the dead elevator, in the stair tower
 const ZTYPES={
-  shambler:{speed:1.1,chase:3.3,hp:3,dmg:14,scale:1.0,sight:7,aimH:1.15},
-  runner:{speed:2.2,chase:4.9,hp:2,dmg:18,scale:0.95,sight:8,aimH:1.1},   // freshly turned — still wears the school uniform
+  shambler:{speed:1.0,chase:2.8,hp:3,dmg:14,scale:1.0,sight:7,aimH:1.15},
+  runner:{speed:2.0,chase:4.3,hp:2,dmg:18,scale:0.95,sight:8,aimH:1.1},   // freshly turned — still wears the school uniform
   brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:7,aimH:1.4},
-  screamer:{speed:1.3,chase:3.4,hp:2,dmg:10,scale:0.98,sight:9,aimH:1.15}, // hospital gown; screams in the whole floor
-  crawler:{speed:1.6,chase:4.2,hp:2,dmg:12,scale:0.92,sight:6,aimH:0.5},   // drags itself, lunges at your ankles
+  screamer:{speed:1.2,chase:3.0,hp:2,dmg:10,scale:0.98,sight:9,aimH:1.15}, // screams in the whole floor
+  crawler:{speed:0.8,chase:1.9,hp:2,dmg:12,scale:0.92,sight:6,aimH:0.35},  // drags itself on its belly, lunges at your ankles
   watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
-  park:{speed:1.5,chase:4.5,hp:6,dmg:16,scale:1.0,sight:16,aimH:1.15},     // Mr. Park, freshly turned
-  jieun:{speed:1.6,chase:4.6,hp:5,dmg:14,scale:0.94,sight:16,aimH:1.1},    // Ji-eun, if she dies
+  park:{speed:1.4,chase:3.8,hp:6,dmg:16,scale:1.0,sight:16,aimH:1.15},     // Mr. Park, freshly turned
+  jieun:{speed:1.5,chase:3.9,hp:5,dmg:14,scale:0.94,sight:16,aimH:1.1},    // Ji-eun, if she dies
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -2949,6 +3034,10 @@ class Zombie{
     this.id=ZID++;this.f=f;this.type=type;
     this.robot=MD.id==='lite';
     this.cfg={...ZTYPES[type],speed:ZTYPES[type].speed*MD.zSpeed,chase:ZTYPES[type].chase*MD.zSpeed};
+    // no two move alike: most drag themselves along, some keep pace, a few are fast
+    this.pace=1;
+    if(!['watcher','park','jieun','brute'].includes(type)){const r=Math.random();this.pace=r<0.4?0.8:(r<0.83?1:1.18);}
+    this.cfg.speed*=this.pace;this.cfg.chase*=this.pace;
     this.hp=this.cfg.hp;this.dead=false;this.state='idle';
     if(this.robot){
       const tints=[{skin:0xd8dde2,cloth:0x3a86ff},{skin:0xe2e0d8,cloth:0xff8a3a},{skin:0xd4dce4,cloth:0x3ad488},{skin:0xe4e4dc,cloth:0xb43ad4}];
@@ -2962,17 +3051,20 @@ class Zombie{
     this.body.torso.material=cl(this.body.torso.material);
     this.body.head.material=cl(this.body.head.material);
     this.g=this.body.g;this.g.scale.setScalar(this.cfg.scale);
+    // a crawler lies on its belly: the whole body sits low inside its group (the group stays on the floor,
+    // so hit tests, stairs and collisions keep working and nothing sinks into the ground)
+    if(type==='crawler'&&!this.robot)for(const ch of this.g.children)ch.position.y-=0.6;
     this.g.rotation.order='YXZ';   // lie down / get up / fall along the facing direction
     // the tower gets meaner the higher you climb
     const diff=1+Math.max(0,Math.min(f,CFG.FLOORS-1)-2)*0.05;
-    this.cfg.speed*=diff;this.cfg.chase*=Math.min(diff,1.2);
+    this.cfg.speed*=diff;this.cfg.chase*=Math.min(diff,1.05);   // meaner = more of them, not faster ones
     if(type==='park'){
       const tag=nameSprite(T('park_tag'),'#ff6b6b');tag.position.y=2.2;this.g.add(tag);
     }
     this.g.position.set(x,f*CFG.FH,z);
     this.home=room?{x0:room.x0,x1:room.x1,z0:room.z0,z1:room.z1}:{x0:x-4,x1:x+4,z0:z-4,z1:z+4};
     this.wp=[{x:(this.home.x0+this.home.x1)/2,z:(this.home.z0+this.home.z1)/2}];
-    if(room&&room.door)this.wp.push({x:room.door.g.position.x+0.7,z:room.door.g.position.z>0?0:0});
+    if(room&&room.door){this.doorRef=room.door;this.wp.push({x:room.door.g.position.x+0.7,z:0});}
     this.wpI=0;this.waitT=rand(0,3);
     this.yaw=rand(0,TAU);this.phase=rand(0,TAU);
     this.growlT=rand(3,10);this.stepT=0;this.attackCd=0;this.windup=-1;
@@ -3033,6 +3125,7 @@ class Zombie{
   update(dt,t){
     const g=this.g;
     if(this.dead){
+      if(this.type==='crawler'&&!this.robot){g.rotation.z=0;return;}
       if(this.corpseT<1){
         this.corpseT+=dt*2.4;
         g.rotation.x=-Math.PI/2*Math.min(1,this.corpseT);
@@ -3141,8 +3234,8 @@ class Zombie{
       }
       if(this.type==='crawler'){ // lunges at ankles when close
         this.lungeCd=Math.max(0,this.lungeCd-dt);this.lungeT=Math.max(0,this.lungeT-dt);
-        if(sameFloor&&d<4.2&&this.lungeCd<=0){this.lungeT=0.7;this.lungeCd=3.2;play('snarl',{pos:g.position,vol:.9,ref:16,rate:1.2});}
-        if(this.lungeT>0)spd*=2.2;
+        if(sameFloor&&d<3&&this.lungeCd<=0){this.lungeT=0.5;this.lungeCd=3.6;play('snarl',{pos:g.position,vol:.9,ref:16,rate:1.2});}
+        if(this.lungeT>0)spd*=1.7;
       }
       if(d<1.25*this.cfg.scale&&sameFloor&&this.attackCd<=0&&this.windup<0){this.windup=(this.type==='crawler'?0.28:0.5)*(roof?ROOF.WINDUP:1);}
     }else if(this.state==='investigate'&&this.invest){
@@ -3153,6 +3246,7 @@ class Zombie{
         if(this.type==='runner'&&Math.random()<dt*0.1)play('whisper',{pos:g.position,vol:.4,ref:10,rate:0.72}); // fresh ones still make sad human sounds
       }
       else{
+        if(this.wpI>0&&this.doorRef&&!this.doorRef.open){this.wpI=0;this.waitT=rand(2,5);}   // the door is shut: stay in the room
         const w=this.wp[this.wpI];tx=w.x;tz=w.z;spd=this.cfg.speed;
         if(dist2(g.position.x,g.position.z,tx,tz)<1.2){this.wpI=(this.wpI+1)%this.wp.length;this.waitT=rand(0.5,3.5);}
       }
@@ -3169,6 +3263,7 @@ class Zombie{
       }
     }
     if(tx!==null){
+      const ox0=g.position.x,oz0=g.position.z;
       let dx=tx-g.position.x,dz=tz-g.position.z;
       const dl=Math.hypot(dx,dz)||1;dx/=dl;dz/=dl;
       let nx=g.position.x+dx*spd*dt,nz=g.position.z+dz*spd*dt;
@@ -3179,8 +3274,15 @@ class Zombie{
       if(inSafeRoom(this.f,nx,nz)&&!inSafeRoom(this.f,g.position.x,g.position.z)){nx=g.position.x;nz=g.position.z;}
       const gy=groundAt(nx,nz,g.position.y);
       if(gy>-1e6&&gy<=g.position.y+0.75){
-        const yOff=this.type==='crawler'?-0.34:0;
-        g.position.x=nx;g.position.z=nz;g.position.y=lerp(g.position.y,gy+yOff,Math.min(1,dt*10));this.f=clamp(Math.round(g.position.y/CFG.FH),0,CFG.FLOORS);
+        g.position.x=nx;g.position.z=nz;g.position.y=lerp(g.position.y,gy,Math.min(1,dt*10));this.f=clamp(Math.round(g.position.y/CFG.FH),0,CFG.FLOORS);
+      }
+      // never press into a CLOSED door: stay a body's width back (arms and heads used to poke through into the hall)
+      for(const dd of world.doors){
+        if(dd.f!==this.f||dd.open)continue;
+        const c=dd.colClosed;
+        if(dd.axis==='x'){
+          if(g.position.x>c.x0-0.3&&g.position.x<c.x1+0.3){const hz=(c.z0+c.z1)/2,e=g.position.z-hz;if(Math.abs(e)<0.72)g.position.z=hz+(e>=0?0.72:-0.72);}
+        }else if(g.position.z>c.z0-0.3&&g.position.z<c.z1+0.3){const hx=(c.x0+c.x1)/2,e=g.position.x-hx;if(Math.abs(e)<0.72)g.position.x=hx+(e>=0?0.72:-0.72);}
       }
       // hunted enemies force closed doors open (knock first — scary!)
       if(this.state==='chase'||this.state==='investigate'){
@@ -3220,12 +3322,7 @@ class Zombie{
       }
       const targetYaw=Math.atan2(dx,dz)+Math.PI;
       this.yaw+=angDiff(this.yaw,targetYaw)*Math.min(1,dt*7);
-      this.phase+=dt*spd*2.4;
-      this.stepT-=dt;
-      if(this.stepT<=0&&active){
-        this.stepT=0.62/Math.max(0.5,spd*0.45);
-        if(d<24)play('zstep',{pos:g.position,vol:this.state==='chase'?1:0.7,ref:28,rate:this.type==='runner'?1.25:(this.type==='brute'?0.7:0.9)});
-      }
+      this.stepFx(Math.hypot(g.position.x-ox0,g.position.z-oz0),active&&sameFloor?d:1e9);
     }
     g.rotation.y=this.yaw;
     this.animateBody(dt,tx!==null&&spd>0.05,this.state==='chase'||this.windup>=0,sameFloor&&d<3);
@@ -3238,9 +3335,22 @@ class Zombie{
     }
     g.position.y+=hurt*0; // (kept simple)
   }
+  /* legs move with the ground actually covered and a footstep sounds when a foot lands —
+     nothing while it is blocked, knocking on a door or winding up a swing */
+  stepFx(moved,d){
+    const crawl=this.type==='crawler';
+    const stride=(crawl?0.5:(this.type==='runner'?0.9:(this.type==='brute'?0.8:0.68)))*this.cfg.scale;
+    const before=Math.floor(this.phase/Math.PI-0.5);
+    this.phase+=Math.min(moved,0.3)/stride*Math.PI;
+    if(Math.floor(this.phase/Math.PI-0.5)!==before&&d<22){
+      play('zstep',{pos:this.g.position,vol:crawl?0.45:(this.state==='chase'?1:0.7),ref:crawl?14:26,
+        rate:(crawl?0.62:(this.type==='runner'?1.2:(this.type==='brute'?0.7:0.9)))*rand(0.94,1.06)});
+    }
+  }
   applyNet(dt){
     if(this.netX===undefined)return;
     const g=this.g;
+    const ox=g.position.x,oz=g.position.z;
     g.position.x=lerp(g.position.x,this.netX,Math.min(1,dt*10));
     g.position.y=lerp(g.position.y,this.netY,Math.min(1,dt*10));
     g.position.z=lerp(g.position.z,this.netZ,Math.min(1,dt*10));
@@ -3248,7 +3358,7 @@ class Zombie{
     this.f=this.netF??this.f;
     if(this.netDead&&!this.dead){this.die(true);return;}
     const chase=this.netState===2;
-    this.phase+=dt*(chase?5.5:2.6);
+    this.stepFx(Math.hypot(g.position.x-ox,g.position.z-oz),this.f===player.floor?Math.hypot(g.position.x-player.pos.x,g.position.z-player.pos.z):1e9);
     this.animateBody(dt,true,chase,false);
   }
   /* ---- how a ruined body moves: uneven stride, a dragging pigeon-toed leg, a dead arm,
@@ -3271,14 +3381,16 @@ class Zombie{
     if(gt.jerkT<=0){gt.jerkT=chase?rand(0.7,2.2):rand(1.8,5.5);gt.jd=rand(0.08,0.2)*(brute?0.6:1);gt.jx=rand(-0.35,0.35);gt.jz=rand(-0.45,0.45);gt.jy=rand(-0.5,0.5);}
     const jk=gt.jd>0?1:0;gt.jd=Math.max(0,gt.jd-dt);
     const tw=this.twitchT>0?1:0;
-    if(type==='crawler'){
-      b.torso.rotation.x=1.18+sw*0.05+jk*gt.jx*0.3;b.torso.rotation.y=Math.PI+sw*0.15;b.torso.rotation.z=0;
-      b.head.rotation.x=-0.85+jk*gt.jx;b.head.rotation.z=sw*0.15+gt.loll*0.5+jk*gt.jz;
-      b.armL.rotation.x=-1.55+sw*0.55;b.armR.rotation.x=-1.55-sw*0.55;
-      b.elbowL.rotation.x=-0.3-Math.max(0,sw)*0.6;b.elbowR.rotation.x=-0.3-Math.max(0,-sw)*0.6;
-      b['leg'+good].rotation.x=0.85+sw*0.35;b['knee'+good].rotation.x=-0.6;
-      b['leg'+bad].rotation.x=1.05;b['knee'+bad].rotation.x=-0.05;b['leg'+bad].rotation.y=0.4*sgn;   // a dead leg dragged behind
-      g.rotation.z=sw*0.09;
+    if(type==='crawler'){ // flat on its belly, hauling itself forward on its forearms, legs trailing
+      const pull=moving?sw:Math.sin(t*0.9+this.id)*0.15;
+      b.torso.rotation.x=1.5+jk*gt.jx*0.12;b.torso.rotation.y=Math.PI+pull*0.12;b.torso.rotation.z=pull*0.07;
+      b.head.rotation.x=-1.2+jk*gt.jx*0.5+tw*0.3;b.head.rotation.z=gt.loll*0.4+jk*gt.jz*0.6;b.head.rotation.y=0;
+      b.armL.rotation.x=-2.95+pull*0.3;b.armR.rotation.x=-2.95-pull*0.3;
+      b.armL.rotation.z=0.22;b.armR.rotation.z=-0.22;
+      b.elbowL.rotation.x=-0.2-Math.max(0,pull)*0.5;b.elbowR.rotation.x=-0.2-Math.max(0,-pull)*0.5;
+      b['leg'+good].rotation.x=-1.45+Math.max(0,sw)*0.1;b['knee'+good].rotation.x=-0.2-Math.max(0,-sw)*0.35;
+      b['leg'+bad].rotation.x=-1.52;b['knee'+bad].rotation.x=-0.02;b['leg'+bad].rotation.y=0.35*sgn;b['leg'+bad].rotation.z=0;   // a dead leg dragged behind
+      g.rotation.z=0;
       return;
     }
     // ---- legs
@@ -3430,7 +3542,7 @@ class SurvivorNPC{
     play('hitMelee',{pos:this.parts.g.position,vol:.8,ref:16});
     burst(this.parts.g.position.clone().add(new THREE.Vector3(0,1.2,0)),MD.blood?0x8a0a0f:0xffd23f,8,2.2,0.06);
     this.drawBar();
-    if(this.hp<this.hpMax*0.35&&!this.warned){this.warned=true;toast(T('t_jieun_hurt'));}
+    if(this.hp<this.hpMax*0.35&&!this.warned){this.warned=true;toast(T('t_jieun_hurt'));jieunBark('hurt');}
     if(this.hp<=0)jieunDies(false);
   }
   drawBar(){
@@ -3481,24 +3593,66 @@ class SurvivorNPC{
     this.parts.g.position.set(px,player.pos.y,pz);this.stuckT=0;
     return false;
   }
+  /* Ji-eun with you: she is her own person. She picks a spot near you (beside or behind, never in
+     your way), waits there looking around, walks or runs to keep up, backs off from anything that gets
+     too close while she shoots — and never lets you out of her sight for long. */
   followUpdate(dt,t){
     const g=this.parts.g,p=g.position;
     if(player.dead)return;
     const pf=player.floor;
     const d=Math.hypot(player.pos.x-p.x,player.pos.z-p.z);
-    if(this.f!==pf||d>13||this.stuckT>2.2){this.catchUp();return;}
-    let moving=false;
-    if(d>2.4){
-      const spd=(d>5?4.4:3.2)*(this.hp<this.hpMax*0.6?0.72:1);
-      let nx=p.x+(player.pos.x-p.x)/d*spd*dt,nz=p.z+(player.pos.z-p.z)/d*spd*dt;
-      [nx,nz]=collideCircle(nx,nz,p.y,this.f,0.3);
-      const moved=Math.hypot(nx-p.x,nz-p.z);
-      if(moved<spd*dt*0.3)this.stuckT+=dt;else this.stuckT=Math.max(0,this.stuckT-dt);
-      const gy=groundAt(nx,nz,p.y+0.4);
-      if(gy>-1e9&&gy<=p.y+0.75){p.x=nx;p.z=nz;p.y=lerp(p.y,gy,Math.min(1,dt*10));}
-      this.yaw+=angDiff(this.yaw,Math.atan2(p.x-player.pos.x,p.z-player.pos.z))*Math.min(1,dt*8);
-      moving=true;
+    if(this.f!==pf||d>16||this.stuckT>2.5){this.catchUp();this.goal=null;return;}
+    const weakNow0=this.hp<this.hpMax*0.6;
+    // the closest thing she can see
+    let seen=null,sd=9;
+    for(const z of world.zombies){
+      if(z.dead||z.f!==this.f||z.type==='watcher'&&WATCHER.state==='lurk')continue;
+      const zd=Math.hypot(z.g.position.x-p.x,z.g.position.z-p.z);
+      if(zd<sd&&(z.state==='chase'||zd<6)&&losClear(p.x,p.z,z.g.position.x,z.g.position.z,this.f)){sd=zd;seen=z;}
+    }
+    const seesYou=d<1.2||losClear(p.x,p.z,player.pos.x,player.pos.z,this.f);
+    this.lostT=seesYou?0:(this.lostT||0)+dt;
+    this.goalT=(this.goalT||0)-dt;
+    let run=false;
+    if(seen&&sd<2.6){                           // too close: back off (toward you) while she fires
+      const ax=p.x-seen.g.position.x,az=p.z-seen.g.position.z,al=Math.hypot(ax,az)||1;
+      this.goal={x:p.x+ax/al*2+(player.pos.x-p.x)*0.25,z:p.z+az/al*2+(player.pos.z-p.z)*0.25};run=true;this.goalT=0.5;
+    }else if(d>7||this.lostT>1.2){              // falling behind, or lost sight of you: hurry back
+      this.goal={x:player.pos.x,z:player.pos.z};run=d>4.5;this.goalT=0.3;
+    }else if(!this.goal||this.goalT<=0){        // her own spot near you, then wait there
+      this.goal=null;
+      for(let k=0;k<10;k++){
+        const a=player.yaw+rand(-1.9,1.9),r=rand(2.2,4.6);   // behind you = +sin/+cos of your yaw
+        const x=player.pos.x+Math.sin(a)*r,z=player.pos.z+Math.cos(a)*r;
+        if(freeSpot(pf,x,z,0.35)&&losClear(player.pos.x,player.pos.z,x,z,pf)){this.goal={x,z};break;}
+      }
+      this.goalT=rand(2.5,5.5);
+      this.lookT=0;
+    }
+    let moving=false,spd=0;
+    if(this.goal){
+      const gx=this.goal.x-p.x,gz=this.goal.z-p.z,gd=Math.hypot(gx,gz);
+      if(gd>0.3){
+        spd=(run||gd>4)?(weakNow0?3.1:4.3):(weakNow0?1.5:2.1);
+        let nx=p.x+gx/gd*spd*dt,nz=p.z+gz/gd*spd*dt;
+        [nx,nz]=collideCircle(nx,nz,p.y,this.f,0.3);
+        const moved=Math.hypot(nx-p.x,nz-p.z);
+        if(moved<spd*dt*0.3){this.stuckT+=dt;if(this.stuckT>0.8&&!run)this.goal=null;}else this.stuckT=Math.max(0,this.stuckT-dt);
+        const gy=groundAt(nx,nz,p.y+0.4);
+        if(gy>-1e9&&gy<=p.y+0.75){p.x=nx;p.z=nz;p.y=lerp(p.y,gy,Math.min(1,dt*10));}
+        this.yaw+=angDiff(this.yaw,Math.atan2(-gx,-gz))*Math.min(1,dt*8);
+        moving=true;
+      }else this.stuckT=0;
     }else this.stuckT=0;
+    if(!moving&&!seen){                          // standing: she checks the dark around you
+      this.lookT=(this.lookT||0)-dt;
+      if(this.lookT<=0){this.lookT=rand(1.6,3.2);this.lookYaw=player.yaw+rand(-1.3,1.3)+(Math.random()<0.3?Math.PI:0);}
+      if(this.lookYaw!==undefined)this.yaw+=angDiff(this.yaw,this.lookYaw)*Math.min(1,dt*2.5);
+    }
+    // she talks: short lines, rarely, never over a fight
+    this.barkT=(this.barkT??rand(18,26))-dt;this.seeCd=Math.max(0,(this.seeCd||0)-dt);
+    if(seen&&seen.state==='chase'&&this.seeCd<=0){this.seeCd=25;jieunBark('see');}
+    else if(!seen&&this.barkT<=0){this.barkT=rand(30,48);jieunBark('calm');}
     // she patches herself up when it's quiet
     this.regenWait=Math.max(0,(this.regenWait||0)-dt);
     if(this.regenWait<=0&&this.hp<this.hpMax*0.6){this.hp=Math.min(this.hpMax*0.6,this.hp+1*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;} // only a medkit gets her past 60 %
@@ -3506,12 +3660,7 @@ class SurvivorNPC{
     this.parts.torso.rotation.x=weak?0.28:0.05;   // bent over, holding herself up
     // fight: short bursts at the nearest zombie she can see
     this.fireT-=dt;
-    let target=null,td=8;
-    for(const z of world.zombies){
-      if(z.dead||z.f!==this.f||z.type==='watcher'&&WATCHER.state==='lurk')continue;
-      const zd=Math.hypot(z.g.position.x-p.x,z.g.position.z-p.z);
-      if(zd<td&&(z.state==='chase'||zd<6)&&losClear(p.x,p.z,z.g.position.x,z.g.position.z,this.f)){td=zd;target=z;}
-    }
+    const target=seen&&sd<8?seen:null;
     if(target){
       this.yaw+=angDiff(this.yaw,Math.atan2(p.x-target.g.position.x,p.z-target.g.position.z))*Math.min(1,dt*10);
       this.parts.armR.rotation.x=-1.5;
@@ -3529,7 +3678,7 @@ class SurvivorNPC{
       }
     }else this.parts.armR.rotation.x=lerp(this.parts.armR.rotation.x,moving?Math.sin(this.walkPh)*0.5:0,Math.min(1,dt*6));
     g.rotation.y=this.yaw;
-    if(moving){this.walkPh+=dt*9;const sw=Math.sin(this.walkPh)*0.55;this.parts.legL.rotation.x=sw;this.parts.legR.rotation.x=-sw;this.parts.armL.rotation.x=-sw*0.7;}
+    if(moving){this.walkPh+=dt*(spd>3?12:7.5);const sw=Math.sin(this.walkPh)*(spd>3?0.75:0.45);this.parts.legL.rotation.x=sw;this.parts.legR.rotation.x=-sw;this.parts.armL.rotation.x=-sw*0.7;}
     else{this.parts.legL.rotation.x=this.parts.legR.rotation.x=0;}
     this.placeLabel();
   }
@@ -3540,11 +3689,67 @@ class SurvivorNPC{
     const last=this.li>=lines.length-1;
     if(!last)this.li++;
     showSub('<b>'+esc(this.name)+':</b> '+T(lines[this.li]),7,true); // they speak in person — no radio static
+    if(this.key==='jieun'){suspectShow();suspectClue(this.li+1);}
     play('paper',{vol:.25,rate:1.6});
     if(!last&&this.li===lines.length-1&&this.onDone)this.onDone();
   }
 }
 function npcByKey(k){return world.npcs.find(n=>n.key===k);}
+/* ---- the suspicion: a big warning when you find her, then one clue per line she says ---- */
+const SUS_LEVEL=[35,50,65,85,70];   // the last clue pulls it DOWN: her eyes are clear
+function suspectShow(){
+  const el=$('suspect');
+  if(!el||G.flags.jieunTalked||jieunResolved||el.style.display==='block')return;
+  const lite=MD.id==='lite';
+  $('susH').textContent=T(lite?'sus_hl':'sus_h');
+  $('susWho').textContent=T(lite?'sus_whol':'sus_who');
+  $('susTell').innerHTML=T(lite?'sus_telll':'sus_tell');
+  $('susMeterLbl').textContent=T('sus_meter');
+  $('susClues').innerHTML='';
+  el.style.display='block';el.classList.add('big');
+  suspectClue(0);
+  warnFx();
+  if(MD.jumpscares)play('stinger',{vol:.45,force:true});
+  G.jTension=1;
+  clearTimeout(suspectShow.t);suspectShow.t=setTimeout(()=>el.classList.remove('big'),4500);
+}
+function suspectClue(i){
+  const el=$('suspect'),ul=$('susClues');
+  if(!el||el.style.display!=='block'||i>4||!ul||ul.children.length>i)return;
+  const lite=MD.id==='lite';
+  while(ul.children.length<=i){
+    const k=ul.children.length,li=document.createElement('li');
+    li.innerHTML=T('sus_c'+k+(lite?'l':''));if(k===4)li.className='good';
+    ul.appendChild(li);
+  }
+  ul.children[ul.children.length-1].classList.add('new');
+  $('susFill').style.width=SUS_LEVEL[i]+'%';
+  if(i>0)play('alert',{vol:.28,rate:.9,force:true});
+}
+function suspectHide(){const el=$('suspect');if(el){el.style.display='none';el.classList.remove('big');}G.jTension=0;}
+/* after the choice: the truth, big and in the middle of the screen */
+function showVerdict(kind){
+  const el=$('verdict');if(!el)return;
+  const lite=MD.id==='lite',k={trust:'trust',kill:'kill',timeout:'time'}[kind];
+  $('vdH').textContent=T(k==='kill'&&lite?'vd_kill_hl':'vd_'+k+'_h');
+  $('vdP').innerHTML=T('vd_'+k+(lite&&k!=='time'?'_l':''));
+  $('vdCard').innerHTML=T('vd_card');
+  el.className='v-'+k;el.style.display='flex';
+  if(k==='trust')play('win',{vol:.4,force:true});else if(k==='kill')play('stinger',{vol:.8,force:true});
+  clearTimeout(showVerdict.t);showVerdict.t=setTimeout(()=>{el.style.display='none';},k==='time'?3600:5600);
+}
+/* Ji-eun speaks while she's with you: fear, guilt, gratitude — a person, not a turret */
+const JBARK={calm:['jb_1','jb_2','jb_3','jb_4','jb_5'],see:['jb_see'],hurt:['jb_hurt'],med:['jb_med']};
+function jieunBark(kind){
+  const je=companion();if(!je)return;
+  const lite=MD.id==='lite';
+  let key;
+  if(kind==='calm'){je.barkI=(je.barkI||0);if(je.barkI>=JBARK.calm.length)return;key=JBARK.calm[je.barkI++];}
+  else key=JBARK[kind][0];
+  if(lite)key=key.replace('jb_','jbl_');
+  if(!I18N.en[key])return;
+  showSub('<b>'+esc(je.name)+':</b> '+T(key),4.5);
+}
 /* Ji-eun while she is with you and alive (zombies can target her) */
 /* ---- the choice: 7 seconds, two buttons, the building closing in ---- */
 const CHOICE_TIME=7;
@@ -3578,6 +3783,8 @@ function updateChoice(dt){
   if(sec!==choiceSt.tick){choiceSt.tick=sec;play('alert',{vol:sec<=3?.6:.35,rate:sec<=3?1.15:1,force:true});}
   choiceSt.breath-=dt;
   if(choiceSt.breath<=0){choiceSt.breath=0.75;play('breath',{vol:.55,rate:1.35,force:true});}
+  choiceSt.heart=(choiceSt.heart||0)-dt;   // the heartbeat speeds up as the clock runs out
+  if(choiceSt.heart<=0){choiceSt.heart=lerp(0.3,0.58,choiceSt.t/CHOICE_TIME);play('heart',{vol:1,rate:1.3,force:true});AUD.heartT=1;}
   AUD.threat=Math.max(AUD.threat||0,1);
   updateChoiceUI();
   if(choiceSt.t<=0)resolveJieun('timeout');
@@ -3588,6 +3795,7 @@ function resolveJieun(kind,remote){
   const lite=MD.id==='lite';
   choiceSt=null;
   $('choice').style.display='none';
+  suspectHide();showVerdict(kind);
   if(G.uiLock==='choice'){G.uiLock=null;ePrev=true;if(!NOLOCK)lockPointer();}
   const flag={trust:'jieunTrusted',kill:'jieunKilled',timeout:'jieunTimeout'}[kind];
   G.flags[flag]=true;G.flags.jieunTalked=true;
@@ -3651,6 +3859,7 @@ function giveJieunMedkit(){
   if(G.mp&&!G.host)netSend({t:'ev',k:'jmed'});
   else{je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}
   play('paper',{vol:.8});toast(T('t_gavemed'));
+  setTimeout(()=>jieunBark('med'),900);
 }
 function updateGiveMedBtn(){
   const b=$('giveMed');if(!b)return;
@@ -3937,20 +4146,21 @@ function firePistol(){
 /* the bullet is a ray tested against each body (legs → head), so point-blank shots land too;
    walls stop it, and a head hit does extra damage */
 const BODY_PTS=[[0.35,0.28],[0.75,0.3],[1.15,0.3],[1.5,0.2],[1.7,0.18]];
-const CRAWL_PTS=[[0.2,0.32],[0.45,0.32],[0.7,0.24]];
+const CRAWL_PTS=[[0.22,0.26,-0.45],[0.28,0.3,0.05],[0.32,0.28,0.45],[0.36,0.2,0.82]];
 function pistolHit(origin,dir,f){
   const fl=f??player.floor;
   let best=null,bt=1e9,head=false;
   for(const z of world.zombies){
     if(z.dead||z.f!==fl||z.riseT>0&&z.g.rotation.x>0.8)continue;
     const s=z.cfg.scale,gp=z.g.position;
-    for(const [h,r] of (z.type==='crawler'?CRAWL_PTS:BODY_PTS)){
-      const px=gp.x-origin.x,py=gp.y+h*s-origin.y,pz=gp.z-origin.z;
+    const crawl=z.type==='crawler'&&!z.robot,fx=-Math.sin(z.yaw),fz=-Math.cos(z.yaw);
+    for(const [h,r,fo=0] of (crawl?CRAWL_PTS:BODY_PTS)){
+      const px=gp.x+fx*fo*s-origin.x,py=gp.y+h*s-origin.y,pz=gp.z+fz*fo*s-origin.z;
       const t=px*dir.x+py*dir.y+pz*dir.z;
       if(t<0||t>24||t>=bt)continue;
       const ex=px-dir.x*t,ey=py-dir.y*t,ez=pz-dir.z*t;
       const rr=r*s+0.05;
-      if(ex*ex+ey*ey+ez*ez<rr*rr&&(t<1.2||losClear(origin.x,origin.z,gp.x,gp.z,fl))){bt=t;best=z;head=h>=1.45&&z.type!=='crawler';}
+      if(ex*ex+ey*ey+ez*ez<rr*rr&&(t<1.2||losClear(origin.x,origin.z,gp.x,gp.z,fl))){bt=t;best=z;head=crawl?fo>0.7:h>=1.45;}
     }
   }
   if(best){
@@ -4179,6 +4389,7 @@ function updatePlayer(dt,t){
     if(player.hp<40)target=Math.max(target,0.4);
     if(G.dangerFloor===player.floor)target=Math.max(target,0.45);
     if(sprinting)target=Math.max(target,0.25);
+    if(G.jTension&&!G.flags.jieunTalked){const je=npcByKey('jieun');target=Math.max(target,0.62+0.08*Math.max(0,(je?je.li:0)+1));}   // talking to her: your heart knows
     target=clamp(target,0,1);
     AUD.threat=lerp(AUD.threat,target,dt*(target>AUD.threat?2.4:0.32));
     const th=AUD.threat;
@@ -4476,7 +4687,7 @@ function storyProximity(){
     const n=npcByKey('jieun');
     if(n){const c=n.center();
       if(Math.hypot(px-c.x,pz-c.z)<3.6&&losClear(px,pz,c.x,c.z,5)){
-        G.flags.jieunFound=true;netFlag('jieunFound');showSub(T('jieun_found'),4,true);questCheck();}}
+        G.flags.jieunFound=true;netFlag('jieunFound');showSub(T('jieun_found'),5,true);suspectShow();questCheck();}}
   }
   if(pf===2&&!G.flags.secFound&&questAt('q_sec')&&px>-10&&px<2&&pz<-1.8){
     G.flags.secFound=true;netFlag('secFound');questCheck();
@@ -4638,8 +4849,8 @@ function interactTargets(){
     }},false,(qi===QI.q_arch||qi===QI.q_shutter)?0.35:1);
   }
   // the elevator: a dead end with a story
-  if(Math.abs(px-15.5)<1.7&&Math.abs(Math.abs(pz)-2.05)<1.0){
-    add('e',15.5,pz>0?2.05:-2.05,pf,{label:T('l_elev'),fn:()=>{toast(T(pf<4?'elev_dead':'elev_jam'));play('clunk',{vol:.5});}});
+  if(px>16.2&&Math.abs(px-ELEV.x)<1.5&&pz<-0.9&&pz>CFG.TOWER.z0){
+    add('e',ELEV.x,CFG.TOWER.z0+0.3,pf,{label:T('l_elev'),fn:()=>{toast(T(pf<4?'elev_dead':'elev_jam'));play('clunk',{vol:.5});}});
   }
   for(const bk of Object.values(world.breakers)){
     const isMain=bk===world.breakers.main;
@@ -5416,23 +5627,135 @@ function updatePings(dt){
   }
 }
 
-/* ---------------- victory ---------------- */
+/* ---------------- victory: pickup → lift-off → sleep → the winner screen ---------------- */
 function doVictory(){
   if(G.flags.victory)return;
   G.flags.victory=true;
   clearSave();
-  play('win',{vol:1,force:true});
-  setLoop('chopper',0.25);
-  $('victory').querySelector('p').textContent=MD.id==='lite'?T('vic_pl'):T('vic_p');
-  $('vicStats').innerHTML=
-    T('st_time')+'<b>'+fmtTime(G.time)+'</b><br>'+
-    (MD.id==='lite'?T('st_killsl'):T('st_kills'))+'<b>'+G.stats.kills+'</b><br>'+
-    T('st_down')+'<b>'+G.stats.deaths+'</b><br>'+
-    (G.mp?T('st_squad',{n:1+net.remotes.size}):T('st_solo'));
-  $('victory').style.display='flex';
   document.exitPointerLock&&document.exitPointerLock();
   if(G.mp&&!G.host)netSend({t:'ev',k:'vic'});
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'vic'});
+  startEnding();
+}
+let ending=null;
+const _eA=new THREE.Vector3(),_eB=new THREE.Vector3();
+const smooth01=k=>{k=clamp(k,0,1);return k*k*(3-2*k);};
+function startEnding(){
+  const ex=world.extract,h=world.heli;
+  if(!ex||!h||typeof getComputedStyle!=='function'){showVictory();return;}   // (headless tests: straight to the result)
+  camera.getWorldDirection(_eA);
+  const je=companion();
+  if(je)G.flags.jieunEscaped=true;
+  // it comes down a few metres in front of you, so you watch it arrive
+  const fwd=new THREE.Vector3(_eA.x,0,_eA.z);if(fwd.lengthSq()<1e-4)fwd.set(0,0,-1);fwd.normalize();
+  const eye=camera.position;
+  ending={t:0,sub:0,from:eye.clone(),look0:eye.clone().addScaledVector(_eA,6),fwd,
+    hover:new THREE.Vector3(eye.x+fwd.x*4.5,CFG.ROOF_Y+5.2,eye.z+fwd.z*4.5),je,
+    fly:new THREE.Vector3(-0.55,0,-0.83),lift:null};
+  G.uiLock='ending';
+  try{document.body.classList.add('cine');}catch(_){}
+  const c=$('cine');if(c){c.style.display='block';$('cineFade').style.opacity=0;$('lidT').style.height=$('lidB').style.height='0%';$('cineSkip').textContent=T('end_skip');}
+  $('giveMed')&&($('giveMed').style.display='none');
+  setLoop('chopper',1);
+  // a rope ladder under the helicopter
+  if(!h.ladder){
+    const lad=new THREE.Group(),rm=new THREE.MeshStandardMaterial({color:0x8a7a5a,roughness:1});
+    for(const sx of [-0.22,0.22]){const r=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,3.6,5),rm);r.position.set(sx,-1.8,0);lad.add(r);}
+    for(let i=0;i<9;i++){const s=new THREE.Mesh(new THREE.BoxGeometry(0.46,0.04,0.05),rm);s.position.set(0,-0.3-i*0.38,0);lad.add(s);}
+    lad.position.set(0,-0.6,0.6);lad.visible=false;h.g.add(lad);h.ladder=lad;
+  }
+  if(!h.nav){ // nav lights + a visible searchlight beam (meshes only: the light count never changes)
+    const nm=c=>new THREE.MeshBasicMaterial({color:c});
+    const red=new THREE.Mesh(new THREE.SphereGeometry(0.16,8,6),nm(0xff2020));red.position.set(0.3,-1.0,1.56);
+    const grn=new THREE.Mesh(new THREE.SphereGeometry(0.16,8,6),nm(0x20ff60));grn.position.set(0.3,-1.0,-1.56);
+    const bcn=new THREE.Mesh(new THREE.SphereGeometry(0.2,8,6),nm(0xff3020));bcn.position.set(0,-2.55,0);
+    const wht=new THREE.Mesh(new THREE.SphereGeometry(0.26,8,6),nm(0xffffff));wht.position.set(-5.6,0.4,0);
+    const winM=nm(0xffd890);   // lit cabin windows on both sides
+    for(const sz of [1.47,-1.47]){const w=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.42,0.05),winM);w.position.set(0.7,-0.6,sz);h.g.add(w);}
+    const cone=new THREE.Mesh(new THREE.ConeGeometry(2.8,9,24,1,true),new THREE.MeshBasicMaterial({color:0xfff2cc,transparent:true,opacity:0.08,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide}));
+    cone.position.set(0,-6.5,0);
+    h.g.add(red,grn,bcn,wht,cone);h.nav={wht,bcn,cone};
+  }
+  if(vm)vm.visible=false;   // no gun in your hands on the way out
+  if(MAT.heli){MAT.heli.emissive.setHex(0x2a3a2c);MAT.heli.emissiveIntensity=1;}   // readable against the night sky
+  if(world.roofGroup)world.roofGroup.visible=true;
+}
+function endSub(key){showSub('<i>'+T(key+(MD.id==='lite'&&I18N.en[key+'l']?'l':''))+'</i>',4.2,true);}
+function updateEnding(dt){
+  const E=ending,h=world.heli,ex=world.extract;
+  E.t+=dt;const t=E.t;
+  h.rotor.rotation.y+=dt*24;h.rotor2.rotation.y+=dt*24;
+  h.nav.wht.visible=(t*1.2)%1<0.12;h.nav.bcn.visible=(t*0.9+0.5)%1<0.5;
+  h.nav.cone.material.opacity=0.08*clamp(1-(t-8)/2,0,1);
+  if(camFill)camFill.intensity=t>3.9&&t<7.6?2.5:0;
+  // the story, line by line
+  const SUBS=[[0.4,'end_1'],[4.2,'end_2'],[8.4,E.je?'end_3j':(G.flags.jieunKilled?'end_3k':'end_3n')],[13.6,'end_4'],[18.6,'end_5']];
+  while(E.sub<SUBS.length&&t>=SUBS[E.sub][0]){endSub(SUBS[E.sub][1]);E.sub++;}
+  updateSub(dt);
+  // the helicopter: down to the roof, wait, then up and away over the city
+  if(t<7.6){h.g.position.lerp(E.hover,Math.min(1,dt*1.4));if(t>2.2)h.ladder.visible=true;}
+  else{
+    if(!E.lift){E.lift=h.g.position.clone();h.ladder.visible=false;}
+    const k=t-7.6;
+    h.g.position.set(E.lift.x+E.fly.x*k*k*0.55,E.lift.y+k*1.7+k*k*0.1,E.lift.z+E.fly.z*k*k*0.55);
+    h.g.rotation.y+=angDiff(h.g.rotation.y,Math.atan2(-E.fly.z,E.fly.x))*Math.min(1,dt*0.8);
+    h.g.rotation.z=Math.sin(t*0.7)*0.04;
+  }
+  const hp=h.g.position,fade=$('cineFade');
+  if(E.je&&t>5.2&&E.je.parts.g.visible){E.je.parts.g.visible=false;E.je.label.visible=false;if(E.je.bar)E.je.bar.visible=false;}   // she climbs up after you
+  if(t<3.9){                                   // you look up at it
+    _eB.copy(E.look0).lerp(_eA.set(hp.x,hp.y-0.6,hp.z),smooth01(t/2.4));
+    camera.position.copy(E.from);camera.position.y+=Math.sin(t*19)*0.012;
+    camera.lookAt(_eB);
+  }else if(t<7.6){                             // hauled up the ladder, the roof falling away beneath you
+    const k=smooth01((t-3.9)/3.5);
+    const tx=E.hover.x-E.fwd.x*1.3,ty=E.hover.y-2.4,tz=E.hover.z-E.fwd.z*1.3;   // up the ladder, to the door
+    camera.position.set(lerp(E.from.x,tx,k),lerp(E.from.y,ty,Math.pow(k,1.3)),lerp(E.from.z,tz,k));
+    camera.position.x+=Math.sin(t*2.3)*0.08*(1-k);
+    _eB.set(hp.x,hp.y-1,hp.z).lerp(_eA.set(E.from.x-E.fwd.x*3,CFG.ROOF_Y,E.from.z-E.fwd.z*3),smooth01((t-4.4)/2.2));   // then down: the roof falling away
+    camera.lookAt(_eB);
+    if(fade)fade.style.opacity=clamp((t-6.8)/0.7,0,1);
+  }else if(t<13.4){                            // outside: it climbs away from Seowon High
+    camera.position.set(ex.x+7,CFG.ROOF_Y+4.5+(t-7.6)*1.4,ex.z+9);
+    camera.lookAt(_eB.set(ex.x,CFG.ROOF_Y,ex.z).lerp(hp,0.88));   // the helicopter, the lit circle below it
+    if(fade)fade.style.opacity=clamp(1-(t-7.6)/0.8,0,1);
+  }else{                                       // inside: the school behind you, your eyes closing
+    camera.position.set(hp.x+E.fly.z*1.9,hp.y-0.5,hp.z-E.fly.x*1.9);   // at the open side door
+    camera.lookAt(_eA.set(ex.x,CFG.ROOF_Y,ex.z));   // the red flare on the roof, shrinking
+    if(!E.muffled){E.muffled=true;setLoop('chopper',0.4);}
+    if(t>17&&!E.quiet){E.quiet=true;setLoop('chopper',0.15);}
+    const base=smooth01((t-13.6)/6.2)*50;
+    let lid=base*0.85;
+    for(const [bt,amp] of [[15.2,22],[17,26],[18.5,30]])lid+=amp*Math.max(0,1-Math.abs(t-bt)/0.35);
+    if(t>19.8)lid=50;
+    const pct=Math.min(50,lid)+'%';
+    $('lidT').style.height=pct;$('lidB').style.height=pct;
+    if(!E.beat&&t>16){E.beat=true;play('heart',{vol:.35,rate:.8,force:true});setTimeout(()=>play('heart',{vol:.25,rate:.75,force:true}),1300);}
+  }
+  if(t>22.2)showVictory();
+}
+function skipEnding(){if(ending&&ending.t>1)showVictory();}
+function showVictory(){
+  ending=null;
+  G.uiLock=null;
+  try{document.body.classList.remove('cine');}catch(_){}
+  const c=$('cine');if(c)c.style.display='none';
+  setLoop('chopper',0);
+  play('win',{vol:1,force:true});
+  const lite=MD.id==='lite';
+  if($('vicH'))$('vicH').textContent=T('vic_h');
+  if($('vicP'))$('vicP').textContent=T(lite?'vic_subl':'vic_sub');
+  let je='';
+  if(G.flags.jieunFound){
+    const k=G.flags.jieunKilled?'je_killed':(G.flags.jieunDead?(lite?'je_out':'je_turned'):((G.flags.jieunEscaped||companion())?'je_saved':'je_left'));
+    je=T('st_je')+'<b>'+T(k)+'</b><br>';
+  }
+  $('vicStats').innerHTML=
+    T('st_time')+'<b>'+fmtTime(G.time)+'</b><br>'+
+    (lite?T('st_killsl'):T('st_kills'))+'<b>'+G.stats.kills+'</b><br>'+
+    T('st_down')+'<b>'+G.stats.deaths+'</b><br>'+je+
+    (G.mp?T('st_squad',{n:1+net.remotes.size}):T('st_solo'));
+  $('victory').style.display='flex';
 }
 let hudT=0;
 function hudTick(dt){ // bars move on their own (battery drain, stamina) — refresh a few times a second
@@ -5736,6 +6059,7 @@ function addChat(name,msg){
 }
 function onKey(code){
   if(G.mode!=='playing')return;
+  if(G.uiLock==='ending'){if(code==='Space'||code==='Enter'||code==='Escape')skipEnding();return;}
   if(G.uiLock==='note'&&(code==='KeyE'||code==='Escape'||code==='Enter')){closeNote();return;}
   if(G.uiLock==='choice'){
     if(code==='Digit1'||code==='Numpad1')resolveJieun('trust');
@@ -6357,6 +6681,8 @@ function resetWorld(){
   world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];world.npcs=[];
   world.furn=[];world.keep=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
   world.roomDoor={};world.frontWalls=[];world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
+  ending=null;G.jTension=0;
+  for(const id of ['suspect','verdict','cine'])if($(id))$(id).style.display='none';
   world.slotLights=[];
   for(const li of (world.flareLights||[]))if(li.parent)li.parent.remove(li); // pooled lights live in the scene — recycle, don't re-add
   world.flareLights=[];
@@ -6466,7 +6792,10 @@ function loop(){
     }
     fpsN=0;fpsT=0;
   }
-  if(G.mode==='playing'&&G.started&&!G.paused){
+  if(G.mode==='playing'&&G.started&&!G.paused&&ending){
+    updateEnding(dt);
+    updateBursts(dt);
+  }else if(G.mode==='playing'&&G.started&&!G.paused){
     G.time+=dt;
     updatePlayer(dt,G.time);
     updateInteract(dt);
@@ -6519,7 +6848,7 @@ init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
   getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
-  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
+  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
     const dt=1/60;
