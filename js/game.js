@@ -82,18 +82,18 @@ en:{
  lb_hostnote:'Host: keep this tab open and in front — the whole building runs on your computer.',
  msg_creating:'Creating room…',t_midjoin:'Joining an escape in progress…',t_midkit:'Starter kit: flashlight, crowbar and a few 9mm rounds.',lb_squad:'SURVIVORS',
  msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
- msg_slow:'Still connecting… some networks take up to 15 seconds.',msg_retry:'No answer yet — trying again…',msg_noroom:'Room {c} not found. Check the code, and keep the host\'s lobby open.',msg_p2pfail:'Couldn\'t reach the host. Try: both on the same Wi-Fi or a phone hotspot, turn off any VPN/proxy, then join again.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
+ msg_slow:'Still connecting… some networks take up to 15 seconds.',msg_retry:'No answer yet — trying again…',msg_relay:'No direct route (VPN, proxy or network rules) — connecting through the relay…',msg_noroom:'Room {c} not found. Check the code, and keep the host\'s lobby open.',msg_p2pfail:'Couldn\'t reach the room, directly or through the relay. Check the code, make sure the host\'s lobby is still open, and that the internet works.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
  /* ---- HUD ---- */
  hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR [1]',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'SMG [2]',
  floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',fl_roof:'ROOF',fl_floor:'F{n}',
  wp_roof:'⬆ STAIRWELL — up to the ROOFTOP',wp_up:'⬆ STAIRWELL — east end of the hall · up to {f}',wp_down:'⬇ STAIRWELL — east end of the hall · back down to {f}',
  wp_here:'OBJECTIVE · {d} m',wp_search:'NO MARKER — SEARCH THE ROOMS ON {f}',
- hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [Esc] pause',
+ hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [I] help · [Esc] pause',
  hint_mp:'<br>[T] chat · [Z] ping · HOLD [Q] on a downed friend to revive',
- k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',
+ k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',help_show:'<b>[I]</b> Stuck? Show how',help_hide:'<b>[I]</b> Hide help',
  col_red:'RED',col_blue:'BLUE',col_yellow:'YELLOW',col_green:'GREEN',
  pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
- ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>E</b> take · open · use · talk</div><div><b>Q (tap)</b> kick boards</div><div><b>Hold Q</b> pry · breaker · flare · revive</div><div><b>E / Enter</b> respawn</div><div><b>C</b> crouch (sneak)</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1 / 2</b> crowbar / SMG</div><div><b>V</b> 1st / 3rd person</div><div><b>Tab</b> objectives</div><div><b>T / Z</b> chat / ping (co-op)</div><div><b>Esc</b> pause</div>',
+ ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>E</b> take · open · use · talk</div><div><b>Q (tap)</b> kick boards</div><div><b>Hold Q</b> pry · breaker · flare · revive</div><div><b>E / Enter</b> respawn</div><div><b>C</b> crouch (sneak)</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1 / 2</b> crowbar / SMG</div><div><b>V</b> 1st / 3rd person</div><div><b>I</b> mission help</div><div><b>Tab</b> objectives</div><div><b>T / Z</b> chat / ping (co-op)</div><div><b>Esc</b> pause</div>',
  goals_title:'ESCAPE PLAN',
  cctv_hint:'◀ ▶ / A D — switch camera · [Q] — release the shutter (when it is time) · [E] / [Esc] — leave',cctv_cam:'CAM {n} — {m}',
  shutter_btn:'RELEASE FLOOR 3 SHUTTER',note_close:'[E] / [ESC] — put it down',
@@ -221,10 +221,10 @@ en:{
  q_gate3:'Floor 3: go through the open shutter up to Floor 4.',
  q_breaker:'Floor 4: reset the utility breaker (ELECTRICAL room).',
  q_gate4:'Floor 4: unlock the stairwell gate with the BLUE card.',
- q_jieun:'Floor 5: find Ji-eun — she is hiding in one of the rooms.',
+ q_jieun:'Floor 5: find Ji-eun in one of the rooms.',
  q_jtalk:'Talk to Ji-eun — then decide what to do about her.',
  q_yellow:'Take the ROOFTOP key (YELLOW card) Ji-eun put down.',
- q_gate5:'Floor 5: open the stairwell gate — the breaker released its lock.',
+ q_gate5:'Floor 5: open the stairwell gate.',
  q_gate6:'Floor 6: unlock the rooftop gate with the YELLOW card.',
  q_roof:'Climb to the rooftop.',
  q_flare:'Light the signal flare in the landing circle.',
@@ -407,17 +407,17 @@ zh:{
  lb_hostnote:'房主：请保持此页面打开并在前台——整栋楼都在你的电脑上运行。',
  msg_creating:'正在创建房间…',t_midjoin:'正在加入进行中的逃生…',t_midkit:'新手装备：手电筒、撬棍和几发9毫米子弹。',lb_squad:'幸存者',
  msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
- msg_slow:'仍在连接…部分网络需要最多 15 秒。',msg_retry:'暂无响应——正在重试…',msg_noroom:'找不到房间 {c}。请检查代码，并让房主保持大厅打开。',msg_p2pfail:'无法连接到房主。请尝试：连同一个 Wi-Fi 或手机热点，关闭 VPN/代理，然后重新加入。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
+ msg_slow:'仍在连接…部分网络需要最多 15 秒。',msg_retry:'暂无响应——正在重试…',msg_relay:'无法直连（VPN、代理或网络限制）——正在通过中继连接…',msg_noroom:'找不到房间 {c}。请检查代码，并让房主保持大厅打开。',msg_p2pfail:'无论直连还是中继都无法连到房间。请检查代码、确认房主的大厅仍然打开，并确认网络正常。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
  hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍 [1]',hud_flare:'照明弹 [G]',hud_med:'医疗包 [H]',hud_cards:'钥匙卡',hud_ammo:'冲锋枪 [2]',
  floor:'第 {n} 层',floor0:'地面 — 大厅',roof:'天台 — 撤离点',fl_ground:'地面',fl_roof:'天台',fl_floor:'{n}层',
  wp_roof:'⬆ 楼梯间——上到天台',wp_up:'⬆ 楼梯间——走廊东端 · 上到{f}',wp_down:'⬇ 楼梯间——走廊东端 · 下到{f}',
  wp_here:'目标 · {d} 米',wp_search:'没有标记——搜查{f}的房间',
- hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住Q] 撬/电闸/照明弹<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [Esc] 暂停',
+ hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住Q] 撬/电闸/照明弹<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [I] 帮助 · [Esc] 暂停',
  hint_mp:'<br>[T] 聊天 · [Z] 标记 · 在倒地队友旁按住 [Q] 救起',
- k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',
+ k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',help_show:'<b>[I]</b> 卡住了？查看做法',help_hide:'<b>[I]</b> 隐藏帮助',
  col_red:'红色',col_blue:'蓝色',col_yellow:'黄色',col_green:'绿色',
  pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
- ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>E</b> 拾取·开门·使用·对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬板·电闸·照明弹·救人</div><div><b>E / 回车</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
+ ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>E</b> 拾取·开门·使用·对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬板·电闸·照明弹·救人</div><div><b>E / 回车</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>I</b> 任务帮助</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
  goals_title:'逃生计划',
  cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',
  shutter_btn:'解除3层卷帘门',note_close:'[E] / [ESC] — 放下',
@@ -1602,6 +1602,10 @@ class GateC{
         signOn(f,gx+0.12,y+base-f*CFG.FH+1.75,zc+0.97,-Math.PI/2,TEX.sign(T('sg_access',{c:colName(col)}),'#101020','#9fd0ff'),0.9,0.24,EXIT_GLOW);
       }
     }
+    if(type!=='board'){   // roller housing: an opened gate rolls up into this
+      const hs=new THREE.Mesh(new THREE.BoxGeometry(0.24,0.2,z1-z0+0.1),MAT.dark);
+      hs.position.set(0,(base-f*CFG.FH)+2.55,0);this.g.add(hs);
+    }
     this.col={x0:gx-0.13,x1:gx+0.13,z0:z0,z1:z1,y0:y,y1:y+2.5,los:false,off:false};
     world.cols[f].push(this.col);
     // lock status lamp: RED = sealed, GREEN = open. Readable from across the hall.
@@ -1651,7 +1655,7 @@ class GateC{
   openQuiet(){
     this.locked=false;this.open=true;this.col.off=true;G.gatesOpen.add(this.f);
     if(this.type==='board'){if(this.mesh){this.g.remove(this.mesh);this.mesh=null;}}
-    else if(this.mesh)this.mesh.position.y=3.05;
+    else if(this.mesh){this.roll=1;this.update(0);}
     this.refreshLamp();
   }
   setOpen(o){
@@ -1676,8 +1680,11 @@ class GateC{
   }
   update(dt){
     if(!this.mesh||this.type==='board')return;
-    const ty=this.open?1.9:0;
-    this.mesh.position.y=lerp(this.mesh.position.y,1.15+ty,Math.min(1,dt*2));
+    // roll up: the bars/shutter shrink into the housing at the top — an open gate leaves the stairs clear
+    this.roll=lerp(this.roll??(this.open?1:0),this.open?1:0,Math.min(1,dt*1.6));
+    const top=(this.baseY-this.f*CFG.FH)+2.45,s=1-0.93*this.roll;
+    this.mesh.scale.y=s;
+    this.mesh.position.y=this.type==='shutter'?top-1.2*s:top-2.3*s;
   }
 }
 
@@ -2104,7 +2111,7 @@ function buildFloor(f){
   // wayfinding: a BRIGHT painted arrow trail leading to the stairwell arch
   for(const ax of [-21,-16,-11,-6,-1,4,9,13]){
     const ar=new THREE.Mesh(new THREE.PlaneGeometry(0.9,1.6),MAT.arrow);
-    ar.rotation.x=-Math.PI/2;ar.rotation.z=Math.PI/2;   // point east (+x)
+    ar.rotation.x=-Math.PI/2;ar.rotation.z=-Math.PI/2;   // tip (+Y of the texture) turned to point EAST (+x), toward the stairwell
     ar.position.set(ax,y+0.02,0);L.add(ar);
   }
   // glowing portal frame around the tower archway — the way up is impossible to miss
@@ -4624,13 +4631,18 @@ function renderObjective(banner){
   const cur=clamp(qi,0,QUEST.length-1);
   const tag=T('objective_n',{n:cur+1,t:QUEST.length});
   $('obj').textContent=tag+' — '+T(questKey(cur));
-  // compact closable window: HOW to do the current step (where + which key). ✕ hides it until the next one.
+  // the mission is all you see; HOW (where + which key) and the controls only when you ask: [I]
   $('mwTag').textContent=T('mw_how');
   $('mwTxt').textContent=T('qh_'+QUEST[cur].k.slice(2));
-  const mw=$('missionWindow');
-  if(banner){G.mwDismissed=false;mw.style.display='block';}
-  else if(G.mwDismissed)mw.style.display='none';
+  if(banner)G.helpOpen=false;   // a new step starts collapsed again
+  showHelp(!!G.helpOpen);
   if(banner&&G.mode==='playing')objectiveBanner();
+}
+function showHelp(on){
+  G.helpOpen=on;
+  const mw=$('missionWindow');if(mw)mw.style.display=on?'block':'none';
+  const hk=$('hintKey');if(hk)hk.style.display=on?'block':'none';
+  const b=$('helpBtn');if(b)b.innerHTML=T(on?'help_hide':'help_show');
 }
 function objectiveBanner(){
   $('objBannerH').textContent=T('obj_upd');
@@ -5779,56 +5791,182 @@ const PEER_OPTS={debug:0,config:{iceServers:[
   {urls:['stun:stun.miwifi.com:3478','stun:stun.chat.bilibili.com:3478']},
   {urls:'turn:eu-0.turn.peerjs.com:3478',username:'peerjs',credential:'peerjsp'},
 ]}};
-const JOIN_TRY_MS=12000;
+const RELAY_AFTER_MS=6000;   // no direct route by then: switch to the relay
+
+/* ---- RELAY: when two computers can't talk directly (VPN / proxy apps in TUN mode, campus Wi-Fi that
+   isolates devices, strict NAT), all co-op traffic goes through a free public MQTT broker over secure
+   WebSocket instead. That is plain HTTPS-like traffic, so it passes through VPNs and proxies.
+   Slower than direct (~0.1–0.3 s), so snapshots are thinned; the game itself does not change.
+   Note: public brokers are unauthenticated — only game state travels, keyed by the room code. */
+const RELAY_BROKERS=['wss://broker-cn.emqx.io:8084/mqtt','wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt'];
+const RELAY_ROOT='rooftop-escape/v1/';
+const relayClients=[];
+function relayConnect(url){
+  return new Promise((res,rej)=>{
+    if(typeof mqtt==='undefined'){rej(new Error('no mqtt'));return;}
+    let done=false,c;
+    try{c=mqtt.connect(url,{connectTimeout:7000,reconnectPeriod:2000,keepalive:20,clean:true,clientId:'re_'+Math.random().toString(16).slice(2,12)});}
+    catch(e){rej(e);return;}
+    const fin=(ok,v)=>{if(done)return;done=true;if(ok)res(c);else{try{c.end(true);}catch(_){}rej(v);}};
+    c.once('connect',()=>fin(true));
+    c.once('error',e=>fin(false,e));
+    setTimeout(()=>fin(false,new Error('timeout')),8000);
+  });
+}
+/* looks like a PeerJS DataConnection (open · send · on('data'|'close')), so the game code doesn't care */
+class RelayConn{
+  constructor(client,outTopic,me){
+    this.client=client;this.out=outTopic;this.me=me;this.open=true;this.relay=true;this.h={};
+    this.last=performance.now();this.snapAt=0;this.posAt=0;
+    this.tick=performance.now();
+    this.pingT=setInterval(()=>{
+      if(!this.open)return;
+      const now=performance.now();
+      if(now-this.tick>5000)this.last=now;   // WE were frozen (loading the world), not them: don't count it
+      this.tick=now;
+      this._pub({t:'_ping'},0);
+      if(now-this.last>25000)this.close(true);   // nothing heard for 25 s: gone
+    },2500);
+  }
+  on(ev,fn){(this.h[ev]=this.h[ev]||[]).push(fn);return this;}
+  emit(ev,a){for(const f of (this.h[ev]||[]))f(a);}
+  _pub(msg,qos){try{this.client.publish(this.out,JSON.stringify({f:this.me,d:msg}),{qos});}catch(_){}}
+  send(msg){
+    if(!this.open)return;
+    const now=performance.now();
+    if(msg&&msg.t==='snap'){if(now-this.snapAt<160)return;this.snapAt=now;this._pub(msg,0);return;}   // ~6 Hz is plenty
+    if(msg&&msg.t==='pos'){if(now-this.posAt<90)return;this.posAt=now;this._pub(msg,0);return;}
+    this._pub(msg,1);   // events, chat, lobby: delivered at least once
+  }
+  recv(d){
+    this.last=performance.now();
+    if(!d||d.t==='_ping')return;
+    if(d.t==='_bye'){this.close(false);return;}
+    this.emit('data',d);
+  }
+  close(sayBye=true){
+    if(!this.open)return;
+    if(sayBye)this._pub({t:'_bye'},0);
+    this.open=false;clearInterval(this.pingT);
+    this.emit('close');
+  }
+}
+/* host: listen on every broker we can reach, so a guest on any of them finds the room */
+function relayHost(code){
+  const inTopic=RELAY_ROOT+code+'/h';
+  for(const url of RELAY_BROKERS){
+    relayConnect(url).then(c=>{
+      if(!G.host||net.hostCode!==code){try{c.end(true);}catch(_){}return;}
+      relayClients.push(c);
+      const guests=new Map();
+      c.subscribe(inTopic,{qos:1});
+      c.on('message',(topic,buf)=>{
+        let m;try{m=JSON.parse(buf.toString());}catch(_){return;}
+        if(!m||!m.f||!m.d)return;
+        let con=guests.get(m.f);
+        if(!con||!con.open){
+          if(m.d.t!=='hello')return;
+          con=new RelayConn(c,RELAY_ROOT+code+'/g/'+m.f,'H');guests.set(m.f,con);
+          acceptConn(con);
+        }
+        con.recv(m.d);
+      });
+      hostReady(code);   // the lobby opens even if the direct-connection server is unreachable
+    }).catch(()=>{});
+  }
+}
+/* guest: try each broker in turn — say hello, wait for the host's welcome */
+async function relayJoin(code,tok,onUp){
+  const gid=Math.random().toString(36).slice(2,10);
+  for(const url of RELAY_BROKERS){
+    if(net.joinTok!==tok||net.ready)return;
+    let c;try{c=await relayConnect(url);}catch(_){continue;}
+    if(net.joinTok!==tok||net.ready){try{c.end(true);}catch(_){}return;}
+    const con=new RelayConn(c,RELAY_ROOT+code+'/h',gid);
+    const welcomed=await new Promise(res=>{
+      c.subscribe(RELAY_ROOT+code+'/g/'+gid,{qos:1},()=>{
+        c.on('message',(topic,buf)=>{let m;try{m=JSON.parse(buf.toString());}catch(_){return;}if(m&&m.d)con.recv(m.d);});
+        con.on('data',d=>{if(d&&d.t==='welcome'){con.welcome=d;res(true);}});
+        con.send({t:'hello',name:G.myName});
+        setTimeout(()=>res(false),6000);
+      });
+    });
+    if(welcomed&&net.joinTok===tok){relayClients.push(c);onUp(con);return;}
+    con.open=false;clearInterval(con.pingT);try{c.end(true);}catch(_){}
+  }
+  if(net.joinTok===tok&&!net.ready)menuMsg(T('msg_p2pfail'));
+}
+addEventListener('pagehide',()=>{   // tell the other side at once instead of letting it time out
+  for(const c of net.conns)if(c.relay)c.close(true);
+  if(net.con&&net.con.relay)net.con.close(true);
+});
 
 function genCode(){const cs='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<5;i++)s+=cs[irand(0,cs.length-1)];return s;}
 function menuMsg(t){$('menuMsg').textContent=t;}
 
+function hostReady(code){
+  if(net.ready||net.hostCode!==code)return;
+  net.ready=true;net.code=code;$('lobbyCode').textContent=code;showLobby();
+}
+function acceptConn(con){
+  net.conns.push(con);
+  con.on('data',d=>onData(d,con));
+  con.on('close',()=>{
+    net.conns=net.conns.filter(c=>c!==con);
+    if(con.meta){const r=net.remotes.get(con.meta.id);if(r&&r.vis)r.vis.remove();net.remotes.delete(con.meta.id);}
+    refreshLobby();netBroadcast({t:'lobby',names:lobbyNames()});
+  });
+}
 function hostRoom(){
   const code=genCode();
   G.mp=true;G.host=true;G.myId='H';G.myName=getName();
+  net.hostCode=code;
   menuMsg(T('msg_creating'));
-  net.peer=new Peer('zfesc-'+code,PEER_OPTS);
-  net.peer.on('open',()=>{net.ready=true;net.code=code;$('lobbyCode').textContent=code;showLobby();});
-  net.peer.on('error',e=>{
-    if(e.type==='unavailable-id'){try{net.peer.destroy();}catch(_){ } hostRoom();}
-    else if(G.mode!=='playing')menuMsg(T('msg_neterr',{e:e.type}));
+  let peer=null;
+  try{peer=net.peer=new Peer('zfesc-'+code,PEER_OPTS);}catch(_){peer=null;}   // direct connections
+  relayHost(code);                                                               // + the relay, in parallel
+  if(!peer)return;
+  peer.on('open',()=>hostReady(code));
+  peer.on('error',e=>{
+    if(e.type==='unavailable-id'&&!net.ready){try{peer.destroy();}catch(_){ } hostRoom();}
+    else if(!net.ready&&G.mode!=='playing'&&e.type!=='unavailable-id')menuMsg(T('msg_neterr',{e:e.type}));
   });
-  net.peer.on('connection',con=>{
-    net.conns.push(con);
-    con.on('data',d=>onData(d,con));
-    con.on('close',()=>{
-      net.conns=net.conns.filter(c=>c!==con);
-      if(con.meta){const r=net.remotes.get(con.meta.id);if(r&&r.vis)r.vis.remove();net.remotes.delete(con.meta.id);}
-      refreshLobby();netBroadcast({t:'lobby',names:lobbyNames()});
-    });
-  });
+  peer.on('connection',acceptConn);
 }
-function joinRoom(code,attempt=1){
+function joinRoom(code){
   if(net.peer){try{net.peer.destroy();}catch(_){}}
-  net.ready=false;net.con=null;
-  menuMsg(T(attempt>1?'msg_retry':'msg_connecting',{c:code}));
-  const peer=net.peer=new Peer(PEER_OPTS);
-  const live=()=>net.peer===peer;   // ignore events from an attempt we already gave up on
-  const slow=setTimeout(()=>{if(live()&&!net.ready)menuMsg(T('msg_slow'));},6000);
-  const give=setTimeout(()=>{       // no route found: retry once with a fresh peer, then explain
-    if(!live()||net.ready)return;
-    if(attempt<2)joinRoom(code,attempt+1);
-    else{menuMsg(T('msg_p2pfail'));try{peer.destroy();}catch(_){}}
-  },JOIN_TRY_MS);
-  const stop=()=>{clearTimeout(slow);clearTimeout(give);};
+  net.peer=null;net.ready=false;net.con=null;
+  const tok=net.joinTok={};
+  const live=()=>net.joinTok===tok;
+  menuMsg(T('msg_connecting',{c:code}));
+  const hostGone=()=>{if(G.mode!=='playing'){menuMsg(T('msg_hostclosed'));}else{toast(T('t_disc'));location.reload();}};
+  let relayOn=false;
+  const goRelay=()=>{   // the direct route failed or is too slow: use the relay instead
+    if(relayOn||!live()||net.ready)return;relayOn=true;
+    if(net.peer){try{net.peer.destroy();}catch(_){}net.peer=null;}
+    menuMsg(T('msg_relay'));
+    relayJoin(code,tok,con=>{
+      if(!live())return;
+      net.con=con;net.viaRelay=true;
+      con.on('data',d=>{if(d&&d.t!=='welcome')onData(d,con);});
+      con.on('close',()=>{if(live())hostGone();});
+      onData(con.welcome,con);
+      menuMsg(T('msg_connected'));
+    });
+  };
+  setTimeout(goRelay,RELAY_AFTER_MS);
+  let peer;
+  try{peer=net.peer=new Peer(PEER_OPTS);}catch(_){goRelay();return;}
+  const direct=()=>live()&&!relayOn&&net.peer===peer;
   peer.on('open',()=>{
-    if(!live())return;
+    if(!direct())return;
     const con=peer.connect('zfesc-'+code,{reliable:true});
     net.con=con;
-    con.on('open',()=>{if(!live())return;con.send({t:'hello',name:G.myName});menuMsg(T('msg_connected'));});
-    con.on('data',d=>{if(d&&d.t==='welcome')stop();onData(d,con);});
-    con.on('close',()=>{if(!live())return;if(G.mode!=='playing'){menuMsg(T('msg_hostclosed'));}else{toast(T('t_disc'));location.reload();}});
+    con.on('open',()=>{if(!direct())return;con.send({t:'hello',name:G.myName});});
+    con.on('data',d=>{if(live()&&net.con===con)onData(d,con);});
+    con.on('close',()=>{if(live()&&net.con===con)hostGone();});
   });
-  peer.on('error',e=>{
-    if(!live())return;stop();
-    menuMsg(e.type==='peer-unavailable'?T('msg_noroom',{c:code}):T('msg_neterr',{e:e.type}));
-  });
+  peer.on('error',()=>goRelay());   // blocked, unreachable, or the room lives on the relay only
 }
 function lobbyNames(){return [G.myName,...[...net.remotes.values()].map(r=>r.name)];}
 function onData(d,con){
@@ -6059,6 +6197,7 @@ function addChat(name,msg){
 }
 function onKey(code){
   if(G.mode!=='playing')return;
+  if(code==='KeyI'&&!G.uiLock){showHelp(!G.helpOpen);return;}
   if(G.uiLock==='ending'){if(code==='Space'||code==='Enter'||code==='Escape')skipEnding();return;}
   if(G.uiLock==='note'&&(code==='KeyE'||code==='Escape'||code==='Enter')){closeNote();return;}
   if(G.uiLock==='choice'){
@@ -6757,7 +6896,8 @@ $('choiceTrust').onclick=()=>resolveJieun('trust');
 $('choiceKill').onclick=()=>resolveJieun('kill');
 $('giveMed').onclick=e=>{e.stopPropagation();giveJieunMedkit();};
 $('btnRespawn').onclick=()=>{if(player.dead&&G.respawnPending)respawnPlayer();};
-$('missionX').onclick=()=>{G.mwDismissed=true;$('missionWindow').style.display='none';};
+$('missionX').onclick=()=>showHelp(false);
+$('helpBtn').onclick=()=>showHelp(!G.helpOpen);
 $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;

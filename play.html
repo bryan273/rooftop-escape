@@ -8,6 +8,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%9F%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<!-- co-op relay fallback (works through VPNs / proxies / strict networks) -->
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js';document.head.appendChild(s)"></script>
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
@@ -32,6 +34,7 @@
     <div id="squad" style="display:none"></div>
     <div id="missionTag"></div>
     <div id="obj"></div>
+    <div id="helpBtn"></div>
     <div id="missionWindow">
       <span class="x" id="missionX">✕</span>
       <div class="t" id="mwTag"></div>

@@ -126,7 +126,7 @@ npm run test:coop                 # co-op world (4 tool sets)
 
 - The host's browser runs the world. Mission progress is shared by the whole squad.
 - Downed friends can be revived by **holding Q** next to them.
-- Connections are peer-to-peer (PeerJS/WebRTC). Very strict school or office networks, and VPN/proxy apps, can block them; a phone hotspot with the VPN off usually fixes that. The game tries for about 25 seconds, then tells you what to check.
+- Co-op tries a direct peer-to-peer connection first (PeerJS/WebRTC). If that is blocked (VPN/proxy apps such as Clash in TUN mode, campus Wi-Fi that isolates devices, strict NAT), it switches automatically after ~6 s to a relay through a free public MQTT broker over secure WebSocket, so friends on different networks or behind a VPN can still play. The relay adds ~0.1–0.3 s of lag. Public brokers are unauthenticated: only game state is sent, keyed by the room code.
 
 ## 🌍 Deploy (GitHub Pages)
 

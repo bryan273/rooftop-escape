@@ -293,3 +293,9 @@ body.cine #hud>*:not(#subtitle),body.cine #giveMed,body.cine #lockHint{visibilit
 body.cine #subtitle{font-size:19px;bottom:14vh}
 .vicTrophy{font-size:64px;filter:drop-shadow(0 0 20px rgba(255,210,63,.6))}
 #menuHow .hl{margin-bottom:10px;padding:8px 10px;border-left:3px solid #c1272d;background:rgba(193,39,45,.1);line-height:1.6}
+
+/* mission help on demand */
+#helpBtn{display:inline-block;margin-top:6px;padding:3px 9px;font-size:11.5px;letter-spacing:1px;color:#cfc8bb;background:rgba(4,5,7,.6);border:1px solid #3a3530;cursor:pointer;pointer-events:auto}
+#helpBtn b{color:var(--amber)}
+#helpBtn:hover{color:#fff;border-color:#8b8178}
+#missionWindow,#hintKey{display:none}
