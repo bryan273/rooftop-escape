@@ -498,7 +498,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   const termT=g.interactTargets();
   tap('KeyE');
   step('terminal opened',G.uiLock==='cctv',G.uiLock+' e='+(termT.e&&termT.e.label)+' at '+(termT.e&&termT.e.x.toFixed(1)+','+termT.e.z.toFixed(1))+' player '+player.pos.x.toFixed(2)+','+player.pos.z.toFixed(2)+' f'+player.floor);
-  for(let w=0;w<250&&!G.flags.cctvSeen;w++){await sleep(100);}   // the archive plays on real timers (~12 s)
+  for(let w=0;w<250&&!G.flags.cctvSeen;w++){await sleep(100);if(w%3===2)tap('Space');}   // the archive advances line by line on [SPACE]
   run(2);
   step('archive watched',G.flags.cctvSeen);
   tap('KeyE');

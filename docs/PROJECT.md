@@ -16,7 +16,7 @@
 
 Rooftop Escape is a first-person 3D zombie survival escape game that runs in the browser with no install. You play a student trapped in Seowon High School after an outbreak. A military helicopter will land on the roof at midnight, but only if it sees a signal flare. You climb six floors, solve the stairwell locks in a fixed order, decide whether to trust a survivor who may be infected, and hold the landing circle for 30 seconds against the rooftop horde.
 
-It supports solo play and 2–4 player online co-op, English and Chinese, and two modes: **Nightmare** (dark horror) and **Daylight Drill** (bright and kid-friendly).
+It supports solo play and 2–4 player online co-op with voice chat, four languages (English, Chinese, Vietnamese, Indonesian), and two modes: **Nightmare** (dark horror) and **Daylight Drill** (bright and kid-friendly).
 
 ## 2. Problem statement and goal
 
@@ -86,7 +86,7 @@ Design questions we set ourselves:
 |---|---|
 | Rendering | Three.js r160 (ES module via CDN import map), ACES tone mapping, fog, canvas-generated textures |
 | Audio | Web Audio API: recorded SFX (`assets/sfx/*.wav`), CC0 zombie voices (`js/vox.js`), synthesized fallbacks, stereo panning + distance attenuation, a "monster throat" filter bus for zombie voices |
-| Multiplayer | PeerJS 1.5 (WebRTC), host-authoritative |
+| Multiplayer | PeerJS 1.5 (WebRTC) with an MQTT-over-WebSocket relay fallback (mqtt.js 5), host-authoritative, seeded shared world, voice chat |
 | Hosting | GitHub Pages (static, `.nojekyll`), no backend |
 | Tests | Node.js headless harness with a stub renderer (`_sim/`), Playwright for real-browser checks |
 
@@ -109,7 +109,7 @@ docs/PROJECT.md       this document;  DESIGN.md  full design reference
 
 The module is organised in sections, top to bottom:
 
-1. **Config + i18n** — `CFG`, `ROOF`, `GUN` tuning tables; `I18N` (English/Chinese) behind `T(key)`.
+1. **Config + i18n** — `CFG`, `ROOF`, `GUN` tuning tables; `I18N` (English/Chinese, plus Vietnamese/Indonesian merged from `js/i18n-extra.js`) behind `T(key)`.
 2. **Audio** — `ensureAudio()` builds synth buffers, loads samples, starts loops; `play(name, {pos})` spatialises one-shots; `warnFx()` plays the short alert on warning text.
 3. **World generation** — `buildFloor(f)` builds each floor (rooms with doors, stair tower, fixed light inventory so shaders never recompile), special rooms (security/CCTV, electrical, safe room, ammo rooms), `buildRoof()`.
 4. **Physics queries** — `groundAt`, `collideCircle`, `losClear` (walls tested at the eye height of that floor).
@@ -118,7 +118,7 @@ The module is organised in sections, top to bottom:
 7. **Interaction** — `interactTargets()` picks the best `E` / `Q` target by distance, facing and objective priority; hold/kick jobs with animated planks.
 8. **UI, menus, saves, networking, main loop** — HUD, intro comic, chapter comics, pause, CCTV terminal, save v3 (`localStorage`), PeerJS host/guest events, `loop()`.
 
-**Co-op model.** The host simulates zombies, survivors and the mission. Guests send inputs and hits (`zhit`); the host broadcasts snapshots, story flags and the mission index. Late joiners receive a snapshot after their world is built.
+**Co-op model.** The host's seed builds the same school on every machine. The host alone simulates zombies, survivors and the mission; a guest-triggered scare is requested with `zspawn` and spawned by the host, and guest-only leftovers are dropped. Guests send positions and hits (`zhit`); the host broadcasts snapshots (players, zombies, Ji-eun's position and health, the helicopter countdown), story flags, keycards and the mission index. Zombies that change floor move into that floor's scene group. Extras: item giving, voice chat, 3 revives, turning + spectating. Late joiners receive a snapshot after their world is built.
 
 ### Run, test and deploy
 
@@ -139,7 +139,7 @@ The harness boots the real game module in Node, presses real keys and plays the 
 - every flight of stairs is climbable and every room reachable (flood fill); every room's front wall is solid (40 random buildings);
 - point-blank combat, head shots, walls stopping bullets, full-auto rate;
 - all three Ji-eun endings (trust + medkit, kill, timeout horde);
-- save → restore round trip; i18n keys exist in both languages;
+- save → restore round trip; i18n keys exist in every language;
 - the rooftop is winnable by a fighting bot with human-like aim, and never sends more than 30 zombies.
 
 Latest results: Nightmare 52/52 · Daylight (timeout) 54/54 · Chinese (kill) 51/51 · co-op 49/49 in both modes.
@@ -164,6 +164,7 @@ Assets: zombie voices CC0 via OpenGameArt; sound effects Mixkit (free license); 
 ## 11. Known limitations and next steps
 
 - Characters are built from primitives in code; artist-made rigged models (e.g. CC0 Quaternius packs) would be the next big step in realism.
-- Co-op needs ordinary internet; strict school/corporate networks block WebRTC.
+- Co-op falls back to a public MQTT relay when WebRTC is blocked; that adds ~0.1–0.3 s of lag and depends on free public brokers.
+- Vietnamese and Indonesian were machine-assisted; a native-speaker pass is still to do. The landing page is English only.
 - Keyboard + mouse only; touch controls would open it to phones.
 - Next: collect ≥10 pieces of player feedback (landing page → GitHub Issues, class WeChat group) and tune difficulty, clarity and the Ji-eun scene from it.

@@ -20,7 +20,7 @@ A study night at **Seowon High School**. At 23:12 the outbreak starts in the **b
 | Death | "YOU DIED" | "YOU GOT BONKED" |
 
 - **Session:** ~30–45 minutes · **Players:** solo or 2–4 co-op
-- **Death model:** 3 retries per run (respawn at the stairwell of the highest floor reached); co-op players get downed and can be revived first.
+- **Death model:** 3 retries per run (respawn at the stairwell of the highest floor reached). In co-op a downed player can be revived by friends up to 3 times (back at half health); after that, or after bleeding out, they turn into a named zombie the others must put down and watch the rest as a spectator.
 
 ## 2. Core loop
 
@@ -143,13 +143,19 @@ Three.js r160 (CDN importmap), ACES tonemapping, fog, canvas textures, view-mode
 
 ## 12. UI
 
-Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line + "HOW" panel with keys, threat ring, waypoint or "search the rooms" hint, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV · notes · chapter comics · death/respawn · ending cutscene (ladder pickup, lift-off, eyes closing) · winner screen.
+Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line; [I] opens the "HOW" panel with keys **and** the objective arrow / "search the rooms" hint — hidden until asked, so players explore first; threat ring, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV (archive log advances on [SPACE]; friends drawn with names, unnamed survivors as blue dots) · notes · chapter comics · death/respawn · ending cutscene (ladder pickup, lift-off, eyes closing) · winner screen.
 
 **Saves (solo):** every 5 s to localStorage, format v3 (step key, flags, inventory, gates, boards, items). The roof is replayed from its start after a continue.
 
 ## 13. Co-op
 
-PeerJS/WebRTC, host-authoritative. Progress is shared: the step index (`qi`) and story flags (`flag`) are broadcast. Guests' crowbar hits are sent to the host (`zhit`). Late joiners get the snapshot after their world is built. Ji-eun's position is synced in snapshots. Saves are solo only.
+PeerJS/WebRTC first, MQTT relay fallback after ~6 s (VPNs, strict networks). Host-authoritative, one shared world:
+- **Same building:** the host's seed drives world generation on every machine.
+- **Same zombies:** only the host simulates and spawns zombies. A guest-triggered scare sends `zspawn` and the host spawns the real zombie for everyone; anything a guest has that the host does not is removed after three snapshots. A zombie that changes floor is moved into that floor's scene group, so it is never hidden while it attacks.
+- **Same clock and wounds:** the helicopter countdown (`xp`) and Ji-eun's health travel in every snapshot; a medkit from anyone heals her once, for all.
+- **Shared progress:** step index (`qi`), story flags and keycards ("taken by …"); other loot is personal. Guests' hits go to the host (`zhit`).
+- **Extras:** [B] give items, [M]/[N] voice chat (8 kHz µ-law), 3 revives, turned players become spectators.
+Late joiners get the snapshot after their world is built. Saves are solo only.
 
 ## 14. Tech & deployment
 

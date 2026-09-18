@@ -12,7 +12,7 @@ A 3D first-person zombie survival escape game that runs in the browser. Inspired
 
 ## 🌐 Languages
 
-**English / 简体中文.** Switch with the buttons on the menu. Everything is translated, and switching mid-run rebuilds the world without losing your progress.
+**English · 简体中文 · Tiếng Việt · Bahasa Indonesia.** Switch with the buttons on the menu. Everything in the game is translated, and switching mid-run rebuilds the world without losing your progress. (Vietnamese and Indonesian live in `js/i18n-extra.js`.)
 
 ## 🎭 Two game modes
 
@@ -50,6 +50,7 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | **Shift** | Sprint (loud, attracts enemies) |
 | **Space** | Jump |
 | **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards · talk to survivors (again for the next line) · respawn |
+| **I** | Mission help: shows how to do the current step **and the objective arrow** (hidden by default, so you explore first) |
 | **Q** | Physical work: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) · release the shutter in the terminal |
 | **F** | Flashlight (drains battery) |
 | **G** | Throw a flare (lures enemies away; on the roof it pulls attackers off you) |
@@ -126,6 +127,7 @@ npm run test:coop                 # co-op world (4 tool sets)
 
 - The host's browser runs the world. Mission progress is shared by the whole squad.
 - Downed friends can be revived by **holding Q** next to them.
+- Everyone plays in the **same world**: the host picks a seed, so the building, rooms and loot match; the host alone runs every zombie (a scare triggered by a guest is spawned by the host for all), and the helicopter countdown and Ji-eun's health come from the host, so every screen shows the same seconds and the same wounds. A medkit given to Ji-eun by anyone heals her for everyone.
 - Co-op tries a direct peer-to-peer connection first (PeerJS/WebRTC). If that is blocked (VPN/proxy apps such as Clash in TUN mode, campus Wi-Fi that isolates devices, strict NAT), it switches automatically after ~6 s to a relay through a free public MQTT broker over secure WebSocket, so friends on different networks or behind a VPN can still play. The relay adds ~0.1–0.3 s of lag. Public brokers are unauthenticated: only game state is sent, keyed by the room code.
 - Co-op extras: **[B]** give a nearby friend a medkit, ammo, your SMG, battery or a flare · **[M]** microphone on/off · **[N]** friends' voices on/off (voice chat works over direct and relay connections). Keycards are shared ("taken by …" moves the mission on for everyone); other loot is personal, so everyone can grab their own crowbar, gun and medkits. A friend can revive you up to 3 times (you come back at half health); after that — or if nobody comes — you turn into a named zombie your friends must put down, and you watch the rest through their eyes (spectator: A/D to switch, or quit).
 

@@ -320,3 +320,7 @@ body.cine #subtitle{font-size:19px;bottom:14vh}
 #spectate .sbtns{display:flex;gap:8px;pointer-events:auto}
 #spectate button{padding:6px 12px;background:rgba(8,8,10,.85);border:1px solid #555;color:#eee;font:600 12px Inter,sans-serif;cursor:pointer}
 body.spec #hud>*:not(#subtitle):not(#toasts),body.spec #giveMed,body.spec #lockHint,body.spec #giveHint{visibility:hidden!important}
+
+/* CCTV archive: [SPACE] for the next line */
+#cctvLogNext{margin-top:18px;font:13px Consolas,monospace;letter-spacing:3px;color:#59ff7a;animation:cblink 1.1s steps(2) infinite}
+@keyframes cblink{50%{opacity:.25}}

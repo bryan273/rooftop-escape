@@ -91,12 +91,12 @@ en:{
  wp_here:'OBJECTIVE · {d} m',wp_search:'NO MARKER — SEARCH THE ROOMS ON {f}',
  hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [I] help · [Esc] pause',
  hint_mp:'<br>[T] chat · [Z] ping · HOLD [Q] on a downed friend to revive',
- k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',help_show:'<b>[I]</b> Stuck? Show how',help_hide:'<b>[I]</b> Hide help',
+ k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',help_show:'<b>[I]</b> Stuck? Show the way',help_hide:'<b>[I]</b> Hide help',
  col_red:'RED',col_blue:'BLUE',col_yellow:'YELLOW',col_green:'GREEN',
  pause_title:'PAUSED',opt_sens:'Mouse sensitivity',opt_vol:'Volume',opt_fov:'Field of view',btn_resume:'Resume',btn_quit:'Quit to menu',
  ctrl:'<div><b>WASD</b> move</div><div><b>Mouse</b> look</div><div><b>Shift</b> sprint (loud)</div><div><b>Space</b> jump</div><div><b>E</b> take · open · use · talk</div><div><b>Q (tap)</b> kick boards</div><div><b>Hold Q</b> pry · breaker · flare · revive</div><div><b>E / Enter</b> respawn</div><div><b>C</b> crouch (sneak)</div><div><b>F</b> flashlight</div><div><b>G</b> throw flare</div><div><b>H</b> use medkit</div><div><b>LMB</b> attack</div><div><b>1 / 2</b> crowbar / SMG</div><div><b>V</b> 1st / 3rd person</div><div><b>I</b> mission help</div><div><b>Tab</b> objectives</div><div><b>T / Z</b> chat / ping (co-op)</div><div><b>Esc</b> pause</div>',
  goals_title:'ESCAPE PLAN',
- cctv_hint:'◀ ▶ / A D — switch camera · [Q] — release the shutter (when it is time) · [E] / [Esc] — leave',cctv_cam:'CAM {n} — {m}',
+ cctv_hint:'◀ ▶ / A D — switch camera · [Q] — release the shutter (when it is time) · [E] / [Esc] — leave',cctv_cam:'CAM {n} — {m}',cl_next:'[SPACE] ▸ next',cc_you:'YOU',
  shutter_btn:'RELEASE FLOOR 3 SHUTTER',note_close:'[E] / [ESC] — put it down',
  death_h:'YOU DIED',death_l:'YOU GOT BONKED',death_p:'The building keeps your bones.',death_pl:'The bots gently roll you to a safe corner.',
  down_h:'YOU ARE DOWN',down_hl:'TACKLED!',
@@ -308,7 +308,7 @@ en:{
  l_givemed:'Give Ji-eun a medkit (+80)',t_gavemed:'Ji-eun is patched up — she can keep up now.',
  btn_givemed:'💉 GIVE JI-EUN A MEDKIT',t_givemed_far:'Get next to Ji-eun first.',
  t_jieun_join:'Ji-eun joins you — she stays near you, keeps you in sight and shoots anything that gets close. Keep her alive: zombies go for her too.',
- t_jieun_hurt:'Ji-eun is badly hurt — cover her!',
+ t_jieun_hurt:'Ji-eun is badly hurt — cover her!',t_jmed_by:'{n} patched Ji-eun up with a medkit.',
  jieun_dying:'<b>Ji-eun:</b> “It bit me… I’m sorry… r-run…”',
  jieun_turn:'<i>Ji-eun gets up. Her eyes are wrong.</i> Put her down.',
  jieun_zdead:'<i>It’s over, Ji-eun. You kept her from wandering the halls.</i>',
@@ -423,12 +423,12 @@ zh:{
  wp_here:'目标 · {d} 米',wp_search:'没有标记——搜查{f}的房间',
  hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住Q] 撬/电闸/照明弹<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [I] 帮助 · [Esc] 暂停',
  hint_mp:'<br>[T] 聊天 · [Z] 标记 · 在倒地队友旁按住 [Q] 救起',
- k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',help_show:'<b>[I]</b> 卡住了？查看做法',help_hide:'<b>[I]</b> 隐藏帮助',
+ k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',help_show:'<b>[I]</b> 卡住了？显示路线',help_hide:'<b>[I]</b> 隐藏帮助',
  col_red:'红色',col_blue:'蓝色',col_yellow:'黄色',col_green:'绿色',
  pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
  ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>E</b> 拾取·开门·使用·对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬板·电闸·照明弹·救人</div><div><b>E / 回车</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>I</b> 任务帮助</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
  goals_title:'逃生计划',
- cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',
+ cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',cl_next:'[空格] ▸ 下一条',cc_you:'你',
  shutter_btn:'解除3层卷帘门',note_close:'[E] / [ESC] — 放下',
  death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。',
  down_h:'你倒下了',down_hl:'被扑倒了！',
@@ -634,7 +634,7 @@ zh:{
  l_givemed:'给智恩医疗包（+80）',t_gavemed:'智恩包扎好了——她能跟上了。',
  btn_givemed:'💉 给智恩医疗包',t_givemed_far:'先走到智恩身边。',
  t_jieun_join:'智恩加入了你——她会待在你附近、不让你离开视线，并射击靠近的丧尸。保护好她：丧尸也会攻击她。',
- t_jieun_hurt:'智恩伤得很重——掩护她！',
+ t_jieun_hurt:'智恩伤得很重——掩护她！',t_jmed_by:'{n} 用医疗包给智恩包扎了伤口。',
  jieun_dying:'<b>智恩：</b>“它咬到我了……对不起……快、快跑……”',
  jieun_turn:'<i>智恩站了起来。她的眼神不对了。</i>解决她。',
  jieun_zdead:'<i>结束了，智恩。至少她不会在走廊里游荡了。</i>',
@@ -3110,7 +3110,10 @@ class Zombie{
     this.dripT=rand(0.5,2);
     this.lungeT=0;this.lungeCd=0;this.aggroCd=0;this.breathT=rand(0.5,2);
     this.riseT=0;this.riseDur=1;
-    world.zombies.push(this);world.levels[f].add(this.g);
+    world.zombies.push(this);world.levels[f].add(this.g);this.lvF=f;
+  }
+  syncLevel(){   // keep the mesh in its CURRENT floor's group (floor groups far from you are hidden)
+    if(this.lvF!==this.f&&world.levels[this.f]){world.levels[this.f].add(this.g);this.lvF=this.f;}
   }
   hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
     if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
@@ -3156,6 +3159,7 @@ class Zombie{
   }
   update(dt,t){
     const g=this.g;
+    this.syncLevel();
     if(this.dead){
       if(this.type==='crawler'&&!this.robot){g.rotation.z=0;return;}
       if(this.corpseT<1){
@@ -3482,7 +3486,16 @@ class Zombie{
     spawnDrip(_dripV,this.f);
   }
 }
+let NET_SPAWN=false;   // true while a guest builds its (seeded) world or mirrors a host zombie
 function spawnZombie(f,x,zz,type,room){
+  if(G.mp&&!G.host&&!NET_SPAWN&&world.built){
+    // a local-only zombie would be a statue nobody else sees: ask the host, who spawns the real one for everybody
+    const stub={g:{position:new THREE.Vector3(x,f*CFG.FH,zz),rotation:new THREE.Euler()},f,type,state:'idle',dead:false,hit(){},die(){}};
+    const r=room?{x0:room.x0,x1:room.x1,z0:room.z0,z1:room.z1}:null;
+    setTimeout(()=>netSend({t:'ev',k:'zspawn',f,x:+x.toFixed(2),z:+zz.toFixed(2),ty:type,r,st:stub.state,
+      ix:stub.invest?+stub.invest.x.toFixed(2):null,iz:stub.invest?+stub.invest.z.toFixed(2):null,iT:stub.investT||0}),0);
+    return stub;
+  }
   if(inSafeRoom(f,x,zz)){x=clamp(x,-8,14);zz=rand(-1,1);room=null;} // nothing ever appears in Ji-eun's room
   const z=new Zombie(f,x,zz,type,room||{x0:x-5,x1:x+5,z0:zz-5,z1:zz+5,door:null});
   world.zmap=world.zmap||new Map();
@@ -3687,7 +3700,7 @@ class SurvivorNPC{
     else if(!seen&&this.barkT<=0){this.barkT=rand(30,48);jieunBark('calm');}
     // she patches herself up when it's quiet
     this.regenWait=Math.max(0,(this.regenWait||0)-dt);
-    if(this.regenWait<=0&&this.hp<this.hpMax*0.6){this.hp=Math.min(this.hpMax*0.6,this.hp+1*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;} // only a medkit gets her past 60 %
+    if(this.regenWait<=0&&this.hp<this.hpMax*0.6&&!(G.mp&&!G.host)){this.hp=Math.min(this.hpMax*0.6,this.hp+1*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;} // only a medkit gets her past 60 %
     const weak=this.hp<this.hpMax*0.6;
     this.parts.torso.rotation.x=weak?0.28:0.05;   // bent over, holding herself up
     // fight: short bursts at the nearest zombie she can see
@@ -3888,8 +3901,8 @@ function giveJieunMedkit(){
   if(!je||INV.medkit<=0)return;
   if(Math.hypot(je.parts.g.position.x-player.pos.x,je.parts.g.position.z-player.pos.z)>2.6||je.f!==player.floor){toast(T('t_givemed_far'));return;}
   INV.medkit--;hudInv();
-  if(G.mp&&!G.host)netSend({t:'ev',k:'jmed'});
-  else{je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}
+  netTell({t:'ev',k:'jmed',n:G.myName});   // the host heals her; everyone's bar follows the host's
+  je.hp=Math.min(je.hpMax,je.hp+80);je.medAt=performance.now();je.drawBar();
   play('paper',{vol:.8});toast(T('t_gavemed'));
   setTimeout(()=>jieunBark('med'),900);
 }
@@ -5252,18 +5265,19 @@ function updateExtraction(dt){
     if(!r.down&&r.f===CFG.FLOORS&&Math.hypot(r.x-ex.x,r.z-ex.z)<ROOF.RADIUS+0.2)inRing++;
   }
   let row;
+  const own=!G.mp||G.host;   // guests show the host's clock (it arrives in every snapshot)
   if((inside||!me)&&total>0&&inRing>=total){
-    extractProg=Math.min(1,extractProg+dt/ROOF.HOLD);
+    if(own)extractProg=Math.min(1,extractProg+dt/ROOF.HOLD);
     row={key:null,label:T('p_extract',{n:Math.max(0,Math.ceil(ROOF.HOLD*(1-extractProg)-0.001))})};
   }else if(inside){
-    extractProg=Math.max(0,extractProg-dt/ROOF.HOLD*0.5);
+    if(own)extractProg=Math.max(0,extractProg-dt/ROOF.HOLD*0.5);
     row={key:null,label:T('p_wait',{i:inRing,t:total})};
   }else{
-    extractProg=Math.max(0,extractProg-dt/ROOF.HOLD);   // outside: the clock runs backwards
+    if(own)extractProg=Math.max(0,extractProg-dt/ROOF.HOLD);   // outside: the clock runs backwards
     row={key:null,label:T('p_out',{n:Math.ceil(ROOF.HOLD*(1-extractProg))})};
   }
   roofWaves(dt);
-  if(extractProg>=1)doVictory();
+  if(extractProg>=1&&own)doVictory();
   return {row,p:extractProg};
 }
 /* while the flare burns, the whole building comes up — through the roof door and over the parapet */
@@ -5357,7 +5371,7 @@ function openCCTV(){
   play('click',{vol:.8});
   if(!G.flags.cctvSeen&&!RESTORING&&!archiveRunning)runCctvArchive();
 }
-function closeCCTV(){G.uiLock=null;$('cctv').style.display='none';ePrev=enterPrev=true;lockPointer();questCheck();}
+function closeCCTV(){if(archiveRunning){archiveRunning=false;archiveNext=null;$('cctvLog').style.display='none';}G.uiLock=null;$('cctv').style.display='none';ePrev=enterPrev=true;lockPointer();questCheck();}
 /* the archive: a timestamped evacuation record that explains the whole building */
 /* it only counts once it has played to the end — leave early and it starts over next time */
 let archiveRunning=false;
@@ -5384,10 +5398,14 @@ function runCctvArchive(){
     }
     txt.textContent+=lines[i]+'\n';i++;
     play('click',{vol:.2,force:true});
-    setTimeout(step,i===1?1000:1500);
+    nx.textContent=T('cl_next');   // wait for [SPACE]
+    archiveNext=()=>{archiveNext=null;nx.textContent='';step();};
   };
-  setTimeout(step,700);
+  const nx=$('cctvLogNext');nx.textContent='';
+  archiveNext=null;
+  setTimeout(step,500);
 }
+let archiveNext=null;
 /* you leave the terminal… THUMP. Something answers. */
 function cctvAftermath(){
   if(!MD.jumpscares||!G.started)return;
@@ -5529,12 +5547,25 @@ function drawCCTV(){
     x.fillStyle=z.state==='chase'?'#ff4a3a':'#ff9a3a';
     x.beginPath();x.arc(mx(z.g.position.x),mz(z.g.position.z),3.4*pulse,0,TAU);x.fill();
   }
-  // players
-  x.fillStyle='#59ff7a';
-  if(player.floor===camFloor){x.beginPath();x.arc(mx(player.pos.x),mz(player.pos.z),4.4,0,TAU);x.fill();}
+  // survivors nobody has named on the feed: a cold blue dot, no label — who is that?
+  for(const npc of world.npcs||[]){
+    if(npc.gone||npc.corpse||npc.f!==camFloor)continue;
+    const q=npc.parts.g.position;
+    x.fillStyle='#7ec8ff';x.shadowColor='#7ec8ff';x.shadowBlur=8;
+    x.beginPath();x.arc(mx(q.x),mz(q.z),4,0,TAU);x.fill();x.shadowBlur=0;
+  }
+  // players: you, and every friend with their name
+  x.font='bold 12px Consolas,monospace';
+  const dot=(px,pz,name,me)=>{
+    x.fillStyle=me?'#59ff7a':'#d6ff5a';
+    x.beginPath();x.arc(mx(px),mz(pz),4.6,0,TAU);x.fill();
+    x.strokeStyle='#02120a';x.lineWidth=1.5;x.stroke();
+    x.fillStyle=me?'#9dffb4':'#ecff9a';x.fillText(name,mx(px)+7,mz(pz)-6);
+  };
+  if(player.floor===camFloor&&!player.spec)dot(player.pos.x,player.pos.z,G.mp?(G.myName||T('cc_you')):T('cc_you'),true);
   if(G.mp)for(const r of net.remotes.values()){
-    if(r.floor!==camFloor)continue;
-    x.beginPath();x.arc(mx(r.x),mz(r.z),4.4,0,TAU);x.fill();
+    if((r.f||0)!==camFloor||r.spec||r.dead)continue;
+    dot(r.x,r.z,r.name||'?',false);
   }
   // noise + scanlines
   x.fillStyle='rgba(120,255,150,0.05)';
@@ -5572,8 +5603,9 @@ function updateEvents(dt){
     }
   }
   // CONTAINMENT BREACH — Floor 5, the lab. Multiple doors, staged.
+  if(!hordeDone&&player.floor===5&&G.flags.horde5)hordeDone=true;   // co-op: the breach happens once, for the whole team
   if(!hordeDone&&player.floor===5){
-    hordeDone=true;
+    hordeDone=true;G.flags.horde5=true;netFlag('horde5');
     markDanger(5,60);
     play('alarm',{vol:1,force:true});setTimeout(()=>play('alarm',{vol:.8,force:true}),2100);
     toast(T(MD.jumpscares?'t_horde':'t_horde_l'));
@@ -5792,8 +5824,9 @@ function drawRing(){
   if(!G.ringTipB){for(let i=0;i<N;i++)if(cols[i]===1){G.ringTipB=1;toast(T(MD.id==='lite'?'ring_bl':'ring_b'));break;}}
   // objective marker (amber chevron) — only nearby, or when pointing at the stairwell
   const qt=questTarget(),wd=waypointDir();
-  const showWp=qt&&wd&&(qt.up||qt.down||wd.dist<32); // no GPS: far objectives live on the signs & the radio
-  if(qt&&qt.search){
+  const showWp=G.helpOpen&&qt&&wd&&(qt.up||qt.down||wd.dist<32); // no GPS: far objectives live on the signs & the radio
+  if(!G.helpOpen){const wp=$('wpText');if(wp)wp.style.display='none';}   // the arrow is part of the help: [I]
+  else if(qt&&qt.search){
     const wp=$('wpText');
     if(wp){wp.textContent=T('wp_search',{f:floorName(qt.floor)});wp.style.color='#ffcf7a';wp.style.display='block';}
   }else if(showWp){
@@ -6323,6 +6356,11 @@ function applySnap(s){
       const p=je.parts.g.position;
       p.x=lerp(p.x,s.jp[0],0.5);p.y=lerp(p.y,s.jp[1],0.5);p.z=lerp(p.z,s.jp[2],0.5);
       je.yaw=s.jp[3];je.parts.g.rotation.y=je.yaw;
+      if(typeof s.jp[5]==='number'&&Math.abs(s.jp[5]-je.hp)>=1&&!(je.medAt&&performance.now()-je.medAt<1500)){
+        je.hp=s.jp[5];je.drawBar();
+        if(je.hp<je.hpMax*0.35&&!je.warned){je.warned=true;toast(T('t_jieun_hurt'));}
+        if(je.hp>je.hpMax*0.5)je.warned=false;
+      }
     }
   }
   const seen=new Set();
@@ -6337,15 +6375,31 @@ function applySnap(s){
     remoteSample(r);
   }
   for(const[id,r]of net.remotes){if(!seen.has(id)){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
+  const zseen=new Set();
   for(const a of s.zb){
     let z=world.zmap&&world.zmap.get(a[0]);
     if(!z){
-      z=spawnZombie(clamp(Math.round(a[2]/CFG.FH),0,CFG.FLOORS),a[1],a[3],ZTYPE_LIST[a[7]]||'shambler',null);
+      NET_SPAWN=true;
+      try{z=spawnZombie(clamp(Math.round(a[2]/CFG.FH),0,CFG.FLOORS),a[1],a[3],ZTYPE_LIST[a[7]]||'shambler',null);}finally{NET_SPAWN=false;}
+      world.zmap.delete(z.id);   // it was filed under a local number — that number belongs to another host zombie
       z.id=a[0];world.zmap.set(a[0],z);
+      z.g.position.set(a[1],a[2],a[3]);
     }
+    z.miss=0;zseen.add(z);
     z.netX=a[1];z.netY=a[2];z.netZ=a[3];z.netYaw=a[4];z.netState=a[5];z.netF=Math.round(a[2]/CFG.FH);z.netDead=!!a[6];
     if(G.ztags&&G.ztags[z.id]&&!z.tagged)tagTurned(z,G.ztags[z.id]);
   }
+  // anything the host does not have is not real: drop it (after a few snapshots, never on a single hiccup)
+  for(let i=world.zombies.length-1;i>=0;i--){
+    const z=world.zombies[i];
+    if(zseen.has(z))continue;
+    if((z.miss=(z.miss||0)+1)<3)continue;
+    if(z.g.parent)z.g.parent.remove(z.g);
+    world.zombies.splice(i,1);
+    if(world.zmap&&world.zmap.get(z.id)===z)world.zmap.delete(z.id);
+  }
+  // the helicopter clock is the host's: everybody sees the same seconds
+  if(typeof s.xp==='number')extractProg=s.xp;
 }
 function onEv(d,from){
   switch(d.k){
@@ -6369,7 +6423,16 @@ function onEv(d,from){
     case 'shutter':{G.flags.shutter=true;const g=world.gates.find(g=>g.f===3);if(g&&!g.open){g.locked=false;g.setOpen(true);}updateShutterBtn();toast(T('t_friendshutter'));questCheck();break;}
     case 'qi':if(d.v>qi){qi=d.v;questCheck();}break;
     case 'flag':if(!G.flags[d.n]){G.flags[d.n]=true;applyFlag(d.n);questCheck();}break;
-    case 'jmed':{const je=companion();if(je&&G.host){je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}break;}
+    case 'jmed':{const je=companion();if(je){
+      if(G.host){je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}
+      if(d.n)toast(T('t_jmed_by',{n:esc(d.n)}));}break;}
+    case 'zspawn':{
+      if(!G.host)break;
+      const zb=spawnZombie(clamp(d.f|0,0,CFG.FLOORS),+d.x||0,+d.z||0,ZTYPES[d.ty]&&d.ty!=='park'&&d.ty!=='jieun'?d.ty:'shambler',d.r||null);
+      if(d.st)zb.state=d.st;
+      if(d.ix!=null){zb.invest={x:d.ix,z:d.iz};zb.investT=d.iT||20;}
+      if(d.st==='chase')zb.loseT=0;
+      return;}
     case 'zhit':{const z=world.zmap&&world.zmap.get(d.id);if(z&&!z.dead&&G.host)z.hit(d.dmg||1,true);break;}
     case 'flare':{const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.24,8),MAT.flare));const li=takeFlareLight();g.position.set(d.x,d.y,d.z);if(li)li.position.copy(g.position);scene.add(g);flares.push({g,li,f:d.f,vx:0,vy:0,vz:0,life:14,fizzT:0.5,x:d.x,z:d.z});break;}
     case 'hit':if(d.id===G.myId)damagePlayer(d.dmg);break;
@@ -6479,6 +6542,7 @@ function onKey(code){
     return;
   }
   if(G.uiLock==='cctv'){
+    if(archiveRunning&&code==='Space'){if(archiveNext)archiveNext();return;}
     if(code==='KeyE'||code==='Escape'){closeCCTV();return;}
     if(code==='KeyQ'||code==='Enter'){releaseShutter();return;}
     if(code==='KeyA'||code==='ArrowLeft'){camFloor=(camFloor+CFG.FLOORS-1)%CFG.FLOORS;drawCCTV();play('click',{vol:.4});}
@@ -7247,8 +7311,10 @@ function loop(){
         for(const r of net.remotes.values())ps.push([r.id,+r.x.toFixed(2),+r.z.toFixed(2),+ (r.y||0).toFixed(2),+r.yaw.toFixed(2),r.f||0,r.fl||0,r.name,r.p||0]);
         const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,Math.max(0,ZTYPE_LIST.indexOf(z.type))]);
         const je=world.npcs&&npcByKey('jieun');
-        const jp=je&&je.follow?[+je.parts.g.position.x.toFixed(2),+je.parts.g.position.y.toFixed(2),+je.parts.g.position.z.toFixed(2),+je.yaw.toFixed(2),je.f]:null;
-        netBroadcast({t:'snap',ps,zb,jp});
+        const jp=je&&je.follow?[+je.parts.g.position.x.toFixed(2),+je.parts.g.position.y.toFixed(2),+je.parts.g.position.z.toFixed(2),+je.yaw.toFixed(2),je.f,Math.round(je.hp)]:null;
+        const snap={t:'snap',ps,zb,jp};
+        if(G.flags.flareLit)snap.xp=+extractProg.toFixed(3);
+        netBroadcast(snap);
       }
       for(const r of net.remotes.values())if(r.vis)r.vis.update(dt,r);
     }
@@ -7271,7 +7337,7 @@ function loop(){
 init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
-  getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
+  getMD:()=>MD,getXP:()=>extractProg,setXP:v=>{extractProg=v;},drawCCTV,openCCTV,giveJieunMedkit,onKey,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
   QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,takeItem,giveItem,openGive,micToggle,VOICE,damagePlayer,reviveLocal,playerTurns,onPlayerDown,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
