@@ -127,6 +127,7 @@ npm run test:coop                 # co-op world (4 tool sets)
 - The host's browser runs the world. Mission progress is shared by the whole squad.
 - Downed friends can be revived by **holding Q** next to them.
 - Co-op tries a direct peer-to-peer connection first (PeerJS/WebRTC). If that is blocked (VPN/proxy apps such as Clash in TUN mode, campus Wi-Fi that isolates devices, strict NAT), it switches automatically after ~6 s to a relay through a free public MQTT broker over secure WebSocket, so friends on different networks or behind a VPN can still play. The relay adds ~0.1–0.3 s of lag. Public brokers are unauthenticated: only game state is sent, keyed by the room code.
+- Co-op extras: **[B]** give a nearby friend a medkit, ammo, your SMG, battery or a flare · **[M]** microphone on/off · **[N]** friends' voices on/off (voice chat works over direct and relay connections). Keycards are shared ("taken by …" moves the mission on for everyone); other loot is personal, so everyone can grab their own crowbar, gun and medkits. A friend can revive you up to 3 times (you come back at half health); after that — or if nobody comes — you turn into a named zombie your friends must put down, and you watch the rest through their eyes (spectator: A/D to switch, or quit).
 
 ## 🌍 Deploy (GitHub Pages)
 

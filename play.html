@@ -111,6 +111,8 @@ if(isMobileDevice()){
       <span id="lblLang">Language</span>
       <button class="btn small" id="langEn">English</button>
       <button class="btn small" id="langZh">中文</button>
+      <button class="btn small" id="langVi">Tiếng Việt</button>
+      <button class="btn small" id="langId">Indonesia</button>
     </div>
     <div id="panePlay">
       <div class="row"><label id="lblMode">Game mode</label>
@@ -234,6 +236,12 @@ if(isMobileDevice()){
 </div>
 <button id="giveMed">💉 GIVE JI-EUN A MEDKIT</button>
 
+<!-- CO-OP: voice, give, spectate -->
+<div id="voice"><button class="vbtn" id="vMic"></button><button class="vbtn" id="vSpk"></button><div id="vWho"></div></div>
+<div id="giveHint"></div>
+<div id="give"><div class="gbox"><div id="giveH"></div><div id="giveBtns"></div><button class="gclose" id="giveClose">[Esc] close</button></div></div>
+<div id="spectate"><div id="specH">YOU TURNED</div><div id="specWho"></div><div class="sbtns"><button id="specPrev"></button><button id="specNext"></button><button id="specQuit"></button></div></div>
+
 <!-- JI-EUN: THE SUSPICION (big when you find her, then a side panel that fills with clues) -->
 <div id="suspect">
   <div id="susH">⚠ SUSPICIOUS SURVIVOR</div>
@@ -278,6 +286,7 @@ if(isMobileDevice()){
 </div>
 
 <script src="js/vox.js"></script>
+<script src="js/i18n-extra.js"></script>
 <script type="module" src="js/game.js"></script>
 </body>
 </html>

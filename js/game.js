@@ -54,9 +54,10 @@ const LMAP={growl1:'servo',growl2:'whir',growl3:'beep',scream:'boing',screech:'b
   snarl:'servo',zbreath:'whir',breath:'whir',pstepRun:'rstep',pstepWalk:'rstep',pstepSneak:'rstep',buzz:'whir',
   zroar:'boing',eat:'pop',zmouth:'servo',hitMelee:'pop',hitBullet:'pop',pscream:'boing',alert:'beep'};
 
-/* ---------------- i18n (EN / 简体中文) ---------------- */
+/* ---------------- i18n (EN / 简体中文 / Tiếng Việt / Bahasa Indonesia) ---------------- */
+const LANGS=['en','zh','vi','id'];
 let LANG='en';
-try{LANG=localStorage.getItem('zf_lang')==='zh'?'zh':'en';}catch(e){}
+try{const l=localStorage.getItem('zf_lang');LANG=LANGS.includes(l)?l:'en';}catch(e){}
 const I18N={
 en:{
  /* ---- menu / lobby ---- */
@@ -331,6 +332,14 @@ en:{
  t_w_melee:'Crowbar out.',t_w_pistol:'SMG out — {n} rounds.',t_up:'Back on your feet. Watch yourself.',
  t_respawn:'You wake up by the stairwell. Keep moving.',t_power:'MAIN POWER RESTORED — card readers online',
  t_power2:'BREAKER ON — the Floor 5 gate lock is released',t_shutter:'FLOOR 3 SHUTTER RELEASED',t_boards:'Boards pried off.',
+ t_cardtaken:"{n} took the {c} keycard — mission updated.",t_rev_left:"Revived — back at half health. Revives left: {n}. Use a medkit.",t_rev_last:"Last revive used — if you go down again, you turn.",
+ down_revleft:"revives left: {n}",turned_tag:"{n} (TURNED)",turned_sub:"{n} has turned into a zombie — put them down!",
+ wipe_h:"EVERYONE TURNED",wipe_p:"The whole squad is gone. Seowon High keeps you all.",
+ spec_h:"YOU TURNED",spec_watch:"Watching through {n}'s eyes",spec_none:"No one left to watch…",spec_prev:"◀ Prev [A]",spec_next:"Next [D] ▶",spec_quit:"Quit game",
+ gv_h:"Give to {n}",gv_medkit:"Medkit",gv_ammo:"Ammo (up to 20)",gv_pistol:"SMG",gv_battery:"Battery (30%)",gv_flare:"Flare",gv_close:"[Esc] close",
+ gv_hint:"<b>[B]</b> Give items to {n}",t_give_none:"Stand next to a friend to give items.",t_gave:"You gave {n} a {i}.",t_gotgift:"{n} gave you: {i}",
+ v_mic_on:"Mic ON",v_mic_off:"Mic off",v_spk_on:"Voices",v_spk_off:"Muted",t_mic_on:"🎤 Mic on — talk to your squad. [M] to mute.",t_mic_off:"Mic off.",
+ t_mic_denied:"Microphone blocked — allow it in the browser's address bar.",t_mic_na:"Voice chat isn't supported in this browser.",t_spk_on:"🔊 Friends' voices on.",t_spk_off:"🔇 Friends' voices muted.",
  t_friendcard:'A friend found the {c} keycard.',t_friendpower2:'A friend reset the breaker — the Floor 5 gate lock is released.',
  t_friendpower:'A friend restored MAIN POWER.',t_friendshutter:'A friend released the Floor 3 shutter.',
  t_revived:'You helped {n} up.',t_horde:'⚠ CONTAINMENT BREACH — FLOOR 5',t_horde_l:'🤖 BOT PARADE — FLOOR 5',
@@ -648,6 +657,14 @@ zh:{
  t_w_melee:'已切换撬棍。',t_w_pistol:'已切换冲锋枪——{n} 发。',t_up:'重新站了起来。小心点。',
  t_respawn:'你在楼梯间醒来。继续前进。',t_power:'主电源已恢复——读卡器上线',
  t_power2:'断路器已合闸——5层楼梯门的锁已解除',t_shutter:'3层卷帘门已解除',t_boards:'木板被撬开。',
+ t_cardtaken:"{n}拿到了{c}钥匙卡——任务已更新。",t_rev_left:"已被救起——只剩一半血量。剩余救援次数：{n}。快用医疗包。",t_rev_last:"最后一次救援已用完——再倒下你就会变异。",
+ down_revleft:"剩余救援：{n}",turned_tag:"{n}（已变异）",turned_sub:"{n}变成了丧尸——解决掉他！",
+ wipe_h:"全员变异",wipe_p:"整支小队都没了。书元高中留下了你们所有人。",
+ spec_h:"你变异了",spec_watch:"正在通过{n}的视角观看",spec_none:"已经没有可观看的人了……",spec_prev:"◀ 上一个 [A]",spec_next:"下一个 [D] ▶",spec_quit:"退出游戏",
+ gv_h:"给{n}",gv_medkit:"医疗包",gv_ammo:"弹药（最多20）",gv_pistol:"冲锋枪",gv_battery:"电池（30%）",gv_flare:"照明弹",gv_close:"[Esc] 关闭",
+ gv_hint:"<b>[B]</b> 给{n}物品",t_give_none:"站到队友旁边才能给物品。",t_gave:"你给了{n}：{i}。",t_gotgift:"{n}给了你：{i}",
+ v_mic_on:"麦克风开",v_mic_off:"麦克风关",v_spk_on:"语音开",v_spk_off:"已静音",t_mic_on:"🎤 麦克风已开——和队友说话。[M] 静音。",t_mic_off:"麦克风已关。",
+ t_mic_denied:"麦克风被阻止——请在浏览器地址栏允许。",t_mic_na:"此浏览器不支持语音聊天。",t_spk_on:"🔊 已开启队友语音。",t_spk_off:"🔇 已静音队友语音。",
  t_friendcard:'队友找到了{c}钥匙卡。',t_friendpower2:'队友重置了断路器——5层楼梯门的锁已解除。',
  t_friendpower:'队友恢复了主电源。',t_friendshutter:'队友解除了3层卷帘门。',
  t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效 — 5层',t_horde_l:'🤖 机器人大游行 — 5层',
@@ -696,6 +713,7 @@ zh:{
  ch4_t:'第四章 — 收容失效',ch4_c:'5层是生物实验室——一切开始的地方。警报说收容几小时前就失败了。智恩还躲在这层的某个地方。',
  ch5_t:'第五章 — 午夜',ch5_c:'天台。冷风，直升机在黑暗中盘旋。飞行员没法盲降——点燃信号照明弹，然后在圈里坚持三十秒。',
 }};
+if(typeof window!=='undefined'&&window.ROOFTOP_I18N)Object.assign(I18N,window.ROOFTOP_I18N);   // + Vietnamese, Indonesian
 function T(k,vars){
   let d=(I18N[LANG]&&I18N[LANG][k]!==undefined)?I18N[LANG][k]:I18N.en[k];
   if(d===undefined)return k;
@@ -715,7 +733,7 @@ function applyLang(){
     set('tabPlay',T('tab_play'));set('tabHow',T('tab_how'));
     set('btnSolo',T('m_solo'));set('btnHost',T('m_host'));set('btnJoin',T('m_join'));
     set('btnConnect',T('m_connect'));set('btnLobbyLeave',T('lb_leave'));
-    setP('codeIn',T('m_roomcode'));setP('nameIn',LANG==='zh'?'幸存者':'Survivor');
+    setP('codeIn',T('m_roomcode'));setP('nameIn',{zh:'幸存者',vi:'Người sống sót',id:'Penyintas'}[LANG]||'Survivor');
     set('prologueGo',T('wake'));
     set('modeTitleScary',T('mode_scary'));set('modeDescScary',T('mode_scary_d'));
     set('modeTitleLite',T('mode_lite'));set('modeDescLite',T('mode_lite_d'));
@@ -740,6 +758,7 @@ function applyLang(){
     const he=$('langEn'),hz=$('langZh');
     if(he)he.classList.toggle('on',LANG==='en');
     if(hz)hz.classList.toggle('on',LANG==='zh');
+    for(const [bid,l] of [['langVi','vi'],['langId','id']]){const b=$(bid);if(b)b.classList.toggle('on',LANG===l);}
     if(document.body)document.body.classList.toggle('zh',LANG==='zh');
     hudInv();
   }catch(e){if(typeof console!=='undefined')console.warn('applyLang:',e&&e.message);}
@@ -1779,6 +1798,9 @@ class Pickup{
     this.taken=true;this.g.visible=false;
     G.taken.add(this.id);
     play('pickup',{vol:.7});
+    // co-op: only keycards are shared (the mission moves on for everyone). Crowbars, guns, ammo,
+    // medkits, batteries… stay in the world for each friend to take their own.
+    if(!this.type.startsWith('card'))return;
     if(G.mp&&!G.host)netSend({t:'ev',k:'take',id:this.id});
     if(G.host&&G.mp)netBroadcast({t:'ev',k:'take',id:this.id});
   }
@@ -2126,13 +2148,13 @@ function buildFloor(f){
   }
   // the elevator: in the stair tower, on its south wall, facing you as you come through the arch
   {
-    const EX=ELEV.x,EZ=TOW.z0+0.07;
-    const frame=new THREE.Mesh(new THREE.BoxGeometry(1.9,2.45,0.08),MAT.dark);frame.position.set(EX,y+1.22,EZ);L.add(frame);
-    const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.6,2.2),MAT.metal);panel.position.set(EX,y+1.1,EZ+0.05);L.add(panel);
-    const seam=new THREE.Mesh(new THREE.PlaneGeometry(0.04,2.2),MAT.dark);seam.position.set(EX,y+1.1,EZ+0.06);L.add(seam);
-    const btn=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.26,0.04),MAT.dark);btn.position.set(EX+1.15,y+1.2,EZ+0.02);L.add(btn);
-    signOn(f,EX,y+2.62,EZ+0.07,0,TEX.sign(T('sg_elev'),'#200','#ff5050'),1.5,0.3);
-    signOn(f,EX,y+2.3,EZ+0.08,0,TEX.sign(T('sg_ooo'),'#200','#ff5050'),1.15,0.24);
+    const EX=ELEV.x,EZ=TOW.z0+0.12;   // the wall's inner face (walls are 0.24 m thick)
+    const frame=new THREE.Mesh(new THREE.BoxGeometry(1.9,2.45,0.1),MAT.dark);frame.position.set(EX,y+1.22,EZ+0.05);L.add(frame);
+    const panel=new THREE.Mesh(new THREE.PlaneGeometry(1.6,2.2),MAT.metal);panel.position.set(EX,y+1.1,EZ+0.13);L.add(panel);
+    const seam=new THREE.Mesh(new THREE.PlaneGeometry(0.04,2.2),MAT.dark);seam.position.set(EX,y+1.1,EZ+0.16);L.add(seam);
+    const btn=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.26,0.06),MAT.dark);btn.position.set(EX+1.15,y+1.2,EZ+0.03);L.add(btn);
+    signOn(f,EX,y+2.68,EZ+0.04,0,TEX.sign(T('sg_elev'),'#200','#ff5050'),1.5,0.28);
+    signOn(f,EX,y+2.3,EZ+0.19,0,TEX.sign(T('sg_ooo'),'#200','#ff5050'),1.15,0.22);
   }
   // ---- rooms
   const dN=8.4,dS=8.4;
@@ -3009,6 +3031,7 @@ const ZTYPES={
   watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
   park:{speed:1.4,chase:3.8,hp:6,dmg:16,scale:1.0,sight:16,aimH:1.15},     // Mr. Park, freshly turned
   jieun:{speed:1.5,chase:3.9,hp:5,dmg:14,scale:0.94,sight:16,aimH:1.1},    // Ji-eun, if she dies
+  turned:{speed:1.3,chase:3.4,hp:5,dmg:16,scale:1.0,sight:14,aimH:1.15},   // co-op: a friend who didn't make it
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -3020,8 +3043,9 @@ const ZLOOK={
   watcher:{cloth:'zgreen',eye:0xd8d8d8,hair:0x060606}, // pale cold eyes. it watches.
   park:{cloth:'zclothA',eye:0xff3a1a,hair:0x8e8a84},    // the biology teacher: suit and tie, not a uniform
   jieun:{cloth:'zcardigan',eye:0xff3a1a,hair:0x151010}, // her cardigan, soaked now
+  turned:{cloth:'zgreen',eye:0xff2a1a,hair:0x1a1410},
 };
-const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun'];
+const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun','turned'];
 const _ZMAT={};
 function zMats(lk){
   if(_ZMAT[lk.cloth])return _ZMAT[lk.cloth];
@@ -3043,7 +3067,7 @@ class Zombie{
     this.cfg={...ZTYPES[type],speed:ZTYPES[type].speed*MD.zSpeed,chase:ZTYPES[type].chase*MD.zSpeed};
     // no two move alike: most drag themselves along, some keep pace, a few are fast
     this.pace=1;
-    if(!['watcher','park','jieun','brute'].includes(type)){const r=Math.random();this.pace=r<0.4?0.8:(r<0.83?1:1.18);}
+    if(!['watcher','park','jieun','brute','turned'].includes(type)){const r=Math.random();this.pace=r<0.4?0.8:(r<0.83?1:1.18);}
     this.cfg.speed*=this.pace;this.cfg.chase*=this.pace;
     this.hp=this.cfg.hp;this.dead=false;this.state='idle';
     if(this.robot){
@@ -3125,7 +3149,8 @@ class Zombie{
     if(je){const q=je.parts.g.position;consider(q.x,q.z,je.f,'jieun');}
     if(G.mp)for(const r of net.remotes.values()){
       if(r.down||r.dead)continue;
-      consider(r.x,r.z,r.floor||0,'r'+r.id);
+      if(r.spec)continue;
+      consider(r.x,r.z,r.f||0,'r'+r.id);
     }
     return best?{...best,d2:bd}:null;
   }
@@ -3970,7 +3995,7 @@ function dealZombieDamage(z){
       damagePlayer(dmg,z.g.position);
     }
     if(G.mp)for(const r of net.remotes.values()){
-      if(r.down||r.dead)continue;
+      if(r.down||r.dead||r.spec||(r.f||0)!==z.f)continue;
       if(dist2(r.x,r.z,z.g.position.x,z.g.position.z)<(1.8*z.cfg.scale)**2){
         netBroadcast({t:'ev',k:'hit',id:r.id,dmg});
       }
@@ -4000,12 +4025,202 @@ function damagePlayer(dmg,srcPos){
 }
 
 /* ---------- player down / death / respawn ---------- */
+const REVIVES_MAX=3;
+/* co-op: out of revives (or nobody came) — you turn. Your friends must put you down; you watch through their eyes. */
+function playerTurns(){
+  if(player.spec)return;
+  player.down=false;player.dead=true;player.spec=true;G.turned=true;player.hp=0;
+  $('downedOv').style.display='none';$('death').style.display='none';
+  play('pscream',{vol:1});if(MD.jumpscares)play('stinger',{vol:.9});
+  const p=player.pos;
+  netTell({t:'ev',k:'turned',id:G.myId,n:G.myName,x:+p.x.toFixed(2),z:+p.z.toFixed(2),f:player.floor});
+  if(G.host)spawnTurned(G.myId,G.myName,p.x,p.z,player.floor);
+  startSpectate();
+  checkWipe();
+}
+function spawnTurned(id,name,x,z,f){
+  const zb=spawnZombie(f,x,z,'turned',{x0:x-6,x1:x+6,z0:z-6,z1:z+6,door:null});
+  zb.riseT=zb.riseDur=1.8;zb.g.rotation.x=Math.PI/2;
+  tagTurned(zb,name);
+  (G.ztags=G.ztags||{})[zb.id]=name;
+  if(G.mp)netBroadcast({t:'ev',k:'ztag',id:zb.id,n:name});
+}
+function tagTurned(z,name){
+  if(z.tagged)return;z.tagged=true;
+  const tag=nameSprite(T('turned_tag',{n:name}),'#ff6b6b');tag.position.y=2.2;z.g.add(tag);
+}
+function checkWipe(){
+  if(!G.mp||!G.host)return;
+  const alive=(player.spec?0:1)+[...net.remotes.values()].filter(r=>!r.spec).length;
+  if(alive===0){netBroadcast({t:'ev',k:'wipe'});squadWiped();}
+}
+function squadWiped(){
+  stopSpectate();
+  player.dead=true;
+  $('death').style.display='flex';
+  $('death').querySelector('h1').textContent=T('wipe_h');
+  $('deathTxt').textContent=T('wipe_p');
+  $('respawnTxt').textContent='';
+  $('btnRespawn').classList.add('hidden');
+  $('btnDeathMenu').classList.remove('hidden');
+  document.exitPointerLock&&document.exitPointerLock();
+}
+/* ---- spectator: watch the game through a living friend's eyes ---- */
+function specTargets(){return [...net.remotes.values()].filter(r=>!r.spec&&!r.dead);}
+function startSpectate(){
+  G.specI=0;
+  document.exitPointerLock&&document.exitPointerLock();
+  if(vm)vm.visible=false;
+  try{document.body.classList.add('spec');}catch(_){}
+  $('spectate').style.display='flex';
+  $('specH').textContent=T('spec_h');
+  $('specPrev').textContent=T('spec_prev');$('specNext').textContent=T('spec_next');$('specQuit').textContent=T('spec_quit');
+  specLabel();
+}
+function stopSpectate(){$('spectate').style.display='none';try{document.body.classList.remove('spec');}catch(_){}}
+function specCycle(d){const L=specTargets();if(!L.length)return;G.specI=((G.specI||0)+d+L.length)%L.length;specLabel();play('click',{vol:.4});}
+function specLabel(){
+  const L=specTargets(),r=L.length?L[(G.specI||0)%L.length]:null;
+  G.specId=r?r.id:null;
+  $('specWho').textContent=r?T('spec_watch',{n:r.name||'?'}):T('spec_none');
+}
+function updateSpectate(dt){
+  const L=specTargets();
+  const r=L.length?L[(G.specI||0)%L.length]:null;
+  if(!r){if(G.specId!==null)specLabel();return;}
+  if(G.specId!==r.id)specLabel();
+  const s=remoteAt(r);
+  player.pos.set(s.x,s.y,s.z);                      // (drives which floors render, the flashlight, audio)
+  const f=clamp(r.f||0,0,CFG.FLOORS);
+  if(player.floor!==f){player.floor=f;for(let i=0;i<world.levels.length;i++)world.levels[i].visible=(Math.abs(i-f)<=1);}
+  camera.position.set(s.x,s.y+1.62,s.z);
+  camera.rotation.set(r.p||0,s.yaw,0,'YXZ');
+  if(spot)spot.intensity=(r.fl&1)?60:0;   // their flashlight, as they see it
+}
+/* ---- give items to a friend next to you: [B] ---- */
+function nearFriend(){
+  let best=null,bd=3.2;
+  for(const r of net.remotes.values()){
+    if(r.spec||r.dead||(r.f||0)!==player.floor)continue;
+    const d=Math.hypot(r.x-player.pos.x,r.z-player.pos.z);
+    if(d<bd&&losClear(player.pos.x,player.pos.z,r.x,r.z,player.floor)){bd=d;best=r;}
+  }
+  return best;
+}
+const GIVE_ITEMS=[
+  {k:'medkit',ok:()=>INV.medkit>0,take:()=>{INV.medkit--;},lbl:'gv_medkit'},
+  {k:'ammo',ok:()=>INV.ammo>0,take:()=>{const n=Math.min(20,INV.ammo);INV.ammo-=n;return n;},lbl:'gv_ammo'},
+  {k:'pistol',ok:()=>INV.pistol,take:()=>{INV.pistol=false;if(player.weapon==='pistol')player.weapon='melee';},lbl:'gv_pistol'},
+  {k:'battery',ok:()=>player.battery>=30,take:()=>{player.battery-=30;INV.battery=player.battery;},lbl:'gv_battery'},
+  {k:'flare',ok:()=>INV.flare>0,take:()=>{INV.flare--;},lbl:'gv_flare'},
+];
+function openGive(){
+  if(!G.mp||player.dead||player.down)return;
+  const r=nearFriend();
+  if(!r){toast(T('t_give_none'));return;}
+  G.giveTo=r.id;G.uiLock='give';
+  document.exitPointerLock&&document.exitPointerLock();
+  $('giveH').textContent=T('gv_h',{n:r.name||'?'});
+  const box=$('giveBtns');box.innerHTML='';
+  GIVE_ITEMS.forEach((it,i)=>{
+    const b=document.createElement('button');b.className='gbtn';b.disabled=!it.ok();
+    b.innerHTML='<b>['+(i+1)+']</b> '+T(it.lbl);b.onclick=()=>giveItem(i);box.appendChild(b);
+  });
+  $('giveClose').textContent=T('gv_close');
+  $('give').style.display='flex';
+}
+function closeGive(){$('give').style.display='none';if(G.uiLock==='give'){G.uiLock=null;if(!NOLOCK)lockPointer();}}
+function giveItem(i){
+  const it=GIVE_ITEMS[i],r=net.remotes.get(G.giveTo);
+  if(!it||!r||!it.ok())return;
+  const amt=it.take()||0;
+  netTell({t:'ev',k:'give',to:r.id,item:it.k,amt,n:G.myName});
+  toast(T('t_gave',{i:T(it.lbl),n:esc(r.name||'?')}));play('paper',{vol:.7});
+  hudInv();hudStats();closeGive();
+}
+function receiveGift(d){
+  if(d.item==='medkit')INV.medkit++;
+  else if(d.item==='ammo')INV.ammo+=d.amt||20;
+  else if(d.item==='pistol'){INV.pistol=true;INV.ammo+=4;player.weapon='pistol';}
+  else if(d.item==='battery'){player.battery=Math.min(100,player.battery+30);INV.battery=player.battery;INV.flashlight=true;}
+  else if(d.item==='flare')INV.flare++;
+  toast(T('t_gotgift',{n:esc(d.n||'?'),i:T('gv_'+d.item)}));play('pickup',{vol:.9});
+  hudInv();hudStats();
+}
+/* ---- voice chat: mic → 8 kHz µ-law chunks over the same connection (direct OR relay) ---- */
+const VOICE={on:false,spk:true,stream:null,src:null,proc:null,pcm:[],frac:0,hang:0,peers:new Map(),talk:0};
+function muEnc(x){const B=0x84,C=32635;let s=Math.max(-1,Math.min(1,x))*32767|0;const sign=(s>>8)&0x80;if(sign)s=-s;if(s>C)s=C;s+=B;let e=7;for(let m=0x4000;(s&m)===0&&e>0;e--,m>>=1);const man=(s>>(e+3))&0x0F;return ~(sign|(e<<4)|man)&0xFF;}
+function muDec(u){u=~u&0xFF;const sign=u&0x80,e=(u>>4)&7,man=u&0x0F;let s=((man<<3)+0x84)<<e;s-=0x84;return (sign?-s:s)/32768;}
+async function micToggle(){
+  if(!G.mp)return;
+  if(VOICE.on){
+    try{VOICE.stream.getTracks().forEach(t=>t.stop());VOICE.src.disconnect();VOICE.proc.disconnect();}catch(_){}
+    VOICE.on=false;voiceUI();toast(T('t_mic_off'));return;
+  }
+  ensureAudio();const ctx=AUD.ctx;
+  if(!ctx||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast(T('t_mic_na'));return;}
+  try{VOICE.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});}
+  catch(_){toast(T('t_mic_denied'));return;}
+  VOICE.src=ctx.createMediaStreamSource(VOICE.stream);
+  VOICE.proc=ctx.createScriptProcessor(2048,1,1);
+  const ratio=ctx.sampleRate/8000;
+  VOICE.proc.onaudioprocess=e=>{
+    const inp=e.inputBuffer.getChannelData(0);
+    let s=0;for(let i=0;i<inp.length;i+=4)s+=inp[i]*inp[i];
+    const rms=Math.sqrt(s/(inp.length/4));
+    VOICE.hang=rms>0.012?0.4:VOICE.hang-inp.length/ctx.sampleRate;   // noise gate with a short tail
+    let t=VOICE.frac;
+    for(;t<inp.length;t+=ratio){let a=0,n=0;const e2=Math.min(inp.length,Math.floor(t+ratio));for(let k=Math.floor(t);k<e2;k++){a+=inp[k];n++;}VOICE.pcm.push(n?a/n:0);}
+    VOICE.frac=t-inp.length;
+    while(VOICE.pcm.length>=640){const ch=VOICE.pcm.splice(0,640);if(VOICE.hang>0)sendVoice(ch);}
+  };
+  const mute=ctx.createGain();mute.gain.value=0;
+  VOICE.src.connect(VOICE.proc);VOICE.proc.connect(mute);mute.connect(ctx.destination);
+  VOICE.on=true;voiceUI();toast(T('t_mic_on'));
+}
+function sendVoice(f32){
+  const u=new Uint8Array(f32.length);for(let i=0;i<f32.length;i++)u[i]=muEnc(f32[i]*1.6);
+  let bin='';for(let i=0;i<u.length;i++)bin+=String.fromCharCode(u[i]);
+  const m={t:'vo',id:G.myId,d:btoa(bin)};
+  if(G.host)netBroadcast(m);else netSend(m);
+  VOICE.talk=performance.now();
+}
+function playVoice(id,b64){
+  const st=VOICE.peers.get(id)||{next:0,last:0};VOICE.peers.set(id,st);st.last=performance.now();
+  const ctx=AUD.ctx;if(!VOICE.spk||!ctx)return;
+  let bin;try{bin=atob(b64);}catch(_){return;}
+  const buf=ctx.createBuffer(1,bin.length,8000),ch=buf.getChannelData(0);
+  for(let i=0;i<bin.length;i++)ch[i]=muDec(bin.charCodeAt(i));
+  const src=ctx.createBufferSource();src.buffer=buf;
+  const g=ctx.createGain();g.gain.value=1.3;src.connect(g);g.connect(ctx.destination);
+  const now=ctx.currentTime;
+  if(st.next<now+0.05||st.next>now+0.6)st.next=now+0.12;   // keep the delay short: drop what's too late
+  src.start(st.next);st.next+=buf.duration;
+}
+function spkToggle(){VOICE.spk=!VOICE.spk;voiceUI();toast(T(VOICE.spk?'t_spk_on':'t_spk_off'));}
+function voiceUI(){
+  const el=$('voice');if(!el)return;
+  el.style.display=G.mp&&G.started?'flex':'none';
+  $('vMic').className='vbtn'+(VOICE.on?' on':'');$('vMic').innerHTML=(VOICE.on?'🎤':'🎙️')+' <b>[M]</b> '+T(VOICE.on?'v_mic_on':'v_mic_off');
+  $('vSpk').className='vbtn'+(VOICE.spk?' on':'');$('vSpk').innerHTML=(VOICE.spk?'🔊':'🔇')+' <b>[N]</b> '+T(VOICE.spk?'v_spk_on':'v_spk_off');
+}
+function voiceTick(){
+  const el=$('vWho');if(!el||!G.mp)return;
+  const now=performance.now(),names=[];
+  if(VOICE.on&&now-VOICE.talk<350)names.push(G.myName);
+  for(const [id,st] of VOICE.peers){if(now-st.last<400){const r=net.remotes.get(id);names.push(r?r.name:(id==='H'?'Host':id));}}
+  const t=names.length?'🗣 '+names.map(esc).join(', '):'';
+  if(el._t!==t){el._t=t;el.innerHTML=t;}
+  const gh=$('giveHint');
+  if(gh){const r=(!player.spec&&!player.down&&!G.uiLock)?nearFriend():null;const s=r?T('gv_hint',{n:esc(r.name||'?')}):'';if(gh._t!==s){gh._t=s;gh.innerHTML=s;gh.style.display=s?'block':'none';}}
+}
 function downText(){
   if(G.helpMode)return T('down_help')+' ('+Math.ceil(player.bleedT)+'s)';
   const base=MD.id==='lite'?(G.mp?T('down_mp_l'):T('down_sp_l')):(G.mp?T('down_mp'):T('down_sp'));
-  return base+' ('+Math.ceil(player.bleedT)+'s)';
+  return base+' ('+Math.ceil(player.bleedT)+'s)'+(G.mp?' · '+T('down_revleft',{n:REVIVES_MAX-(G.revUsed||0)}):'');
 }
 function onPlayerDown(){
+  if(G.mp&&(G.revUsed||0)>=REVIVES_MAX){playerTurns();return;}   // no one can bring you back a 4th time
   player.down=true;player.bleedT=60;
   G.stats.deaths++;hudStats();
   $('downedOv').style.display='flex';
@@ -4016,9 +4231,11 @@ function onPlayerDown(){
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'down',id:G.myId});
 }
 function reviveLocal(){
-  player.down=false;player.hp=50;player.bleedT=0;G.helpMode=false;
+  player.down=false;player.hp=50;player.bleedT=0;G.helpMode=false;   // back at HALF health: find a medkit
+  G.revUsed=(G.revUsed||0)+1;
   $('downedOv').style.display='none';
   toast(T('t_up'));
+  if(G.mp)setTimeout(()=>toast(T(G.revUsed>=REVIVES_MAX?'t_rev_last':'t_rev_left',{n:REVIVES_MAX-G.revUsed})),900);
   play('pickup',{vol:1});
   if(G.mp)netSend({t:'ev',k:'revive',id:G.myId});
   if(G.host&&G.mp)netBroadcast({t:'ev',k:'revive',id:G.myId});
@@ -4194,7 +4411,7 @@ function updatePlayer(dt,t){
   if(player.down){
     player.bleedT-=dt;
     $('downedTxt').textContent=downText();
-    if(player.bleedT<=0){if(G.helpMode)gameOver();else onPlayerDeath();}
+    if(player.bleedT<=0){if(G.mp)playerTurns();else if(G.helpMode)gameOver();else onPlayerDeath();}
     camera.position.set(player.pos.x,player.pos.y+0.45,player.pos.z);
     camera.rotation.set(player.pitch,player.yaw,0.12,'YXZ');
     return;
@@ -4780,7 +4997,7 @@ function takeItem(it){
   else if(it.type==='flashlight'){INV.flashlight=true;player.on=true;toast(T('t_torch'));}
   else if(it.type.startsWith('card')){
     const c=it.type.split('-')[1];G.cards[c]=true;toast(T('g_got',{c:colName(c)}));
-    netTell({t:'ev',k:'card',c});
+    netTell({t:'ev',k:'card',c,n:G.myName});
     if(c==='blue')parkTurn();else directorChase();
   }
   else if(it.type==='note'){const n=notesList().find(n=>n.id===it.id);if(n)openNote(n);}
@@ -4874,7 +5091,7 @@ function interactTargets(){
     add('hold',world.extract.x,world.extract.z,pf,{label:T('l_flarelight'),dur:1.8,kind:'flare',id:'flare',quest:'q_flare',apply:()=>lightRoofFlare(false)});
   }
   if(G.mp)for(const r of net.remotes.values()){
-    if(!r.down||r.dead)continue;
+    if(!r.down||r.dead||r.spec)continue;
     add('hold',r.x,r.z,r.f||0,{label:T('l_revive',{n:r.name||'friend'}),dur:3.0,kind:'revive',id:'rev'+r.id,apply:()=>{
       netTell({t:'ev',k:'revived',id:r.id});r.down=false;
       toast(T('t_revived',{n:r.name||'friend'}));
@@ -5027,14 +5244,15 @@ function lightRoofFlare(quiet){
 function updateExtraction(dt){
   const ex=world.extract;
   if(!ex||!G.flags.finale||!G.flags.flareLit||G.flags.victory||player.floor!==CFG.FLOORS)return null;
-  const inside=!player.dead&&!player.down&&Math.hypot(player.pos.x-ex.x,player.pos.z-ex.z)<ROOF.RADIUS;
-  let inRing=inside?1:0,total=1;
+  const me=!player.spec;
+  const inside=me&&!player.dead&&!player.down&&Math.hypot(player.pos.x-ex.x,player.pos.z-ex.z)<ROOF.RADIUS;
+  let inRing=inside?1:0,total=me?1:0;
   if(G.mp)for(const r of net.remotes.values()){
-    if(r.dead)continue;total++;
+    if(r.dead||r.spec)continue;total++;
     if(!r.down&&r.f===CFG.FLOORS&&Math.hypot(r.x-ex.x,r.z-ex.z)<ROOF.RADIUS+0.2)inRing++;
   }
   let row;
-  if(inside&&inRing>=total){
+  if((inside||!me)&&total>0&&inRing>=total){
     extractProg=Math.min(1,extractProg+dt/ROOF.HOLD);
     row={key:null,label:T('p_extract',{n:Math.max(0,Math.ceil(ROOF.HOLD*(1-extractProg)-0.001))})};
   }else if(inside){
@@ -5773,7 +5991,7 @@ let hudT=0;
 function hudTick(dt){ // bars move on their own (battery drain, stamina) — refresh a few times a second
   updateChoice(dt);
   hudT-=dt;
-  if(hudT<=0){hudT=0.12;hudStats();updateGiveMedBtn();}
+  if(hudT<=0){hudT=0.12;hudStats();updateGiveMedBtn();if(G.mp)voiceTick();}
 }
 
 /* =====================================================================
@@ -5830,12 +6048,14 @@ class RelayConn{
   }
   on(ev,fn){(this.h[ev]=this.h[ev]||[]).push(fn);return this;}
   emit(ev,a){for(const f of (this.h[ev]||[]))f(a);}
-  _pub(msg,qos){try{this.client.publish(this.out,JSON.stringify({f:this.me,d:msg}),{qos});}catch(_){}}
+  _pub(msg,qos){this.seq=(this.seq||0)+1;try{this.client.publish(this.out,JSON.stringify({f:this.me,s:this.seq,d:msg}),{qos});}catch(_){}}
+  seen(s){if(!s)return false;this.got=this.got||new Set();if(this.got.has(s))return true;this.got.add(s);if(this.got.size>400)this.got.delete(this.got.values().next().value);return false;}
   send(msg){
     if(!this.open)return;
     const now=performance.now();
     if(msg&&msg.t==='snap'){if(now-this.snapAt<160)return;this.snapAt=now;this._pub(msg,0);return;}   // ~6 Hz is plenty
     if(msg&&msg.t==='pos'){if(now-this.posAt<90)return;this.posAt=now;this._pub(msg,0);return;}
+    if(msg&&msg.t==='vo'){this._pub(msg,0);return;}
     this._pub(msg,1);   // events, chat, lobby: delivered at least once
   }
   recv(d){
@@ -5869,7 +6089,7 @@ function relayHost(code){
           con=new RelayConn(c,RELAY_ROOT+code+'/g/'+m.f,'H');guests.set(m.f,con);
           acceptConn(con);
         }
-        con.recv(m.d);
+        if(!con.seen(m.s))con.recv(m.d);
       });
       hostReady(code);   // the lobby opens even if the direct-connection server is unreachable
     }).catch(()=>{});
@@ -5885,7 +6105,7 @@ async function relayJoin(code,tok,onUp){
     const con=new RelayConn(c,RELAY_ROOT+code+'/h',gid);
     const welcomed=await new Promise(res=>{
       c.subscribe(RELAY_ROOT+code+'/g/'+gid,{qos:1},()=>{
-        c.on('message',(topic,buf)=>{let m;try{m=JSON.parse(buf.toString());}catch(_){return;}if(m&&m.d)con.recv(m.d);});
+        c.on('message',(topic,buf)=>{let m;try{m=JSON.parse(buf.toString());}catch(_){return;}if(m&&m.d&&!con.seen(m.s))con.recv(m.d);});
         con.on('data',d=>{if(d&&d.t==='welcome'){con.welcome=d;res(true);}});
         con.send({t:'hello',name:G.myName});
         setTimeout(()=>res(false),6000);
@@ -5971,16 +6191,17 @@ function joinRoom(code){
 function lobbyNames(){return [G.myName,...[...net.remotes.values()].map(r=>r.name)];}
 function onData(d,con){
   if(d.t==='hello'){
+    if(con.meta)return;   // already joined on this connection
     const cid='C'+(net.cid++);
     con.meta={id:cid};
     const rec={id:cid,name:d.name||'Friend',x:15,y:CHECK.floor*CFG.FH,z:0,yaw:0,f:CHECK.floor,fl:0,down:false,dead:false};
     rec.vis=new RemotePlayer(cid,rec.name);
     net.remotes.set(cid,rec);
-    const snap={flags:{...G.flags,victory:false,finale:false},cards:G.cards,gates:[...G.gatesOpen],taken:[...G.taken],
+    const snap={flags:{...G.flags,victory:false,finale:false},cards:G.cards,gates:[...G.gatesOpen],taken:[...G.taken].filter(id=>id.startsWith('story-card')),
       boards:[...G.boardsBroken],checkpoint:CHECK.floor,qi};
     con.send({t:'welcome',id:cid,snap,names:lobbyNames()});
     // if the escape is already running, drop the newcomer straight into it
-    if(G.started&&G.mode==='playing')con.send({t:'start',mode:MD.id,mid:true});
+    if(G.started&&G.mode==='playing')con.send({t:'start',mode:MD.id,mid:true,seed:G.seed});
     refreshLobby();netBroadcast({t:'lobby',names:lobbyNames()});
     toast(T('t_joined',{n:d.name||'Friend'}));
     return;
@@ -5998,6 +6219,7 @@ function onData(d,con){
     refreshLobbyFrom(d.names);return;
   }
   if(d.t==='start'){
+    if(d.seed)G.seed=d.seed;
     if(d.mid){
       // joined an escape already in progress: skip the prologue
       $('menu').style.display='none';$('lobby').style.display='none';
@@ -6029,15 +6251,41 @@ function onData(d,con){
   if(d.t==='pos'){
     const r=net.remotes.get(con.meta&&con.meta.id);
     if(!r)return;
-    r.x=d.x;r.y=d.y;r.z=d.z;r.yaw=d.yaw;r.f=d.f;r.fl=d.fl;r.hp=d.hp;
-    r.down=!!(d.fl&4);r.dead=!!(d.fl&8);
+    r.x=d.x;r.y=d.y;r.z=d.z;r.yaw=d.yaw;r.p=d.p||0;r.f=d.f;r.fl=d.fl;r.hp=d.hp;
+    r.down=!!(d.fl&4);r.dead=!!(d.fl&8);r.spec=!!(d.fl&16);
+    remoteSample(r);
     return;
   }
   if(d.t==='snap'){applySnap(d);return;}
+  if(d.t==='vo'){
+    if(G.host)for(const c of net.conns)if(c!==con&&c.open)c.send(d);
+    if(d.id!==G.myId)playVoice(d.id,d.d);
+    return;
+  }
   if(d.t==='ev'){onEv(d,con);return;}
 }
 function flagsBits(){
-  return (player.on?1:0)|(player.crouch?2:0)|(player.down?4:0)|(player.dead?8:0);
+  return (player.on?1:0)|(player.crouch?2:0)|(player.down?4:0)|(player.dead?8:0)|(player.spec?16:0);
+}
+/* remote movement arrives in bursts (esp. over the relay): keep the last samples and draw each
+   friend a little in the past, interpolating between two real positions — no snapping, no jitter */
+function remoteSample(r){
+  const now=performance.now();
+  (r.buf=r.buf||[]).push({t:now,x:r.x,y:r.y||0,z:r.z,yaw:r.yaw||0});
+  if(r.buf.length>40)r.buf.shift();
+  if(r.lastT)r.gap=lerp(r.gap||100,Math.min(700,now-r.lastT),0.15);
+  r.lastT=now;
+}
+function remoteAt(r){
+  const b=r.buf;if(!b||!b.length)return {x:r.x,y:r.y||0,z:r.z,yaw:r.yaw||0};
+  const rt=performance.now()-clamp((r.gap||100)*1.8,60,500);
+  if(rt<=b[0].t)return b[0];
+  for(let i=b.length-1;i>0;i--){
+    const a=b[i-1],c=b[i];
+    if(a.t<=rt){if(rt>=c.t)return c;const k=(rt-a.t)/Math.max(1,c.t-a.t);
+      return {x:lerp(a.x,c.x,k),y:lerp(a.y,c.y,k),z:lerp(a.z,c.z,k),yaw:a.yaw+angDiff(a.yaw,c.yaw)*k};}
+  }
+  return b[b.length-1];
 }
 function applySnapState(s){
   if(!s||!world.built)return;
@@ -6084,8 +6332,9 @@ function applySnap(s){
     seen.add(id);
     let r=net.remotes.get(id);
     if(!r){r={id,name:p[7]||'Friend',x:p[1],y:p[3],z:p[2],yaw:p[4],f:p[5],fl:p[6],down:!!(p[6]&4),dead:!!(p[6]&8)};r.vis=new RemotePlayer(id,r.name);net.remotes.set(id,r);}
-    r.x=p[1];r.z=p[2];r.y=p[3];r.yaw=p[4];r.f=p[5];r.fl=p[6];r.name=p[7]||r.name;
-    r.down=!!(p[6]&4);r.dead=!!(p[6]&8);
+    r.x=p[1];r.z=p[2];r.y=p[3];r.yaw=p[4];r.f=p[5];r.fl=p[6];r.name=p[7]||r.name;r.p=p[8]||0;
+    r.down=!!(p[6]&4);r.dead=!!(p[6]&8);r.spec=!!(p[6]&16);
+    remoteSample(r);
   }
   for(const[id,r]of net.remotes){if(!seen.has(id)){if(r.vis)r.vis.remove();net.remotes.delete(id);}}
   for(const a of s.zb){
@@ -6095,6 +6344,7 @@ function applySnap(s){
       z.id=a[0];world.zmap.set(a[0],z);
     }
     z.netX=a[1];z.netY=a[2];z.netZ=a[3];z.netYaw=a[4];z.netState=a[5];z.netF=Math.round(a[2]/CFG.FH);z.netDead=!!a[6];
+    if(G.ztags&&G.ztags[z.id]&&!z.tagged)tagTurned(z,G.ztags[z.id]);
   }
 }
 function onEv(d,from){
@@ -6107,7 +6357,8 @@ function onEv(d,from){
     case 'take':{const it=world.items.find(x=>x.id===d.id);if(it&&!it.taken)netEv(()=>it.take());break;}
     case 'card':{
       const had=G.cards[d.c];G.cards[d.c]=true;hudInv();
-      if(!had)toast(T('t_friendcard',{c:colName(d.c)}));
+      if(!had){toast(T('t_cardtaken',{n:esc(d.n||'?'),c:colName(d.c)}));play('pickup',{vol:.6});}
+      {const it=world.items.find(x=>x.id==='story-card-'+d.c);if(it&&!it.taken){it.taken=true;it.g.visible=false;G.taken.add(it.id);}}
       if(d.c==='blue')parkTurn();
       questCheck();break;}
     case 'power':{
@@ -6122,6 +6373,15 @@ function onEv(d,from){
     case 'zhit':{const z=world.zmap&&world.zmap.get(d.id);if(z&&!z.dead&&G.host)z.hit(d.dmg||1,true);break;}
     case 'flare':{const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.24,8),MAT.flare));const li=takeFlareLight();g.position.set(d.x,d.y,d.z);if(li)li.position.copy(g.position);scene.add(g);flares.push({g,li,f:d.f,vx:0,vy:0,vz:0,life:14,fizzT:0.5,x:d.x,z:d.z});break;}
     case 'hit':if(d.id===G.myId)damagePlayer(d.dmg);break;
+    case 'give':if(d.to===G.myId)receiveGift(d);break;
+    case 'ztag':{(G.ztags=G.ztags||{})[d.id]=d.n;const z=world.zmap&&world.zmap.get(d.id);if(z)tagTurned(z,d.n);break;}
+    case 'turned':{
+      const r=net.remotes.get(d.id);if(r){r.spec=true;r.down=false;}
+      if(d.id!==G.myId){showSub('<b>⚠ '+T('turned_sub',{n:esc(d.n||'?')})+'</b>',5,true);warnFx();player.shakeT=Math.max(player.shakeT,0.4);}
+      if(G.host&&d.id!==G.myId){spawnTurned(d.id,d.n||'?',d.x,d.z,d.f);checkWipe();}
+      if(player.spec)specLabel();
+      break;}
+    case 'wipe':squadWiped();break;
     case 'down':{const r=net.remotes.get(d.id);if(r){r.down=true;}break;}
     case 'revive':{const r=net.remotes.get(d.id);if(r)r.down=false;break;}
     case 'revived':{if(d.id===G.myId)reviveLocal();else{const r=net.remotes.get(d.id);if(r)r.down=false;}break;}
@@ -6154,10 +6414,10 @@ class RemotePlayer{
   }
   update(dt,r){
     const g=this.parts.g;
-    g.position.x=lerp(g.position.x,r.x,Math.min(1,dt*12));
-    g.position.y=lerp(g.position.y,r.y||0,Math.min(1,dt*12));
-    g.position.z=lerp(g.position.z,r.z,Math.min(1,dt*12));
-    g.rotation.y=r.yaw||0;
+    g.visible=!r.spec&&!(player.spec&&G.specId===r.id);   // a turned friend is a zombie now; hide the one you watch through
+    const s=remoteAt(r);
+    g.position.set(lerp(g.position.x,s.x,Math.min(1,dt*18)),lerp(g.position.y,s.y,Math.min(1,dt*18)),lerp(g.position.z,s.z,Math.min(1,dt*18)));
+    g.rotation.y=s.yaw;
     if(r.dead){g.rotation.x=-Math.PI/2;return;}
     if(r.down){g.scale.y=0.55;return;}
     g.scale.y=1;g.rotation.x=0;
@@ -6197,6 +6457,19 @@ function addChat(name,msg){
 }
 function onKey(code){
   if(G.mode!=='playing')return;
+  if(G.mp&&code==='KeyM'&&!G.chatOpen){micToggle();return;}
+  if(G.mp&&code==='KeyN'&&!G.chatOpen){spkToggle();return;}
+  if(player.spec){
+    if(code==='KeyA'||code==='ArrowLeft')specCycle(-1);
+    if(code==='KeyD'||code==='ArrowRight')specCycle(1);
+    return;
+  }
+  if(G.uiLock==='give'){
+    const n=/^(Digit|Numpad)([1-5])$/.exec(code);
+    if(n)giveItem(+n[2]-1);else if(code==='Escape'||code==='KeyB')closeGive();
+    return;
+  }
+  if(G.mp&&code==='KeyB'&&!G.uiLock){openGive();return;}
   if(code==='KeyI'&&!G.uiLock){showHelp(!G.helpOpen);return;}
   if(G.uiLock==='ending'){if(code==='Space'||code==='Enter'||code==='Escape')skipEnding();return;}
   if(G.uiLock==='note'&&(code==='KeyE'||code==='Escape'||code==='Enter')){closeNote();return;}
@@ -6659,6 +6932,9 @@ function bootRun(mode,cont){
     $('fade').style.opacity='0';
   },80);
 }
+/* co-op: every player must build the SAME school (rooms, doors, loot, zombies). Without a shared seed
+   each machine rolled its own layout — guests saw doors in walls, frozen extra zombies, etc. */
+function seededRandom(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
 function startWorld(mode){
   if(world.built)return;
   MD=MODES[mode]||MODES.scary;
@@ -6666,8 +6942,10 @@ function startWorld(mode){
   scene.background=new THREE.Color(MD.bg);
   scene.fog=new THREE.FogExp2(MD.fog,MD.fogD);
   if(MD.hemi)scene.add(new THREE.HemisphereLight(0xcfe0ff,0x9a9080,0.78));
-  buildTextures();
-  buildWorld();
+  const rnd=Math.random;
+  if(G.mp&&G.seed)Math.random=seededRandom(G.seed);
+  try{buildTextures();buildWorld();}finally{Math.random=rnd;}
+  G.revUsed=0;player.spec=false;G.turned=false;
   setupViewModel();
   setupDust();
   // fixed flare-light pool: thrown flares claim one instead of ADDING a scene light
@@ -6857,6 +7135,8 @@ function setLang(l){
 }
 $('langEn').onclick=()=>setLang('en');
 $('langZh').onclick=()=>setLang('zh');
+$('langVi').onclick=()=>setLang('vi');
+$('langId').onclick=()=>setLang('id');
 applyLang();
 /* continue-run button + touch warning */
 (function(){
@@ -6885,7 +7165,8 @@ $('btnConnect').onclick=()=>{
 $('btnStart').onclick=()=>{
   if(!G.host)return;
   refreshLobby();
-  netBroadcast({t:'start',mode:G.gameMode||G.selMode});
+  G.seed=G.seed||(1+Math.floor(Math.random()*2e9));
+  netBroadcast({t:'start',mode:G.gameMode||G.selMode,seed:G.seed});
   showPrologue();
 };
 $('btnLobbyLeave').onclick=()=>location.reload();
@@ -6898,6 +7179,9 @@ $('giveMed').onclick=e=>{e.stopPropagation();giveJieunMedkit();};
 $('btnRespawn').onclick=()=>{if(player.dead&&G.respawnPending)respawnPlayer();};
 $('missionX').onclick=()=>showHelp(false);
 $('helpBtn').onclick=()=>showHelp(!G.helpOpen);
+$('specPrev').onclick=()=>specCycle(-1);$('specNext').onclick=()=>specCycle(1);$('specQuit').onclick=()=>location.reload();
+$('giveClose').onclick=()=>closeGive();
+$('vMic').onclick=()=>micToggle();$('vSpk').onclick=()=>spkToggle();
 $('btnVicMenu').onclick=()=>location.reload();
 $('lobbyCode').onclick=()=>{
   const c=$('lobbyCode').textContent;
@@ -6937,8 +7221,8 @@ function loop(){
     updateBursts(dt);
   }else if(G.mode==='playing'&&G.started&&!G.paused){
     G.time+=dt;
-    updatePlayer(dt,G.time);
-    updateInteract(dt);
+    if(player.spec)updateSpectate(dt);
+    else{updatePlayer(dt,G.time);updateInteract(dt);}
     updateChapters();
     for(const z of world.zombies)z.update(dt,G.time);
     watcherUpdate(dt);
@@ -6954,14 +7238,14 @@ function loop(){
       net.posT+=dt;net.snapT+=dt;
       if(!G.host&&net.posT>1/12){
         net.posT=0;
-        netSend({t:'pos',x:+player.pos.x.toFixed(2),y:+player.pos.y.toFixed(2),z:+player.pos.z.toFixed(2),
+        netSend({t:'pos',x:+player.pos.x.toFixed(2),y:+player.pos.y.toFixed(2),z:+player.pos.z.toFixed(2),p:+player.pitch.toFixed(2),
           yaw:+player.yaw.toFixed(2),f:player.floor,fl:flagsBits(),hp:player.hp|0});
       }
       if(G.host&&net.snapT>1/8){
         net.snapT=0;
-        const ps=[['H',+player.pos.x.toFixed(2),+player.pos.z.toFixed(2),+player.pos.y.toFixed(2),+player.yaw.toFixed(2),player.floor,flagsBits(),G.myName]];
-        for(const r of net.remotes.values())ps.push([r.id,+r.x.toFixed(2),+r.z.toFixed(2),+ (r.y||0).toFixed(2),+r.yaw.toFixed(2),r.f||0,r.fl||0,r.name]);
-        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,['shambler','runner','brute','screamer','crawler','watcher'].indexOf(z.type)]);
+        const ps=[['H',+player.pos.x.toFixed(2),+player.pos.z.toFixed(2),+player.pos.y.toFixed(2),+player.yaw.toFixed(2),player.floor,flagsBits(),G.myName,+player.pitch.toFixed(2)]];
+        for(const r of net.remotes.values())ps.push([r.id,+r.x.toFixed(2),+r.z.toFixed(2),+ (r.y||0).toFixed(2),+r.yaw.toFixed(2),r.f||0,r.fl||0,r.name,r.p||0]);
+        const zb=world.zombies.map(z=>[z.id,+z.g.position.x.toFixed(1),+z.g.position.y.toFixed(1),+z.g.position.z.toFixed(1),+z.yaw.toFixed(1),z.state==='chase'?2:(z.state==='investigate'?1:0),z.dead?1:0,Math.max(0,ZTYPE_LIST.indexOf(z.type))]);
         const je=world.npcs&&npcByKey('jieun');
         const jp=je&&je.follow?[+je.parts.g.position.x.toFixed(2),+je.parts.g.position.y.toFixed(2),+je.parts.g.position.z.toFixed(2),+je.yaw.toFixed(2),je.f]:null;
         netBroadcast({t:'snap',ps,zb,jp});
@@ -6988,7 +7272,7 @@ init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
   getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
-  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
+  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,takeItem,giveItem,openGive,micToggle,VOICE,damagePlayer,reviveLocal,playerTurns,onPlayerDown,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
     const dt=1/60;

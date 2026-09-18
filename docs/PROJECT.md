@@ -8,7 +8,7 @@
 | **Source** | https://github.com/bryan273/rooftop-escape |
 | **Landing page** | [`index.html`](../index.html) · **Game** [`play.html`](../play.html) · **Poster** [`poster.png`](../poster.png) ([`poster.html`](../poster.html)) |
 | **Deep design reference** | [`DESIGN.md`](../DESIGN.md) (every system, number and tuning value) |
-| **Team** | **Rooftop Escape** — 侯嘉琪 · Phan Ngoc Anh · Bryan Tjandra |
+| **Team** | **Rooftop Escape** — 侯嘉琪 · Ngoc Anh - Phan (Mia) · Bryan Tjandra |
 
 ---
 
@@ -156,8 +156,8 @@ Latest results: Nightmare 52/52 · Daylight (timeout) 54/54 · Chinese (kill) 51
 | Member | Ownership | Main contributions |
 |---|---|---|
 | **Bryan Tjandra** | Core gameplay & systems | Original game and engine, building generation, stairs and physics, strict mission chain, combat, companions, co-op netcode, i18n, tests, landing page and docs |
-| **Phan Ngoc Anh** | Experience, UI & story | Survival-horror overhaul, the six-floor story restructure, chapter comics, mission window and UI round, respawn flow |
-| **侯嘉琪** | Audio | Recorded sound effects, heartbeat and tension system, helicopter and thunder samples |
+| **Ngoc Anh - Phan (Mia)** | Game design, narrative & AI prompt engineering | Co-created the concept; survival-horror narrative and plot, chapter comics, UI/UX and player experience; the AI prompts that guided content and design |
+| **侯嘉琪** | Audio design | Recorded sound effects, heartbeat and tension system, environmental audio (helicopter, thunder) |
 
 Assets: zombie voices CC0 via OpenGameArt; sound effects Mixkit (free license); Three.js (MIT); PeerJS (MIT). Fan-made and non-commercial, inspired by *All of Us Are Dead*.
 

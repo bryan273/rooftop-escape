@@ -299,3 +299,24 @@ body.cine #subtitle{font-size:19px;bottom:14vh}
 #helpBtn b{color:var(--amber)}
 #helpBtn:hover{color:#fff;border-color:#8b8178}
 #missionWindow,#hintKey{display:none}
+
+/* co-op: voice chat, give menu, spectator */
+#voice{display:none;position:fixed;left:22px;bottom:150px;z-index:21;gap:6px;flex-direction:column;align-items:flex-start;pointer-events:auto}
+.vbtn{font:600 11.5px Inter,Segoe UI,sans-serif;letter-spacing:1px;padding:4px 9px;background:rgba(4,5,7,.7);border:1px solid #3a3530;color:#bdb6aa;cursor:pointer}
+.vbtn b{color:var(--amber)}.vbtn.on{border-color:#3ad488;color:#e8fff0}
+#vWho{font-size:12px;color:#9fe0b8;text-shadow:0 1px 3px #000;min-height:14px}
+#giveHint{display:none;position:fixed;left:50%;bottom:190px;transform:translateX(-50%);z-index:21;font-size:13px;color:#e8e4da;background:rgba(4,5,7,.65);padding:4px 12px;border:1px solid #3a3530}
+#giveHint b{color:var(--amber)}
+#give{display:none;position:fixed;inset:0;z-index:48;align-items:center;justify-content:center;background:rgba(0,0,0,.45)}
+#give .gbox{width:min(360px,90vw);padding:16px;background:rgba(8,8,10,.95);border:1px solid #3a3530;border-top:3px solid #3ad488;text-align:center}
+#giveH{font:700 16px Inter,sans-serif;letter-spacing:2px;color:#9fe0b8;margin-bottom:10px}
+#giveBtns{display:flex;flex-direction:column;gap:6px}
+.gbtn{padding:9px;background:#141418;border:1px solid #333;color:#eee;font:600 14px Inter,sans-serif;cursor:pointer;text-align:left}
+.gbtn b{color:var(--amber);margin-right:6px}.gbtn:hover:not(:disabled){background:#1d2a22}.gbtn:disabled{opacity:.35;cursor:default}
+.gclose{margin-top:10px;background:none;border:none;color:#888;cursor:pointer;font-size:12px}
+#spectate{display:none;position:fixed;left:0;right:0;top:18px;z-index:47;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+#specH{font:900 26px "Arial Black",Arial;letter-spacing:6px;color:#ff4a4a;text-shadow:0 0 18px rgba(255,40,40,.7)}
+#specWho{font-size:14px;letter-spacing:2px;color:#e8e4da;text-shadow:0 1px 3px #000}
+#spectate .sbtns{display:flex;gap:8px;pointer-events:auto}
+#spectate button{padding:6px 12px;background:rgba(8,8,10,.85);border:1px solid #555;color:#eee;font:600 12px Inter,sans-serif;cursor:pointer}
+body.spec #hud>*:not(#subtitle):not(#toasts),body.spec #giveMed,body.spec #lockHint,body.spec #giveHint{visibility:hidden!important}
