@@ -236,3 +236,16 @@ h1,h2{font-family:"Arial Black","Segoe UI",sans-serif;letter-spacing:4px}
 
 #homeLink{position:absolute;top:16px;left:18px;font-size:13px;letter-spacing:2px;color:#9a938a;text-decoration:none;border-bottom:1px solid #444}
 #homeLink:hover{color:#fff;border-color:#fff}
+
+/* phones: this game needs a keyboard + mouse */
+#mobileBlock{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at center,#2a0a0c,#050506 75%);text-align:center}
+#mobileBlock[hidden]{display:none}
+#mobileBlock .mb{max-width:420px;color:#e8e4da;font-size:15px;line-height:1.6}
+#mobileBlock .mbIcon{font-size:52px}
+#mobileBlock h2{margin:8px 0 12px;font-size:24px;letter-spacing:2px;color:#ffcf7a}
+#mobileBlock p{margin-bottom:8px;color:#cfc8bb}
+#mobileBlock code{display:block;margin:6px 0 16px;font:600 15px Consolas,monospace;color:#3ad488}
+#mobileBlock .mbBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#mobileBlock .mbBtns button,#mobileBlock .mbBtns a{font:600 14px inherit;padding:10px 16px;border:1px solid #c1272d;background:#c1272d;color:#fff;text-decoration:none;cursor:pointer}
+#mobileBlock .mbBtns a{background:transparent}
+#mbAnyway{margin-top:18px;background:none;border:none;color:#6f6a62;font-size:13px;text-decoration:underline;cursor:pointer}

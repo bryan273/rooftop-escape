@@ -84,3 +84,16 @@ footer{padding:30px 20px 40px;text-align:center;color:#6f6a62;font-size:13px}
   .heroBg::after{background:linear-gradient(0deg,var(--bg) 8%,#08080ad9 55%,#08080a80 100%)}
 }
 @media (prefers-reduced-motion:reduce){.heroBg,.scroll{animation:none}.btn{transition:none}}
+
+/* phone notice */
+#mobileNote{position:sticky;top:0;z-index:30;display:flex;flex-direction:column;gap:6px;padding:14px 18px 16px;background:#1d1608;border-bottom:2px solid #ffcf7a;color:#f3e7c9;font-size:14.5px;line-height:1.5}
+#mobileNote[hidden]{display:none}
+#mobileNote b{font-size:16px;color:#ffcf7a}
+#mobileNote code{font:600 14px Consolas,monospace;color:#3ad488}
+#mobileNote .mnBtns{display:flex;gap:10px;margin-top:4px}
+#mobileNote button{font:600 14px Inter,sans-serif;padding:8px 14px;border:1px solid #ffcf7a;background:#ffcf7a;color:#1d1608;cursor:pointer}
+#mobileNote button+button{background:transparent;color:#f3e7c9;border-color:#6b5a33}
+#mobileNote.flash{animation:mnFlash .6s 2}
+@keyframes mnFlash{50%{background:#4a3510}}
+body.isMobile .nav{position:relative;background:#08080a}
+body.isMobile .hero{padding-top:40px;min-height:auto}

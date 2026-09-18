@@ -16,6 +16,14 @@
 </head>
 <body>
 
+<!-- shown only on phones / tablets -->
+<div id="mobileNote" hidden>
+  <b>💻 This game needs a laptop or desktop</b>
+  <span>It is played with a keyboard and mouse, so it can't run on a phone. Open this link on your computer:</span>
+  <code>bryan273.github.io/rooftop-escape</code>
+  <div class="mnBtns"><button type="button" id="mnCopy">Copy link</button><button type="button" id="mnClose">Just browsing</button></div>
+</div>
+
 <header class="nav">
   <a class="brand" href="#top">ROOFTOP ESCAPE</a>
   <nav>
@@ -41,7 +49,7 @@
       <a class="btn ghost" href="#how">How to play</a>
     </div>
     <ul class="meta">
-      <li>🖱️ Keyboard + mouse</li><li>⏱️ 30–45 min</li><li>👥 Solo or 2–4 co-op</li><li>🌐 English · 中文</li><li>🔓 No download, no sign-up</li>
+      <li>💻 Laptop / desktop only</li><li>🖱️ Keyboard + mouse</li><li>⏱️ 30–45 min</li><li>👥 Solo or 2–4 co-op</li><li>🌐 English · 中文</li><li>🔓 No download, no sign-up</li>
     </ul>
   </div>
   <a class="scroll" href="#story" aria-label="Scroll down">▾</a>
@@ -114,7 +122,7 @@
         <tr><td><kbd>1</kbd> <kbd>2</kbd></td><td>Crowbar · SMG</td></tr>
         <tr><td><kbd>Space</kbd></td><td>Jump</td></tr>
       </table>
-      <p class="quiet small">Best in Chrome or Edge on a laptop/desktop. Click the game once to capture the mouse. Co-op uses peer-to-peer WebRTC — strict school networks may block it (a phone hotspot fixes that).</p>
+      <p class="quiet small"><strong>Laptop or desktop only</strong> — phones and tablets are not supported (no keyboard). Best in Chrome or Edge. Click the game once to capture the mouse. Co-op uses peer-to-peer WebRTC — strict school networks may block it (a phone hotspot fixes that).</p>
     </div>
   </div>
 </section>
@@ -154,5 +162,25 @@
   <p>Fan-made, non-commercial. Inspired by <em>All of Us Are Dead</em>. Three.js · Web Audio · PeerJS. Zombie voices CC0 (OpenGameArt), sound effects Mixkit free license.</p>
 </footer>
 
+<script>
+function isMobileDevice(){
+  const ua=navigator.userAgent||'';
+  if(/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MicroMessenger.*Mobile/i.test(ua))return true;
+  return navigator.maxTouchPoints>1&&!matchMedia('(pointer:fine)').matches; // iPadOS reports as a Mac
+}
+(function(){
+  if(!isMobileDevice())return;
+  const note=document.getElementById('mobileNote');
+  const show=()=>{note.hidden=false;note.scrollIntoView({block:'start'});};
+  note.hidden=false;document.body.classList.add('isMobile');
+  // on a phone the Play buttons explain instead of loading a game that can't be controlled
+  for(const a of document.querySelectorAll('a[href="play.html"]'))a.addEventListener('click',e=>{e.preventDefault();show();note.classList.remove('flash');void note.offsetWidth;note.classList.add('flash');});
+  document.getElementById('mnCopy').onclick=async e=>{
+    const url='https://bryan273.github.io/rooftop-escape/';
+    try{await navigator.clipboard.writeText(url);e.target.textContent='Copied ✓';}catch(_){prompt('Copy this link:',url);}
+  };
+  document.getElementById('mnClose').onclick=()=>{note.hidden=true;};
+})();
+</script>
 </body>
 </html>

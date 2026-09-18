@@ -66,6 +66,34 @@
   <div id="lockHint">🖱️ CLICK THE GAME TO CAPTURE THE MOUSE</div>
 </div>
 
+<!-- PHONE NOTICE (phones/tablets only) -->
+<div id="mobileBlock" hidden>
+  <div class="mb">
+    <div class="mbIcon">💻</div>
+    <h2>Laptop or desktop needed</h2>
+    <p>Rooftop Escape is played with a <b>keyboard and mouse</b>, so it can't be controlled on a phone or tablet.</p>
+    <p>Open this link on your computer:</p>
+    <code>bryan273.github.io/rooftop-escape</code>
+    <div class="mbBtns"><button type="button" id="mbCopy">Copy link</button><a href="index.html">See the game page</a></div>
+    <button type="button" id="mbAnyway">Try anyway</button>
+  </div>
+</div>
+<script>
+function isMobileDevice(){
+  const ua=navigator.userAgent||'';
+  if(/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MicroMessenger.*Mobile/i.test(ua))return true;
+  return navigator.maxTouchPoints>1&&!matchMedia('(pointer:fine)').matches; // iPadOS reports as a Mac
+}
+if(isMobileDevice()){
+  const b=document.getElementById('mobileBlock');b.hidden=false;
+  document.getElementById('mbAnyway').onclick=()=>{b.hidden=true;};
+  document.getElementById('mbCopy').onclick=async e=>{
+    const url='https://bryan273.github.io/rooftop-escape/';
+    try{await navigator.clipboard.writeText(url);e.target.textContent='Copied ✓';}catch(_){prompt('Copy this link:',url);}
+  };
+}
+</script>
+
 <!-- MAIN MENU -->
 <div id="menu" class="layer">
   <a id="homeLink" href="index.html">← Home</a>
