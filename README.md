@@ -33,7 +33,7 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | 3 | **Mr. Park** lies bitten right outside the stairwell → talk to him (**E**) → take his blue card → he turns → **put him down** |
 | 2 (back down) | Release the Floor 3 shutter from the CCTV terminal (**Q** in the terminal) |
 | 4 | The dark floor: reset the utility breaker → open the gate with the blue card |
-| 5 | Containment breach. **Find Ji-eun** (no marker; listen for her) in the room zombies can't enter → talk → take the rooftop key. **She joins you** and shoots at zombies that get close. Zombies attack her too (160 HP, heals slowly when it is quiet); if she dies she turns |
+| 5 | Containment breach. **Find Ji-eun** (no marker; listen for her) in the room zombies can't enter → talk to her → **decide in 7 seconds: trust her or kill her**. Trust her and she comes along, exhausted (give her a medkit with **[E]**); take too long and they find you both. Zombies attack her too (160 HP); if she dies she turns |
 | 5–6 | Open the Floor 5 gate (the breaker released it) → open the rooftop gate with the yellow card |
 | Roof | **Light the signal flare** in the circle (hold Q) → **stay in the circle for 30 s** while the building empties onto the roof. Stepping out makes the clock run backwards |
 
@@ -66,6 +66,7 @@ The prompt in the middle of the screen always shows the key: amber **E**, blue *
 - **Read the ring.** The circle around your crosshair shows where enemies are moving. Red means one is chasing you.
 - **Light is a resource.** Floors 4–6 have no power. Pick up batteries, and the bar updates as soon as you do.
 - **Flares > fights.** Throw one and walk the other way.
+- **Ji-eun is a decision, not a cutscene.** Nothing tells you whether she is bitten. You get 7 seconds and two buttons. Whatever you choose, the run goes on.
 - **The rooftop** is the hardest fight: the zombies up there always know where you are (small waves every 11 s, at most 30 in total). Keep medkits and ammo for it, and throw a flare when they bunch up.
 
 ## 🔊 Audio
@@ -134,4 +135,6 @@ Push the repository and enable **Settings → Pages → Deploy from branch → m
 | Friend can't join | Try a phone hotspot; strict networks block WebRTC. |
 
 ---
+The infected wear the school's green uniform, each with their own bleeding wounds and their own broken walk (limp, dragging leg, dead arm, twitching neck). Mr. Park keeps his teacher's suit.
+
 Made with Three.js + Web Audio + PeerJS. Zombie voices CC0 via OpenGameArt; sound effects from Mixkit (free license). Fan-made and non-commercial.

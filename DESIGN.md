@@ -35,7 +35,7 @@ Two deliberate **back-tracks**: the Floor 3 shutter is released from the Floor 2
 
 Levels: 0 = Ground, 1–6 = Floors, 7 = Roof. Identical footprint per floor: 40 m corridor, 6 rooms (3 north, 3 south), stair tower at the east end with a gate per floor, roof with a helipad, parapet and the landing circle.
 
-Room themes: classrooms (Ground–1), offices (2), labs (3–4), dorms (5–6).
+Room themes: classrooms (Ground–1), offices (2), labs (3–4), dorms (5–6). Ammo rooms: STORAGE (Floor 3 N1), ARMORY (Floor 5 N3), plus a crate on the roof.
 
 Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER (Floor 2: terminal, generator, red card, SMG) · boarded prep room + ELECTRICAL (Floor 4) · **Ji-eun's hiding room** (Floor 5, south-west; no zombie spawns there or can walk in).
 
@@ -60,7 +60,7 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 | 15 | Reset the utility breaker | Floor 4 ELECTRICAL | hold Q |
 | 16 | Open the Floor 4 gate (blue) | Stairwell | E |
 | 17 | **Find Ji-eun** (no marker; her noises are spatial) | Floor 5, safe room | — |
-| 18 | Talk to Ji-eun → **she joins you** | Safe room | E ×4 |
+| 18 | Talk to Ji-eun → **the choice** (7 s): trust or kill | Safe room | E ×4, then 1 / 2 |
 | 19 | Rooftop key (yellow) | At her feet | E |
 | 20 | Open the Floor 5 gate (breaker released it) | Stairwell | E |
 | 21 | Open the rooftop gate (yellow) | Floor 6 | E |
@@ -117,15 +117,26 @@ Supplies spawn only on open floor, never inside walls, desks, beds or lockers.
 ## 9. Survivors
 
 - **Mr. Park** (biology teacher): bitten, lying in the Floor 3 hall; never moves. After the talk his blue card and a medkit lie beside him. Taking the card makes him convulse, say "RUN", and rise as a zombie.
-- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. After the talk she **follows you** (catches up across stairs and floors) and shoots zombies she can see within 8 m (about 0.9 shots/s, 55 % hits). Zombies target her too: 160 HP with a health bar, slow regeneration after 4 s without hits. At 0 HP she falls and, in Nightmare, rises 4 s later as a zombie (5 HP); in Daylight she retreats.
+- **Ji-eun:** hides sitting behind a shelf in the Floor 5 safe room; occasional spatial sounds lead you to her. She is written as a **threat, not a rescue**: blood on her sleeve, a bandaged forearm she keeps hiding, four evasive lines. Nothing before the choice says whether she is bitten.
+  - **The choice** (`startJieunChoice`): after her last line the game locks input, frees the mouse and shows two buttons with a **7-second bar** — *[1] trust* / *[2] kill* — over a flashing red warning, one alert beep per second (faster under 3 s) and frightened breathing.
+  - **Trust:** she joins at 45/160 HP — slower, shoots about half as often, bent over. She only self-heals to 60 %; a **medkit** ([E] beside her, or the on-screen button) puts her back on her feet (+80).
+  - **Kill:** she drops instantly, and only then do you see her arm: a cut from a door, no bite. The yellow card drops either way.
+  - **Timeout:** the safe room stops being safe (`safeBreached`), the door opens and four infected come in on both of you; she grabs her gun and joins anyway.
+  - Flags `jieunTrusted` / `jieunKilled` / `jieunTimeout` are saved and broadcast in co-op.
 
 ## 10. Audio
 
 - Recorded SFX in `assets/sfx/` (Mixkit free license, from the `fix/heartbeat-sound` branch) plus a real helicopter loop and thunder; CC0 zombie voice clips in `js/vox.js`. For voices, `play()` alternates between recordings and samples. Everything falls back to synthesized buffers.
 - Heartbeat: louder, and the tempo races with threat. `?heartonly=1` debug mode.
+- **Alert:** a short two-tone beep (0.35 s) fires automatically on any warning text (⚠ or "RUN"), throttled to once per 0.9 s, and once a second during Ji-eun's countdown.
+- **Intro:** the prologue has its own soundscape — a low drone under thunder, alarms, a distant scream, a roar, radio static and a heartbeat, one cue per panel (silly equivalents in Daylight).
 - Spatial: stereo panning + distance attenuation relative to the camera.
 
 ## 11. Visuals & performance
+
+**Characters** are built in code (`buildHumanoid`): capsule torso on a waist pivot, sphere head, tapered limbs with elbow/knee joints, hands and shoes. The infected wear the school's **green uniform** (three blood-soaked variants, girls get a plaid skirt and long hair), have a painted dead face on the front of the head sphere, glowing sunken eyes, a slack jaw, and **2–4 randomly placed wounds** (bite at the neck, chest, side, forehead, shoulder, forearm with bone showing, thigh) that keep dripping blood onto the floor. Mr. Park keeps his suit and tie; Ji-eun wears a cardigan, plaid skirt and knee socks with blood on the sleeve.
+
+**Movement** (`animateBody`): every body is broken in its own way — a warped stride phase (hurry on the good leg, stall on the bad), a locked knee and a turned-in dragging foot, the body dipping and rolling onto the bad leg, a twisting spine, a head lolling to one side, sudden neck/spine jerks, and often one arm hanging dead. Runners flail, brutes are heavy and slow, crawlers drag a leg behind them.
 
 Three.js r160 (CDN importmap), ACES tonemapping, fog, canvas textures, view-model (crowbar / SMG / flashlight), particle bursts, falling planks, flare smoke. **Fixed light inventory per floor** (lights are dimmed, never removed) so shaders never recompile on stairs. Only the current floor ±1 renders and simulates. Resolution drops automatically at low FPS.
 

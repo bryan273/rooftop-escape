@@ -6,8 +6,8 @@
   "scripts": {
     "serve": "python -m http.server 8080",
     "build:sim": "node _sim/build.mjs",
-    "test": "node _sim/build.mjs && node _sim/harness.mjs scary && node _sim/harness.mjs lite",
-    "test:zh": "node _sim/build.mjs && node _sim/harness.mjs scary zh",
+    "test": "node _sim/build.mjs && node _sim/harness.mjs scary && node _sim/harness.mjs lite timeout",
+    "test:zh": "node _sim/build.mjs && node _sim/harness.mjs scary zh kill",
     "test:coop": "node _sim/build.mjs && node _sim/harness.mjs scary coop"
   }
 }

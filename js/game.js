@@ -52,7 +52,7 @@ let MD=MODES.scary;   // active mode params — set before world build
 const LMAP={growl1:'servo',growl2:'whir',growl3:'beep',scream:'boing',screech:'boing',zstep:'rstep',
   stinger:'boing',alarm:'happyAlarm',hurt:'pop',whisper:'whir',creak:'servo',clang:'pop',
   snarl:'servo',zbreath:'whir',breath:'whir',pstepRun:'rstep',pstepWalk:'rstep',pstepSneak:'rstep',buzz:'whir',
-  zroar:'boing',eat:'pop',zmouth:'servo',hitMelee:'pop',hitBullet:'pop',pscream:'boing'};
+  zroar:'boing',eat:'pop',zmouth:'servo',hitMelee:'pop',hitBullet:'pop',pscream:'boing',alert:'beep'};
 
 /* ---------------- i18n (EN / 简体中文) ---------------- */
 let LANG='en';
@@ -184,7 +184,7 @@ en:{
  q_breaker:'Floor 4: reset the utility breaker (ELECTRICAL room).',
  q_gate4:'Floor 4: unlock the stairwell gate with the BLUE card.',
  q_jieun:'Floor 5: find Ji-eun — she is hiding in one of the rooms.',
- q_jtalk:'Talk to Ji-eun.',
+ q_jtalk:'Talk to Ji-eun — then decide what to do about her.',
  q_yellow:'Take the ROOFTOP key (YELLOW card) Ji-eun put down.',
  q_gate5:'Floor 5: open the stairwell gate — the breaker released its lock.',
  q_gate6:'Floor 6: unlock the rooftop gate with the YELLOW card.',
@@ -208,7 +208,7 @@ en:{
  qh_breaker:'South-east room of Floor 4 · HOLD [Q] on the green handle.',
  qh_gate4:'Stairwell gate on Floor 4 · [E] swipes the card.',
  qh_jieun:'No marker — open doors [E] and search. Listen: she makes small noises.',
- qh_jtalk:'Stand next to her · [E] to talk, [E] again for the next line.',
+ qh_jtalk:'Careful. Stand next to her · [E] to talk. When the choice appears you have 7 s: [1] or [2].',
  qh_yellow:'She left it on the floor for you · [E] take it.',
  qh_gate5:'Stairwell gate on Floor 5 · the lamp is green now · [E] opens it.',
  qh_gate6:'Stairwell gate on Floor 6 · [E] swipes the card.',
@@ -252,24 +252,35 @@ en:{
  park_dead:'<i>Mr. Park is still. It\'s over.</i>',park_dead_l:'<i>Mr. Park sits down and reboots. He\'ll be fine. Probably.</i>',
  park_moan:'<i>A weak voice by the stairwell: “…help… over here…”</i>',
  park_tag:'MR. PARK',
- npc2_name:'Ji-eun (survivor)',
- npc2_1:'Stay back! Don\'t— …you\'re human. You\'re alive. Please — keep your voice down.',
- npc2_2:'I\'ve been hiding in here since the alarms. The lab doors opened and everyone ran. I didn\'t.',
- npc2_3:'There\'s one that\'s different. It doesn\'t rush. It watches. When you look at it, it\'s gone.',
- npc2_4:'Here — the ROOFTOP key. Yellow card. And I\'m not staying here alone. I have a gun from the security office — I\'m coming with you.',
+ npc2_name:'Ji-eun',
+ npc2_1:'Don\'t— don\'t come any closer. …I\'m fine. I\'m FINE. Stop staring at me.',
+ npc2_2:'The blood? It\'s not mine. It\'s Min-ho\'s. He was… he isn\'t Min-ho anymore. <i>(She pulls her sleeve down over the bandage.)</i>',
+ npc2_3:'My arm? I cut it on the door. That\'s all. It just… burns a little. It\'s nothing.',
+ npc2_4:'I have the ROOFTOP key. Take me with you. Please. …Or don\'t. I can see what you\'re thinking.',
+ ch_warn:'⚠ DECIDE NOW',ch_q:'Is Ji-eun infected? Take her with you — or end it before it\'s too late.',
+ ch_trust:'[1] TRUST HER',ch_trust_d:'take her with you',ch_kill:'[2] KILL HER',ch_kill_d:'don\'t take the risk',
+ ch_q_l:'Is Ji-eun a bot in disguise? Team up — or send her home?',ch_kill_l:'[2] SEND HER HOME',ch_kill_dl:'don\'t take the risk',
+ jieun_killed:'<i>She drops without a sound. You check her arm. A cut from a door. No bite. The blood was someone else\'s.</i>',
+ jieun_killed_l:'<i>Ji-eun shrugs and walks off to the safe room. She was just a person after all.</i>',
+ jieun_trusted:'<b>Ji-eun:</b> “Thank you… I— I can barely stand. If you have a medkit…”',
+ jieun_timeout:'⚠ TOO LATE — THEY FOUND YOU BOTH!',
+ jieun_timeout_sub:'<b>Ji-eun:</b> “They heard us! Behind you!”',
+ t_jieun_weak:'Ji-eun is exhausted and hurt — stand next to her and press [E] to give her a medkit.',
+ l_givemed:'Give Ji-eun a medkit (+80)',t_gavemed:'Ji-eun is patched up — she can keep up now.',
+ btn_givemed:'💉 GIVE JI-EUN A MEDKIT',t_givemed_far:'Get next to Ji-eun first.',
  t_jieun_join:'Ji-eun joins you — she follows you and shoots anything that gets close. Keep her alive: zombies go for her too.',
  t_jieun_hurt:'Ji-eun is badly hurt — cover her!',
  jieun_dying:'<b>Ji-eun:</b> “It bit me… I’m sorry… r-run…”',
  jieun_turn:'<i>Ji-eun gets up. Her eyes are wrong.</i> Put her down.',
  jieun_zdead:'<i>It’s over, Ji-eun. You kept her from wandering the halls.</i>',
  jieun_out_l:'Ji-eun got bonked too many times — she heads back to the safe room.',
- npc2l_1:'Shh! Is it a bot? …Oh, you\'re a person! Keep it down!',
- npc2l_2:'I hid in here when the bot parade started. They kept offering me juice boxes.',
- npc2l_3:'One bot is different. It just stands there and stares. Creepy. Cute. Creepy.',
- npc2l_4:'Here — the ROOFTOP key. Yellow card. And I\'m coming too — I have a foam-dart blaster!',
+ npc2l_1:'Shh! Don\'t come closer! …I\'m fine. Totally fine. Beep. I mean — hi.',
+ npc2l_2:'The paint on my sleeve? Not mine. A bot hugged me. Hard.',
+ npc2l_3:'Why is my arm blinking? It isn\'t. Stop looking at it.',
+ npc2l_4:'I have the ROOFTOP key. Take me with you? …You look like you don\'t trust me.',
  jieun_sub:'<i>Somewhere in the south-west rooms — a bottle rolls across the floor.</i>',
  jieun_whisper:'<i>A whisper behind a door: “…is someone there?”</i>',
- jieun_found:'<i>Behind the shelf — a girl, knees pulled up, shaking. Ji-eun.</i>',
+ jieun_found:'<i>Behind the shelf — a girl, knees pulled up, shaking. Blood on her sleeve. She hides her arm when she sees you. Careful.</i>',
  /* ---- toasts ---- */
  t_need_crowbar:'Boarded shut. You need a crowbar.',
  t_need_crowbar2:'You need a crowbar. (The janitor closet on the Ground floor can be kicked open.)',
@@ -456,7 +467,7 @@ zh:{
  q_breaker:'4层：重置公用断路器（电气室）。',
  q_gate4:'4层：用蓝卡打开楼梯门。',
  q_jieun:'5层：找到智恩——她躲在某个房间里。',
- q_jtalk:'和智恩交谈。',
+ q_jtalk:'和智恩交谈——然后决定怎么处置她。',
  q_yellow:'从智恩那里拿到天台钥匙（黄卡）。',
  q_gate5:'5层：打开楼梯门——断路器已解除它的锁。',
  q_gate6:'6层：用黄卡打开通往天台的门。',
@@ -480,7 +491,7 @@ zh:{
  qh_breaker:'4层东南角的房间 · 在绿色手柄上按住 [Q]。',
  qh_gate4:'4层楼梯门 · [E] 刷卡。',
  qh_jieun:'没有标记——用 [E] 开门搜查。仔细听：她会发出轻微的声音。',
- qh_jtalk:'站到她身边 · [E] 对话，再按 [E] 听下一句。',
+ qh_jtalk:'小心。站到她身边 · [E] 对话。选项出现后你只有 7 秒：[1] 或 [2]。',
  qh_yellow:'她把卡放在地上了 · [E] 拾取。',
  qh_gate5:'5层楼梯门 · 指示灯已变绿 · [E] 打开。',
  qh_gate6:'6层楼梯门 · [E] 刷卡。',
@@ -523,24 +534,35 @@ zh:{
  park_dead:'<i>朴老师不动了。结束了。</i>',park_dead_l:'<i>朴老师坐下来重启了。他会没事的。大概吧。</i>',
  park_moan:'<i>楼梯间旁传来微弱的声音：“……救命……这边……”</i>',
  park_tag:'朴老师',
- npc2_name:'智恩（幸存者）',
- npc2_1:'别过来！别——……你是人。你还活着。求你——小声点。',
- npc2_2:'警报响起后我就一直躲在这里。实验室的门开了，大家都跑了。我没跑。',
- npc2_3:'有一个不一样。它不急。它会“看”。你一看它，它就不见了。',
- npc2_4:'给——天台钥匙。黄卡。我不要一个人留在这里。我有一把保安室的枪——我跟你一起走。',
+ npc2_name:'智恩',
+ npc2_1:'别——别再靠近了。……我没事。我没事！别盯着我看。',
+ npc2_2:'血？不是我的。是珉浩的。他……他已经不是珉浩了。<i>（她把袖子往下拉，盖住绷带。）</i>',
+ npc2_3:'我的手臂？是被门划的。就这样。只是……有点烧。没什么。',
+ npc2_4:'我有天台钥匙。带我走吧。求你。……或者别带。我看得出你在想什么。',
+ ch_warn:'⚠ 立刻决定',ch_q:'智恩被感染了吗？带她一起走——还是趁来得及结束这一切？',
+ ch_trust:'[1] 相信她',ch_trust_d:'带她一起走',ch_kill:'[2] 杀了她',ch_kill_d:'不冒这个险',
+ ch_q_l:'智恩是伪装的机器人吗？组队——还是送她回家？',ch_kill_l:'[2] 送她回家',ch_kill_dl:'不冒这个险',
+ jieun_killed:'<i>她无声地倒下。你查看她的手臂。只是门划的伤口。没有咬痕。那血是别人的。</i>',
+ jieun_killed_l:'<i>智恩耸耸肩，走回安全屋。原来她只是个普通人。</i>',
+ jieun_trusted:'<b>智恩：</b>“谢谢……我——我快站不住了。你要是有医疗包……”',
+ jieun_timeout:'⚠ 太迟了——它们找到你们俩了！',
+ jieun_timeout_sub:'<b>智恩：</b>“它们听见了！你后面！”',
+ t_jieun_weak:'智恩又累又伤——站到她身边按 [E] 给她医疗包。',
+ l_givemed:'给智恩医疗包（+80）',t_gavemed:'智恩包扎好了——她能跟上了。',
+ btn_givemed:'💉 给智恩医疗包',t_givemed_far:'先走到智恩身边。',
  t_jieun_join:'智恩加入了你——她会跟着你，并射击靠近的丧尸。保护好她：丧尸也会攻击她。',
  t_jieun_hurt:'智恩伤得很重——掩护她！',
  jieun_dying:'<b>智恩：</b>“它咬到我了……对不起……快、快跑……”',
  jieun_turn:'<i>智恩站了起来。她的眼神不对了。</i>解决她。',
  jieun_zdead:'<i>结束了，智恩。至少她不会在走廊里游荡了。</i>',
  jieun_out_l:'智恩被敲中太多次——她回安全屋去了。',
- npc2l_1:'嘘！是机器人吗？……哦，你是人！小声点！',
- npc2l_2:'机器人游行一开始我就躲进来了。它们一直要塞给我果汁盒。',
- npc2l_3:'有一台机器人不一样。它就站在那儿盯着看。好怪。好可爱。好怪。',
- npc2l_4:'给——天台钥匙。黄卡。我也要去——我有一把泡沫飞镖枪！',
+ npc2l_1:'嘘！别过来！……我没事。完全没事。哔。我是说——你好。',
+ npc2l_2:'我袖子上的颜料？不是我的。一个机器人抱了我。很用力。',
+ npc2l_3:'我的手臂为什么在闪？没有在闪。别看了。',
+ npc2l_4:'我有天台钥匙。带我一起走？……你看起来不太相信我。',
  jieun_sub:'<i>西南边的某个房间里——一个瓶子滚过地板。</i>',
  jieun_whisper:'<i>门后传来一声低语：“……外面有人吗？”</i>',
- jieun_found:'<i>书架后面——一个女孩抱着膝盖，浑身发抖。是智恩。</i>',
+ jieun_found:'<i>书架后面——一个女孩抱着膝盖，浑身发抖。袖子上有血。看到你，她把手臂藏了起来。小心。</i>',
  t_need_crowbar:'被木板封死了。你需要撬棍。',
  t_need_crowbar2:'你需要撬棍。（地面层的杂物间可以踹开。）',
  t_batt:'电池 +40%',t_flare:'拾取照明弹——按 [G] 投掷。',t_medkit:'拾取医疗包——按 [H] 使用。',
@@ -655,6 +677,7 @@ const G={
   time:0, dt:0,
   flags:{power:false,power2:false,shutter:false,finale:false,victory:false,cctvSeen:false,secFound:false,
     parkFound:false,parkTalked:false,parkTurned:false,parkDead:false,jieunDead:false,
+    jieunTrusted:false,jieunKilled:false,jieunTimeout:false,safeBreached:false,
     jieunFound:false,jieunTalked:false,flareLit:false},
   cards:{red:false,blue:false,green:false,yellow:false},
   gatesOpen:new Set(), boardsBroken:new Set(), taken:new Set(), notesRead:new Set(),
@@ -944,28 +967,81 @@ function buildTextures(){
     x.strokeStyle='#1c2a4a';x.lineWidth=2;x.beginPath();x.moveTo(w/2-14,4);x.lineTo(w/2,h*0.34);x.lineTo(w/2+14,4);x.stroke(); // collar
     splatter(x,w,h,7,110,150,0.45,0.85); // fresh blood across the uniform
   });
-  TEX.zface=makeCanvas(128,128,(x,w,h)=>{ // painted infected face: sunken eyes, blood streak, grimy mouth
-    x.fillStyle='#7d786a';x.fillRect(0,0,w,h); // same dead tone as the body
-    for(let i=0;i<220;i++){const v=irand(105,150);x.fillStyle=`rgba(${v-25},${v-35},${v-55},.2)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,4));}
-    // grime + bruises
-    for(let i=0;i<7;i++){x.fillStyle=`rgba(${irand(45,75)},${irand(40,65)},${irand(35,55)},${rand(.12,.28)})`;
-      x.beginPath();x.arc(rand(0,w),rand(0,h),rand(8,22),0,TAU);x.fill();}
-    // sunken eye sockets (mirror-friendly: face is drawn looking at you)
-    for(const ex of [40,88]){
-      x.fillStyle='rgba(20,12,12,.92)';x.beginPath();x.ellipse(ex,52,15,11,0,0,TAU);x.fill();
-      x.fillStyle='rgba(255,42,26,.85)';x.beginPath();x.arc(ex,52,3.6,0,TAU);x.fill(); // ember iris
-      x.strokeStyle='rgba(60,30,30,.5)';x.lineWidth=2;x.beginPath();x.moveTo(ex-16,64);x.lineTo(ex-4,70);x.stroke(); // eyebags
+  TEX.zface=makeCanvas(128,128,(x,w,h)=>{ // a dead face: sunken sockets, dried blood, grey skin — no cartoon eyes
+    x.fillStyle='#7a736a';x.fillRect(0,0,w,h);
+    for(let i=0;i<300;i++){const v=irand(95,140);x.fillStyle=`rgba(${v},${v-6},${v-16},.16)`;x.fillRect(rand(0,w),rand(0,h),rand(1,4),rand(1,3));}
+    // cheekbones / temples: soft dark shading
+    const shade=(cx,cy,r,al)=>{const gr=x.createRadialGradient(cx,cy,1,cx,cy,r);gr.addColorStop(0,`rgba(28,20,18,${al})`);gr.addColorStop(1,'rgba(28,20,18,0)');x.fillStyle=gr;x.beginPath();x.arc(cx,cy,r,0,TAU);x.fill();};
+    shade(20,60,26,.35);shade(108,60,26,.35);shade(64,96,22,.28);
+    for(const ex of [42,86]){                       // sunken sockets, hollow — the glow comes from the eye meshes
+      shade(ex,52,17,.85);shade(ex,50,9,.9);
+      x.strokeStyle='rgba(50,30,28,.5)';x.lineWidth=1.5;x.beginPath();x.moveTo(ex-13,62);x.quadraticCurveTo(ex,68,ex+13,62);x.stroke();
     }
-    // the wound: bloody streak running down from the left eye (reference-style)
-    x.fillStyle='rgba(96,8,10,.9)';
-    x.beginPath();x.moveTo(88,46);x.quadraticCurveTo(102,74,96,108);x.quadraticCurveTo(88,84,78,52);x.closePath();x.fill();
-    for(let i=0;i<10;i++){x.fillStyle=`rgba(${irand(90,130)},8,10,${rand(.4,.85)})`;
-      x.beginPath();x.arc(88+rand(-14,16),46+rand(0,66),rand(1.5,5),0,TAU);x.fill();}
-    // torn, grimy mouth region (the jaw mesh + teeth sit over this)
-    x.fillStyle='rgba(50,8,10,.75)';x.beginPath();x.ellipse(64,102,17,10,0,0,TAU);x.fill();
-    x.fillStyle='rgba(200,190,170,.5)';for(let i=0;i<5;i++)x.fillRect(50+i*6,96,3,5); // teeth hints
-    // dirt
-    for(let i=0;i<26;i++){x.fillStyle='rgba(40,32,26,.28)';x.fillRect(rand(0,w),rand(0,h),rand(1,3),rand(1,3));}
+    x.strokeStyle='rgba(60,40,38,.45)';x.lineWidth=2;x.beginPath();x.moveTo(64,58);x.lineTo(60,84);x.stroke();  // nose shadow
+    x.fillStyle='rgba(30,10,12,.75)';x.beginPath();x.ellipse(64,100,15,5,0,0,TAU);x.fill();                     // thin dead lips
+    // veins under the skin
+    x.strokeStyle='rgba(58,48,70,.35)';x.lineWidth=1;
+    for(let i=0;i<10;i++){x.beginPath();let px=rand(10,118),py=rand(20,110);x.moveTo(px,py);for(let k=0;k<4;k++){px+=rand(-10,10);py+=rand(-9,9);x.lineTo(px,py);}x.stroke();}
+    // dried blood from the mouth and one eye, plus grime
+    for(let i=0;i<5;i++){const bx=52+i*5+rand(-3,3);x.fillStyle=`rgba(${irand(60,95)},6,8,${rand(.4,.75).toFixed(2)})`;x.fillRect(bx,102,rand(1.5,3),rand(8,24));}
+    x.fillStyle='rgba(75,6,8,.6)';x.beginPath();x.moveTo(86,58);x.quadraticCurveTo(92,80,88,104);x.quadraticCurveTo(82,80,80,60);x.closePath();x.fill();
+    for(let i=0;i<30;i++){x.fillStyle='rgba(38,30,24,.3)';x.fillRect(rand(0,w),rand(0,h),rand(1,3),rand(1,3));}
+  });
+  // the school's GREEN uniform shirt (every infected student wears it) — front is the texture centre
+  const greenShirt=(x,w,h,blood,base)=>{
+    x.fillStyle=base;x.fillRect(0,0,w,h);
+    for(let i=0;i<260;i++){const g2=irand(80,120);x.fillStyle=`rgba(${g2-50},${g2},${g2-40},.16)`;x.fillRect(rand(0,w),rand(0,h),rand(1,5),rand(1,3));}
+    x.strokeStyle='rgba(15,35,22,.35)';x.lineWidth=2;                          // fabric folds
+    for(let i=0;i<8;i++){x.beginPath();const px=rand(0,w);x.moveTo(px,rand(0,h*.3));x.quadraticCurveTo(px+rand(-12,12),h*.5,px+rand(-8,8),h);x.stroke();}
+    x.fillStyle='rgba(20,45,30,.9)';x.beginPath();x.moveTo(w/2-24,0);x.lineTo(w/2,18);x.lineTo(w/2+24,0);x.closePath();x.fill(); // open collar
+    x.fillStyle='rgba(255,255,255,.08)';x.fillRect(w/2-3,14,6,h-14);           // placket
+    x.fillStyle='#d8d2c0';for(let i=0;i<4;i++){x.beginPath();x.arc(w/2,26+i*22,1.8,0,TAU);x.fill();}
+    x.strokeStyle='rgba(15,35,22,.7)';x.lineWidth=1.5;x.strokeRect(w/2+10,32,16,14); // chest pocket
+    x.fillStyle='#e8e4d8';x.fillRect(w/2-28,32,14,5);                           // name tag
+    if(!blood)return;
+    x.fillStyle='rgba(70,5,7,.8)';                                              // collar soaked from the bite
+    x.beginPath();x.ellipse(w/2+rand(-14,14),6,16+blood*4,8+blood*2,0,0,TAU);x.fill();
+    for(let i=0;i<3+blood*2;i++){                                               // a few runs of blood down the front
+      const bx=w/2+rand(-30,30),y0=rand(4,20),len=rand(12,40+blood*6);
+      x.fillStyle=`rgba(${irand(60,90)},5,7,${rand(.45,.75).toFixed(2)})`;
+      x.fillRect(bx,y0,rand(1.2,2.4),len);x.beginPath();x.arc(bx+1.5,y0+len,rand(1.5,3),0,TAU);x.fill();
+    }
+    splatter(x,w,h,3+blood*2,70,105,0.35,0.7);
+    for(let i=0;i<3;i++){x.fillStyle='rgba(38,4,6,.55)';x.beginPath();x.ellipse(rand(0,w),rand(h*.4,h),rand(6,14),rand(4,9),rand(0,3),0,TAU);x.fill();} // old stains
+    x.fillStyle='rgba(8,10,8,.9)';                                              // rips
+    for(let i=0;i<1+blood;i++){const tx=rand(0,w),ty=rand(h*.3,h);x.beginPath();x.moveTo(tx,ty);x.lineTo(tx+rand(6,14),ty+rand(-3,3));x.lineTo(tx+rand(2,8),ty+rand(5,12));x.closePath();x.fill();}
+  };
+  for(let v=0;v<3;v++)TEX['zgreen'+v]=makeCanvas(128,128,(x,w,h)=>greenShirt(x,w,h,v+1,['#3d6a4c','#37634a','#436f50'][v]));
+  TEX.ztrousers=makeCanvas(64,64,(x,w,h)=>{ // dark uniform trousers, blood run down one leg
+    x.fillStyle='#2a302d';x.fillRect(0,0,w,h);
+    for(let i=0;i<90;i++){x.fillStyle='rgba(15,18,16,.35)';x.fillRect(rand(0,w),rand(0,h),rand(1,3),rand(2,6));}
+    for(let i=0;i<5;i++){const bx=rand(0,w);x.fillStyle=`rgba(${irand(70,100)},6,8,.75)`;x.fillRect(bx,0,rand(2,5),rand(20,64));}
+    splatter(x,w,h,4,70,100,0.4,0.7);
+  });
+  // Ji-eun: green knit cardigan over a white blouse — a smear of someone else's blood on the sleeve side
+  const cardigan=(x,w,h,heavy)=>{
+    x.fillStyle='#2f5c48';x.fillRect(0,0,w,h);
+    for(let yy=0;yy<h;yy+=3)for(let xx=0;xx<w;xx+=3){x.fillStyle=`rgba(${irand(30,60)},${irand(80,110)},${irand(60,85)},.25)`;x.fillRect(xx,yy,2,2);} // knit
+    x.fillStyle='#e6e2d8';x.beginPath();x.moveTo(w/2-16,0);x.lineTo(w/2,h*0.42);x.lineTo(w/2+16,0);x.closePath();x.fill();  // blouse V
+    x.fillStyle='#f2efe8';x.fillRect(w/2-22,0,14,8);x.fillRect(w/2+8,0,14,8);   // collar points
+    x.fillStyle='#1c3a2c';x.fillRect(w/2-2,h*0.42,4,h);                          // button line
+    x.fillStyle='#d8d2c0';for(let i=0;i<4;i++){x.beginPath();x.arc(w/2,h*0.48+i*16,2.2,0,TAU);x.fill();}
+    x.fillStyle='rgba(95,8,10,.8)';x.beginPath();x.ellipse(w*0.12,h*0.55,10,22,0.2,0,TAU);x.fill(); // smear on the side
+    splatter(x,w,h,heavy?10:3,80,120,heavy?0.5:0.35,heavy?0.9:0.6);
+    if(heavy)for(let i=0;i<10;i++){const bx=w/2+rand(-30,30),len=rand(20,70);x.fillStyle='rgba(90,6,8,.8)';x.fillRect(bx,rand(0,20),rand(2,4),len);}
+  };
+  TEX.zcardigan=makeCanvas(128,128,(x,w,h)=>cardigan(x,w,h,true));
+  TEX.cardigan=makeCanvas(128,128,(x,w,h)=>cardigan(x,w,h,false));
+  TEX.plaid=makeCanvas(64,64,(x,w,h)=>{
+    x.fillStyle='#6d7176';x.fillRect(0,0,w,h);
+    x.fillStyle='rgba(40,44,50,.55)';for(let i=0;i<w;i+=16){x.fillRect(i,0,6,h);x.fillRect(0,i,w,6);}
+    x.fillStyle='rgba(230,230,230,.35)';for(let i=8;i<w;i+=16){x.fillRect(i,0,1,h);x.fillRect(0,i,w,1);}
+    x.fillStyle='rgba(90,8,10,.45)';x.beginPath();x.ellipse(w*0.3,h*0.7,6,9,0,0,TAU);x.fill();
+  });
+  TEX.sock=makeCanvas(32,64,(x,w,h)=>{ // white knee sock, two dark stripes at the top (uv.y=1 is the top)
+    x.fillStyle='#e9e7e2';x.fillRect(0,0,w,h);
+    x.fillStyle='#1d2a24';x.fillRect(0,4,w,3);x.fillRect(0,10,w,3);
+    x.fillStyle='rgba(120,110,100,.25)';x.fillRect(0,h-10,w,10);
   });
   TEX.zgown=makeCanvas(128,128,(x,w,h)=>{ // hospital gown — patient that never checked out
     x.fillStyle='#b8bcb0';x.fillRect(0,0,w,h);
@@ -1069,6 +1145,10 @@ function ensureAudio(){
     flare:mk(1.2,(t,p)=>(R()*2-1)*Math.pow(1-p,1.5)*0.35),
     hurt:mk(0.35,(t,p)=>{return (Math.sin(t*lerp(150,85,p)*Math.PI*2)*0.5+(R()*2-1)*0.3)*Math.pow(1-p,1.2);}),
     swing:mk(0.18,(t,p)=>(R()*2-1)*Math.sin(p*Math.PI)*0.3),
+    /* short warning alert: two sharp tones, ~0.35 s — for "RUN" / ⚠ moments, never a long siren */
+    alert:mk(0.36,(t,p)=>{
+      const tone=(f0,t0,t1)=>t>=t0&&t<t1?Math.sign(Math.sin((t-t0)*f0*Math.PI*2))*0.35*Math.min(1,(t-t0)*200)*Math.min(1,(t1-t)*60):0;
+      return tone(1046,0,0.13)+tone(784,0.18,0.33);}),
     /* zombie impacts — body hits, never a voice: crowbar = heavy blunt crunch, bullet = wet slap */
     hitMelee:mk(0.26,(t,p)=>{
       const body=Math.sin(t*lerp(95,48,p)*Math.PI*2)*Math.pow(1-p,2.2)*0.95;           // meat thump
@@ -1665,7 +1745,7 @@ function spawnSupply(type,f,x0,x1,z0,z1,opts){
   return new Pickup(type,f,s[0],f*CFG.FH+0.09,s[1],opts);
 }
 /* Ji-eun's hiding room: nothing hostile ever gets inside */
-function inSafeRoom(f,x,z){const s=world.safe;return !!s&&s.f===f&&x>s.x0&&x<s.x1&&z>s.z0&&z<s.z1;}
+function inSafeRoom(f,x,z){const s=world.safe;return !!s&&!G.flags.safeBreached&&s.f===f&&x>s.x0&&x<s.x1&&z>s.z0&&z<s.z1;}
 
 /* ---------- room themes ---------- */
 const ROOM_NAMES=()=>[
@@ -2317,8 +2397,7 @@ function buildWorld(){
   // JI-EUN — hiding on Floor 5, in the south-west room, behind a shelf. She stays there.
   new SurvivorNPC('jieun',5,-22.95,-8.95,{pose:'sit',yaw:-Math.PI*0.8,skin:0xc9a88e,cloth:0x2e3a5a,hair:0x120e0c,hp:160,
     nameKey:'npc2_name',lines:['npc2_1','npc2_2','npc2_3','npc2_4'],linesL:['npc2l_1','npc2l_2','npc2l_3','npc2l_4'],
-    talkQuest:'q_jtalk',onDone:()=>{G.flags.jieunTalked=true;netFlag('jieunTalked');spawnJieunCard();questCheck();
-      const je=npcByKey('jieun');if(je)setTimeout(()=>{je.startFollow();toast(T('t_jieun_join'));},2500);}});
+    talkQuest:'q_jtalk',onDone:()=>startJieunChoice()});
 }
 
 /* ---------- physics queries ---------- */
@@ -2433,8 +2512,11 @@ function buildHumanoid(opts={}){
   const Z=!!opts.zombie,RB=!!opts.robot;
   const ztype=opts.ztype||'shambler';
   const look=opts.look||(Z?ztype:(RB?'robot':'player'));
-  const lk=Z?(ZLOOK[ztype]||ZLOOK.shambler):null;
+  const lkBase=Z?(ZLOOK[ztype]||ZLOOK.shambler):null;
+  const lk=Z?{...lkBase,cloth:lkBase.cloth==='zgreen'?'zgreen'+(opts.variant??irand(0,2)):lkBase.cloth}:null;
   const zm=Z&&TEX.zskin?zMats(lk):null;
+  // infected students: some are girls (skirt, long hair); Park and the big ones are not
+  const girl=Z&&!RB&&(ztype==='jieun'||(opts.girl&&!['brute','watcher','park'].includes(ztype)));
   const std=(c,r=.9,extra={})=>new THREE.MeshStandardMaterial({color:c,roughness:r,...extra});
   const shared=(k,c,r,extra)=>hmat(k,()=>std(c,r,extra));
   // ---- materials
@@ -2445,8 +2527,16 @@ function buildHumanoid(opts={}){
   const dark=shared('dark',0x0b0808,1);
   const blood=shared('blood',0x4a0306,.35);
   const hairM=shared('hair'+(Z?lk.hair:(opts.hair??0x1b1612)),Z?lk.hair:(opts.hair??0x1b1612),.95);
-  let thighM=pants,shinM=Z?pants:pants,armTop=top,foreM=RB?top:(Z?skin:top);
-  if(look==='jieun'){thighM=skin;shinM=shared('sock',0xe8e6e0,1);}
+  const texMat=(k,rough=1,rep)=>hmat('tex_'+k+(rep||''),()=>{const t=new THREE.CanvasTexture(TEX[k]);t.colorSpace=THREE.SRGBColorSpace;
+    if(rep){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rep,1);}return new THREE.MeshStandardMaterial({map:t,color:0xb0b0b0,roughness:rough});});
+  if(Z&&!RB&&ztype!=='park'&&TEX.ztrousers)pants=texMat('ztrousers',1,2);
+  let thighM=pants,shinM=pants,armTop=top,foreM=RB?top:(Z?skin:top);
+  const sockM=TEX.sock?texMat('sock',1,3):shared('sock',0xe8e6e0,1);
+  if(look==='jieun'||girl){thighM=skin;shinM=sockM;}
+  // Ji-eun (alive): knit cardigan with a bloody smear, rolled sleeves
+  let topM=top;
+  if(look==='jieun'&&TEX.cardigan){topM=hmat('cardiganM',()=>{const t=new THREE.CanvasTexture(TEX.cardigan);t.colorSpace=THREE.SRGBColorSpace;return new THREE.MeshStandardMaterial({map:t,roughness:1});});armTop=topM;foreM=topM;}
+  const skirtM=TEX.plaid?texMat('plaid',1,3):shared('skirt',0x5a5e64,1);
   // ---- geometry (shared across every body)
   const cap=(r,l)=>hgeo('cap'+r+'_'+l,()=>new THREE.CapsuleGeometry(r,l,4,12));
   const cyl=(a,b,h,s=10)=>hgeo('cyl'+a+'_'+b+'_'+h+'_'+s,()=>new THREE.CylinderGeometry(a,b,h,s));
@@ -2458,7 +2548,7 @@ function buildHumanoid(opts={}){
   // ---- torso: pivots at the waist, faces +Z locally (turned 180°)
   const torsoGeo=RB?hgeo('torsoR',()=>{const q=new THREE.BoxGeometry(0.44,0.6,0.26);q.translate(0,0.32,0);return q;})
     :hgeo(brute?'torsoB':'torso',()=>{const q=new THREE.CapsuleGeometry(0.17,0.28,5,16);q.rotateY(Math.PI);q.scale(brute?1.42:1.16,1,brute?0.82:0.66);q.translate(0,0.33,0);return q;});
-  parts.torso=new THREE.Mesh(torsoGeo,top);
+  parts.torso=new THREE.Mesh(torsoGeo,topM);
   parts.torso.position.set(0,0.94,0);
   parts.torso.rotation.order='YXZ';parts.torso.rotation.y=Math.PI;
   g.add(parts.torso);
@@ -2490,36 +2580,59 @@ function buildHumanoid(opts={}){
     const em=hmat('zeye'+lk.eye,()=>std(0x220000,.5,{emissive:lk.eye,emissiveIntensity:2.8}));
     parts.eyeL=put(sph(0.011,8,6),em,0.041,0.018,0.104,H);
     parts.eyeR=put(sph(0.011,8,6),em,-0.041,0.018,0.104,H);
-    put(box(0.05,0.028,0.03),shared('zmouth',0x1c0003,1),0,-0.052,0.094,H);  // open mouth
-    const tooth=shared('tooth',0xcfc6a6,.6);
-    for(let i=0;i<4;i++)put(box(0.011,0.015,0.008),tooth,-0.02+i*0.013,-0.043,0.108,H);
-    const jaw=put(box(0.075,0.026,0.07),skin,0,-0.094,0.064,H);jaw.rotation.x=0.42;
-    put(box(0.05,0.08,0.004),blood,0.004,-0.1,0.103,H);                      // blood down the chin
+    put(box(0.045,0.024,0.025),shared('zmouth',0x140002,1),0,-0.052,0.097,H);  // open mouth
+    const tooth=shared('tooth',0xa89d80,.6);
+    for(let i=0;i<4;i++)put(box(0.008,0.011,0.006),tooth,-0.017+i*0.011,-0.046,0.1,H);   // teeth inside the mouth, not a white grid
+    const jaw=put(box(0.06,0.018,0.05),shared('jawM',0x3e2422,.7),0,-0.086,0.07,H);jaw.rotation.x=0.22;   // slack jaw
+    put(box(0.03,0.06,0.003),blood,0.004,-0.1,0.104,H);                      // blood down the chin
     put(sph(0.03,8,6),blood,0.062,-0.018,0.08,H,0.6,1,0.4);                 // torn cheek
     if(ztype!=='screamer'){                                                  // matted, patchy hair
       put(hgeo('hairZ',()=>new THREE.SphereGeometry(0.118,14,8,0,Math.PI*2,0,Math.PI*0.42)),hairM,0,0.012,-0.006,H);
-      put(box(0.05,0.07,0.02),hairM,0.05,0.04,0.1,H).rotation.z=0.3;         // strands over the face
     }
     if(ztype==='park'){                                                      // his glasses, cracked
       const rim=shared('rim',0x202020,.4,{metalness:.6});
       for(const sx of [1,-1])put(hgeo('lens',()=>new THREE.TorusGeometry(0.02,0.004,6,14)),rim,0.041*sx,0.018,0.112,H);
     }
     // wounds / stains on the clothes
-    put(sph(0.05,8,6),blood,0.07,0.26,0.115*(brute?1.2:1),T0,1,1.4,0.25);
-    put(box(0.12,0.16,0.004),blood,-0.05,0.12,0.113*(brute?1.23:1),T0);
+    put(sph(0.03,8,6),blood,0.07,0.26,0.112*(brute?1.23:1),T0,1,1.3,0.12);
+
     if(brute){ // ribs through the rags
       const rib=shared('rib',0xcfc4a8,.8);
       for(let i=0;i<4;i++)put(box(0.22,0.022,0.02),rib,-0.02,0.2+i*0.06,0.15,T0);
-    }
-    if(ztype==='runner'||ztype==='jieun'){ // school uniform: collar + tie
-      put(box(0.16,0.05,0.02),shared('collar',0xd8d4c8,1),0,0.6,0.1,T0);
-      put(box(0.035,0.2,0.012),shared('tie',0x3a1216,.8),0,0.46,0.113,T0);
     }
     if(ztype==='park'){
       put(box(0.1,0.22,0.01),shared('shirt',0xcfcac0,1),0,0.47,0.111,T0);
       put(box(0.03,0.2,0.012),shared('ptie',0x5a1a1a,.8),0,0.45,0.118,T0);
     }
-    if(ztype==='jieun')put(box(0.2,0.3,0.05),hairM,0,-0.06,-0.1,H);
+    if(girl){
+      put(box(0.21,0.28,0.06),hairM,0,-0.07,-0.095,H);                       // long, matted hair
+      put(box(0.035,0.22,0.05),hairM,0.1,-0.06,0.02,H);put(box(0.035,0.22,0.05),hairM,-0.1,-0.06,0.02,H);
+      put(cyl(0.17,0.25,0.3,14),skirtM,0,0.8,0);
+    }
+    // ---- wounds: a few, different on every body, still wet and running
+    const raw=shared('woundRaw',0x5c0a0c,.3),crater=shared('woundDark',0x1e0203,.6),drip=shared('drip',0x5a0407,.18,{metalness:.15});
+    const bone=shared('bone',0xd9d0b4,.6);
+    parts.wounds=[];
+    const wound=(parent,x,y,z,size,dripLen,dirZ=1)=>{
+      const w=new THREE.Group();w.position.set(x,y,z);parent.add(w);
+      put(sph(size*1.15,10,8),raw,0,0,-0.006*dirZ,w,1,0.8,0.18);          // wet torn edge, flush with the skin
+      put(sph(size*0.7,8,6),crater,size*0.1,0,0.002*dirZ,w,1,0.75,0.15);   // the dark hole
+      if(dripLen>0)put(box(0.007,dripLen,0.003),drip,size*0.25,-dripLen/2-size*0.5,0.004*dirZ,w);
+      parts.wounds.push(w);return w;
+    };
+    const pool=['neck','shoulder','arm','chest','thigh','scalp','side'];
+    for(let i=pool.length-1;i>0;i--){const j=irand(0,i);[pool[i],pool[j]]=[pool[j],pool[i]];}
+    const nW=ztype==='brute'||ztype==='watcher'?4:irand(2,3);
+    parts._woundKinds=pool.slice(0,nW);
+    parts._needLimbWounds=[];
+    for(const k of parts._woundKinds){
+      if(k==='neck'){wound(T0,rand(0.03,0.05)*(Math.random()<0.5?1:-1),0.68,0.05,0.03,0.18);}   // THE bite
+      else if(k==='chest')wound(T0,rand(-0.1,0.1),rand(0.3,0.45),0.113*(brute?1.23:1),0.035,rand(0.1,0.2));
+      else if(k==='side')wound(T0,0.09*(brute?1.3:1),rand(0.12,0.25),0.105*(brute?1.23:1),0.03,0.12);
+      else if(k==='scalp')wound(H,rand(-0.03,0.03),0.06,0.108,0.018,0.06);   // forehead gash
+      else parts._needLimbWounds.push(k);                                     // limbs exist further down
+    }
+    parts._woundMats={raw,crater,drip,bone};parts._wound=wound;
   }else{
     // ---- a person: eyes, brows, nose, mouth, ears, hair
     const white=shared('eyew',0xeeeae4,.4),iris=shared('iris',0x2a1c14,.3);
@@ -2539,7 +2652,7 @@ function buildHumanoid(opts={}){
       put(box(0.035,0.2,0.05),hairM,0.1,-0.05,0.02,H);put(box(0.035,0.2,0.05),hairM,-0.1,-0.05,0.02,H);
       put(box(0.16,0.05,0.02),shared('collar',0xd8d4c8,1),0,0.6,0.1,T0);    // uniform collar + ribbon
       put(box(0.06,0.04,0.012),shared('ribbon',0x8a1a24,.8),0,0.56,0.115,T0);
-      put(cyl(0.17,0.25,0.3,14),shared('skirt',0x2a3a4a,1),0,0.8,0);          // pleated skirt
+      put(cyl(0.17,0.25,0.3,14),skirtM,0,0.8,0);                                // plaid skirt
     }
     if(look==='park'){
       const rim=shared('rim',0x202020,.4,{metalness:.6});
@@ -2585,6 +2698,19 @@ function buildHumanoid(opts={}){
     const lightM=put(box(0.05,0.05,0.16),std(0x333333,.5,{metalness:.6,emissive:0xffdd88,emissiveIntensity:.4}),0,-0.02,0.07,parts.handR);
     parts.light=lightM;
   }
+  if(parts._needLimbWounds){
+    for(const k of parts._needLimbWounds){
+      if(k==='shoulder')parts._wound(Math.random()<0.5?parts.armL:parts.armR,0,-0.02,0.058,0.028,0.1);
+      else if(k==='arm'){const el=Math.random()<0.5?parts.elbowL:parts.elbowR;parts._wound(el,0,-0.12,0.04,0.024,0.1);
+        if(Math.random()<0.5)put(box(0.012,0.09,0.012),parts._woundMats.bone,0.01,-0.13,0.045,el);}  // bone showing
+      else if(k==='thigh')parts._wound(Math.random()<0.5?parts.legL:parts.legR,0,-0.22,-0.066,0.028,0.25,-1);
+    }
+    delete parts._needLimbWounds;delete parts._wound;delete parts._woundMats;
+  }
+  if(look==='jieun'){ // a torn strip of blouse tied round her left forearm, soaked through. Hers? Someone else's?
+    put(cyl(0.047,0.047,0.07,10),shared('bandage',0xd8cfc4,1),0,-0.14,0,parts.elbowL);
+    put(sph(0.022,8,6),shared('bandBlood',0x6a070a,.4),0,-0.14,0.043,parts.elbowL,1,1.3,0.4);
+  }
   parts.g=g;
   parts.torso.castShadow=true;   // only torso/head cast shadows (perf)
   parts.head.castShadow=true;
@@ -2597,6 +2723,30 @@ function nameSprite(txt,color='#8fd0ff'){
   s.scale.set(1.5,0.38,1);return s;
 }
 
+/* ---------- blood drops falling from wounds ---------- */
+const drips=[],_dripV=new THREE.Vector3();
+let _dripMat=null;
+function spawnDrip(pos,f){
+  if(drips.length>40||!MD.blood)return;
+  _dripMat=_dripMat||new THREE.SpriteMaterial({map:dotTex(),color:0x6a0508,transparent:true,depthWrite:false});
+  const sp=new THREE.Sprite(_dripMat);sp.scale.set(0.025,0.04,1);
+  sp.position.copy(pos);scene.add(sp);
+  drips.push({sp,vy:0,floorY:f*CFG.FH+0.02,f});
+}
+const dripDecals=[];
+function updateDrips(dt){
+  for(let i=drips.length-1;i>=0;i--){
+    const d=drips[i];
+    d.vy-=9.8*dt;d.sp.position.y+=d.vy*dt;
+    if(d.sp.position.y<=d.floorY){
+      scene.remove(d.sp);drips.splice(i,1);
+      if(Math.random()<0.35&&world.levels[d.f]){ // a small spot stays behind
+        const m=decal(d.f,d.sp.position.x,d.sp.position.z,rand(0.03,0.07),pick(MAT.blood));
+        if(m){dripDecals.push(m);if(dripDecals.length>80){const o=dripDecals.shift();if(o.parent)o.parent.remove(o);}}
+      }
+    }
+  }
+}
 /* ---------- particles: hit bursts (blood / sparks / wood chips) ---------- */
 const bursts=[];
 let _dotTex=null;
@@ -2772,25 +2922,26 @@ const ZTYPES={
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
-  shambler:{cloth:'zclothA',eye:0xff2a1a,hair:0x1a1814},
-  runner:{cloth:'zuniform',eye:0xff6a3a,hair:0x241c14},
-  brute:{cloth:'zclothB',eye:0xff1a10,hair:0x111008},
-  screamer:{cloth:'zgown',eye:0xcfe8ff,hair:0x201808},
-  crawler:{cloth:'zgown',eye:0xff2a1a,hair:0x141210},
-  watcher:{cloth:'zclothB',eye:0xd8d8d8,hair:0x060606}, // pale cold eyes. it watches.
-  park:{cloth:'zclothA',eye:0xff3a1a,hair:0x4a4640},    // the biology teacher's suit and tie
-  jieun:{cloth:'zuniform',eye:0xff3a1a,hair:0x151010},  // her school uniform
+  shambler:{cloth:'zgreen',eye:0xff2a1a,hair:0x1a1814},
+  runner:{cloth:'zgreen',eye:0xff6a3a,hair:0x241c14},
+  brute:{cloth:'zgreen',eye:0xff1a10,hair:0x111008},
+  screamer:{cloth:'zgreen',eye:0xcfe8ff,hair:0x201808},
+  crawler:{cloth:'zgreen',eye:0xff2a1a,hair:0x141210},
+  watcher:{cloth:'zgreen',eye:0xd8d8d8,hair:0x060606}, // pale cold eyes. it watches.
+  park:{cloth:'zclothA',eye:0xff3a1a,hair:0x8e8a84},    // the biology teacher: suit and tie, not a uniform
+  jieun:{cloth:'zcardigan',eye:0xff3a1a,hair:0x151010}, // her cardigan, soaked now
 };
 const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun'];
 const _ZMAT={};
 function zMats(lk){
   if(_ZMAT[lk.cloth])return _ZMAT[lk.cloth];
+  if(!TEX[lk.cloth])return zMats({...lk,cloth:'zgreen0'});
   const mkTex=c=>{const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;};
   _ZMAT[lk.cloth]={
     skin:new THREE.MeshStandardMaterial({map:mkTex(TEX.zskin),color:0x8f897e,roughness:.95}),   // tinted down: no glowing-white skin under the flashlight
     cloth:new THREE.MeshStandardMaterial({map:mkTex(TEX[lk.cloth]),color:0x9a9a9a,roughness:1}),
     // the painted face covers the FRONT of the head sphere only (clamped: the rest is plain skin tone)
-    face:TEX.zface?new THREE.MeshStandardMaterial({map:(()=>{const t=mkTex(TEX.zface);t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping;t.repeat.set(2.78,2);t.offset.set(-0.194,-0.56);return t;})(),color:0x8f897e,roughness:.95}):null,
+    face:TEX.zface?new THREE.MeshStandardMaterial({map:(()=>{const t=mkTex(TEX.zface);t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping;t.repeat.set(2.78,2);t.offset.set(-0.194,-0.56);return t;})(),color:0x7a756c,roughness:.95}):null,
   };
   return _ZMAT[lk.cloth];
 }
@@ -2806,7 +2957,7 @@ class Zombie{
       const tint=tints[this.id%tints.length];
       this.body=buildHumanoid({robot:true,skin:tint.skin,cloth:tint.cloth});
     }else{
-      this.body=buildHumanoid({zombie:true,ztype:type,skin:this.cfg.skin,cloth:this.cfg.cloth});
+      this.body=buildHumanoid({zombie:true,ztype:type,skin:this.cfg.skin,cloth:this.cfg.cloth,variant:irand(0,2),girl:Math.random()<0.35});
     }
     // clone torso/head materials so hit-flash is per-zombie (head uses a material ARRAY)
     const cl=m=>Array.isArray(m)?m.map(x=>x.clone()):m.clone();
@@ -2830,6 +2981,12 @@ class Zombie{
     this.invest=null;this.investT=0;this.loseT=0;this.staggerT=0;this.stuckT=0;this.lastX=x;this.lastZ=z;
     this.hurtT=0;this.corpseT=0;this.doorT=0;this.trailAcc=0;this.hpMax=this.cfg.hp;
     this.headTilt=rand(-0.3,0.3);this.twitchT=0;this.screamed=false;
+    // a ruined body: every one limps on a different side, some have an arm that no longer works
+    this.gait={limp:type==='watcher'?0:rand(0.35,0.85),side:Math.random()<0.5?1:-1,
+      deadArm:(type!=='watcher'&&Math.random()<0.55)?(Math.random()<0.5?'L':'R'):null,
+      loll:type==='watcher'?0.35:rand(0.12,0.5),twist:rand(-0.28,0.28),lean:rand(-0.14,0.14),
+      armOff:{L:rand(-0.3,0.2),R:rand(-0.3,0.2)},jerkT:rand(1,4),jd:0,jx:0,jz:0,jy:0};
+    this.dripT=rand(0.5,2);
     this.lungeT=0;this.lungeCd=0;this.aggroCd=0;this.breathT=rand(0.5,2);
     this.riseT=0;this.riseDur=1;
     world.zombies.push(this);world.levels[f].add(this.g);
@@ -3073,29 +3230,8 @@ class Zombie{
       }
     }
     g.rotation.y=this.yaw;
-    // ---- animation: hunched shamble with head twitch / crawler low lurch
-    const sw=Math.sin(this.phase);
-    const chase=this.state==='chase'||this.windup>=0;
-    if(this.type==='crawler'){
-      this.body.torso.rotation.x=1.18+sw*0.05;
-      this.body.head.rotation.x=-0.8;this.body.head.rotation.z=sw*0.15;
-      this.body.armL.rotation.x=-1.55+sw*0.5;this.body.armR.rotation.x=-1.55-sw*0.5;
-      this.body.legL.rotation.x=0.85-sw*0.35;this.body.legR.rotation.x=0.85+sw*0.35;
-      g.rotation.z=sw*0.09;
-    }else{
-      const hunch=chase?0.34:0.16;
-      this.body.torso.rotation.x=hunch+sw*0.04;
-      this.body.head.rotation.x=-hunch*0.7+(this.twitchT>0?0.35:0);
-      this.body.head.rotation.z=this.headTilt+sw*0.14+(this.twitchT>0?0.3:0);
-      const reach=chase&&sameFloor&&d<3; // arms shoot out when it's about to grab you
-      const armBase=chase?(reach?-1.62:-1.35):-0.5;
-      this.body.armL.rotation.x=armBase+sw*(chase?0.22:0.3);
-      this.body.armR.rotation.x=armBase-sw*(chase?0.22:0.3);
-      this.body.armL.rotation.z=reach?0.3:0.1;
-      this.body.armR.rotation.z=reach?-0.3:-0.1;
-      this.body.legL.rotation.x=sw*0.55;this.body.legR.rotation.x=-sw*0.55;
-      g.rotation.z=sw*0.05;
-    }
+    this.animateBody(dt,tx!==null&&spd>0.05,this.state==='chase'||this.windup>=0,sameFloor&&d<3);
+    this.bleed(dt,sameFloor?d:1e9);
     const hurt=this.hurtT>0?1:0;
     const flashMats=[].concat(this.body.torso.material).concat(this.body.head.material);
     for(const mm of flashMats){
@@ -3113,11 +3249,95 @@ class Zombie{
     if(this.netYaw!==undefined)g.rotation.y=this.netYaw;
     this.f=this.netF??this.f;
     if(this.netDead&&!this.dead){this.die(true);return;}
-    const chase=this.netState===2,inv=this.netState===1;
-    const sw=Math.sin(G.time*(chase?13:7));
-    this.body.legL.rotation.x=sw*(chase?0.8:0.4);this.body.legR.rotation.x=-sw*(chase?0.8:0.4);
-    this.body.armL.rotation.x=chase?-1.25:sw*0.4;
-    this.body.armR.rotation.x=chase?-1.25:-sw*0.4;
+    const chase=this.netState===2;
+    this.phase+=dt*(chase?5.5:2.6);
+    this.animateBody(dt,true,chase,false);
+  }
+  /* ---- how a ruined body moves: uneven stride, a dragging pigeon-toed leg, a dead arm,
+     a lolling head, and sudden snaps of the spine and neck ---- */
+  animateBody(dt,moving,chase,reach){
+    const b=this.body,gt=this.gait,t=G.time,g=this.g;
+    if(!b.kneeL){ // (robots in Daylight mode keep the simple walk)
+      const sw=moving?Math.sin(this.phase):0;
+      b.legL.rotation.x=sw*0.55;b.legR.rotation.x=-sw*0.55;
+      b.armL.rotation.x=chase?-1.3+sw*0.2:sw*0.3;b.armR.rotation.x=chase?-1.3-sw*0.2:-sw*0.3;
+      return;
+    }
+    const type=this.type,runner=type==='runner',brute=type==='brute',watcher=type==='watcher';
+    const wph=this.phase+gt.limp*0.65*Math.sin(this.phase);        // warped phase: hurry on the good leg, stall on the bad
+    const sw=moving?Math.sin(wph):0;
+    const bad=gt.side>0?'R':'L',good=bad==='R'?'L':'R';
+    const sgn=bad==='R'?1:-1;
+    // sudden jerks
+    gt.jerkT-=dt;
+    if(gt.jerkT<=0){gt.jerkT=chase?rand(0.7,2.2):rand(1.8,5.5);gt.jd=rand(0.08,0.2)*(brute?0.6:1);gt.jx=rand(-0.35,0.35);gt.jz=rand(-0.45,0.45);gt.jy=rand(-0.5,0.5);}
+    const jk=gt.jd>0?1:0;gt.jd=Math.max(0,gt.jd-dt);
+    const tw=this.twitchT>0?1:0;
+    if(type==='crawler'){
+      b.torso.rotation.x=1.18+sw*0.05+jk*gt.jx*0.3;b.torso.rotation.y=Math.PI+sw*0.15;b.torso.rotation.z=0;
+      b.head.rotation.x=-0.85+jk*gt.jx;b.head.rotation.z=sw*0.15+gt.loll*0.5+jk*gt.jz;
+      b.armL.rotation.x=-1.55+sw*0.55;b.armR.rotation.x=-1.55-sw*0.55;
+      b.elbowL.rotation.x=-0.3-Math.max(0,sw)*0.6;b.elbowR.rotation.x=-0.3-Math.max(0,-sw)*0.6;
+      b['leg'+good].rotation.x=0.85+sw*0.35;b['knee'+good].rotation.x=-0.6;
+      b['leg'+bad].rotation.x=1.05;b['knee'+bad].rotation.x=-0.05;b['leg'+bad].rotation.y=0.4*sgn;   // a dead leg dragged behind
+      g.rotation.z=sw*0.09;
+      return;
+    }
+    // ---- legs
+    const amp=runner?0.85:(brute?0.4:0.58);
+    const gS=good==='L'?1:-1;                                            // legL swings with +sw
+    b['leg'+good].rotation.x=gS*sw*amp;
+    b['knee'+good].rotation.x=-(0.12+0.6*Math.max(0,gS*sw))*(moving?1:0.3);
+    b['leg'+bad].rotation.x=-gS*sw*amp*(1-gt.limp*0.7);
+    b['knee'+bad].rotation.x=-0.04;                                     // locked knee
+    b['leg'+bad].rotation.y=0.38*sgn*gt.limp;                           // turned-in, broken ankle
+    b['leg'+bad].rotation.z=0.06*sgn;
+    // ---- body: dips onto the bad leg, rolls, twists
+    const plant=Math.max(0,-gS*sw);                                     // weight on the bad leg
+    b.torso.position.y=0.94-(moving?gt.limp*0.07*plant:0);
+    g.rotation.z=(moving?gt.limp*0.13*sgn*plant:0)+gt.lean*0.4+jk*gt.jz*0.15;
+    const hunch=watcher?0.06:(runner?0.55:(chase?0.4:0.24))+(brute?0.1:0);
+    const idle=Math.sin(t*1.2+this.id)*(moving?0:1);
+    b.torso.rotation.x=hunch+0.05*Math.sin(2*wph)+jk*gt.jx+tw*0.2+(this.windup>=0?-0.18:0);
+    b.torso.rotation.z=gt.lean+0.08*sw+idle*0.05+jk*gt.jz*0.5;
+    b.torso.rotation.y=Math.PI+gt.twist+0.14*sw+jk*gt.jy*0.3;
+    // ---- head: lolls to one side, drifts, snaps
+    b.head.rotation.z=gt.side*gt.loll+this.headTilt*0.5+0.1*Math.sin(wph*0.5)+jk*gt.jz+tw*0.3;
+    b.head.rotation.x=-hunch*0.55+0.14*Math.sin(t*0.7+this.id)+jk*gt.jx+tw*0.4;
+    b.head.rotation.y=(chase?0.12:0.35)*Math.sin(t*0.8+this.id*2)+jk*gt.jy;
+    // ---- arms
+    const tremble=Math.sin(t*23+this.id)*0.04;
+    for(const s2 of ['L','R']){
+      const arm=b['arm'+s2],el=b['elbow'+s2],off=gt.armOff[s2],sd=s2==='L'?1:-1;
+      if(gt.deadArm===s2){                                              // limp: swings like a pendulum
+        arm.rotation.x=0.12+(moving?-sw*0.3*sd:Math.sin(t*1.1+this.id)*0.05);
+        arm.rotation.z=0.05*sd;el.rotation.x=-0.04;
+        continue;
+      }
+      if(this.windup>=0){arm.rotation.x=-2.25+off*0.3;arm.rotation.z=0.25*sd;el.rotation.x=-0.5;continue;}
+      if(runner&&!reach){                                               // flailing
+        arm.rotation.x=-0.9+Math.sin(wph*(s2==='L'?1:-1))*0.9+off;arm.rotation.z=0.35*sd;el.rotation.x=-0.7;continue;
+      }
+      if(chase){
+        arm.rotation.x=(reach?-1.65:-1.3)+off*0.5+sw*0.15*sd+tremble;
+        arm.rotation.z=(reach?0.28:0.12)*sd;
+        el.rotation.x=reach?-0.08:-0.3+off*0.3;
+      }else{
+        arm.rotation.x=-0.18+off*0.4+(moving?sw*0.22*sd:idle*0.04);
+        arm.rotation.z=0.08*sd;
+        el.rotation.x=-0.35+off*0.5;                                    // stiff, half-bent
+      }
+    }
+  }
+  /* open wounds keep running: drops fall to the floor near you */
+  bleed(dt,d){
+    if(!this.body.wounds||!this.body.wounds.length||d>14||this.robot)return;
+    this.dripT-=dt;
+    if(this.dripT>0)return;
+    this.dripT=rand(0.5,1.6);
+    const w=this.body.wounds[irand(0,this.body.wounds.length-1)];
+    w.getWorldPosition(_dripV);
+    spawnDrip(_dripV,this.f);
   }
 }
 function spawnZombie(f,x,zz,type,room){
@@ -3178,6 +3398,7 @@ class SurvivorNPC{
     g.visible=this.label.visible=!this.gone;
     if(this.bar)this.bar.visible=this.follow&&!this.gone;
     if(this.gone)return;
+    if(this.corpse){this.label.visible=false;return;}
     if(this.follow){
       if(!G.mp||G.host)this.followUpdate(dt,t);
       else this.placeLabel();
@@ -3270,7 +3491,7 @@ class SurvivorNPC{
     if(this.f!==pf||d>13||this.stuckT>2.2){this.catchUp();return;}
     let moving=false;
     if(d>2.4){
-      const spd=d>5?4.4:3.2;
+      const spd=(d>5?4.4:3.2)*(this.hp<this.hpMax*0.6?0.72:1);
       let nx=p.x+(player.pos.x-p.x)/d*spd*dt,nz=p.z+(player.pos.z-p.z)/d*spd*dt;
       [nx,nz]=collideCircle(nx,nz,p.y,this.f,0.3);
       const moved=Math.hypot(nx-p.x,nz-p.z);
@@ -3282,7 +3503,9 @@ class SurvivorNPC{
     }else this.stuckT=0;
     // she patches herself up when it's quiet
     this.regenWait=Math.max(0,(this.regenWait||0)-dt);
-    if(this.regenWait<=0&&this.hp<this.hpMax){this.hp=Math.min(this.hpMax,this.hp+3*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;}
+    if(this.regenWait<=0&&this.hp<this.hpMax*0.6){this.hp=Math.min(this.hpMax*0.6,this.hp+1*dt);if(Math.random()<dt*2)this.drawBar();if(this.hp>this.hpMax*0.5)this.warned=false;} // only a medkit gets her past 60 %
+    const weak=this.hp<this.hpMax*0.6;
+    this.parts.torso.rotation.x=weak?0.28:0.05;   // bent over, holding herself up
     // fight: short bursts at the nearest zombie she can see
     this.fireT-=dt;
     let target=null,td=8;
@@ -3295,12 +3518,13 @@ class SurvivorNPC{
       this.yaw+=angDiff(this.yaw,Math.atan2(p.x-target.g.position.x,p.z-target.g.position.z))*Math.min(1,dt*10);
       this.parts.armR.rotation.x=-1.5;
       if(this.fireT<=0){
-        this.fireT=rand(0.8,1.2);   // a scared student, not a soldier
+        const weakNow=this.hp<this.hpMax*0.6;
+        this.fireT=weakNow?rand(1.8,2.6):rand(0.8,1.2);   // a scared student, not a soldier — worse when she can barely stand
         const hand=new THREE.Vector3(p.x-Math.sin(this.yaw)*0.5,p.y+1.35,p.z-Math.cos(this.yaw)*0.5);
         play('shot',{pos:hand,vol:.75,ref:22,rate:rand(1.2,1.35)});
         burst(hand,0xffd27a,4,2.4,0.04);
         emitNoise(p.x,p.z,this.f,10);
-        if((!G.mp||G.host)&&Math.random()<0.55){
+        if((!G.mp||G.host)&&Math.random()<(weakNow?0.35:0.55)){
           target.hit(1,true,'bullet');
           burst(target.g.position.clone().add(new THREE.Vector3(0,1.2*target.cfg.scale,0)),MD.blood?0x8a0a0f:0xffd23f,6,2.4,0.05);
         }
@@ -3324,6 +3548,118 @@ class SurvivorNPC{
 }
 function npcByKey(k){return world.npcs.find(n=>n.key===k);}
 /* Ji-eun while she is with you and alive (zombies can target her) */
+/* ---- the choice: 7 seconds, two buttons, the building closing in ---- */
+const CHOICE_TIME=7;
+let choiceSt=null,jieunResolved=false;
+function startJieunChoice(){
+  if(G.flags.jieunTalked||choiceSt||jieunResolved)return;
+  const lite=MD.id==='lite';
+  choiceSt={t:CHOICE_TIME,tick:0,breath:0};
+  G.uiLock='choice';
+  if(document.exitPointerLock)document.exitPointerLock();   // free the mouse for the buttons
+  $('choiceWarn').textContent=T('ch_warn');
+  $('choiceQ').textContent=T(lite?'ch_q_l':'ch_q');
+  $('choiceTrust').innerHTML='<b>'+esc(T('ch_trust'))+'</b><span>'+esc(T('ch_trust_d'))+'</span>';
+  $('choiceKill').innerHTML='<b>'+esc(T(lite?'ch_kill_l':'ch_kill'))+'</b><span>'+esc(T(lite?'ch_kill_dl':'ch_kill_d'))+'</span>';
+  $('choice').style.display='flex';
+  updateChoiceUI();
+  warnFx();
+  markDanger(5,14);
+  if(MD.jumpscares)play('stinger',{vol:.5,force:true});
+}
+function updateChoiceUI(){
+  if(!choiceSt)return;
+  $('choiceTime').textContent=Math.ceil(choiceSt.t)+'s';
+  $('choiceFill').style.width=Math.max(0,choiceSt.t/CHOICE_TIME*100).toFixed(1)+'%';
+}
+function updateChoice(dt){
+  if(!choiceSt)return;
+  choiceSt.t-=dt;
+  // every second: a short alert; underneath it, fast frightened breathing
+  const sec=Math.ceil(choiceSt.t);
+  if(sec!==choiceSt.tick){choiceSt.tick=sec;play('alert',{vol:sec<=3?.6:.35,rate:sec<=3?1.15:1,force:true});}
+  choiceSt.breath-=dt;
+  if(choiceSt.breath<=0){choiceSt.breath=0.75;play('breath',{vol:.55,rate:1.35,force:true});}
+  AUD.threat=Math.max(AUD.threat||0,1);
+  updateChoiceUI();
+  if(choiceSt.t<=0)resolveJieun('timeout');
+}
+function resolveJieun(kind,remote){
+  if(jieunResolved)return;
+  jieunResolved=true;
+  const lite=MD.id==='lite';
+  choiceSt=null;
+  $('choice').style.display='none';
+  if(G.uiLock==='choice'){G.uiLock=null;ePrev=true;if(!NOLOCK)lockPointer();}
+  const flag={trust:'jieunTrusted',kill:'jieunKilled',timeout:'jieunTimeout'}[kind];
+  G.flags[flag]=true;G.flags.jieunTalked=true;
+  if(!remote){netFlag(flag);netFlag('jieunTalked');}
+  const je=npcByKey('jieun');
+  spawnJieunCard();
+  if(kind==='kill'){
+    killJieun(false);
+  }else{
+    if(je){je.startFollow();je.hp=Math.min(je.hp,45);je.drawBar();}
+    if(kind==='timeout'){
+      toast(T('jieun_timeout'));
+      showSub(T('jieun_timeout_sub'),3.5,true);
+      G.flags.safeBreached=true;
+      player.shakeT=Math.max(player.shakeT,0.5);
+      if(!G.mp||G.host){ // they come through the door
+        const d=world.doors.find(dd=>dd.safe);
+        if(d&&!d.open)d.setOpen(true,false);
+        const dp=d?doorPoint(d):{x:-20,z:-1.6};
+        for(let i=0;i<4;i++){
+          const z=spawnZombie(5,dp.x+rand(-2.5,2.5),rand(-0.6,0.9),i===0?'runner':'shambler',null);
+          z.state='chase';z.loseT=0;
+        }
+        play('zroar',{vol:1.1,force:true});
+      }
+    }else{
+      showSub(T('jieun_trusted'),4.5,true);
+    }
+    setTimeout(()=>toast(T(kind==='trust'?'t_jieun_join':'t_jieun_join')),1200);
+    setTimeout(()=>toast(T('t_jieun_weak')),3400);
+  }
+  questCheck();
+}
+/* you chose to end it: she falls where she sits — and only then do you see the truth */
+function killJieun(quiet){
+  const je=npcByKey('jieun');
+  if(!je)return;
+  G.flags.jieunDead=true;
+  je.hp=0;je.follow=false;je.corpse=true;
+  if(je.bar)je.bar.visible=false;
+  if(MD.id==='lite'){je.gone=true;if(!quiet)showSub(T('jieun_killed_l'),5,true);return;}
+  const p=je.parts;
+  p.g.rotation.order='YXZ';p.g.rotation.x=Math.PI/2;je.baseY=je.f*CFG.FH+0.16;p.g.position.y=je.baseY;
+  p.legL.rotation.x=p.legR.rotation.x=0;p.armL.rotation.x=0.2;p.armR.rotation.x=-0.3;p.torso.rotation.x=0;
+  je.pose='lying';je.convulse=false;je.label.visible=false;
+  if(quiet)return;
+  const c=je.center();
+  decal(je.f,c.x,c.z,0.7,MAT.bloodPool);
+  const armed=player.weapon==='pistol'&&INV.ammo>0;
+  if(armed){INV.ammo--;hudInv();play('shot',{vol:1});}else play('hitMelee',{vol:1});
+  burst(new THREE.Vector3(c.x,je.f*CFG.FH+0.5,c.z),0x8a0a0f,16,2.6,0.07);
+  player.shakeT=Math.max(player.shakeT,0.3);
+  setTimeout(()=>showSub(T('jieun_killed'),6,true),1400);
+}
+/* a medkit for Ji-eun */
+function giveJieunMedkit(){
+  const je=companion();
+  if(!je||INV.medkit<=0)return;
+  if(Math.hypot(je.parts.g.position.x-player.pos.x,je.parts.g.position.z-player.pos.z)>2.6||je.f!==player.floor){toast(T('t_givemed_far'));return;}
+  INV.medkit--;hudInv();
+  if(G.mp&&!G.host)netSend({t:'ev',k:'jmed'});
+  else{je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}
+  play('paper',{vol:.8});toast(T('t_gavemed'));
+}
+function updateGiveMedBtn(){
+  const b=$('giveMed');if(!b)return;
+  const je=companion();
+  const show=!!je&&je.hp<je.hpMax-10&&INV.medkit>0&&G.mode==='playing'&&!player.dead;
+  if(b._show!==show){b._show=show;b.style.display=show?'block':'none';if(show)b.textContent=T('btn_givemed');}
+}
 function companion(){
   const je=npcByKey('jieun');
   return (je&&je.follow&&!je.gone&&je.hp>0&&!G.flags.jieunDead)?je:null;
@@ -3922,7 +4258,15 @@ const pings=[];
 let playerMaxFloor=0;
 let ePrev=false,enterPrev=false,spacePrev=false;
 
+let warnT=0;
+function warnFx(){ // short alert sound for warning signs (throttled)
+  const now=performance.now();
+  if(now-warnT<900)return;
+  warnT=now;play('alert',{vol:.55,force:true});
+}
+const WARN_RE=/⚠|\bRUN\b|快跑/;
 function toast(txt){
+  if(WARN_RE.test(txt))warnFx();
   const box=$('toasts');
   for(const c of box.children)if(c.textContent===txt&&!c._fading)return;   // no duplicate spam
   const d=document.createElement('div');d.className='toast';d.textContent=txt;
@@ -3933,6 +4277,7 @@ function toast(txt){
 const subQ=[];let subT=0;
 /* now=true: a person speaking in front of you — replaces whatever subtitle is up */
 function showSub(html,dur=4.5,now=false){
+  if(WARN_RE.test(html))warnFx();
   if(now){subQ.length=0;$('subtitle').innerHTML=html;subT=dur;return;}
   subQ.push({html,dur});
 }
@@ -4096,7 +4441,8 @@ function applyFlag(n){
     if(p&&!p.gone){p.convulse=true;setTimeout(()=>{if(G.host)spawnParkZombie(false);else p.gone=true;},4200);}
   }
   else if(n==='parkDead'){const p=npcByKey('park');if(p)p.gone=true;}
-  else if(n==='jieunTalked'){spawnJieunCard();const je=npcByKey('jieun');if(je&&!G.flags.jieunDead)je.startFollow();}
+  else if(n==='jieunTalked')spawnJieunCard();
+  else if(n==='jieunTrusted'||n==='jieunKilled'||n==='jieunTimeout')resolveJieun({jieunTrusted:'trust',jieunKilled:'kill',jieunTimeout:'timeout'}[n],true);
   else if(n==='jieunDead'){G.flags.jieunDead=false;jieunDies(false,true);}
   else if(n==='flareLit')lightRoofFlare(true);
 }
@@ -4108,7 +4454,13 @@ function restoreStory(){
     if(!G.flags.parkDead&&(!G.mp||G.host))spawnParkZombie(true);
     park.gone=true;
   }
-  if(G.flags.jieunTalked){spawnJieunCard();if(je){je.li=je.lines.length-1;if(G.flags.jieunDead)je.gone=true;else je.startFollow();}}
+  if(G.flags.jieunTalked){
+    spawnJieunCard();jieunResolved=true;
+    if(je){je.li=je.lines.length-1;
+      if(G.flags.jieunKilled)killJieun(true);
+      else if(G.flags.jieunDead)je.gone=true;
+      else je.startFollow();}
+  }
   if(G.flags.flareLit)lightRoofFlare(true);
   for(const g of world.gates)g.refreshLamp();
   updateShutterBtn();
@@ -4272,8 +4624,12 @@ function interactTargets(){
     add('e',gx,p.z,gt.f,{label,fn:()=>gt.tryOpen()});
   }
   for(const npc of world.npcs){
-    if(npc.gone||npc.f!==pf)continue;
+    if(npc.gone||npc.corpse||npc.f!==pf)continue;
     const c=npc.center();
+    if(npc.follow){ // walking with you: the only thing to do is patch her up
+      if(npc.hp<npc.hpMax-10&&INV.medkit>0)add('e',c.x,c.z,npc.f,{label:T('l_givemed'),fn:giveJieunMedkit},true,0.5);
+      continue;
+    }
     const tq={park:['q_park','q_parktalk'],jieun:['q_jieun','q_jtalk']}[npc.key]||[];
     add('enter',c.x,c.z,npc.f,{label:T('l_talk',{n:npc.name}),fn:()=>npc.talk()},true,tq.some(k=>qi===QI[k])?0.15:1);   // talking is the objective: it beats a battery at your feet
   }
@@ -5082,8 +5438,9 @@ function doVictory(){
 }
 let hudT=0;
 function hudTick(dt){ // bars move on their own (battery drain, stamina) — refresh a few times a second
+  updateChoice(dt);
   hudT-=dt;
-  if(hudT<=0){hudT=0.12;hudStats();}
+  if(hudT<=0){hudT=0.12;hudStats();updateGiveMedBtn();}
 }
 
 /* =====================================================================
@@ -5281,6 +5638,7 @@ function onEv(d,from){
     case 'shutter':{G.flags.shutter=true;const g=world.gates.find(g=>g.f===3);if(g&&!g.open){g.locked=false;g.setOpen(true);}updateShutterBtn();toast(T('t_friendshutter'));questCheck();break;}
     case 'qi':if(d.v>qi){qi=d.v;questCheck();}break;
     case 'flag':if(!G.flags[d.n]){G.flags[d.n]=true;applyFlag(d.n);questCheck();}break;
+    case 'jmed':{const je=companion();if(je&&G.host){je.hp=Math.min(je.hpMax,je.hp+80);je.drawBar();}break;}
     case 'zhit':{const z=world.zmap&&world.zmap.get(d.id);if(z&&!z.dead&&G.host)z.hit(d.dmg||1,true);break;}
     case 'flare':{const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.24,8),MAT.flare));const li=takeFlareLight();g.position.set(d.x,d.y,d.z);if(li)li.position.copy(g.position);scene.add(g);flares.push({g,li,f:d.f,vx:0,vy:0,vz:0,life:14,fizzT:0.5,x:d.x,z:d.z});break;}
     case 'hit':if(d.id===G.myId)damagePlayer(d.dmg);break;
@@ -5360,6 +5718,11 @@ function addChat(name,msg){
 function onKey(code){
   if(G.mode!=='playing')return;
   if(G.uiLock==='note'&&(code==='KeyE'||code==='Escape'||code==='Enter')){closeNote();return;}
+  if(G.uiLock==='choice'){
+    if(code==='Digit1'||code==='Numpad1')resolveJieun('trust');
+    else if(code==='Digit2'||code==='Numpad2')resolveJieun('kill');
+    return;
+  }
   if(G.uiLock==='cctv'){
     if(code==='KeyE'||code==='Escape'){closeCCTV();return;}
     if(code==='KeyQ'||code==='Enter'){releaseShutter();return;}
@@ -5668,6 +6031,7 @@ function showPrologue(){
   introState={i:0,t0:performance.now(),timer:null};
   const go=()=>{ // leave the intro → wake up (same flow as before)
     if(introState){clearInterval(introState.timer);introState=null;}
+    setLoop('drone',0);
     $('prologue').style.display='none';
     if(!NOLOCK)lockPointer();   // capture the mouse while the click gesture is fresh
     bootRun(G.gameMode,false);
@@ -5692,11 +6056,24 @@ function showPrologue(){
     };
     step();
   };
+  ensureAudio();
+  if(AUD.ctx&&AUD.ctx.state==='suspended'&&AUD.ctx.resume)AUD.ctx.resume();
+  const lite=G.gameMode==='lite';
+  setLoop('drone',lite?0:0.22);setLoop('vent',0.1);
+  const INTRO_SFX=lite
+    ?[[['ding',.5]],[['happyAlarm',.25]],[['servo',.5],['beep',.4]],[['whir',.5]],[['boing',.4]],[['ding',.4]]]
+    :[[['stinger',.5],['thunder',.35]],[['thunder',.6],['rumble',.4]],[['alarm',.4],['scream',.3,.7]],
+      [['zroar',.45,.8],['zstep',.6]],[['radio',.5],['growl1',.4]],[['heart',.7],['zbreath',.5]],[['heart',.6]]];
+  const introSfx=i=>{
+    if(!AUD.ready)return;
+    const list=INTRO_SFX[Math.min(i,INTRO_SFX.length-1)];
+    list.forEach(([n,v,r],k)=>setTimeout(()=>{if(introState)play(n,{vol:v,rate:r||1,force:true});},k*450));
+  };
   const show=i=>{
     introState.i=i;introState.t0=performance.now();
+    introSfx(i);
     $('introDots').textContent=panels.map((_,k)=>k===i?'●':'○').join(' ');
     $('prologueGo').classList.toggle('hidden',i<panels.length-1);
-    if(AUD.ready&&G.gameMode!=='lite'&&i>=2)play('heart',{vol:.5,force:true});
     if(i===panels.length-1){showBrief();}
     else{
       $('introCap').style.display='block';
@@ -5706,7 +6083,7 @@ function showPrologue(){
     fitComics();
   };
   cv.onclick=()=>{ // the first click also unlocks the audio context
-    ensureAudio();
+    ensureAudio();if(AUD.ctx&&AUD.ctx.state==='suspended'&&AUD.ctx.resume)AUD.ctx.resume();
     if(introState.i<panels.length-1)show(introState.i+1);
     else go();
   };
@@ -5866,7 +6243,7 @@ function showPause(b){
 }
 
 /* ---------------- save / continue (solo runs) ---------------- */
-const SAVE_FLAGS=['power','power2','shutter','cctvSeen','secFound','parkFound','parkTalked','parkTurned','parkDead','reach4','jieunFound','jieunTalked','jieunDead','reachRoof'];
+const SAVE_FLAGS=['power','power2','shutter','cctvSeen','secFound','parkFound','parkTalked','parkTurned','parkDead','reach4','jieunFound','jieunTalked','jieunDead','jieunTrusted','jieunKilled','jieunTimeout','safeBreached','reachRoof'];
 function saveGame(){
   if(G.mp||!G.started||G.flags.victory)return;
   try{
@@ -5949,7 +6326,9 @@ $('modeScary').onclick=()=>setSelMode('scary');
 $('modeLite').onclick=()=>setSelMode('lite');
 setSelMode(G.selMode);
 function resetWorld(){
-  archiveRunning=false;
+  archiveRunning=false;choiceSt=null;jieunResolved=false;
+  {const c=$('choice');if(c)c.style.display='none';}
+  for(const d of drips)scene.remove(d.sp);drips.length=0;dripDecals.length=0;
   for(const g of world.levels)if(g.parent)g.parent.remove(g);
   for(const f of flares){if(f.g.parent)f.g.parent.remove(f.g);}
   flares.length=0;
@@ -6029,6 +6408,9 @@ $('btnLobbyLeave').onclick=()=>location.reload();
 $('btnResume').onclick=()=>showPause(false);
 $('btnQuit').onclick=()=>location.reload();
 $('btnDeathMenu').onclick=()=>location.reload();
+$('choiceTrust').onclick=()=>resolveJieun('trust');
+$('choiceKill').onclick=()=>resolveJieun('kill');
+$('giveMed').onclick=e=>{e.stopPropagation();giveJieunMedkit();};
 $('btnRespawn').onclick=()=>{if(player.dead&&G.respawnPending)respawnPlayer();};
 $('missionX').onclick=()=>{G.mwDismissed=true;$('missionWindow').style.display='none';};
 $('btnVicMenu').onclick=()=>location.reload();
@@ -6101,7 +6483,7 @@ function loop(){
     updateRoof(dt);
     updateDebris(dt);
     hudTick(dt);
-    updateBursts(dt);
+    updateBursts(dt);updateDrips(dt);
     updateDust(dt,G.time);
     if(world.clouds)for(const cl of world.clouds){cl.position.x+=dt*0.4;if(cl.position.x>70)cl.position.x=-70;}
     drawRing();
@@ -6118,7 +6500,7 @@ init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
   getMD:()=>MD,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
-  QUEST,QI,questAt,npcByKey,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
+  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
     const dt=1/60;
@@ -6140,6 +6522,8 @@ window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,re
       updateRoof(dt);
       updateDebris(dt);
       updateBursts(dt);
+      updateDrips(dt);
+      hudTick(dt);
       updateDust(dt,G.time);
       drawRing();
     }

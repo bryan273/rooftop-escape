@@ -5,6 +5,8 @@
 const MODE=(process.argv[2]||'scary');
 if(process.argv.includes('zh'))process.env.ZH='1';      // cross-platform flags: node _sim/harness.mjs scary zh coop
 if(process.argv.includes('coop'))process.env.MP='1';
+// Ji-eun's choice in the playthrough: trust (default) | kill | timeout
+const CHOICE=process.argv.includes('kill')?'kill':(process.argv.includes('timeout')?'timeout':'trust');
 
 /* ---------------- DOM stubs ---------------- */
 const winHandlers={};
@@ -573,16 +575,40 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   calmAll();
   const jd=world.doors.find(d=>d.safe);
   let doorInfo='';
-  if(jd&&!jd.open){const p=g.doorPoint(jd);tp(p.x,p.z+1.0,5,p.x,p.z);const tt=g.interactTargets();doorInfo=tt.e?tt.e.label:'no target';tap('KeyE');}
+  for(let k=0;k<4&&jd&&!jd.open;k++){const p=g.doorPoint(jd);tp(p.x,p.z+1.0,5,p.x,p.z);const tt=g.interactTargets();doorInfo=tt.e?tt.e.label:'no target';tap('KeyE');}   // a supply by the door may be picked first
   step('her door opens',jd&&jd.open,doorInfo);
   tp(-21.0,-8.3,5,-22.95,-8.95);run(4);
   need('q_jtalk');
   // 18 talk x4
-  for(let i=0;i<4;i++){tap('KeyE');run(10);}
-  need('q_yellow')&&step('Ji-eun talked, key dropped',!!world.items.find(i=>i.id==='story-card-yellow'));
   const je=g.npcByKey('jieun');
-  await sleep(2700);run(3);
-  step('Ji-eun joins you after the talk',je.follow,'e='+JSON.stringify(g.interactTargets().e&&g.interactTargets().e.label));
+  check('Ji-eun is not called a "survivor" before the choice (no spoiler)',!/survivor|幸存/i.test(je.name),je.name);
+  for(let i=0;i<4;i++){tap('KeyE');run(10);}
+  step('the choice appears after the talk (7 s, two buttons)',G.uiLock==='choice'&&el('choice').style.display==='flex',G.uiLock);
+  check('no key before the choice is made',!world.items.find(i=>i.id==='story-card-yellow')&&cur()==='q_jtalk',cur());
+  if(CHOICE==='trust')tap('Digit1');
+  else if(CHOICE==='kill')tap('Digit2');
+  else{
+    const zBefore=world.zombies.filter(z=>!z.dead&&z.f===5).length;
+    run(60*4);check('the choice is still open after 4 s',G.uiLock==='choice');
+    run(60*3.3);
+    check('time runs out: zombies break in on both of you',G.uiLock!=='choice'&&G.flags.jieunTimeout&&world.zombies.filter(z=>!z.dead&&z.f===5).length>=zBefore+4&&G.flags.safeBreached,
+      `lock=${G.uiLock} timeout=${G.flags.jieunTimeout}`);
+    for(const z of world.zombies)if(!z.dead&&z.f===5)z.die(true);
+  }
+  need('q_yellow')&&step('choice made ('+CHOICE+'), key dropped',!!world.items.find(i=>i.id==='story-card-yellow')&&G.uiLock!=='choice');
+  run(3);
+  if(CHOICE==='kill'){
+    step('KILL: Ji-eun dies at once, no zombie rises',je.corpse&&G.flags.jieunDead&&!je.follow&&!world.zombies.some(z=>z.type==='jieun'));
+  }else{
+    step('Ji-eun joins you ('+CHOICE+'), weak',je.follow&&je.hp<=50,`follow=${je.follow} hp=${je.hp}`);
+    // give her a medkit
+    INV.medkit=Math.max(INV.medkit,1);
+    const jp=je.parts.g.position;tp(jp.x-0.9,jp.z+0.3,5,jp.x,jp.z);   // the key lies on her other side
+    const mk0=INV.medkit,hp0=je.hp;
+    const lbl=(g.interactTargets().e||{}).label;
+    tap('KeyE');
+    step('[E] next to her gives Ji-eun a medkit',INV.medkit===mk0-1&&je.hp>hp0+60,`label=${lbl} hp ${Math.round(hp0)}->${Math.round(je.hp)}`);
+  }
   // 19 yellow card
   const yc=world.items.find(i=>i.id==='story-card-yellow');
   tp(yc.g.position.x+0.9,yc.g.position.z+0.2,5,yc.g.position.x,yc.g.position.z);tap('KeyE');
@@ -592,9 +618,11 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   need('q_gate6')&&step('Floor 5 gate open',G.gatesOpen.has(5));
   // 21 gate 6 — Ji-eun comes along to Floor 6 and fights
   tp(16.95,1.2,6,18,1.2);run(30);
+  if(CHOICE!=='kill'){
   step('Ji-eun followed you up to Floor 6',je.f===6&&Math.hypot(je.parts.g.position.x-player.pos.x,je.parts.g.position.z-player.pos.z)<3.5,`f=${je.f}`);
   {const tz=g.spawnZombie(6,12,0.5,'shambler',null);tz.update=()=>{};tz.state='chase';player.pos.set(14.5,6*CFG.FH+0.05,0.2);run(420);
    step('Ji-eun shoots a zombie near you',tz.hp<tz.hpMax||tz.dead,`hp ${tz.hp}`);if(!tz.dead)tz.die(true);}
+  }
   tp(16.95,1.2,6,18,1.2);tap('KeyE');
   need('q_roof')&&step('rooftop gate open',G.gatesOpen.has(6));
   // save mid-run and restore it into the same world (round trip)
@@ -664,7 +692,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   step('helicopter extraction completes',G.flags.victory);
   check('FULL PLAYTHROUGH: all 24 steps completed strictly in order',chain&&G.flags.victory,log.filter(l=>l[0]==='✘').join(' | '));
   check('rooftop is winnable by a fighting player (bot survived)',botWon,botWon?Math.round(dmg)+' damage taken':'died');
-  {const je=g.npcByKey('jieun');
+  if(CHOICE!=='kill'){const je=g.npcByKey('jieun');
    const hpOk=je&&je.hpMax===160;
    if(je&&!je.follow)je.startFollow();
    const zb=g.spawnZombie(player.floor,je.parts.g.position.x+0.8,je.parts.g.position.z,'shambler',null);zb.die(true);
