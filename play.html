@@ -84,8 +84,13 @@
 <script>
 function isMobileDevice(){
   const ua=navigator.userAgent||'';
-  if(/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MicroMessenger.*Mobile/i.test(ua))return true;
-  return navigator.maxTouchPoints>1&&!matchMedia('(pointer:fine)').matches; // iPadOS reports as a Mac
+  // a desktop OS in the UA wins: touch-screen laptops are laptops
+  if(/Windows NT|CrOS|X11|Linux x86_64/i.test(ua)&&!/Android|Mobile/i.test(ua))return false;
+  if(/Macintosh/i.test(ua)&&navigator.maxTouchPoints<=1)return false;   // a real Mac; an iPad also says 'Macintosh' but has touch
+  if(/Android|iPhone|iPad|iPod|Mobile|HarmonyOS/i.test(ua))return true;
+  // no mouse, trackpad or stylus anywhere on the device (iPadOS reports itself as a Mac)
+  const fine=matchMedia('(any-pointer:fine)').matches||matchMedia('(any-hover:hover)').matches;
+  return !fine&&navigator.maxTouchPoints>1;
 }
 if(isMobileDevice()){
   const b=document.getElementById('mobileBlock');b.hidden=false;
