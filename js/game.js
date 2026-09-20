@@ -30,20 +30,21 @@ const ROOF={
   WINDUP:1.1, COOLDOWN:1.6,      // attack wind-up multiplier (>1 = slower), seconds between swings
   DMG:0.85,
   HOLD:30,                       // seconds the circle must be held
-  WAVE_EVERY:11, WAVE_N:2, MAX_ALIVE:7,
-  FIRST_WAVE:5,                  // seconds before the first wave
-  TOTAL:30,                      // hard cap: zombies the roof sends in one run (waves + brute)
+  WAVE_EVERY:4, WAVE_N:4, MAX_ALIVE:16,
+  FIRST_WAVE:4,                  // seconds before the first wave
+  TOTAL:34,                      // hard cap: zombies the roof sends in one run (waves + brute + boss)
+  BOSS_AT:16,                    // seconds after the flare before the big one climbs over the parapet
   RADIUS:2.0,
 };
 
 /* ---------------- game modes ---------------- */
 const MODES={
   scary:{id:'scary',label:'NIGHTMARE',fog:0x040406,fogD:0.052,bg:0x020204,hemi:false,
-    zSpeed:1,zDmg:1,batDrain:1,loot:1,blood:true,jumpscares:true,reverb:true,sky:'night',
+    zSpeed:1,zDmg:1,zHp:1,batDrain:1,loot:1,blood:true,jumpscares:true,reverb:true,sky:'night',
     ringC:'255,45,35',ringW:'255,150,50',
     winE:0x141f33,winI:0.9},
   lite:{id:'lite',label:'DAYLIGHT DRILL',fog:0x9db4c8,fogD:0.026,bg:0x8fb3d4,hemi:true,
-    zSpeed:0.85,zDmg:0.5,batDrain:0.45,loot:1.7,blood:false,jumpscares:false,reverb:false,sky:'day',
+    zSpeed:0.85,zDmg:0.5,zHp:0.7,batDrain:0.45,loot:1.7,blood:false,jumpscares:false,reverb:false,sky:'day',
     ringC:'60,150,255',ringW:'255,175,60',
     winE:0xdfeeff,winI:1.5},
 };
@@ -76,7 +77,7 @@ en:{
   '<b>Stairwell gates</b> are locked — keycards, power, the CCTV terminal (Floor 2) and a crowbar open them. You will have to go back down.<br>'+
   '<b>Listen.</b> The ring around your crosshair lights up when something moves near you. <b>Look.</b> Blood around a door means something inside. The upper floors have <b>no power</b> — flashlight [F] eats battery, grab batteries.<br>'+
   '<b>Flares [G]</b> pull enemies away. <b>Medkits [H]</b> heal. <b>Crouch [C]</b> to sneak. <b>Sprint [Shift]</b> is loud. <b>SMG [2]</b> (hold the mouse button for full-auto) is in the Floor 2 security room.<br>'+
-  '<b>Two modes:</b> 🧟 NIGHTMARE — dark, zombies, blood. 🤖 DAYLIGHT DRILL — bright, friendly robots, zero scares. <b>Co-op:</b> host a room and share the code (up to 4, the host\'s mode applies; [T] chat, [Z] ping).<br>Keyboard + mouse. Click the game once to lock the mouse.',
+  '<b>Two modes:</b> 🧟 NIGHTMARE — dark, zombies, blood. 🤖 DAYLIGHT DRILL — bright, friendly robots, zero scares. <b>Co-op:</b> host a room and share the code (up to 4, the host\'s mode applies; [T] chat, [Z] ping).<br>Keyboard + mouse. Click the game once to lock the mouse.<br><b>No weapon? Use your fists.</b> <b>[LMB]</b> always punches — about four punches to put a zombie down, two swings with the crowbar, two SMG rounds. The rooftop boss takes a magazine.',
  cont:'CONTINUE — {f} · {m}',
  lb_title:'SURVIVORS LOBBY',lb_share:'SHARE THIS ROOM CODE WITH YOUR FRIENDS',lb_copy:'click the code to copy · friends press “Join Co-op” and type it',
  lb_startn:'Start escape ({n} survivors)',lb_start0:'Start solo anyway',lb_wait:'Waiting for host…',lb_leave:'Leave',lb_copied:'COPIED!',
@@ -85,11 +86,14 @@ en:{
  msg_connecting:'Connecting to {c}…',msg_connected:'Connected! Waiting for host…',msg_entercode:'Enter the room code your friend shared.',
  msg_slow:'Still connecting… some networks take up to 15 seconds.',msg_retry:'No answer yet — trying again…',msg_relay:'No direct route (VPN, proxy or network rules) — connecting through the relay…',msg_noroom:'Room {c} not found. Check the code, and keep the host\'s lobby open.',msg_p2pfail:'Couldn\'t reach the room, directly or through the relay. Check the code, make sure the host\'s lobby is still open, and that the internet works.',msg_neterr:'Network error: {e} — check your connection.',msg_hostclosed:'Host closed the room.',msg_kbm:'⚠ This game needs a keyboard and mouse.',
  /* ---- HUD ---- */
- hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR [1]',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'SMG [2]',
+ hud_hp:'HEALTH',hud_st:'STAMINA',hud_bt:'FLASHLIGHT',hud_crowbar:'CROWBAR [1]',hud_fists:'FISTS [LMB]',
+ boss_tag:'THE BUTCHER',boss_in:'<b>Something huge comes over the parapet. It is not in a hurry.</b>',boss_down:'<i>The big one goes down. The roof shakes.</i>',
+ t_kill_wrong:'She was human. The whole floor heard what you did.',
+ jieun_kill_swarm:'<b>They heard the scream. They are coming down the corridor — hold the room or run for the stairs.</b>',hud_flare:'FLARE [G]',hud_med:'MEDKIT [H]',hud_cards:'KEYCARDS',hud_ammo:'SMG [2]',
  floor:'FLOOR {n}',floor0:'GROUND — ENTRANCE',roof:'ROOFTOP — EXTRACTION',fl_ground:'GROUND',fl_roof:'ROOF',fl_floor:'F{n}',
  wp_roof:'⬆ STAIRWELL — up to the ROOFTOP',wp_up:'⬆ STAIRWELL — east end of the hall · up to {f}',wp_down:'⬇ STAIRWELL — east end of the hall · back down to {f}',
  wp_here:'OBJECTIVE · {d} m',wp_search:'NO MARKER — SEARCH THE ROOMS ON {f}',
- hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack · [V] camera · [Tab] goals · [I] help · [Esc] pause',
+ hint:'[E] take / open / use / talk · [Q] kick · [HOLD Q] pry / breaker / flare<br>[F] light · [G] flare · [H] medkit · [C] sneak · [1]/[2] weapon · [LMB] attack (fists if unarmed) · [V] camera · [Tab] goals · [I] help · [Esc] pause',
  hint_mp:'<br>[T] chat · [Z] ping · HOLD [Q] on a downed friend to revive',
  k_e:'E',k_hold:'HOLD Q',k_enter:'E',k_space:'Q',mw_how:'HOW',help_show:'<b>[I]</b> Stuck? Show the way',help_hide:'<b>[I]</b> Hide help',
  col_red:'RED',col_blue:'BLUE',col_yellow:'YELLOW',col_green:'GREEN',
@@ -397,54 +401,49 @@ zh:{
  sub_scary:'书元高中 · 最后一夜',sub_lite:'书元高中 · 助手机器人捣乱日',
  m_modelabel:'游戏模式',m_namelabel:'你的名字',lbl_lang:'语言',m_solo:'单人逃生',m_host:'创建联机',m_join:'加入联机',m_connect:'连接',
  m_roomcode:'房间代码',tab_play:'开始',tab_how:'玩法说明',wake:'— 点击苏醒 —',
- footer:'粉丝自制丧尸逃生游戏 · Three.js + WebAudio · 免费部署',
+ footer:'粉丝自制丧尸逃生游戏 · Three.js + WebAudio · 可免费部署',
  mode_scary:'噩梦模式',mode_lite:'日间演习',
  mode_scary_d:'黑暗走廊 · 丧尸 · 血迹 · 惊吓场面 · 心跳音效',
  mode_lite_d:'明亮友好 · 呆萌机器人 · 颜料泼溅 · 零惊吓',
- howto:'<div class="hl"><b>特色：</b>🔀 <b>分支剧情</b>——你对智恩的7秒选择会改变之后的故事 · 🧠 <b>AI同伴</b>会战斗、后撤、说话 · 🔗 <b>24步任务链</b> · 🎧 <b>心跳紧张系统</b> · 🚁 <b>天台死守</b>+电影式结局。</div>'+
-  '<b>目标：</b>从大厅爬到<b>天台</b>（共6层），点燃<b>信号照明弹</b>，在降落圈里坚持<b>30秒</b>，等直升机接你。<br>'+
-  '<b>任务是一条链。</b>每一步都必须按顺序完成，下一步才会解锁——左上角面板永远显示当前步骤和要按的键。按住 <b>[Tab]</b> 查看完整计划。<br>'+
-  '<b>操作：</b><b>[E]</b> 拾取物品 · 开关门 · 阅读纸条 · 使用终端 · 刷门卡 · 与幸存者<b>对话</b>（再按一次看下一句）。'+
-  '<b>[Q]</b> 做体力活：<b>连按</b>踹开木板，<b>按住</b>撬木板、拉电闸、点燃照明弹、扶起队友（中途松手也会保留进度）。<b>[空格]</b> 只用来跳跃。<br>'+
-  '<b>楼梯间的门</b>都锁着——需要门卡、电力、2层的监控终端和撬棍。你将不得不折返。<br>'+
-  '<b>听。</b>准星周围的光弧会指示附近的动静。<b>看。</b>门口的血迹说明里面有东西。高层<b>没有电</b>——手电筒 [F] 很耗电，记得捡电池。<br>'+
-  '<b>照明弹 [G]</b> 引开敌人。<b>医疗包 [H]</b> 回血。<b>[C] 蹲下</b>潜行。<b>[Shift] 冲刺</b>很吵。<b>冲锋枪 [2]</b>（按住鼠标连发）在2层保安室。<br>'+
-  '<b>两种模式：</b>🧟 噩梦模式——黑暗、丧尸、血迹。🤖 日间演习——明亮、友好的机器人、零惊吓。<b>联机：</b>创建房间并分享代码（最多4人，以房主模式为准；[T] 聊天，[Z] 标记）。<br>需要键盘+鼠标。点击游戏画面锁定鼠标。',
+ howto:'<div class="hl"><b>特色：</b>🔀 <b>分支剧情</b>——你对智恩的7秒选择会改变之后的故事 · 🧠 <b>AI同伴</b>会战斗、后撤、说话 · 🔗 <b>24步任务链</b> · 🎧 <b>心跳紧张系统</b> · 🚁 <b>天台死守</b>与电影式结局。</div><b>目标：</b>从大厅爬到<b>天台</b>（共6层），点燃<b>信号弹</b>，在降落圈里坚持<b>30秒</b>，等直升机接你。<br><b>任务是一条链。</b>每一步都必须按顺序完成，下一步才会解锁——左上角面板永远显示当前步骤和要按的键。按住 <b>[Tab]</b> 查看完整计划。<br><b>操作：</b><b>[E]</b> 拾取物品 · 开关门 · 阅读纸条 · 使用终端 · 刷门禁卡 · 与幸存者<b>对话</b>（再按一次看下一句）。<b>[Q]</b> 做体力活：<b>连按</b>踹开木板，<b>按住</b>撬木板、拉电闸、点燃信号弹、扶起队友（中途松手也会保留进度）。<b>[Space]</b> 只用来跳跃。<br><b>楼梯闸门</b>都锁着——需要门禁卡、电力、2层的监控终端和撬棍。你将不得不折返。<br><b>听。</b>准星周围的光弧会指示附近的动静。<b>看。</b>门口的血迹说明里面有东西。高层<b>没有电</b>——手电筒 [F] 很耗电，记得捡电池。<br><b>信号弹 [G]</b> 引开敌人。<b>医疗包 [H]</b> 回血。<b>[C] 蹲下</b>潜行。<b>[Shift] 冲刺</b>很吵。<b>冲锋枪 [2]</b>（按住鼠标连发）在2层保安室。<br><b>两种模式：</b>🧟 噩梦模式——黑暗、丧尸、血迹。🤖 日间演习——明亮、友好的机器人、零惊吓。<b>联机：</b>创建房间并分享代码（最多4人，以房主模式为准；[T] 聊天，[Z] 标记）。<br>需要键盘和鼠标。点击游戏画面锁定鼠标。<br><b>没有武器就用拳头。</b><b>[LMB]</b> 永远可以出拳——一只丧尸大约四拳，撬棍两下，冲锋枪两发。天台上的首领要打上一梭子。',
  cont:'继续游戏 — {f} · {m}',
  lb_title:'幸存者大厅',lb_share:'把这个房间代码分享给你的朋友',lb_copy:'点击代码复制 · 朋友点“加入联机”后输入即可',
  lb_startn:'开始逃生（{n} 名幸存者）',lb_start0:'仍要单人开始',lb_wait:'等待房主…',lb_leave:'离开',lb_copied:'已复制！',
  lb_hostnote:'房主：请保持此页面打开并在前台——整栋楼都在你的电脑上运行。',
  msg_creating:'正在创建房间…',t_midjoin:'正在加入进行中的逃生…',t_midkit:'新手装备：手电筒、撬棍和几发9毫米子弹。',lb_squad:'幸存者',
  msg_connecting:'正在连接 {c}…',msg_connected:'已连接！等待房主…',msg_entercode:'请输入朋友分享的房间代码。',
- msg_slow:'仍在连接…部分网络需要最多 15 秒。',msg_retry:'暂无响应——正在重试…',msg_relay:'无法直连（VPN、代理或网络限制）——正在通过中继连接…',msg_noroom:'找不到房间 {c}。请检查代码，并让房主保持大厅打开。',msg_p2pfail:'无论直连还是中继都无法连到房间。请检查代码、确认房主的大厅仍然打开，并确认网络正常。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
- hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍 [1]',hud_flare:'照明弹 [G]',hud_med:'医疗包 [H]',hud_cards:'钥匙卡',hud_ammo:'冲锋枪 [2]',
- floor:'第 {n} 层',floor0:'地面 — 大厅',roof:'天台 — 撤离点',fl_ground:'地面',fl_roof:'天台',fl_floor:'{n}层',
+ msg_slow:'仍在连接……有些网络最多需要 15 秒。',msg_retry:'暂无响应——正在重试…',msg_relay:'无法直连（VPN、代理或网络限制）——正在通过中继连接…',msg_noroom:'找不到房间 {c}。请检查代码，并让房主保持大厅打开。',msg_p2pfail:'无论直连还是中继都无法连到房间。请检查代码、确认房主的大厅仍然打开，并确认网络正常。',msg_neterr:'网络错误：{e}——请检查网络。',msg_hostclosed:'房主已关闭房间。',msg_kbm:'⚠ 本游戏需要键盘和鼠标。',
+ hud_hp:'生命',hud_st:'体力',hud_bt:'手电筒',hud_crowbar:'撬棍 [1]',hud_fists:'拳头 [左键]',
+ boss_tag:'屠夫',boss_in:'<b>有个巨物翻过女儿墙。它一点也不着急。</b>',boss_down:'<i>大家伙倒下了，整个天台都在震。</i>',
+ t_kill_wrong:'她是人。整层楼都听见了你干的事。',
+ jieun_kill_swarm:'<b>它们听见了那声惨叫，正从走廊涌过来——守住房间，或者冲向楼梯。</b>',hud_flare:'信号弹 [G]',hud_med:'医疗包 [H]',hud_cards:'门禁卡',hud_ammo:'冲锋枪 [2]',
+ floor:'第 {n} 层',floor0:'地面层——大厅',roof:'天台——撤离点',fl_ground:'地面层',fl_roof:'天台',fl_floor:'{n}层',
  wp_roof:'⬆ 楼梯间——上到天台',wp_up:'⬆ 楼梯间——走廊东端 · 上到{f}',wp_down:'⬇ 楼梯间——走廊东端 · 下到{f}',
  wp_here:'目标 · {d} 米',wp_search:'没有标记——搜查{f}的房间',
- hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住Q] 撬/电闸/照明弹<br>[F] 手电 · [G] 照明弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [左键] 攻击 · [V] 视角 · [Tab] 目标 · [I] 帮助 · [Esc] 暂停',
+ hint:'[E] 拾取/开门/使用/对话 · [Q] 踹 · [按住 Q] 撬/电闸/信号弹<br>[F] 手电 · [G] 信号弹 · [H] 医疗包 · [C] 潜行 · [1]/[2] 武器 · [LMB] 攻击 · [V] 视角 · [Tab] 目标 · [I] 帮助 · [Esc] 暂停',
  hint_mp:'<br>[T] 聊天 · [Z] 标记 · 在倒地队友旁按住 [Q] 救起',
  k_e:'E',k_hold:'按住 Q',k_enter:'E',k_space:'Q',mw_how:'怎么做',help_show:'<b>[I]</b> 卡住了？显示路线',help_hide:'<b>[I]</b> 隐藏帮助',
  col_red:'红色',col_blue:'蓝色',col_yellow:'黄色',col_green:'绿色',
  pause_title:'已暂停',opt_sens:'鼠标灵敏度',opt_vol:'音量',opt_fov:'视野',btn_resume:'继续',btn_quit:'退出到菜单',
- ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>空格</b> 跳跃</div><div><b>E</b> 拾取·开门·使用·对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬板·电闸·照明弹·救人</div><div><b>E / 回车</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷照明弹</div><div><b>H</b> 医疗包</div><div><b>左键</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>I</b> 任务帮助</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
+ ctrl:'<div><b>WASD</b> 移动</div><div><b>鼠标</b> 视角</div><div><b>Shift</b> 冲刺（很吵）</div><div><b>Space</b> 跳跃</div><div><b>E</b> 拾取 · 开门 · 使用 · 对话</div><div><b>Q（连按）</b> 踹木板</div><div><b>按住 Q</b> 撬木板 · 电闸 · 信号弹 · 救人</div><div><b>E / Enter</b> 重生</div><div><b>C</b> 蹲下潜行</div><div><b>F</b> 手电筒</div><div><b>G</b> 投掷信号弹</div><div><b>H</b> 医疗包</div><div><b>LMB</b> 攻击</div><div><b>1 / 2</b> 撬棍 / 冲锋枪</div><div><b>V</b> 第一/第三人称</div><div><b>I</b> 任务帮助</div><div><b>Tab</b> 目标列表</div><div><b>T / Z</b> 聊天 / 标记（联机）</div><div><b>Esc</b> 暂停</div>',
  goals_title:'逃生计划',
- cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（到时候） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',cl_next:'[空格] ▸ 下一条',cc_you:'你',
+ cctv_hint:'◀ ▶ / A D — 切换摄像头 · [Q] — 解除卷帘门（时机到了再按） · [E] / [Esc] — 离开',cctv_cam:'摄像头 {n} — {m}',cl_next:'[Space] ▸ 下一条',cc_you:'你',
  shutter_btn:'解除3层卷帘门',note_close:'[E] / [ESC] — 放下',
- death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人礼貌地把你滚到安全角落。',
+ death_h:'你死了',death_l:'被撞飞了！',death_p:'大楼留下了你的骸骨。',death_pl:'机器人轻轻把你挪到安全的角落。',
  down_h:'你倒下了',down_hl:'被扑倒了！',
- down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地围观。哎哟。',
+ down_mp:'队友可以救你——坚持住！',down_mp_l:'队友可以把你扶起来——坚持住！',down_sp:'没有人能帮你了…',down_sp_l:'机器人正礼貌地等着。哎哟。',
  down_help:'没有重试机会了——队友可以在你身边按住 [Q] 扶起你。没人来？本次逃亡就到此为止。',
  death_restart:'逃亡失败。你将从头开始。',
- lives_lbl:'剩余重生',btn_respawn:'立即重生 — [E]',death_left:'正在重生。之后还剩 {n} 次重生',death_last:'这是你最后一次重生——你只剩这一条命了。再死一次，本次逃亡就结束。',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',
+ lives_lbl:'剩余重生',btn_respawn:'立即重生 — [E]',death_left:'正在重生。剩余重生次数：{n}',death_last:'这是你最后一次重生——你只剩这一条命了。再死一次，本次逃亡就结束。',death_out:'重生次数已用完。大楼留下了你。',skip:'跳过 ▶',
  sus_h:"⚠ 可疑的幸存者",sus_hl:"🤔 可疑？",
  sus_who:"智恩 · 独自躲在感染楼层",sus_whol:"智恩 · 独自躲在机器人楼层",
- sus_tell:"她可能已经<b>被感染</b>。交谈时<b>[E]</b>仔细观察她。对话结束后，你只有<b>7秒</b>做决定：<b>相信</b>她，还是<b>杀了</b>她。",
+ sus_tell:"她可能已经<b>被感染</b>。交谈<b>[E]</b>时仔细观察她。对话结束后，你只有<b>7秒</b>做决定：<b>相信</b>她，还是<b>杀了</b>她。",
  sus_telll:"她其实是<b>机器人</b>吗？和她交谈<b>[E]</b>，寻找线索。然后你有<b>7秒</b>做决定。",
  sus_meter:"怀疑度",
  sus_c0:"🩸 袖子、双手、开衫上都是血",sus_c1:"😰 发抖、冒冷汗——不让你靠近",
- sus_c2:"🩹 把左臂的绷带藏起来",sus_c3:"🔥 说伤口“烧得慌”——被咬的人也这么说",
+ sus_c2:"🩹 藏着左臂上的绷带",sus_c3:"🔥 说伤口“烧得慌”——被咬的人也这么说",
  sus_c4:"👁 ……但她眼神清醒，说话还是她自己",
- sus_c0l:"🎨 袖子上有油漆点",sus_c1l:"🙈 不让你靠近",sus_c2l:"💡 她手臂上……有东西在闪？",
+ sus_c0l:"🎨 袖子上有颜料点",sus_c1l:"🙈 不让你靠近",sus_c2l:"💡 她手臂上……有东西在闪？",
  sus_c3l:"🤖 不小心说了一声“哔”",sus_c4l:"👁 ……但她笑起来像个真人",
  vd_trust_h:"你判断对了",vd_trust:"智恩是<b>人类</b>。那血是珉浩的，伤口只是被门划的。",
  vd_kill_h:"错误的选择",vd_kill:"智恩是<b>人类</b>。你杀了你的朋友。<br>那伤口只是被门划的。",
@@ -468,52 +467,52 @@ zh:{
  end_1l:"救援无人直升机从天而降，放下一条友好的绳梯。",
  end_2l:"上去吧！下面的机器人挥着小手。",
  end_4l:"座位软软的，嗡嗡声很舒服。真是漫长的一夜。",end_5l:"呼呼……",
- end_skip:"[空格] 跳过",
- vic_h:"恭喜你",vic_sub:"你在书元高中的最后一夜活了下来",vic_subl:"你逃出了机器人大暴走",
- st_je:"智恩：",je_saved:"获救——她和你一起逃了出来",je_killed:"被你杀死（她是人类）",je_turned:"失去了——她变异了",je_left:"被留下了",je_out:"平安回家了",
+ end_skip:"[Space] 跳过",
+ vic_h:"恭喜你",vic_sub:"你在书元高中的最后一夜活了下来",vic_subl:"你逃出了机器人末日",
+ st_je:"智恩：",je_saved:"获救——她和你一起逃了出来",je_killed:"被你杀死（她是人类）",je_turned:"已失去——她变异了",je_left:"被留下了",je_out:"平安回家了",
  vic:'成功撤离',vic_p:'直升机载你飞离书元高中。你活下来了。',vic_pl:'救援无人机带你飞离书元高中。机器人向你挥手告别。🤖',
  st_time:'用时：',st_kills:'消灭丧尸：',st_killsl:'弹开的机器人：',st_down:'倒地次数：',st_squad:'小队：{n} 名幸存者',st_solo:'单人逃生',
  ring_a:'🟠 微弱的光弧——那个方向有东西在动。听。猜。',
  ring_al:'🔵 微弱的光弧——那个方向有机器人活动',
  ring_b:'🔴 红色光弧 = 它正从那边追你！快跑！',ring_bl:'🔵 亮蓝色光弧 = 机器人正朝你冲来！',
  p_wait:'在圈里等待队友（{i}/{t}）',
- p_circle:'先点燃照明弹——在圈内按住 [Q]',
+ p_circle:'先点燃信号弹——在圈内按住 [Q]',
  p_extract:'直升机 {n} 秒后到达——待在圈里',
- p_out:'你离开了圈——倒计时正在倒退（{n} 秒）',
+ p_out:'离开了降落圈——倒计时正在倒退（{n} 秒）',
  lock_hint:'🖱️ 点击游戏画面以锁定鼠标',
  chat_ph:'说点什么…（回车发送）',
- pro_ss:'本该只是书元高中的一夜通宵自习。收集手机。晚上十点锁大门。<br><br>23:12，<em>5层的生物实验室</em>里传出一声尖叫。23:20，走廊里已经在<em>奔跑</em>。<br><br>23:36，学校<em>全面封锁</em>：大门上锁，电梯和电源被切断。只剩几盏应急灯还亮着。<br><br>然后，老师们再也没有回应。<br><br>你在门厅的地板上醒来。你和天台之间隔着<em>六层楼</em>。你，不是一个人。',
- pro_sm:'本该只是书元高中的一夜通宵自习。收集手机。晚上十点锁大门。<br><br>23:12，<em>5层的生物实验室</em>里传出一声尖叫。23:20，走廊里已经在<em>奔跑</em>。<br><br>23:36，学校<em>全面封锁</em>：大门上锁，电梯和电源被切断。<br><br>你和朋友们在门厅醒来，散落在黑暗里。离天台还有<em>六层楼</em>。你，不是一个人。',
- pro_ls:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了<em>5层机器人实验室</em>的充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。学校自动断电想阻止它们。没用。<br><br>智宇在无线电里说：<em>救援无人机</em>午夜降落<em>天台</em>。<em>六层楼</em>热情过头的机器人。记得说“借过”。',
- pro_lm:'本来是书元高中的<em>科技展准备之夜</em>——直到有人把汽水洒在了<em>5层机器人实验室</em>的充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。学校自动断电想阻止它们。没用。<br><br>智宇在无线电里说：<em>救援无人机</em>午夜降落<em>天台</em>。<em>六层楼</em>。找到你的朋友。记得说“借过”。',
+ pro_ss:'本该只是<em>书元高中</em>的一夜通宵自习。学习集训。手机在门口统一收走。22:00 锁上大门。<br><br>23:12，<em>5层的生物实验室</em>里传出一声尖叫。23:20，走廊里的人已经在<em>狂奔</em>。<br><br>23:36，学校<em>全面封锁</em>：大门上锁，电梯和电源被切断。只剩几盏应急灯还亮着。<br><br>然后，老师们再也没有回应。<br><br>你在门厅的地板上醒来。你和天台之间隔着<em>六层楼</em>。你，不是一个人。',
+ pro_sm:'本该只是<em>书元高中</em>的一夜通宵自习。学习集训。手机在门口统一收走。22:00 锁上大门。<br><br>23:12，<em>5层的生物实验室</em>里传出一声尖叫。23:20，走廊里的人已经在<em>狂奔</em>。<br><br>23:36，学校<em>全面封锁</em>：大门上锁，电梯和电源被切断。<br><br>你和朋友们在门厅醒来，散落在黑暗里。离天台还有<em>六层楼</em>。你，不是一个人。',
+ pro_ls:'本来是书元高中的<em>科学展准备之夜</em>——直到有人把汽水洒在了<em>5层机器人实验室</em>的充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。学校自动断电想阻止它们。没用。<br><br>智宇在无线电里说：<em>救援无人直升机</em>午夜降落<em>天台</em>。<em>六层楼</em>热情过头的机器人。记得说“借过”。',
+ pro_lm:'本来是书元高中的<em>科学展准备之夜</em>——直到有人把汽水洒在了<em>5层机器人实验室</em>的充电底座上。<br><br>现在大楼里的每一台<em>助手机器人</em>都想以15公里时速拥抱你。学校自动断电想阻止它们。没用。<br><br>智宇在无线电里说：<em>救援无人直升机</em>午夜降落<em>天台</em>。<em>六层楼</em>。找到你的朋友。记得说“借过”。',
  br_h:'第一天 — 23:47 · 书元高中',
- br1:'通宵自习。收集手机。晚上十点锁门。然后尖叫声响起——学校自动封锁了。',
- br2:'逃到楼上的学生智宇在无线电里说：军用直升机午夜到达天台。它需要信号照明弹才能降落。',
+ br1:'通宵自习。手机统一上交。22:00 锁门。然后尖叫声响起——学校自动封锁了。',
+ br2:'逃到楼上的学生智宇在无线电里说：军用直升机午夜到达天台。它需要信号弹才能降落。',
  br3:'六层楼。没有电梯。3层以上没有电。而在你和天台之间的黑暗里，有什么东西在动。',
  br_m:'主要目标：逃生——登上天台',
- radio_name:'智宇（对讲机）',
+ radio_name:'智宇（无线电）',
  radio_intro:'楼梯塔是唯一的上楼通道。留意地上的血迹——那是它们巢穴的标记。',
  radio_intro_l:'楼梯间是唯一的上楼通道。机器人到处踩了颜料脚印——挺可爱，但盯紧光弧。',
  radio_cont:'回到大楼。楼梯间还记得你。',radio_cont_l:'回到大楼！机器人帮你留了队的位置。',
  radio_stairs:'楼梯间在走廊最东边的塔楼里——跟着地上的绿色箭头，穿过发光的拱门。',
- hint_stairtop:'到楼梯顶了——向侧面走出楼梯间，然后跟着指示牌走。',
+ hint_stairtop:'到楼梯顶了——侧身走上平台，再跟着指示牌走。',
  phone_buzz:'你的手机震了一下。电量3%。',phone_msg:'如果你还活着，别用手机。',phone_die:'手机关机了。',
  s0:'能听到吗？我是智宇——我逃到楼上了。直升机午夜到天台。六层楼。唯一的出路：向上。',
- s1:'1层。教室。上楼的楼梯门被木板钉死了——你需要那根撬棍。',
+ s1:'1层。教室。上楼的楼梯闸门被木板钉死了——你需要那根撬棍。',
  s2:'2层。保安室还有备用电源。看看摄像头——搞清楚发生了什么。',
  s3:'3层。那层还有别人。我在对讲系统里听到他——喘得很厉害。',
  s4:'4层。黑暗楼层。封锁之后这里就一直没电。别跑——跑动会吵醒它们。',
  s5:'5层。实验室。整层都是失效的隔离区。智恩就在上面某个地方。',
  s6:'6层。行政区。没有电，没有声音。不该这么安静。',
  sl0:'地面层！机器人在充电……还在抱人。手电筒在前台上。',
- sl1:'1层。教室。上楼的门被木板钉住了——该用撬棍了。',
+ sl1:'1层。教室。上楼的楼梯闸门被木板钉住了——该用撬棍了。',
  sl2:'2层。保安室有监控终端。看看机器人干了什么。',
- sl3:'3层。这层有人——我在对讲机里听到一声“哎哟”。',
+ sl3:'3层。这层有人——我在对讲系统里听到一声“哎哟”。',
  sl4:'4层。机器人把这里的电全拔了。打开手电！',
  sl5:'5层。机器人实验室。智恩就躲在这层某处。',
  sl6:'6层。非常安静。安静得可疑。',
  radio_horde:'安静地穿过5层！先找到智恩，再往上爬！',radio_horde_l:'机器人在5层办了场惊喜游行。快找到智恩！',
- radio_finale:'飞行员：我们看不见，没法降落！在降落圈里点燃信号照明弹！',
+ radio_finale:'飞行员：我们看不见，没法降落！在降落圈里点燃信号弹！',
  radio_powerfail:'等等——连你那边的出口灯都灭了。不是我干的。',
  radio_wait:'它不躲了。它冲你来了——快跑上天台！',
  knock_sub:'<i>咚。咚。咚。</i>',
@@ -535,83 +534,83 @@ zh:{
  t_notyet:'还不行——先完成：{o}',
  q_torch:'找到手电筒——地面层前台。',
  q_crowbar:'从杂物间（地面层东南角）拿到撬棍。',
- q_boards:'1层：撬开楼梯门上的木板。',
+ q_boards:'1层：撬开楼梯闸门上的木板。',
  q_sec:'2层：找到保安室（监控配电室）。',
  q_arch:'使用监控终端——查看撤离记录。',
- q_red:'从保安桌上拿走红色钥匙卡。',
+ q_red:'从保安室的桌上拿走红色门禁卡。',
  q_power:'启动发电机——恢复主电源。',
- q_gate2:'2层：用红卡打开楼梯门。',
+ q_gate2:'2层：用红卡打开楼梯闸门。',
  q_park:'3层：走廊里躺着一个人——去看看他。',
  q_parktalk:'和朴老师交谈。',
- q_blue:'拿走朴老师身边的蓝色钥匙卡。',
- q_killpark:'朴老师已经变异了。结束他的痛苦。',q_killpark_l:'朴老师被重新编程了！敲一下让他重启。',
+ q_blue:'拿走朴老师身边的蓝色门禁卡。',
+ q_killpark:'朴老师已经变异了。解决掉他。',q_killpark_l:'朴老师被重新编程了！敲一下让他重启。',
  q_shutter:'回到2层终端——解除3层卷帘门。',
  q_gate3:'3层：穿过已打开的卷帘门，上到4层。',
- q_breaker:'4层：重置公用断路器（电气室）。',
- q_gate4:'4层：用蓝卡打开楼梯门。',
+ q_breaker:'4层：重置电气室的电闸。',
+ q_gate4:'4层：用蓝卡打开楼梯闸门。',
  q_jieun:'5层：找到智恩——她躲在某个房间里。',
  q_jtalk:'和智恩交谈——然后决定怎么处置她。',
- q_yellow:'从智恩那里拿到天台钥匙（黄卡）。',
- q_gate5:'5层：打开楼梯门——断路器已解除它的锁。',
- q_gate6:'6层：用黄卡打开通往天台的门。',
+ q_yellow:'拿起智恩放下的天台钥匙（黄卡）。',
+ q_gate5:'5层：打开楼梯闸门。',
+ q_gate6:'6层：用黄卡打开天台闸门。',
  q_roof:'登上天台。',
- q_flare:'在降落圈里点燃信号照明弹。',
+ q_flare:'在降落圈里点燃信号弹。',
  q_hold:'在圈里坚持30秒，等直升机降落。',
- qh_torch:'被封死的正门旁边的桌子 · [E] 拾取 · [F] 开关手电。',
+ qh_torch:'封死的正门旁的桌子 · [E] 拾取 · [F] 开关手电。',
  qh_crowbar:'杂物间门被木板封住 · 连按 3 次 [Q] 踹开 · [E] 拿撬棍。',
- qh_boards:'楼梯间 = 绿色箭头，走廊东端 · 在门前按住 [Q] 撬开。',
+ qh_boards:'楼梯间 = 绿色箭头，走廊东端 · 在闸门前按住 [Q] 撬开。',
  qh_sec:'2层南侧，牌子写着“监控配电室” · [E] 开门。',
  qh_arch:'站到显示器前 · [E] 使用终端。',
  qh_red:'就在显示器那张桌上 · [E] 拾取。',
  qh_power:'发电机在房间后部 · 在红色手柄上按住 [Q]。',
- qh_gate2:'2层楼梯门 · [E] 刷卡。',
+ qh_gate2:'2层的楼梯闸门 · [E] 刷卡。',
  qh_park:'他就在3层楼梯间出口外的走廊上。',
  qh_parktalk:'站到他身边 · [E] 对话，再按 [E] 听下一句。',
  qh_blue:'卡掉在他手边 · [E] 拾取。',
- qh_killpark:'撬棍 [1] 或手枪 [2] · [左键] 攻击 · 从背后攻击伤害加倍。',
+ qh_killpark:'撬棍 [1] 或冲锋枪 [2] · [LMB] 攻击 · 从背后攻击伤害加倍。',
  qh_shutter:'2层保安室 · 在终端按 [E] · 按 [Q]（或点击按钮）解除3层卷帘门。',
  qh_gate3:'3层的卷帘门已升起 · 走楼梯上4层。',
  qh_breaker:'4层东南角的房间 · 在绿色手柄上按住 [Q]。',
- qh_gate4:'4层楼梯门 · [E] 刷卡。',
+ qh_gate4:'4层的楼梯闸门 · [E] 刷卡。',
  qh_jieun:'没有标记——用 [E] 开门搜查。仔细听：她会发出轻微的声音。',
  qh_jtalk:'小心。站到她身边 · [E] 对话。选项出现后你只有 7 秒：[1] 或 [2]。',
  qh_yellow:'她把卡放在地上了 · [E] 拾取。',
- qh_gate5:'5层楼梯门 · 指示灯已变绿 · [E] 打开。',
- qh_gate6:'6层楼梯门 · [E] 刷卡。',
+ qh_gate5:'5层的楼梯闸门 · 指示灯已变绿 · [E] 打开。',
+ qh_gate6:'6层的楼梯闸门 · [E] 刷卡。',
  qh_roof:'楼梯一直通到顶。',
- qh_flare:'直升机坪上的绿色圆圈 · 站在圈内按住 [Q] 点燃照明弹。',
- qh_hold:'待在圈内——离开会让倒计时倒退 · [H] 医疗包 · [G] 照明弹引开它们。',
- r_crowbar:'有光了？好。光束压低。地面层的杂物间里有撬棍——把木板踹开。',
- r_boards:'拿到撬棍了？好。楼梯间在走廊东端的塔楼。1层的楼梯门被木板封住了——撬开它。',
+ qh_flare:'直升机坪上的绿色圆圈 · 站在圈内按住 [Q] 点燃信号弹。',
+ qh_hold:'待在圈内——离开会让倒计时倒退 · [H] 医疗包 · [G] 信号弹引开它们。',
+ r_crowbar:'有光了，很好。手电压低。地面层的杂物间里有撬棍——把木板踹开。',
+ r_boards:'拿到撬棍了？好。楼梯间在走廊东端的塔楼。1层的楼梯闸门被木板封住了——撬开它。',
  r_sec:'2层是保安区。那里的终端还有备用电源。',
  r_arch:'那就是保安室。终端的存档记录了一切。看看吧。',
- r_red:'你看到了。门禁卡就在那张桌上。拿红色的。',
+ r_red:'你看到了。开闸门的卡就在那张桌上。拿红色的。',
  r_power:'红卡。但没电的话读卡器是死的——发电机就在那个房间。',
- r_gate2:'主电源恢复！2层的门现在认红卡了。上去。',
+ r_gate2:'主电源恢复！2层的楼梯闸门现在认红卡了。上去。',
  r_park:'等等——我听到3层有人。在呻吟。就在楼梯间旁边。',
  r_parktalk:'那是朴老师——生物老师。他受伤了。跟他说话。小心点。',
  r_blue:'他要你拿走他的卡。快拿。',
  r_killpark:'他在变异！别犹豫——那已经不是朴老师了！',
  r_shutter:'……对不起。他是个好老师。3层的卷帘门要在2层的终端解除。回下面去。',
  r_gate3:'卷帘门升起来了。4层是黑暗楼层——那里完全没电。备好电池。',
- r_breaker:'4层的电气室里有公用断路器。它给5层楼梯门的锁供电。',
- r_gate4:'断路器合上了。现在用蓝卡——4层的楼梯门。',
+ r_breaker:'4层的电气室里有一个电闸。它给5层楼梯闸门的锁供电。',
+ r_gate4:'电闸合上了。现在用蓝卡——4层的楼梯闸门。',
  r_jieun:'5层。智恩一直躲在那里——一个小时前她就不回话了。找到她。每个房间都查一遍。',
  r_jtalk:'你找到她了？谢天谢地。跟她说话。',
  r_yellow:'天台钥匙在她那里——她也要跟你走。很好。拿上钥匙。',
- r_gate5:'你合上的断路器解除了5层楼梯门的锁。打开它，往上爬。',
- r_gate6:'6层。没有电，没有声音。天台的门认黄卡。',
+ r_gate5:'你合上的电闸解除了5层楼梯闸门的锁。打开它，往上爬。',
+ r_gate6:'6层。没有电，没有声音。天台闸门认黄卡。',
  r_roof:'最后一道门开了。天台——快去！',
- r_flare:'天台！在圈里点燃信号照明弹，让飞行员看到你！',
- r_hold:'飞行员看到照明弹了！三十秒——守住圆圈！',
+ r_flare:'天台！在圈里点燃信号弹，让飞行员看到你！',
+ r_hold:'飞行员看到信号弹了！三十秒——守住圆圈！',
  l_talk:'和 {n} 交谈',
  npc1_name:'朴老师（被咬伤）',npc1l_name:'朴老师（被电晕）',
  npc1_1:'……别靠近。就站在那儿。它咬了我——胳膊。我撑不了多久了。',
  npc1_2:'我姓朴，教生物。一切是从5层实验室开始的……然后学校就封锁了。这层以上都没有电。',
- npc1_3:'我的蓝色钥匙卡能打开4层的楼梯门。它掉在我手边。拿走。快。',
+ npc1_3:'我的蓝色门禁卡能打开4层的楼梯闸门。它掉在我手边。拿走。快。',
  npc1l_1:'哎哟……一台助手机器人用“友谊光束”电了我。我感觉……嘀嘀的。',
  npc1l_2:'我教机器人课。5层实验室的机器人更新出错了……然后学校自动断电了。',
- npc1l_3:'我的蓝色钥匙卡能打开4层的门。就在我手边——拿走！',
+ npc1l_3:'我的蓝色门禁卡能打开4层的闸门。就在我手边——拿走！',
  park_run:'快跑……我感觉到了……我要变了……快跑！',park_run_l:'糟了……嘀……我正在被重新编程……快走开……哔！',
  park_turn:'<i>朴老师的身体猛地一抽。眼睛翻白。他站了起来。</i>',park_turn_l:'<i>朴老师的眼睛发出蓝光。他想要一个拥抱。一个超大的拥抱。</i>',
  park_dead:'<i>朴老师不动了。结束了。</i>',park_dead_l:'<i>朴老师坐下来重启了。他会没事的。大概吧。</i>',
@@ -648,70 +647,70 @@ zh:{
  jieun_found:'<i>书架后面——一个女孩抱着膝盖，浑身发抖。袖子上有血。看到你，她把手臂藏了起来。小心。</i>',
  t_need_crowbar:'被木板封死了。你需要撬棍。',
  t_need_crowbar2:'你需要撬棍。（地面层的杂物间可以踹开。）',
- t_batt:'电池 +40%',t_flare:'拾取照明弹——按 [G] 投掷。',t_medkit:'拾取医疗包——按 [H] 使用。',
- t_crowbar:'撬棍——可撬木板、攻击头部。按 [1] 选用。',t_pistol:'冲锋枪——按住 [左键] 连发 · [1]/[2] 切换武器。',
+ t_batt:'电池 +40%',t_flare:'拾取信号弹——按 [G] 投掷。',t_medkit:'拾取医疗包——按 [H] 使用。',
+ t_crowbar:'撬棍——可撬木板、攻击头部。按 [1] 选用。',t_pistol:'冲锋枪——按住 [LMB] 连发 · [1]/[2] 切换武器。',
  t_ammo:'弹药 +20 发。',t_torch:'手电筒——按 [F] 开关。',t_notorch:'还没有手电筒——去地面层前台看看。',
- t_batdead:'电池耗尽了。',t_torchdead:'手电筒没电了。去找电池。',t_noflare:'没有照明弹了。',t_nomedi:'没有医疗包了。',t_medused:'使用医疗包（+60 生命）',
+ t_batdead:'电池耗尽了。',t_torchdead:'手电筒没电了。去找电池。',t_noflare:'没有信号弹了。',t_nomedi:'没有医疗包了。',t_medused:'使用医疗包（+60 生命）',
  t_empty:'咔哒——空仓。弹药：3层西北的储藏室 · 5层东北的军械室 · 天台的弹药箱。按 [1] 换撬棍。',
  sg_storage:'储藏室 · 弹药',sg_armory:'军械室 · 弹药',t_nopistol:'还没有枪——保安把一把冲锋枪落在了2层监控室。',
  t_w_melee:'已切换撬棍。',t_w_pistol:'已切换冲锋枪——{n} 发。',t_up:'重新站了起来。小心点。',
  t_respawn:'你在楼梯间醒来。继续前进。',t_power:'主电源已恢复——读卡器上线',
- t_power2:'断路器已合闸——5层楼梯门的锁已解除',t_shutter:'3层卷帘门已解除',t_boards:'木板被撬开。',
- t_cardtaken:"{n}拿到了{c}钥匙卡——任务已更新。",t_rev_left:"已被救起——只剩一半血量。剩余救援次数：{n}。快用医疗包。",t_rev_last:"最后一次救援已用完——再倒下你就会变异。",
+ t_power2:'电闸已合上——5层楼梯闸门的锁已解除',t_shutter:'3层卷帘门已解除',t_boards:'木板被撬开。',
+ t_cardtaken:"{n}拿到了{c}门禁卡——任务已更新。",t_rev_left:"已被救起——只剩一半血量。剩余救援次数：{n}。快用医疗包。",t_rev_last:"最后一次救援已用完——再倒下你就会变异。",
  down_revleft:"剩余救援：{n}",turned_tag:"{n}（已变异）",turned_sub:"{n}变成了丧尸——解决掉他！",
  wipe_h:"全员变异",wipe_p:"整支小队都没了。书元高中留下了你们所有人。",
  spec_h:"你变异了",spec_watch:"正在通过{n}的视角观看",spec_none:"已经没有可观看的人了……",spec_prev:"◀ 上一个 [A]",spec_next:"下一个 [D] ▶",spec_quit:"退出游戏",
- gv_h:"给{n}",gv_medkit:"医疗包",gv_ammo:"弹药（最多20）",gv_pistol:"冲锋枪",gv_battery:"电池（30%）",gv_flare:"照明弹",gv_close:"[Esc] 关闭",
+ gv_h:"给{n}",gv_medkit:"医疗包",gv_ammo:"弹药（最多20）",gv_pistol:"冲锋枪",gv_battery:"电池（30%）",gv_flare:"信号弹",gv_close:"[Esc] 关闭",
  gv_hint:"<b>[B]</b> 给{n}物品",t_give_none:"站到队友旁边才能给物品。",t_gave:"你给了{n}：{i}。",t_gotgift:"{n}给了你：{i}",
  v_mic_on:"麦克风开",v_mic_off:"麦克风关",v_spk_on:"语音开",v_spk_off:"已静音",t_mic_on:"🎤 麦克风已开——和队友说话。[M] 静音。",t_mic_off:"麦克风已关。",
  t_mic_denied:"麦克风被阻止——请在浏览器地址栏允许。",t_mic_na:"此浏览器不支持语音聊天。",t_spk_on:"🔊 已开启队友语音。",t_spk_off:"🔇 已静音队友语音。",
- t_friendcard:'队友找到了{c}钥匙卡。',t_friendpower2:'队友重置了断路器——5层楼梯门的锁已解除。',
+ t_friendcard:'队友找到了{c}门禁卡。',t_friendpower2:'队友合上了电闸——5层楼梯闸门的锁已解除。',
  t_friendpower:'队友恢复了主电源。',t_friendshutter:'队友解除了3层卷帘门。',
- t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效 — 5层',t_horde_l:'🤖 机器人大游行 — 5层',
+ t_revived:'你把 {n} 扶了起来。',t_horde:'⚠ 收容失效——5层',t_horde_l:'🤖 机器人大游行——5层',
  t_disc:'与房主断开连接。',t_ping:'📡 {n} 标记了{f}',t_joined:'{n} 加入了。',
- t_hostfocus:'页面已隐藏——小队会在没有你的情况下继续。',
+ t_hostfocus:'标签页已隐藏——小队会在没有你的情况下继续游戏。',
  t_sneak:'[C] 蹲下潜行——脚步放轻，关掉手电。它们只看得见正前方。',
- t_flarelit:'信号照明弹已点燃——直升机正在下降！',
- t_lang:'语言已切换：中文',t_lang_mp:'联机中无法切换语言（请重开房间）',
+ t_flarelit:'信号弹已点燃——直升机正在下降！',
+ t_lang:'语言已切换：中文',t_lang_mp:'联机中无法切换语言——请重开房间。',
  l_open:'开门',l_close:'关门',l_pry:'撬开木板',l_kick:'踹开木板',l_boarded:'被木板封住——需要撬棍',
- l_gpry:'撬开门上的木板',l_gboarded:'门被木板封住——需要撬棍',
- l_gate:'打开楼梯门',l_gswipe:'刷{c}钥匙卡',l_glock:'已上锁——需要{c}钥匙卡',l_shutter:'安全卷帘门',l_maglock:'楼梯门——电磁锁',
+ l_gpry:'撬开闸门上的木板',l_gboarded:'闸门被木板封住——需要撬棍',
+ l_gate:'打开楼梯闸门',l_gswipe:'刷{c}门禁卡',l_glock:'已上锁——需要{c}门禁卡',l_shutter:'安全卷帘门',l_maglock:'楼梯闸门——电磁锁',
  l_cctv:'使用监控终端',l_cctv_bak:'使用监控终端（备用电源）',
- l_br1:'启动发电机',l_br2:'重置公用断路器',l_revive:'救起 {n}',l_flarelight:'点燃信号照明弹',
- l_batt:'拾取电池',l_flare:'拾取照明弹',l_medkit:'拾取医疗包',l_crowbar:'拾取撬棍',l_torch:'拾取手电筒',l_note:'阅读纸条',
- l_pistol:'拾取冲锋枪（+30发）',l_ammo:'拾取弹药箱（+20）',l_card:'拾取{c}钥匙卡',l_elev:'试试电梯',
- g_locked2:'已上锁。需要{c}钥匙卡——{where}。',g_accept:'{c}钥匙卡已验证。',g_got:'已拾取{c}钥匙卡。',
+ l_br1:'启动发电机',l_br2:'重置电闸',l_revive:'救起 {n}',l_flarelight:'点燃信号弹',
+ l_batt:'拾取电池',l_flare:'拾取信号弹',l_medkit:'拾取医疗包',l_crowbar:'拾取撬棍',l_torch:'拾取手电筒',l_note:'阅读纸条',
+ l_pistol:'拾取冲锋枪（+30发）',l_ammo:'拾取弹药箱（+20）',l_card:'拾取{c}门禁卡',l_elev:'试试电梯',
+ g_locked2:'已上锁。需要{c}门禁卡——{where}。',g_accept:'{c}门禁卡已验证。',g_got:'已拾取{c}门禁卡。',
  g_nopower:'读卡器没反应——没有电。先启动2层保安室的发电机。',
  g_shutter1:'安全卷帘门。没有电力——发电机在2层保安室。',g_shutter2:'已通电。请在2层监控终端解除。',
- g_power:'电磁锁锁定。请重置4层的公用断路器。',
+ g_power:'电磁锁已锁死。请重置4层的电闸。',
  gw_red:'2层保安室',gw_blue:'3层的朴老师',gw_yellow:'5层的智恩',
  elev_dead:'电梯——没有电。学校封锁时被切断了。走廊尽头的楼梯间是唯一上楼的路。',
  elev_jam:'电梯——已失灵。有东西在门的另一侧敲。别开。',
  sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_down:'↓ 下楼：{f}',sg_stairs_to:'楼梯 ➜',sg_ooo:'暂停使用',sg_access:'{c} 通行',
- sg_entrance:'正门 — 已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
- sg_infir:'医务室',sg_roof:'天台通道',sg_allfloors:'楼梯间 ➜ 通往所有楼层',sg_wentup:'我们上楼了 →',sg_notsame:'它们不全一样',
+ sg_entrance:'正门——已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
+ sg_infir:'医务室',sg_roof:'天台通道',sg_allfloors:'楼梯间 ➜ 通往所有楼层',sg_wentup:'我们上楼了 →',sg_notsame:'它们并不都一样',
  rn00:'1-1教室',rn01:'1-2教室',rn02:'2-1教室',rn03:'音乐教室',rn04:'美术教室',rn05:'图书馆',
- rn10:'教师办公室',rn11:'办公室A',rn12:'办公室B',rn13:'档案间',rn14:'会议室',rn15:'文印室',
- rn20:'实验室1',rn21:'实验室2',rn22:'心理室',rn23:'暗房',rn24:'储藏室A',rn25:'储藏室B',
+ rn10:'教师办公室',rn11:'办公室A',rn12:'办公室B',rn13:'档案室',rn14:'会议室',rn15:'文印室',
+ rn20:'实验室1',rn21:'实验室2',rn22:'心理咨询室',rn23:'暗房',rn24:'储藏室A',rn25:'储藏室B',
  rn30:'宿舍A',rn31:'宿舍B',rn32:'公共区',rn33:'洗衣房',rn34:'配餐室',rn35:'器材室',
- n1t:'保洁员日志',n1b:'这周第三次夜班了。5层的生物实验室总让我去拖“洒出来的东西”。不管那是什么，气味都不对劲。按他们的要求锁了楼梯间的门。红卡在2层保安室的人手里。',
- n2t:'监控员留言',n2b:'学校封锁后，4层往上的摄像头全黑了。在那之前，6层的画面里有东西在东楼梯间踱步。它知道摄像头在哪。它会往回看。红钥匙卡就在这张桌上——看到这张纸条就拿走吧。',
- n3t:'实验室准备室签到表',n3b:'已发放的蓝色门禁卡：一张——朴老师（生物）。最后一条记录：“0号样本已送回5层实验室。上帝原谅我们。”这扇门是从里面封住的。',
- n4t:'书包上的便签',n4b:'我们躲在体育馆。太吵。太空旷。我们上去了。如果有人看到这张纸——东侧楼梯间还能走，但黑暗的楼层……带上照明弹。还有，如果有东西喊你的名字，别回答。—— S.M.',
- n5t:'电气警告',n5b:'封锁切断了主电源。这个公用断路器只给5层楼梯门的电磁锁供电。合上它，锁就会解除。小心这一路的黑暗。',
+ n1t:'保洁员日志',n1b:'这周第三次夜班了。5层的生物实验室总让我去拖“洒出来的东西”。不管那是什么，气味都不对劲。按他们的要求锁了楼梯闸门。红卡在2层监控室的人手里。',
+ n2t:'监控员留言',n2b:'学校封锁时，4号以上的摄像头全黑了。在那之前，6层的画面里有东西在东侧楼梯间来回踱步。它知道摄像头在哪。它会回头看你。红色门禁卡就在这张桌上——看到这张纸条就拿走吧。',
+ n3t:'实验室准备室签到表',n3b:'已发放的蓝色门禁卡：一张——朴老师（生物）。最后一条记录：“0号样本已送回5层实验室。上帝原谅我们。”那扇门是从里面用木板封住的。',
+ n4t:'书包上的便签',n4b:'我们躲在体育馆。太吵。太空旷。我们上楼了。如果有人看到这张纸——东侧楼梯间还能走，但黑暗的楼层……带上信号弹。还有，如果有东西喊你的名字，别回答。—— S.M.',
+ n5t:'电气警告',n5b:'封锁切断了主电源。这个电闸只给5层楼梯闸门的电磁锁供电。合上它，锁就会解除。小心这一路的黑暗。',
  n6t:'医务室登记',n6b:'被咬的人变异得很快——几分钟，不是几小时。登记表现在是这么写的。他们应护士长自己的要求，把她送去了5层实验室。从那以后，再没人写过任何东西。',
- n7t:'撕下的日记',n7b:'直升机午夜会来。他们说去天台。他们说没有照明弹它就没法降落。我们班爬到6层时喊声响起。如果有人读到这张纸——跑，别去数死者。',
- n8t:'墙上的涂写',n8b:'天台是出路。点燃照明弹。守住圆圈。别朝楼梯间下面看。',
+ n7t:'撕下的日记',n7b:'直升机午夜会来。他们说去天台。他们说没有信号弹它就没法降落。喊叫声响起前，我们班已经爬到了6层。如果有人读到这张纸——快跑，别去数死者。',
+ n8t:'墙上的涂写',n8b:'天台是出路。点燃信号弹。守住圆圈。别朝楼梯间下面看。',
  ph1t:'学生的手机（3%）',ph1b:'一条新语音留言，23:29：\n\n“大家都去体育馆了。有人说天台是安全的。”\n\n（杂音）\n\n“……他们错了。”',
- bc_t:'紧急广播',bc_b:'军方中继 — 23:54\n\n“撤离计划不变。天台。午夜。在降落圈里点燃信号照明弹——我们不会盲降。”\n\n“不要与感染者交战。不要使用电梯。在房间之间移动，不要沿走廊走。”',
- cl_h:'监控存档 — 备用电源',cl_note:'这张桌上有一张红色钥匙卡。这个房间里的发电机可以恢复主电源。',
- cl1:'23:31 · 03号镜头——学生正在向上撤离。楼梯间是唯一的路线。',cl2:'23:33 · 紧急封锁开始。',
+ bc_t:'紧急广播',bc_b:'军方中继 — 23:54\n\n“撤离计划不变。天台。午夜。在降落圈里点燃信号弹——我们不会盲降。”\n\n“不要与感染者交战。不要使用电梯。在房间之间移动，不要沿走廊走。”',
+ cl_h:'监控存档 — 备用电源',cl_note:'这张桌上有一张红色门禁卡。这个房间里的发电机可以恢复主电源。',
+ cl1:'23:31 · 03 号摄像头——学生正在向上撤离。楼梯间是唯一的路线。',cl2:'23:33 · 紧急封锁开始。',
  cl3:'23:34 · 5层生物实验室封闭——收容失败。',cl4:'23:35 · 电梯停用。23:36 · 学校封锁——大门锁闭，电源切断。',
- cl5:'23:37 · 保安撤离。23:38 · 04号镜头离线。23:41 · 03号镜头——一位老师在奔跑。在流血。',
+ cl5:'23:37 · 保安撤离。23:38 · 04 号摄像头离线。23:41 · 03 号摄像头——一位老师在奔跑。在流血。',
  ch2_t:'第二章 — 摄像头看到了什么',ch2_c:'2层。保安室还有电——只是备用电源。今晚学校里发生的一切，摄像头都记录了下来。',
  ch3_t:'第三章 — 黑暗楼层',ch3_c:'3层的卷帘门嘎嘎升起。再往上，学校已经死了：封锁切断了电源。没有灯，没有摄像头。只有你的手电筒。',
  ch4_t:'第四章 — 收容失效',ch4_c:'5层是生物实验室——一切开始的地方。警报说收容几小时前就失败了。智恩还躲在这层的某个地方。',
- ch5_t:'第五章 — 午夜',ch5_c:'天台。冷风，直升机在黑暗中盘旋。飞行员没法盲降——点燃信号照明弹，然后在圈里坚持三十秒。',
+ ch5_t:'第五章 — 午夜',ch5_c:'天台。冷风，直升机在黑暗中盘旋。飞行员没法盲降——点燃信号弹，然后在圈里坚持三十秒。',
 }};
 if(typeof window!=='undefined'&&window.ROOFTOP_I18N)Object.assign(I18N,window.ROOFTOP_I18N);   // + Vietnamese, Indonesian
 function T(k,vars){
@@ -2937,7 +2936,17 @@ function setupViewModel(){
   vm.torch.add(body,lens);
   vm.torch.rotation.set(0.1,0,0);
   vm.lens=lens;
-  vm.add(vm.crowbar,vm.torch,vm.pistol);
+  // bare hands: a fist and forearm, the only weapon you always have
+  vm.fist=new THREE.Group();
+  const fistSkin=new THREE.MeshStandardMaterial({color:0xc9a184,roughness:.85,emissive:0x3a2a1e,emissiveIntensity:.9});   // a little self-lit: your own hands read in the dark
+  const fistSleeve=new THREE.MeshStandardMaterial({color:0x3d4a5c,roughness:.9,emissive:0x141c26,emissiveIntensity:.8});
+  const knuck=new THREE.Mesh(new THREE.BoxGeometry(0.11,0.095,0.12),fistSkin);knuck.position.set(0,0,-0.07);
+  const thumb=new THREE.Mesh(new THREE.BoxGeometry(0.038,0.04,0.075),fistSkin);thumb.position.set(-0.062,-0.012,-0.06);
+  const wrist=new THREE.Mesh(new THREE.BoxGeometry(0.09,0.08,0.2),fistSleeve);wrist.position.set(0,-0.008,0.08);
+  vm.fist.add(knuck,thumb,wrist);
+  vm.fist.position.set(-0.5,-0.02,0.06);
+  vm.fist.rotation.set(0.42,0.12,0.1);
+  vm.add(vm.crowbar,vm.torch,vm.pistol,vm.fist);
   vm.position.set(0.3,-0.29,-0.5);
   vm.rotation.y=-0.14;
   camera.add(vm);
@@ -2949,6 +2958,15 @@ function updateViewModel(dt,t){
   vm.crowbar.visible=!usePistol&&INV.crowbar;
   vm.pistol.visible=usePistol;
   vm.torch.visible=!INV.crowbar&&!usePistol;
+  vm.fist.visible=!INV.crowbar&&!usePistol;
+  player.punchT=Math.max(0,(player.punchT||0)-dt);
+  if(vm.fist.visible){   // the jab: forward, slightly across, then back
+    const k=player.punchT/0.24,s=Math.sin(Math.max(0,k)*Math.PI);
+    const side=player.punchSide?1:-1;
+    vm.fist.position.set(-0.5+side*0.03+s*side*0.04,-0.02+s*0.07,0.06-s*0.42);
+    vm.fist.rotation.set(0.42-s*0.62,0.12,0.1+side*s*0.25);
+
+  }
   vm.lens.material.emissiveIntensity=player.on?2.6:0.15;
   const bob=player.speed>0.5&&player.grounded?Math.sin(player.bobT)*0.012:0;
   const sway=Math.sin(t*1.3)*0.004;
@@ -3022,16 +3040,21 @@ function setupPlayerBody(){
 
 /* ---------- zombies ---------- */
 const ELEV={x:19.8};   // the dead elevator, in the stair tower
+/* Weapon damage vs. zombie health — the whole fight is tuned here.
+   fists 2 · crowbar 4 (6 from behind) · SMG body 6, head 10  →  a shambler (7 hp) takes
+   4 punches, 2 crowbar swings or 2 bullets; a brute 8 / 4 / 3; the rooftop boss 30 / 15 / 10. */
+const MELEE={FIST:2,CROWBAR:4,BACK:1.5,R_FIST:1.95,R_BAR:2.4};
 const ZTYPES={
-  shambler:{speed:1.0,chase:2.8,hp:3,dmg:14,scale:1.0,sight:7,aimH:1.15},
-  runner:{speed:2.0,chase:4.3,hp:2,dmg:18,scale:0.95,sight:8,aimH:1.1},   // freshly turned — still wears the school uniform
-  brute:{speed:0.85,chase:2.4,hp:8,dmg:30,scale:1.28,sight:7,aimH:1.4},
-  screamer:{speed:1.2,chase:3.0,hp:2,dmg:10,scale:0.98,sight:9,aimH:1.15}, // screams in the whole floor
-  crawler:{speed:0.8,chase:1.9,hp:2,dmg:12,scale:0.92,sight:6,aimH:0.35},  // drags itself on its belly, lunges at your ankles
-  watcher:{speed:2.6,chase:5.1,hp:14,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
-  park:{speed:1.4,chase:3.8,hp:6,dmg:16,scale:1.0,sight:16,aimH:1.15},     // Mr. Park, freshly turned
-  jieun:{speed:1.5,chase:3.9,hp:5,dmg:14,scale:0.94,sight:16,aimH:1.1},    // Ji-eun, if she dies
-  turned:{speed:1.3,chase:3.4,hp:5,dmg:16,scale:1.0,sight:14,aimH:1.15},   // co-op: a friend who didn't make it
+  shambler:{speed:1.0,chase:2.8,hp:7,dmg:14,scale:1.0,sight:7,aimH:1.15},
+  runner:{speed:2.0,chase:4.3,hp:6,dmg:18,scale:0.95,sight:8,aimH:1.1},   // freshly turned — still wears the school uniform
+  brute:{speed:0.85,chase:2.4,hp:16,dmg:30,scale:1.28,sight:7,aimH:1.4},
+  screamer:{speed:1.2,chase:3.0,hp:5,dmg:10,scale:0.98,sight:9,aimH:1.15}, // screams in the whole floor
+  crawler:{speed:0.8,chase:1.9,hp:5,dmg:12,scale:0.92,sight:6,aimH:0.35},  // drags itself on its belly, lunges at your ankles
+  watcher:{speed:2.6,chase:5.1,hp:30,dmg:26,scale:1.14,sight:14,aimH:1.25},// THE WATCHER — predator; scripted states
+  park:{speed:1.4,chase:3.8,hp:12,dmg:16,scale:1.0,sight:16,aimH:1.15},    // Mr. Park, freshly turned
+  jieun:{speed:1.5,chase:3.9,hp:10,dmg:14,scale:0.94,sight:16,aimH:1.1},   // Ji-eun, if she dies
+  turned:{speed:1.3,chase:3.4,hp:10,dmg:16,scale:1.0,sight:14,aimH:1.15},  // co-op: a friend who didn't make it
+  boss:{speed:0.8,chase:2.6,hp:60,dmg:34,scale:1.75,sight:12,aimH:1.9},    // the rooftop boss: 10-15 hits, and it never loses you
 };
 /* per-type look: flesh/cloth textures + eye + hair colour */
 const ZLOOK={
@@ -3044,8 +3067,9 @@ const ZLOOK={
   park:{cloth:'zclothA',eye:0xff3a1a,hair:0x8e8a84},    // the biology teacher: suit and tie, not a uniform
   jieun:{cloth:'zcardigan',eye:0xff3a1a,hair:0x151010}, // her cardigan, soaked now
   turned:{cloth:'zgreen',eye:0xff2a1a,hair:0x1a1410},
+  boss:{cloth:'zclothA',eye:0xffb020,hair:0x090806},   // burnt-orange eyes you can see across the roof
 };
-const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun','turned'];
+const ZTYPE_LIST=['shambler','runner','brute','screamer','crawler','watcher','park','jieun','turned','boss'];
 const _ZMAT={};
 function zMats(lk){
   if(_ZMAT[lk.cloth])return _ZMAT[lk.cloth];
@@ -3067,8 +3091,9 @@ class Zombie{
     this.cfg={...ZTYPES[type],speed:ZTYPES[type].speed*MD.zSpeed,chase:ZTYPES[type].chase*MD.zSpeed};
     // no two move alike: most drag themselves along, some keep pace, a few are fast
     this.pace=1;
-    if(!['watcher','park','jieun','brute','turned'].includes(type)){const r=Math.random();this.pace=r<0.4?0.8:(r<0.83?1:1.18);}
+    if(!['watcher','park','jieun','brute','turned','boss'].includes(type)){const r=Math.random();this.pace=r<0.4?0.8:(r<0.83?1:1.18);}
     this.cfg.speed*=this.pace;this.cfg.chase*=this.pace;
+    if(type!=='boss')this.cfg.hp=Math.max(1,Math.round(this.cfg.hp*(MD.zHp??1)));   // the boss is the boss in both modes
     this.hp=this.cfg.hp;this.dead=false;this.state='idle';
     if(this.robot){
       const tints=[{skin:0xd8dde2,cloth:0x3a86ff},{skin:0xe2e0d8,cloth:0xff8a3a},{skin:0xd4dce4,cloth:0x3ad488},{skin:0xe4e4dc,cloth:0xb43ad4}];
@@ -3091,6 +3116,10 @@ class Zombie{
     this.cfg.speed*=diff;this.cfg.chase*=Math.min(diff,1.05);   // meaner = more of them, not faster ones
     if(type==='park'){
       const tag=nameSprite(T('park_tag'),'#ff6b6b');tag.position.y=2.2;this.g.add(tag);
+    }
+    if(type==='boss'){
+      const tag=nameSprite(T('boss_tag'),'#ffb020');tag.position.y=2.35;this.g.add(tag);
+      this.barAlways=true;   // the boss wears its health where everyone can see it
     }
     this.g.position.set(x,f*CFG.FH,z);
     this.home=room?{x0:room.x0,x1:room.x1,z0:room.z0,z1:room.z1}:{x0:x-4,x1:x+4,z0:z-4,z1:z+4};
@@ -3115,11 +3144,42 @@ class Zombie{
   syncLevel(){   // keep the mesh in its CURRENT floor's group (floor groups far from you are hidden)
     if(this.lvF!==this.f&&world.levels[this.f]){world.levels[this.f].add(this.g);this.lvF=this.f;}
   }
+  /* a small bar over the head: it appears when you hurt something and fades a few seconds later,
+     so you can tell "one more swing" from "run" (the boss keeps its bar up the whole time) */
+  showBar(){
+    this.barT=4;
+    if(!this.bar){
+      const c=document.createElement('canvas');c.width=96;c.height=12;
+      this.bar=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));   // walls hide it: no seeing through the building
+      const s=this.cfg.scale;
+      this.bar.scale.set(0.72*s,0.085*s,1);
+      this.bar.position.y=(this.type==='crawler'?0.75:2.06)*s;
+      this.bar.renderOrder=6;
+      this.bar.userData.c=c;
+      this.g.add(this.bar);
+    }
+    const c=this.bar.userData.c,x=c.getContext('2d'),k=clamp(this.hp/this.cfg.hp,0,1);
+    x.clearRect(0,0,c.width,c.height);
+    x.fillStyle='rgba(0,0,0,.72)';x.fillRect(0,0,c.width,c.height);
+    x.fillStyle=k>0.6?'#7ad46a':(k>0.3?'#ffcf4d':'#e2452f');
+    x.fillRect(2,2,(c.width-4)*k,c.height-4);
+    x.strokeStyle='rgba(255,255,255,.35)';x.lineWidth=1;x.strokeRect(0.5,0.5,c.width-1,c.height-1);
+    this.bar.material.map.needsUpdate=true;
+    this.bar.visible=true;
+  }
+  tickBar(dt){
+    if(!this.bar)return;
+    if(this.barAlways&&!this.dead){this.bar.visible=true;return;}
+    this.barT=(this.barT||0)-dt;
+    this.bar.visible=this.barT>0&&!this.dead;
+  }
   hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
     if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
   hit(dmg,byRemote,kind='melee'){
     if(this.dead)return;
     this.hp-=dmg;this.hurtT=0.25;
+    this.showBar();
+    if(G.host&&G.mp&&this.hp>0)netBroadcast({t:'ev',k:'zhp',id:this.id,hp:this.hp});
     play(kind==='bullet'?'hitBullet':'hitMelee',{pos:this.g.position,vol:kind==='bullet'?.75:.95,ref:16});
     burst(this.g.position.clone().add(new THREE.Vector3(0,1.25*this.cfg.scale,0)),this.robot?0xffd23f:0x8a0a0f,8,2.2,0.06);
     if(this.hp<=0){this.die(byRemote);return;}
@@ -3127,6 +3187,8 @@ class Zombie{
   }
   die(byRemote){
     this.dead=true;this.state='dead';this.corpseT=0;
+    if(this.bar){this.bar.visible=false;this.barAlways=false;}
+    if(this.type==='boss'){showSub(T('boss_down'),3.5,true);play('zroar',{pos:this.g.position,vol:1.2,ref:40,rate:0.7});}
     play('scream',{pos:this.g.position,vol:.9,ref:22});
     const p=this.g.position;
     burst(p.clone().add(new THREE.Vector3(0,1.3*this.cfg.scale,0)),this.robot?0x59d7ff:0x8a0a0f,this.robot?18:14,3.2,0.08);
@@ -3160,6 +3222,7 @@ class Zombie{
   update(dt,t){
     const g=this.g;
     this.syncLevel();
+    this.tickBar(dt);
     if(this.dead){
       if(this.type==='crawler'&&!this.robot){g.rotation.z=0;return;}
       if(this.corpseT<1){
@@ -3849,6 +3912,24 @@ function resolveJieun(kind,remote){
   spawnJieunCard();
   if(kind==='kill'){
     killJieun(false);
+    // a gunshot in a dead building, and a body on the floor: the fifth floor comes for the room
+    setTimeout(()=>{
+      if(!world.built||G.flags.victory||G.mode!=='playing')return;
+      G.flags.safeBreached=true;
+      toast(T('t_kill_wrong'));
+      showSub(T('jieun_kill_swarm'),5,true);
+      warnFx();player.shakeT=Math.max(player.shakeT,0.6);
+      play('zroar',{vol:1.15,force:true});
+      if(G.mp&&!G.host)return;
+      const d=world.doors.find(dd=>dd.safe);
+      if(d&&!d.open)d.setOpen(true,false);
+      const dp=d?doorPoint(d):{x:-20,z:-1.6};
+      for(let i=0;i<10;i++)setTimeout(()=>{
+        if(!world.built||G.flags.victory)return;
+        const z=spawnZombie(5,dp.x+rand(-3,3),rand(-1.2,1.2),i%3===0?'runner':(i===9?'brute':'shambler'),null);
+        z.state='chase';z.loseT=0;
+      },i*420);
+    },2600);
   }else{
     if(je){je.startFollow();je.hp=Math.min(je.hp,45);je.drawBar();}
     if(kind==='timeout'){
@@ -4361,7 +4442,38 @@ function updateFlares(dt,t){
 let camPitchObj={p:0};
 
 /* ---------- pistol ---------- */
-const GUN={RATE:0.11,SPREAD:0.012,RECOIL:0.006,DMG:1,HEAD:2,PICKUP:30,BOX:20};  // SMG, full-auto while LMB is held
+const GUN={RATE:0.11,SPREAD:0.012,RECOIL:0.006,DMG:6,HEAD:10,PICKUP:30,BOX:20};  // SMG, full-auto while LMB is held
+/* one swing, crowbar or fist: pick the best target in front, damage it, shove it back */
+function meleeSwing(bar){
+  const dmg=bar?MELEE.CROWBAR:MELEE.FIST,reach=bar?MELEE.R_BAR:MELEE.R_FIST;
+  const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
+  let target=null,tScore=-9;
+  for(const z of world.zombies){
+    if(z.dead||z.f!==player.floor)continue;
+    const d2z=dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z);
+    if(d2z>reach*reach)continue;
+    const dl=Math.sqrt(d2z)||0.01;
+    const facing=((z.g.position.x-player.pos.x)*fx+(z.g.position.z-player.pos.z)*fz)/dl;
+    if(facing<(dl<1.15?-0.35:0.2))continue;               // up close, a wide swing still connects
+    if(dl>0.9&&!losClear(player.pos.x,player.pos.z,z.g.position.x,z.g.position.z,player.floor))continue;
+    const score=facing-dl*0.25;
+    if(score>tScore){tScore=score;target=z;}
+  }
+  if(!target)return false;
+  const z=target;
+  const back=((-Math.sin(z.yaw))*fx+(-Math.cos(z.yaw))*fz)>0.4;
+  const d=back?Math.round(dmg*MELEE.BACK):dmg;
+  if(G.mp&&!G.host){ // co-op guest: the host owns zombie health
+    netSend({t:'ev',k:'zhit',id:z.id,dmg:d});
+    z.hurtT=0.25;play('hitMelee',{pos:z.g.position,vol:bar?.95:.8,ref:16});
+    burst(z.g.position.clone().add(new THREE.Vector3(0,1.25*z.cfg.scale,0)),z.robot?0xffd23f:0x8a0a0f,bar?8:5,2.2,0.06);
+  }else z.hit(d);
+  const push=(bar?0.4:0.22)/Math.max(0.6,z.cfg.scale);
+  let zx2=z.g.position.x+fx*push,zz2=z.g.position.z+fz*push;
+  [zx2,zz2]=collideCircle(zx2,zz2,z.g.position.y,z.f,0.38*z.cfg.scale); // melee knockback respects walls
+  z.g.position.x=zx2;z.g.position.z=zz2;
+  return true;
+}
 function firePistol(){
   INV.ammo--;player.attackT=GUN.RATE;player.shakeT=Math.max(player.shakeT,0.06);player.fireKick=1;
   player.pitch=clamp(player.pitch+GUN.RECOIL,-1.45,1.45); // recoil climbs while you hold the trigger
@@ -4520,43 +4632,18 @@ function updatePlayer(dt,t){
       player.attackT=0.5;player.swingT=0.3;
       play('swing',{vol:.6});
       emitNoise(player.pos.x,player.pos.z,player.floor,6);
-      let hitAny=false;
-      const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw);
-      let target=null,tScore=-9;
-      for(const z of world.zombies){
-        if(z.dead||z.f!==player.floor)continue;
-        const d2z=dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z);
-        if(d2z>2.4*2.4)continue;
-        const dl=Math.sqrt(d2z)||0.01;
-        const facing=((z.g.position.x-player.pos.x)*fx+(z.g.position.z-player.pos.z)*fz)/dl;
-        if(facing<(dl<1.15?-0.35:0.2))continue;               // up close, a wide swing still connects
-        if(dl>0.9&&!losClear(player.pos.x,player.pos.z,z.g.position.x,z.g.position.z,player.floor))continue;
-        const score=facing-dl*0.25;
-        if(score>tScore){tScore=score;target=z;}
-      }
-      if(target){
-        const z=target;
-        const back=((-Math.sin(z.yaw))*fx+(-Math.cos(z.yaw))*fz)>0.4;
-        if(G.mp&&!G.host){ // co-op guest: the host owns zombie health
-          netSend({t:'ev',k:'zhit',id:z.id,dmg:back?2:1});
-          z.hurtT=0.25;play('hitMelee',{pos:z.g.position,vol:.95,ref:16});
-          burst(z.g.position.clone().add(new THREE.Vector3(0,1.25*z.cfg.scale,0)),z.robot?0xffd23f:0x8a0a0f,8,2.2,0.06);
-        }else z.hit(back?2:1);
-        let zx2=z.g.position.x+fx*0.4,zz2=z.g.position.z+fz*0.4;
-        [zx2,zz2]=collideCircle(zx2,zz2,z.g.position.y,z.f,0.38*z.cfg.scale); // melee knockback respects walls
-        z.g.position.x=zx2;z.g.position.z=zz2;
-        hitAny=true;
-      }
-      if(hitAny)player.shakeT=0.12;
+      if(meleeSwing(true))player.shakeT=0.12;
     }else{
-      player.attackT=0.95;
-      player.st=Math.max(0,player.st-10);
-      play('swing',{vol:.4});
+      // BARE FISTS — always available, just slow and weak: about four punches for a shambler
+      player.attackT=0.72;player.punchT=0.24;player.punchSide=player.punchSide?0:1;
+      player.st=Math.max(0,player.st-7);
+      play('swing',{vol:.45});
       emitNoise(player.pos.x,player.pos.z,player.floor,4);
-      for(const z of world.zombies){
+      if(meleeSwing(false))player.shakeT=0.09;
+      for(const z of world.zombies){   // the punch shoves whatever else is leaning on you
         if(z.dead||z.f!==player.floor)continue;
         const d2z=dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z);
-        if(d2z<1.8*1.8){z.staggerT=0.9;z.windup=-1;z.hear(player.pos.x,player.pos.z);}   // a shove interrupts its lunge
+        if(d2z<1.4*1.4){z.staggerT=0.6;z.windup=-1;z.hear(player.pos.x,player.pos.z);}
       }
     }
   }
@@ -4752,7 +4839,9 @@ function hudStats(){
   if(ll)ll.textContent=G.mode==='playing'?(T('lives_lbl')+'  '+'♥'.repeat(Math.max(0,G.lives||0))):'';
 }
 function hudInv(){
-  $('slotCrowbar').classList.toggle('off',!INV.crowbar);
+  $('slotCrowbar').classList.toggle('off',false);
+  $('slotCrowbar').querySelector('.n').textContent=INV.crowbar?'☰':'✊';
+  $('slotCrowbarL').textContent=T(INV.crowbar?'hud_crowbar':'hud_fists');
   $('slotFlare').querySelector('.n').textContent=INV.flare;
   $('slotFlare').classList.toggle('off',INV.flare<=0);
   $('slotMed').querySelector('.n').textContent=INV.medkit;
@@ -5293,11 +5382,14 @@ function roofWaves(dt){
     G.roofSpawned=(G.roofSpawned||0)+n;
     for(let i=0;i<n;i++){
       let x,z;
-      if(Math.random()<0.6){x=rand(15,18.5);z=pick([rand(-3.5,-0.4),rand(2.4,4.5)]);}   // out of the roof door
-      else if(Math.random()<0.5){x=rand(-20,12);z=pick([-9.2,9.2]);}                    // over the parapet
-      else{x=-23.2;z=rand(-8,8);}
-      const r=Math.random();   // mostly shamblers: the roof is a siege, not a sprint
-      const type=(G.flareT>12&&r<0.15)?'crawler':(r<0.4?'runner':'shambler');
+      const side=Math.random();
+      if(side<0.42){x=rand(15,18.5);z=pick([rand(-3.5,-0.4),rand(2.4,4.5)]);}   // out of the roof door
+      else if(side<0.62){x=rand(-20,12);z=-9.2;}                                // over the north parapet
+      else if(side<0.82){x=rand(-20,12);z=9.2;}                                 // over the south parapet
+      else{x=-23.2;z=rand(-8,8);}                                               // up the west face
+      // every shape of them: shufflers, sprinters, belly-crawlers, screamers, the odd brute
+      const r=Math.random();
+      const type=r<0.30?'shambler':(r<0.55?'runner':(r<0.72?'crawler':(r<0.86?'screamer':(G.flareT>10?'brute':'shambler'))));
       const zb=spawnZombie(CFG.FLOORS,x,z,type,ROOF_AREA);
       zb.state='chase';zb.loseT=0;
     }
@@ -5307,6 +5399,17 @@ function roofWaves(dt){
     G.flags.roofBrute=true;G.roofSpawned=(G.roofSpawned||0)+1;
     const b=spawnZombie(CFG.FLOORS,17.5,-2.2,'brute',ROOF_AREA);b.state='chase';
     play('zroar',{pos:b.g.position,vol:1.2,ref:40,rate:0.8});
+  }
+  // THE BOSS: it comes over the parapet behind you, it is huge, and it takes a magazine to put down
+  if(G.flareT>ROOF.BOSS_AT&&!G.flags.roofBoss){
+    G.flags.roofBoss=true;
+    const b=spawnZombie(CFG.FLOORS,-21.5,rand(-2,2),'boss',ROOF_AREA);
+    b.state='chase';b.loseT=0;b.riseT=b.riseDur=1.4;b.g.rotation.x=Math.PI/2;
+    b.showBar();
+    play('zroar',{vol:1.3,force:true,rate:0.62});
+    showSub(T('boss_in'),4,true);
+    player.shakeT=Math.max(player.shakeT,0.6);
+    if(G.mp)netBroadcast({t:'ev',k:'boss'});
   }
   if(G.flareT>21&&!G.flags.roofWatcher&&MD.jumpscares&&!G.mp){
     G.flags.roofWatcher=true;
@@ -6434,6 +6537,7 @@ function onEv(d,from){
       if(d.st==='chase')zb.loseT=0;
       return;}
     case 'zhit':{const z=world.zmap&&world.zmap.get(d.id);if(z&&!z.dead&&G.host)z.hit(d.dmg||1,true);break;}
+    case 'zhp':{const z=world.zmap&&world.zmap.get(d.id);if(z&&!z.dead){z.hp=d.hp;z.showBar();}break;}
     case 'flare':{const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.24,8),MAT.flare));const li=takeFlareLight();g.position.set(d.x,d.y,d.z);if(li)li.position.copy(g.position);scene.add(g);flares.push({g,li,f:d.f,vx:0,vy:0,vz:0,life:14,fizzT:0.5,x:d.x,z:d.z});break;}
     case 'hit':if(d.id===G.myId)damagePlayer(d.dmg);break;
     case 'give':if(d.to===G.myId)receiveGift(d);break;
@@ -6444,6 +6548,7 @@ function onEv(d,from){
       if(G.host&&d.id!==G.myId){spawnTurned(d.id,d.n||'?',d.x,d.z,d.f);checkWipe();}
       if(player.spec)specLabel();
       break;}
+    case 'boss':{showSub(T('boss_in'),4,true);player.shakeT=Math.max(player.shakeT,0.6);play('zroar',{vol:1.2,force:true,rate:0.62});break;}
     case 'wipe':squadWiped();break;
     case 'down':{const r=net.remotes.get(d.id);if(r){r.down=true;}break;}
     case 'revive':{const r=net.remotes.get(d.id);if(r)r.down=false;break;}
@@ -7338,7 +7443,7 @@ init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
   getMD:()=>MD,getXP:()=>extractProg,setXP:v=>{extractProg=v;},drawCCTV,openCCTV,giveJieunMedkit,onKey,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
-  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,takeItem,giveItem,openGive,micToggle,VOICE,damagePlayer,reviveLocal,playerTurns,onPlayerDown,GUN,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
+  QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,takeItem,giveItem,openGive,micToggle,VOICE,damagePlayer,reviveLocal,playerTurns,onPlayerDown,GUN,MELEE,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF
     const dt=1/60;

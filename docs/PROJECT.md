@@ -113,7 +113,7 @@ The module is organised in sections, top to bottom:
 2. **Audio** — `ensureAudio()` builds synth buffers, loads samples, starts loops; `play(name, {pos})` spatialises one-shots; `warnFx()` plays the short alert on warning text.
 3. **World generation** — `buildFloor(f)` builds each floor (rooms with doors, stair tower, fixed light inventory so shaders never recompile), special rooms (security/CCTV, electrical, safe room, ammo rooms), `buildRoof()`.
 4. **Physics queries** — `groundAt`, `collideCircle`, `losClear` (walls tested at the eye height of that floor).
-5. **Characters** — `buildHumanoid()` (rounded bodies, uniforms, wounds, faces); `Zombie` (senses, state machine, `animateBody()` broken gait, `bleed()`); `SurvivorNPC` (Park, Ji-eun: talk, follow, fight, health).
+5. **Characters** — `buildHumanoid()` (rounded bodies, uniforms, wounds, faces); `Zombie` (senses, state machine, `animateBody()` broken gait, `bleed()`, `showBar()` health bar); `SurvivorNPC` (Park, Ji-eun: talk, follow, fight, health). Combat tuning lives in `MELEE`, `GUN` and `ZTYPES`: fists 2, crowbar 4, SMG 6/10, ×1.5 from behind, against 5-16 hp enemies and a 60 hp rooftop boss.
 6. **Missions** — the `QUEST` array (24 steps with `done()` and a location), `questCheck()`, `renderObjective()`, the Ji-eun choice (`startJieunChoice` / `resolveJieun`).
 7. **Interaction** — `interactTargets()` picks the best `E` / `Q` target by distance, facing and objective priority; hold/kick jobs with animated planks.
 8. **UI, menus, saves, networking, main loop** — HUD, intro comic, chapter comics, pause, CCTV terminal, save v3 (`localStorage`), PeerJS host/guest events, `loop()`.

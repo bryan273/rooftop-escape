@@ -411,7 +411,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     const spread=g.GUN.SPREAD;g.GUN.SPREAD=0;
     z=put(6,0);z.g.position.set(-6,fy,0);player.yaw=Math.PI/2;const h1=z.hp;player.pitch=Math.atan2(1.7-CFG.EYE,6);frame();frame();
     mouseBtn(true);frame();mouseBtn(false);frame();
-    check('head shot at 6 m does double damage',h1-z.hp===2,`hp ${h1}->${z.hp}`);
+    check('head shot at 6 m does head damage',h1-z.hp===g.GUN.HEAD,`hp ${h1}->${z.hp} (head=${g.GUN.HEAD})`);
     g.GUN.SPREAD=spread;
     z.die(true);
     // full-auto: holding the button empties rounds continuously
@@ -423,6 +423,33 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
     mouseBtn(true);frame();mouseBtn(false);frame();
     check('crowbar hits a zombie pressed against you, even off-centre',z.hp<h2,`hp ${h2}->${z.hp}`);
     z.die(true);
+    // ---- bare fists: always available, and a shambler takes about four of them ----
+    INV.crowbar=false;player.weapon='melee';
+    z=put(1.0,0.1);const hF=z.hp;
+    mouseBtn(true);frame();mouseBtn(false);frame();
+    check('bare fists damage a zombie (no crowbar needed)',z.hp<hF,`hp ${hF}->${z.hp}`);
+    let punches=1;
+    for(let i=0;i<10&&z.hp>0;i++){player.attackT=0;mouseBtn(true);frame();mouseBtn(false);frame();punches++;}
+    {const hp=z.cfg.hp,lo=Math.ceil(hp/(g.MELEE.FIST*g.MELEE.BACK)),hi=Math.ceil(hp/g.MELEE.FIST);
+     check('a shambler goes down in '+lo+'-'+hi+' punches',punches>=lo&&punches<=hi&&z.hp<=0,`${punches} punches, hp ${z.hp} of ${hp}`);}
+    z.die(true);
+    // ---- crowbar: 2-3 swings for the same zombie ----
+    INV.crowbar=true;
+    z=put(1.0,0.1);let swings=0;
+    for(let i=0;i<8&&z.hp>0;i++){player.attackT=0;mouseBtn(true);frame();mouseBtn(false);frame();swings++;}
+    {const hp=z.cfg.hp,lo=Math.ceil(hp/(g.MELEE.CROWBAR*g.MELEE.BACK)),hi=Math.ceil(hp/g.MELEE.CROWBAR);
+     check('a shambler goes down in '+lo+'-'+hi+' crowbar swings',swings>=lo&&swings<=hi&&z.hp<=0,`${swings} swings, hp ${z.hp} of ${hp}`);}
+    check('a hurt zombie shows a health bar over its head',!!z.bar);
+    z.die(true);
+    // ---- the rooftop boss: big, and it takes a magazine ----
+    {
+      const b=g.spawnZombie(1,-3,0,'boss',null);
+      b.state='idle';b.waitT=1e9;b.update=()=>{};
+      const full=b.hp;let hits=0;
+      while(b.hp>0&&hits<40){b.hit(g.GUN.DMG,true,'bullet');hits++;}
+      check('the boss needs 10-15 bullets and always shows its bar',hits>=10&&hits<=15&&!!b.bar,`${hits} hits of ${g.GUN.DMG} (hp ${full})`);
+      b.die(true);
+    }
     // bullets do not pass through walls
     let wx=-20;while(wx<12&&g.losClear(wx,-0.9,wx,-5,1))wx+=0.5;
     player.pos.set(wx,fy,-0.9);player.yaw=0;player.pitch=0;player.weapon='pistol';player.attackT=0;
@@ -599,6 +626,13 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
   run(3);
   if(CHOICE==='kill'){
     step('KILL: Ji-eun dies at once, no zombie rises',je.corpse&&G.flags.jieunDead&&!je.follow&&!world.zombies.some(z=>z.type==='jieun'));
+    {   // the price of killing a human: the floor comes for the room
+      const before=world.zombies.filter(z=>!z.dead&&z.f===5).length;
+      for(let w=0;w<90&&world.zombies.filter(z=>!z.dead&&z.f===5).length<before+10;w++){await sleep(100);run(6);}
+      const now=world.zombies.filter(z=>!z.dead&&z.f===5).length;
+      check('KILL has a price: ten of them come through the door',now>=before+10&&G.flags.safeBreached,`${before} -> ${now}`);
+      for(const z of world.zombies)if(!z.dead&&z.f===5)z.die(true);
+    }
   }else{
     step('Ji-eun joins you ('+CHOICE+'), weak',je.follow&&je.hp<=50,`follow=${je.follow} hp=${je.hp}`);
     // give her a medkit
@@ -706,6 +740,12 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
    const turned=g.getMD().id==='lite'?je.gone:world.zombies.some(z=>z.type==='jieun'&&!z.dead);
    check('Ji-eun: 160 HP, takes damage, dies and '+(g.getMD().id==='lite'?'leaves':'turns'),hpOk&&hurt&&dead&&turned,`hp=${je&&je.hpMax} hurt=${hurt} dead=${dead} turned=${turned}`);}
   check('rooftop sends at most '+g.ROOF.TOTAL+' zombies',(G.roofSpawned||0)<=g.ROOF.TOTAL,'spawned='+G.roofSpawned);
+  {
+    const roofAll=world.zombies.filter(z=>z.f===F);
+    const kinds=new Set(roofAll.map(z=>z.type));
+    check('the roof siege is big and mixed',(G.roofSpawned||0)>=25&&kinds.size>=4,`spawned=${G.roofSpawned} kinds=${[...kinds].join('/')}`);
+    check('a boss climbs onto the roof',roofAll.some(z=>z.type==='boss'),`boss flag=${!!G.flags.roofBoss}`);
+  }
   console.log('\n   playthrough log:\n     '+log.join('\n     '));
 
   const pass=results.filter(r=>r.ok).length;

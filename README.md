@@ -14,6 +14,19 @@ A 3D first-person zombie survival escape game that runs in the browser. Inspired
 
 **English · 简体中文 · Tiếng Việt · Bahasa Indonesia.** Switch with the buttons on the menu. Everything in the game is translated, and switching mid-run rebuilds the world without losing your progress. (Vietnamese and Indonesian live in `js/i18n-extra.js`.)
 
+## 🩸 The fight
+
+Bare fists always work, so being caught empty-handed is survivable but slow. Crowbar, then the SMG, each cut the work roughly in half:
+
+| | fists (2) | crowbar (4) | SMG body (6) / head (10) |
+|---|---|---|---|
+| shambler · 7 hp | 4 | 2 | 2 / 1 |
+| runner · 6 hp | 3 | 2 | 1 |
+| brute · 16 hp | 8 | 4 | 3 / 2 |
+| **rooftop boss · 60 hp** | 30 | 15 | 10 / 6 |
+
+The **rooftop siege** sends up to 34 of them across the 30-second hold — shufflers, sprinters, belly-crawlers, screamers and brutes, through the roof door, over both parapets and up the west face — and around 16 s in, **THE BUTCHER** climbs over the parapet: twice your size and a magazine to put down.
+
 ## 🎭 Two game modes
 
 | | 🧟 **NIGHTMARE** | 🤖 **DAYLIGHT DRILL** |
@@ -50,6 +63,7 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | **Shift** | Sprint (loud, attracts enemies) |
 | **Space** | Jump |
 | **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards · talk to survivors (again for the next line) · respawn |
+| **LMB** | Attack. With no weapon you punch — about **4 punches** to put a zombie down, **2 crowbar swings**, **2 SMG rounds** (hits from behind count for more). Hurt enemies show a health bar over their head. |
 | **I** | Mission help: shows how to do the current step **and the objective arrow** (hidden by default, so you explore first) |
 | **Q** | Physical work: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) · release the shutter in the terminal |
 | **F** | Flashlight (drains battery) |

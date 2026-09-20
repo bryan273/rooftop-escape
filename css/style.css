@@ -6,7 +6,8 @@
 /* form controls do NOT inherit fonts by default — force them to match the UI */
 button,input,select,textarea,optgroup{font-family:inherit;font-size:inherit;letter-spacing:inherit;color:inherit}
 html,body{width:100%;height:100%;overflow:hidden;color:var(--bone);
-  font-family:"Segoe UI",Roboto,Helvetica,Arial,"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",sans-serif}
+  /* Arial first: it carries Vietnamese diacritics cleanly on every OS (Segoe UI Black dropped them) */
+  font-family:Arial,"Helvetica Neue",Helvetica,"Segoe UI",Roboto,"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",sans-serif}
 /* Chinese reads better with tighter tracking */
 body.zh{letter-spacing:0}
 body.zh .btn,body.zh h1,body.zh h2,body.zh .sub,body.zh label,body.zh #floorLbl,body.zh #goals h3{letter-spacing:1.5px}
@@ -26,7 +27,7 @@ input[type=text]{background:#0a0a0c;border:1px solid #3a3a40;color:var(--bone);p
   letter-spacing:1px;outline:none;width:230px;text-align:center}
 input[type=text]:focus{border-color:var(--red)}
 input[type=range]{accent-color:var(--red);width:180px}
-h1,h2{font-family:"Arial Black","Segoe UI",sans-serif;letter-spacing:4px}
+h1,h2{font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:900;letter-spacing:4px}
 
 /* ---------- error banner ---------- */
 #err{position:fixed;left:0;right:0;top:0;z-index:999;background:rgba(120,0,0,.92);color:#fff;
@@ -146,7 +147,7 @@ h1,h2{font-family:"Arial Black","Segoe UI",sans-serif;letter-spacing:4px}
 #chapter .wrap{position:relative;width:min(900px,92vw);max-width:92vw;flex-shrink:0}
 #chCv{width:100%;display:block;border:1px solid #1e1e22;box-shadow:0 24px 80px #000;cursor:pointer}
 #chSkip{position:absolute;top:12px;right:12px;opacity:.75}
-#chTitle{margin-top:12px;font-family:"Arial Black","Segoe UI",sans-serif;font-size:clamp(18px,2.6vw,26px);letter-spacing:5px;color:#e8e4da;text-shadow:0 0 18px rgba(193,39,45,.8)}
+#chTitle{margin-top:12px;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:900;font-size:clamp(18px,2.6vw,26px);letter-spacing:5px;color:#e8e4da;text-shadow:0 0 18px rgba(193,39,45,.8)}
 #chCap{margin-top:10px;font-size:15px;line-height:1.8;color:#cfc8bb;max-width:760px;margin-left:auto;margin-right:auto;min-height:48px}
 #chDots{margin-top:8px;letter-spacing:7px;color:#5c564e;font-size:12px}
 #toasts{position:fixed;top:70px;left:50%;transform:translateX(-50%);text-align:center}

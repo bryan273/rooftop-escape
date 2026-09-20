@@ -75,6 +75,7 @@ Special rooms: janitor closet (Ground, boarded, **kick** it in) · CCTV & POWER 
 - **[E] tap:** take, open/close, read, use the terminal, swipe a card, talk (next line), respawn. When a survivor and an object are both in reach, the one you look at wins (the current objective gets priority).
 - **[Q]:** physical work. **Tap** to kick (one kick per tap, screen shake, 3 kicks). **Hold** to pry, pull a breaker, light the flare or revive; letting go keeps the progress. Inside the terminal Q releases the shutter.
 - **[Space]** only jumps. **[Z]** pings (co-op), **[T]** chats.
+- **[LMB]** attacks with whatever you have. Empty-handed it is a punch (2 damage, ~4 for a shambler); crowbar 4, SMG 6 in the body and 10 in the head, ×1.5 from behind. Every zombie shows a health bar over its head for a few seconds after it is hurt; the rooftop boss keeps its bar up permanently.
 - Prompts can show several rows at once (for example "E Open door" and "HOLD Q Pry the boards off"). Targets need line of sight, the one you **look at** wins, and the item your current objective needs gets priority.
 - Work is animated: planks shudder and creak while prying (the crowbar levers in first person), then fall off as physical planks that land on the floor. Breaker handles travel.
 
@@ -144,6 +145,10 @@ Three.js r160 (CDN importmap), ACES tonemapping, fog, canvas textures, view-mode
 ## 12. UI
 
 Menu (solo / host / join, language, mode, continue) · lobby · intro comic + mission brief · HUD (bars, inventory, objective line; [I] opens the "HOW" panel with keys **and** the objective arrow / "search the rooms" hint — hidden until asked, so players explore first; threat ring, multi-row prompt with colored key badges) · [Tab] plan · pause · CCTV (archive log advances on [SPACE]; friends drawn with names, unnamed survivors as blue dots) · notes · chapter comics · death/respawn · ending cutscene (ladder pickup, lift-off, eyes closing) · winner screen.
+
+**The rooftop siege.** The hold is 30 s and the roof sends up to `ROOF.TOTAL` = 34: waves of 4 every 4 s (cap 16 alive) mixing shamblers, runners, crawlers, screamers and brutes, entering from the roof door, both parapets and the west face; a brute at 14 s and **THE BUTCHER** (60 hp, scale 1.75) at 16 s. The headless harness plays the finale with a fighting bot and asserts it stays winnable.
+
+**Killing Ji-eun.** The wrong call is not free: ~2.6 s after she dies the floor answers — the safe room is breached and ten of them (one brute) come down the corridor, with a toast that says plainly why.
 
 **Saves (solo):** every 5 s to localStorage, format v3 (step key, flags, inventory, gates, boards, items). The roof is replayed from its start after a continue.
 
