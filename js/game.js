@@ -801,6 +801,7 @@ $('sensR').value=SET.sens*100; $('volR').value=SET.vol*100; $('fovR').value=SET.
 const KEY={};
 const mouse={dx:0,dy:0,lmb:false};
 let pointerLocked=false;
+let uiEscAt=0;   // timestamp of an [Esc] that closed a secondary menu — its pointer-lock drop must not become a pause
 addEventListener('keydown',e=>{
   if(e.code==='Tab'){e.preventDefault();}
   if(G.chatOpen){
@@ -825,8 +826,12 @@ addEventListener('mouseup',e=>{if(e.button===0)mouse.lmb=false;});
 addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('pointerlockchange',()=>{
   pointerLocked=(document.pointerLockElement===$('c'));
+  if(pointerLocked)return;
+  // An [Esc] that just closed a secondary menu also drops pointer-lock — swallow that here so it
+  // doesn't fall through to a pause; the close handler re-locks the pointer itself.
+  if(Date.now()-uiEscAt<400){uiEscAt=0;return;}
   // In co-op the world keeps running: pausing the host would freeze every teammate.
-  if(!pointerLocked&&G.mode==='playing'&&!G.uiLock&&G.started&&!player.dead&&!G.flags.victory&&!NOLOCK&&!G.mp)showPause(true);
+  if(G.mode==='playing'&&!G.uiLock&&G.started&&!player.dead&&!G.flags.victory&&!NOLOCK&&!G.mp)showPause(true);
 });
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&G.mp&&G.mode==='playing')toast(T('t_hostfocus'));
@@ -5701,6 +5706,7 @@ function spawnSmoke(){
 /* ---------------- note / cctv UI ---------------- */
 function openNote(n){
   G.uiLock='note';
+  if(document.exitPointerLock)document.exitPointerLock();   // free the mouse like give/cctv, so [Esc] closes the note instead of dropping pointer-lock into a pause
   $('noteTitle').textContent=n.title;
   $('noteBody').textContent=n.body;
   $('note').style.display='flex';
@@ -6867,6 +6873,7 @@ function addChat(name,msg){
 }
 function onKey(code){
   if(G.mode!=='playing')return;
+  if(code==='Escape'&&G.uiLock)uiEscAt=Date.now();   // this [Esc] is closing/leaving a menu; the browser will also drop pointer-lock — don't let that pause the game
   if(G.mp&&code==='KeyM'&&!G.chatOpen){micToggle();return;}
   if(G.mp&&code==='KeyN'&&!G.chatOpen){spkToggle();return;}
   if(player.spec){
