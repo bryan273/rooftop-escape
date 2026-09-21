@@ -157,7 +157,7 @@ Latest results: Nightmare 52/52 · Daylight (timeout) 54/54 · Chinese (kill) 51
 |---|---|---|
 | **Bryan Tjandra** · 2026280195 | Core gameplay & systems | Original game and engine, building generation, stairs and physics, strict mission chain, combat, companions, co-op netcode, i18n, tests, landing page and docs |
 | **Phan Ngoc Anh** · 2026280645 | Game design, narrative & AI prompt engineering | Co-created the concept; survival-horror narrative and plot, chapter comics, UI/UX and player experience; the AI prompts that guided content and design |
-| **侯嘉琪** · 2026214164 | Audio design | Recorded sound effects, heartbeat and tension system, environmental audio (helicopter, thunder) |
+| **侯嘉琪** · 2026214164 | Audio design & polish | Sourced and recorded the zombie voice clips and sound-effects library; built the pipeline that integrates every audio asset into the game; designed and built the heartbeat and tension system that reacts to danger; designed the environmental audio; created the ambient horror-audio layer of random distant growls, screams and creaks; ran a full sound-mixing and balancing pass across the whole game, tuning levels and the compressor so nothing drowns anything else out; found and fixed audio bugs; contributed to the UI interaction design, refining how menus and popups open and close; found and fixed 3D level-design bugs |
 
 Assets: zombie voices CC0 via OpenGameArt; sound effects Mixkit (free license); Three.js (MIT); PeerJS (MIT). Fan-made and non-commercial, inspired by *All of Us Are Dead*.
 
