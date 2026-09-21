@@ -1344,13 +1344,7 @@ function ensureAudio(){
     });
     loop('tension',tens,0.0);
   }
-  // subtle room tone: the building breathes too (ventilation far above)
-  if(MD.jumpscares){
-    const vent=mk(4,(t,p)=>{const n=ND[Math.floor(t*SR*0.22)%ND.length];
-      const lfo=0.55+0.45*Math.sin(t*0.45+Math.sin(t*0.13)*2);
-      return n*lfo*0.5+Math.sin(t*63*Math.PI*2)*0.014;});
-    loop('vent',vent,0.06);
-  }
+  // vent room-tone bed removed: it read as constant background noise rather than atmosphere
   // recorded SFX + the real helicopter / thunder (assets/): swapped in as soon as they decode
   for(const n of SFX_FILES)loadSample('assets/sfx/'+n+'.wav',b=>{AUD.R[n]=b;});
   loadSample('assets/chopper.wav',b=>{AUD.R.chopper=b;swapLoop('chopper',b);});
@@ -1967,7 +1961,7 @@ function furnishRoom(f,r,name){
       put(cx,r.z0+1.1,1.8,0.85,0.7,MAT.desk); // teacher desk
       addBox(f,cx,y+0.28,r.z0+1.1,0.42,0.05,0.42,MAT.dark,{col:false});
     }
-    addBox(f,r.x0+1.2,y+1.4,r.z1-0.12,2.6,1.1,0.1,MAT.dark,{col:false}); // blackboard
+    addBox(f,r.x0+1.2,y+1.4,r.z0>0?r.z1-0.12:r.z0+0.12,2.6,1.1,0.1,MAT.dark,{col:false}); // blackboard, mounted on the wall opposite the door — south-side rooms have z1 as the door wall
   }else if(th===1){ // office
     const n=irand(3,5);
     for(let i=0;i<n;i++){
@@ -5931,8 +5925,8 @@ let hordeDone=false,finaleDone=false;
 const blackoutDone=new Set();
 const BLACKOUTS=new Set([1,3]);
 let jieunHintT=8;
-let ambT=20;
-let scareT=95;
+let ambT=rand(30,65);   // match the re-arm range below, so the first sound isn't front-loaded every run
+let scareT=rand(130,220);
 function updateEvents(dt){
   if(G.paused)return; // a chapter comic is up: the world holds its breath
   storyProximity();
@@ -6046,22 +6040,21 @@ function updateEvents(dt){
   // Quiet and occasional; every sound is a question the player has to answer.
   ambT-=dt;
   if(ambT<=0){
-    ambT=rand(18,42);
+    ambT=rand(30,65);
     const roll=Math.random();
     const farA=rand(0,TAU),farR=rand(16,26);
     const farP=new THREE.Vector3(player.pos.x+Math.cos(farA)*farR,player.floor*CFG.FH,player.pos.z+Math.sin(farA)*farR);
-    if(roll<0.38)play(pick(['growl1','growl2']),{pos:farP,vol:.5,ref:60,rate:0.65}); // a long moan, far away… or is it?
-    else if(roll<0.56)play('zbreath',{pos:farP,vol:.55,ref:46,rate:0.8});  // something exhales out there
-    else if(roll<0.72)play('clang',{pos:farP,vol:.45,ref:34});             // a distant impact
-    else if(roll<0.88)play('creak',{pos:farP,vol:.5,ref:26,rate:0.9});     // a door settling somewhere
-    else if(roll<0.97)play('scream',{pos:farP,vol:.42,ref:60,rate:0.6});   // a distant scream, drawn out
+    if(roll<0.34)play(pick(['growl1','growl2']),{pos:farP,vol:.14,ref:4,rate:0.65}); // a long moan, far away… or is it?
+    else if(roll<0.54)play('clang',{pos:farP,vol:.13,ref:3.5});             // a distant impact
+    else if(roll<0.74)play('creak',{pos:farP,vol:.14,ref:3,rate:0.9});     // a door settling somewhere
+    else if(roll<0.85)play('scream',{pos:farP,vol:.12,ref:4,rate:0.6});   // a distant scream, drawn out
     // and sometimes: nothing at all. Silence is worse.
   }
   // random ambience — strategic: the building talks
   // director scares: controlled, paced — never a constant drumbeat
   scareT-=dt;
   if(scareT<=0){
-    scareT=rand(75,140);
+    scareT=rand(130,220);
     if(MD.jumpscares&&G.started&&!G.flags.victory&&!player.dead&&!player.down)ambientScare();
   }
 }
@@ -6079,26 +6072,26 @@ function ambientScare(){
     const sp=nearFree(player.floor,sx,sz);
     const z=spawnZombie(player.floor,sp[0],sp[1],'shambler',{x0:sx-3,x1:sx+3,z0:sz-3,z1:sz+3,door:null});
     z.state='investigate';z.invest={x:ex,z:ez};z.investT=12;
-    play('zstep',{pos:new THREE.Vector3(sx,player.floor*CFG.FH,sz),vol:.8,ref:24,rate:0.8});
+    play('zstep',{pos:new THREE.Vector3(sx,player.floor*CFG.FH,sz),vol:.4,ref:8,rate:0.8});
   }else if(roll<0.55){
     // footsteps approach… then nothing. No one is there.
     let dly=400;
     for(let i=1;i<=5;i++){
       const dd=9-i*1.6;
       const sxp=player.pos.x+fx*dd,szp=player.pos.z+fz*dd;
-      setTimeout(()=>{if(G.started&&G.mode==='playing')play('zstep',{pos:new THREE.Vector3(sxp,player.floor*CFG.FH,szp),vol:.55+i*0.08,ref:18,rate:0.85});},dly);
+      setTimeout(()=>{if(G.started&&G.mode==='playing')play('zstep',{pos:new THREE.Vector3(sxp,player.floor*CFG.FH,szp),vol:.28+i*0.04,ref:6,rate:0.85});},dly);
       dly+=i<3?520:380;
     }
     setTimeout(()=>{if(G.started)showSub(T('sub_steps'),2.5);},dly+300);
   }else if(roll<0.8){
     // the lights die for a breath
     lightsOut(player.floor,1600);
-    play('whisper',{vol:.7});
+    play('whisper',{vol:.35});
   }else{
     // a door creaks somewhere near — closed, but not locked
     const cand=world.doors.filter(d=>d.f===player.floor&&!d.open&&!d.boarded);
-    if(cand.length){const d=pick(cand);play('creak',{pos:d.g.position,vol:.7,ref:16,rate:0.8});}
-    else play('creak',{vol:.5});
+    if(cand.length){const d=pick(cand);play('creak',{pos:d.g.position,vol:.35,ref:6,rate:0.8});}
+    else play('creak',{vol:.25});
   }
 }
 
@@ -7232,7 +7225,7 @@ function showPrologue(){
   ensureAudio();
   if(AUD.ctx&&AUD.ctx.state==='suspended'&&AUD.ctx.resume)AUD.ctx.resume();
   const lite=G.gameMode==='lite';
-  setLoop('drone',lite?0:0.22);setLoop('vent',0.1);
+  setLoop('drone',lite?0:0.22);
   const INTRO_SFX=lite
     ?[[['ding',.5]],[['happyAlarm',.25]],[['servo',.5],['beep',.4]],[['whir',.5]],[['boing',.4]],[['ding',.4]]]
     :[[['stinger',.5],['thunder',.35]],[['thunder',.6],['rumble',.4]],[['alarm',.4],['scream',.3,.7]],
