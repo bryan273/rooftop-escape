@@ -368,7 +368,7 @@ en:{
  elev_dead:'ELEVATOR — NO POWER. The school shutdown cut it. The stairwell at the end of the hall is the only way up.',
  elev_jam:'ELEVATOR — DEAD. Something is knocking on the other side of the doors. Don\'t.',
  /* ---- signs & rooms ---- */
- sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_down:'↓ DOWN: {f}',sg_stairs_to:'STAIRS ➜',sg_ooo:'OUT OF ORDER',sg_access:'{c} ACCESS',
+ sg_stairs:'STAIRWELL',sg_up:'↑ STAIRS',sg_exit:'◀ EXIT THIS WAY',sg_down:'↓ DOWN: {f}',sg_stairs_to:'STAIRS ⬅',sg_ooo:'OUT OF ORDER',sg_access:'{c} ACCESS',
  sg_entrance:'MAIN ENTRANCE — SEALED',sg_cctv:'CCTV & POWER',sg_elec:'ELECTRICAL',sg_server:'SERVER ROOM',
  sg_infir:'INFIRMARY',sg_roof:'ROOF ACCESS',sg_allfloors:'STAIRWELL ➜ ALL FLOORS',sg_wentup:'WE WENT UP →',sg_notsame:'THEY ARE NOT ALL THE SAME',
  rn00:'CLASS 1-1',rn01:'CLASS 1-2',rn02:'CLASS 2-1',rn03:'MUSIC ROOM',rn04:'ART ROOM',rn05:'LIBRARY',
@@ -686,7 +686,7 @@ zh:{
  gw_red:'2层保安室',gw_blue:'3层的朴老师',gw_yellow:'5层的智恩',
  elev_dead:'电梯——没有电。学校封锁时被切断了。走廊尽头的楼梯间是唯一上楼的路。',
  elev_jam:'电梯——已失灵。有东西在门的另一侧敲。别开。',
- sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_down:'↓ 下楼：{f}',sg_stairs_to:'楼梯 ➜',sg_ooo:'暂停使用',sg_access:'{c} 通行',
+ sg_stairs:'楼梯间',sg_up:'↑ 楼梯',sg_exit:'◀ 从这边出去',sg_down:'↓ 下楼：{f}',sg_stairs_to:'楼梯 ⬅',sg_ooo:'暂停使用',sg_access:'{c} 通行',
  sg_entrance:'正门——已封闭',sg_cctv:'监控配电室',sg_elec:'电气室',sg_server:'服务器室',
  sg_infir:'医务室',sg_roof:'天台通道',sg_allfloors:'楼梯间 ➜ 通往所有楼层',sg_wentup:'我们上楼了 →',sg_notsame:'它们并不都一样',
  rn00:'1-1教室',rn01:'1-2教室',rn02:'2-1教室',rn03:'音乐教室',rn04:'美术教室',rn05:'图书馆',
@@ -2144,9 +2144,6 @@ function buildFloor(f){
   const archSide2=new THREE.Mesh(new THREE.BoxGeometry(0.14,2.3,0.16),archM);archSide2.position.set(16.06,y+1.15,1.85);L.add(archSide2);
   const archL=new THREE.PointLight(0x59ff7a,6*PW.exit,8,1.8);archL.position.set(15.4,y+2.1,0.2);L.add(archL);
   signOn(f,16.13,y+2.85,0.2,-Math.PI/2,TEX.sign(T('sg_allfloors'),'#06180a','#59ff7a'),2.4,0.5,EXIT_GLOW);
-  for(const sx of [-20,-12,-4,4,11]){
-    signOn(f,sx,y+2.15,1.46,Math.PI,TEX.sign(T('sg_stairs_to'),'#06180a','#59ff7a'),1.7,0.34,EXIT_GLOW);
-  }
   // the elevator: in the stair tower, on its south wall, facing you as you come through the arch
   {
     const EX=ELEV.x,EZ=TOW.z0+0.12;   // the wall's inner face (walls are 0.24 m thick)
@@ -2169,6 +2166,7 @@ function buildFloor(f){
   ];
   const names=[...ROOM_NAMES()[themeOf(f)]];
   const layout={rooms:[],corridor:{x0:-24,z0:-1.6,x1:16,z1:1.6},tower:{x0:TOW.x0,z0:TOW.z0,x1:TOW.x1,z1:TOW.z1}};
+  const northDoorXs=[];   // door-label signs live on the same wall/z as the stairs wayfinding signs below — track them so the two never overlap
   for(const r of rooms){
     // front wall with 1-2 doors
     const frontZ=r.z0>0?r.z0:r.z1;
@@ -2199,6 +2197,7 @@ function buildFloor(f){
       r.door=d;
       const sz=r.z0>0?frontZ-0.14:frontZ+0.14;
       signOn(f,dx,y+2.5,sz,r.z0>0?Math.PI:0,TEX.sign(names[layout.rooms.length%names.length],'#15151a','#b9b1a4'),1.7,0.34);
+      if(r.z0>0)northDoorXs.push(dx);
     }
     if(r.x1-r.x0>10&&Math.random()<0.5){ // internal partition for maze feel
       // never let the partition land in a doorway (it would split the gap and seal the room)
@@ -2230,6 +2229,11 @@ function buildFloor(f){
     world.roomDoor[f+':'+r.key]=r.door;
   }
   world.layout.push(layout);
+  // stairs wayfinding signs: same wall/z as the room door labels above, so skip any anchor that would overlap one
+  for(const sx of [-20,-12,-4,4,11]){
+    if(northDoorXs.some(dx=>Math.abs(dx-sx)<1.7))continue;
+    signOn(f,sx,y+2.15,1.46,Math.PI,TEX.sign(T('sg_stairs_to'),'#06180a','#59ff7a'),1.7,0.34,EXIT_GLOW);
+  }
   if(f===5){const s=rooms.find(r=>r.key==='S1');world.safe={f,x0:s.x0,x1:s.x1,z0:s.z0,z1:s.z1};}
   // special rooms go in BEFORE loot, so nothing spawns inside their desks and machines
   if(f===0)specialEntrance(L,y);
