@@ -1540,6 +1540,7 @@ class DoorC{
       ?{x0:hx-0.3,x1:hx+0.2,z0:Math.min(hz,hz+s*l),z1:Math.max(hz,hz+s*l),y0:y,y1:y+2.2,los:false,off:false}
       :{x0:Math.min(hx,hx+s*l),x1:Math.max(hx,hx+s*l),z0:hz-0.3,z1:hz+0.2,y0:y,y1:y+2.2,los:false,off:false};
     this.col={...this.colClosed};
+    this.col.isDoor=true;   // pathfinding walks through doorways: a hunting zombie opens them
     world.cols[f].push(this.col);
     // keep the doorway and its approach clear for the whole leaf swing
     if(axis==='x')addKeepClear(f,hx+len/2,hz,len+1.4,4.2);
@@ -2506,6 +2507,99 @@ function buildWorld(){
 
 /* ---------- physics queries ---------- */
 function inLane(x,z){const LA=CFG.LANE;return x>LA.x0&&x<LA.x1&&z>LA.z0&&z<LA.z1;}
+/* ---- navigation: every floor is one corridor with rooms hanging off both sides, so a route is
+   "get into the corridor through my doorway, walk it, then in through the right doorway". ---- */
+const CORR={z0:-1.7,z1:1.7,x1:15.8};
+/* body radius used for walls: wide enough that shoulders and swinging arms stay out of the plaster */
+const ZR=0.46;   // shoulders stay out of the plaster, but they still fit between the desks
+function inCorridor(x,z){return z>CORR.z0&&z<CORR.z1&&x<CORR.x1;}
+function roomSide(z){return z>=0?1:-1;}
+/* ---------- walkable grid + flow field ----------
+   The building is stamped into a 0.5 m grid once per floor (walls and furniture block, doors do not —
+   a hunting zombie opens those). A breadth-first search from the hunted human then gives every cell a
+   step count, and each zombie simply walks to the neighbouring cell with the smaller number. That is
+   what makes them come round the partition and out of the doorway instead of scraping along a wall. */
+const NAV={c:0.5,x0:-25,z0:-11,w:88,h:45,mask:[],fields:new Map()};
+function navReset(){NAV.mask=[];NAV.fields.clear();}
+function navIdx(x,z){
+  const i=Math.floor((x-NAV.x0)/NAV.c),j=Math.floor((z-NAV.z0)/NAV.c);
+  return (i<0||j<0||i>=NAV.w||j>=NAV.h)?-1:j*NAV.w+i;
+}
+function navCellPos(id){const i=id%NAV.w,j=(id-i)/NAV.w;return {x:NAV.x0+(i+0.5)*NAV.c,z:NAV.z0+(j+0.5)*NAV.c};}
+function navMask(f){
+  if(NAV.mask[f])return NAV.mask[f];
+  const m=new Uint8Array(NAV.w*NAV.h),y=f*CFG.FH,pad=0.18;   // a body needs 1.16 m; a 1.6 m doorway keeps ~1.1 m of grid
+  for(const c of world.cols[f]||[]){
+    if(c.off||c.isDoor)continue;                       // an open OR shut door is a way through for them
+    if(c.y1<y+0.35||c.y0>y+1.7)continue;               // low enough to step over / high enough to duck
+    const i0=Math.max(0,Math.floor((c.x0-pad-NAV.x0)/NAV.c)),i1=Math.min(NAV.w-1,Math.floor((c.x1+pad-NAV.x0)/NAV.c));
+    const j0=Math.max(0,Math.floor((c.z0-pad-NAV.z0)/NAV.c)),j1=Math.min(NAV.h-1,Math.floor((c.z1+pad-NAV.z0)/NAV.c));
+    for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++)m[j*NAV.w+i]=1;
+  }
+  NAV.mask[f]=m;return m;
+}
+const NAV_N=[1,-1,NAV.w,-NAV.w];
+/* is the straight line actually WALKABLE? sight can pass over a desk that a body cannot */
+function navLineFree(f,x0,z0,x1,z1){
+  const m=navMask(f),dx=x1-x0,dz=z1-z0,len=Math.hypot(dx,dz);
+  const n=Math.max(1,Math.ceil(len/(NAV.c*0.8)));
+  for(let i=1;i<=n;i++){
+    const id=navIdx(x0+dx*i/n,z0+dz*i/n);
+    if(id<0)return false;
+    if(m[id])return false;
+  }
+  return true;
+}
+function navField(f,tx,tz){
+  const ti=navIdx(tx,tz);
+  if(ti<0)return null;
+  const key=f+':'+ti,fl0=NAV.fields.get(key);
+  if(fl0&&G.time-fl0.t<0.5)return fl0;
+  const m=navMask(f);
+  let start=ti;
+  if(m[start]){                                        // standing in a blocked cell: start from a free neighbour
+    let best=-1;
+    for(let r=1;r<=4&&best<0;r++){
+      for(let dj=-r;dj<=r&&best<0;dj++)for(let di=-r;di<=r;di++){
+        const i=(ti%NAV.w)+di,j=((ti-(ti%NAV.w))/NAV.w)+dj;
+        if(i<0||j<0||i>=NAV.w||j>=NAV.h)continue;
+        const id=j*NAV.w+i;
+        if(!m[id]){best=id;break;}
+      }
+    }
+    if(best<0)return null;
+    start=best;
+  }
+  const dist=new Int16Array(NAV.w*NAV.h).fill(-1),q=new Int32Array(NAV.w*NAV.h);
+  let qs=0,qe=0;
+  dist[start]=0;q[qe++]=start;
+  while(qs<qe){
+    const cur=q[qs++],d=dist[cur],ci=cur%NAV.w;
+    for(const st of NAV_N){
+      const nid=cur+st;
+      if(nid<0||nid>=dist.length)continue;
+      if((st===1&&ci===NAV.w-1)||(st===-1&&ci===0))continue;   // no wrapping round the edge
+      if(m[nid]||dist[nid]>=0)continue;
+      dist[nid]=d+1;q[qe++]=nid;
+    }
+  }
+  const fl={dist,t:G.time};
+  NAV.fields.set(key,fl);
+  if(NAV.fields.size>8){const k=NAV.fields.keys().next().value;if(k!==key)NAV.fields.delete(k);}
+  return fl;
+}
+/* the best doorway on one side of the corridor: near me, near where I am going, and open if possible */
+function bestDoorway(f,fromX,side,towardX){
+  let best=null,bs=1e9;
+  for(const d of world.doors){
+    if(d.f!==f||d.axis!=='x'||d.safe)continue;
+    const p=doorPoint(d);
+    if(roomSide(p.z)!==side)continue;
+    const s=Math.abs(p.x-fromX)*0.7+Math.abs(p.x-towardX)+(d.open?0:4)+(d.boarded?14:0);
+    if(s<bs){bs=s;best={d,p};}
+  }
+  return best;
+}
 function stairH(x,z,f){
   const LA=CFG.LANE;
   const t=clamp((x-LA.x0)/(LA.x1-LA.x0),0,1);
@@ -2551,6 +2645,30 @@ function collideCircle(px,pz,py,f,r=CFG.R){
     }
   }
   return [px,pz];
+}
+/* Can this thing physically touch that spot? Same slab test as losClear, but a SHUT DOOR counts:
+   sight passes through a door gap (and through glass), an arm does not. Used for every attack. */
+function reachClear(x0,z0,x1,z1,f){
+  const dx=x1-x0,dz=z1-z0,ey=f*CFG.FH;
+  const arr=world.cols[f]||[];
+  for(let i=0;i<arr.length;i++){
+    const c=arr[i];
+    if(c.off)continue;
+    if(c.y1<ey+0.4||c.y0>ey+1.6)continue;
+    let tmin=0,tmax=1;
+    if(Math.abs(dx)<1e-9){if(x0<c.x0||x0>c.x1)continue;}
+    else{
+      let t1=(c.x0-x0)/dx,t2=(c.x1-x0)/dx;if(t1>t2){const tt=t1;t1=t2;t2=tt;}
+      tmin=Math.max(tmin,t1);tmax=Math.min(tmax,t2);if(tmin>tmax)continue;
+    }
+    if(Math.abs(dz)<1e-9){if(z0<c.z0||z0>c.z1)continue;}
+    else{
+      let t1=(c.z0-z0)/dz,t2=(c.z1-z0)/dz;if(t1>t2){const tt=t1;t1=t2;t2=tt;}
+      tmin=Math.max(tmin,t1);tmax=Math.min(tmax,t2);if(tmin>tmax)continue;
+    }
+    return false;
+  }
+  return true;
 }
 function losClear(x0,z0,x1,z1,f){
   const dx=x1-x0,dz=z1-z0,ey=f*CFG.FH;
@@ -2938,14 +3056,15 @@ function setupViewModel(){
   vm.lens=lens;
   // bare hands: a fist and forearm, the only weapon you always have
   vm.fist=new THREE.Group();
-  const fistSkin=new THREE.MeshStandardMaterial({color:0xc9a184,roughness:.85,emissive:0x3a2a1e,emissiveIntensity:.9});   // a little self-lit: your own hands read in the dark
+  const fistSkin=new THREE.MeshStandardMaterial({color:0xc9a184,roughness:.85,emissive:0x2a1d14,emissiveIntensity:.55});   // a little self-lit: your own hands read in the dark
   const fistSleeve=new THREE.MeshStandardMaterial({color:0x3d4a5c,roughness:.9,emissive:0x141c26,emissiveIntensity:.8});
   const knuck=new THREE.Mesh(new THREE.BoxGeometry(0.11,0.095,0.12),fistSkin);knuck.position.set(0,0,-0.07);
   const thumb=new THREE.Mesh(new THREE.BoxGeometry(0.038,0.04,0.075),fistSkin);thumb.position.set(-0.062,-0.012,-0.06);
   const wrist=new THREE.Mesh(new THREE.BoxGeometry(0.09,0.08,0.2),fistSleeve);wrist.position.set(0,-0.008,0.08);
   vm.fist.add(knuck,thumb,wrist);
-  vm.fist.position.set(-0.5,-0.02,0.06);
+  vm.fist.position.set(-0.4,-0.16,0.06);
   vm.fist.rotation.set(0.42,0.12,0.1);
+  vm.fist.scale.setScalar(0.7);
   vm.add(vm.crowbar,vm.torch,vm.pistol,vm.fist);
   vm.position.set(0.3,-0.29,-0.5);
   vm.rotation.y=-0.14;
@@ -2963,7 +3082,7 @@ function updateViewModel(dt,t){
   if(vm.fist.visible){   // the jab: forward, slightly across, then back
     const k=player.punchT/0.24,s=Math.sin(Math.max(0,k)*Math.PI);
     const side=player.punchSide?1:-1;
-    vm.fist.position.set(-0.5+side*0.03+s*side*0.04,-0.02+s*0.07,0.06-s*0.42);
+    vm.fist.position.set(-0.4+side*0.03+s*side*0.04,-0.16+s*0.1,0.06-s*0.42);
     vm.fist.rotation.set(0.42-s*0.62,0.12,0.1+side*s*0.25);
 
   }
@@ -3173,6 +3292,73 @@ class Zombie{
     this.barT=(this.barT||0)-dt;
     this.bar.visible=this.barT>0&&!this.dead;
   }
+  /* Where to actually step next to reach (tx,tz). Straight line if it is clear; otherwise the
+     doorway that leads out of this room, or the one that leads into the target's room. */
+  navTo(tx,tz){
+    const g=this.g.position,f=this.f;
+    if(inLane(g.x,g.z)||inLane(tx,tz))return null;                 // the stairwell has its own route
+    if(losClear(g.x,g.z,tx,tz,f)&&navLineFree(f,g.x,g.z,tx,tz))return null;   // clear line AND a walkable one
+    const step=this.navFlow(tx,tz);
+    if(step)return step;
+    const meC=inCorridor(g.x,g.z),tgC=inCorridor(tx,tz);
+    if(meC&&tgC)return null;                                       // same corridor: straight is fine
+    if(!meC){                                                      // in a room: find the way out
+      const b=bestDoorway(f,g.x,roomSide(g.z),tx);
+      if(!b)return null;
+      const sg=roomSide(b.p.z);
+      const inner=b.p.z+sg*0.95, outer=b.p.z-sg*1.0;
+      if(Math.abs(g.x-b.p.x)>0.45||(g.z-b.p.z)*sg>1.3)return {x:b.p.x,z:inner};   // line up with the gap
+      return {x:b.p.x,z:outer};                                    // then step through it
+    }
+    const b=bestDoorway(f,g.x,roomSide(tz),tx);                    // in the corridor, you are in a room
+    if(!b)return null;
+    const sg=roomSide(b.p.z);
+    if(Math.abs(g.x-b.p.x)>0.45)return {x:b.p.x,z:clamp(g.z,-1.2,1.2)};   // walk the corridor to the door
+    return {x:b.p.x,z:b.p.z+sg*0.95};                              // then in
+  }
+  /* one step along the flow field: the neighbouring cell that is closer to the human */
+  navFlow(tx,tz){
+    const g=this.g.position,f=this.f;
+    const fl=navField(f,tx,tz);
+    if(!fl)return null;
+    const here=navIdx(g.x,g.z);
+    if(here<0)return null;
+    const m=navMask(f),ci=here%NAV.w,cj=(here-ci)/NAV.w;
+    const d0=fl.dist[here];
+    let best=-1,bd=d0>=0?d0:1e9;
+    for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){
+      if(!di&&!dj)continue;
+      const ni=ci+di,nj=cj+dj;
+      if(ni<0||nj<0||ni>=NAV.w||nj>=NAV.h)continue;
+      const nid=nj*NAV.w+ni;
+      if(m[nid])continue;
+      if(di&&dj&&(m[cj*NAV.w+ni]||m[nj*NAV.w+ci]))continue;        // never squeeze through a corner
+      const nd=fl.dist[nid];
+      if(nd<0)continue;
+      if(nd<bd){bd=nd;best=nid;}
+    }
+    if(best<0){   // off the route (wedged in furniture, or inside the stair tower): head for the nearest cell that IS on it
+      let out=-1,od=1e9;
+      for(let dj=-8;dj<=8;dj++)for(let di=-8;di<=8;di++){
+        const ni=ci+di,nj=cj+dj;
+        if(ni<0||nj<0||ni>=NAV.w||nj>=NAV.h)continue;
+        const nid=nj*NAV.w+ni;
+        if(m[nid])continue;
+        const nd=fl.dist[nid];
+        if(nd<0)continue;
+        const cost=nd+Math.abs(di)+Math.abs(dj);
+        if(cost<od){od=cost;out=nid;}
+      }
+      if(out<0){
+        // nothing on the route nearby: this is the stair tower behind a shut gate — walk back to the corridor mouth
+        if(g.x>14&&!inCorridor(g.x,g.z))return {x:15.2,z:0.4};
+        return null;
+      }
+      best=out;
+    }
+    const c=navCellPos(best);
+    return {x:c.x,z:c.z};
+  }
   hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
     if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
   hit(dmg,byRemote,kind='melee'){
@@ -3336,7 +3522,9 @@ class Zombie{
         if(sameFloor&&d<3&&this.lungeCd<=0){this.lungeT=0.5;this.lungeCd=3.6;play('snarl',{pos:g.position,vol:.9,ref:16,rate:1.2});}
         if(this.lungeT>0)spd*=1.7;
       }
-      if(d<1.25*this.cfg.scale&&sameFloor&&this.attackCd<=0&&this.windup<0){this.windup=(this.type==='crawler'?0.28:0.5)*(roof?ROOF.WINDUP:1);}
+      if(d<1.25*this.cfg.scale&&sameFloor&&this.attackCd<=0&&this.windup<0&&reachClear(g.position.x,g.position.z,hum.x,hum.z,this.f)){
+        this.windup=(this.type==='crawler'?0.28:0.5)*(roof?ROOF.WINDUP:1);
+      }
     }else if(this.state==='investigate'&&this.invest){
       tx=this.invest.x;tz=this.invest.z;spd=this.cfg.speed*1.4;this.investT-=dt;
       if(dist2(g.position.x,g.position.z,tx,tz)<1||this.investT<=0){this.state='idle';this.waitT=rand(1,4);this.invest=null;}
@@ -3350,6 +3538,15 @@ class Zombie{
         if(dist2(g.position.x,g.position.z,tx,tz)<1.2){this.wpI=(this.wpI+1)%this.wp.length;this.waitT=rand(0.5,3.5);}
       }
     }
+    // route around walls: doorways instead of pressing into the plaster
+    if(tx!==null&&(this.state==='chase'||this.state==='investigate')){
+      this.navT=(this.navT||0)-dt;
+      if(this.navT<=0||!this.nav||dist2(this.navGoalX??1e9,this.navGoalZ??1e9,tx,tz)>1){
+        this.navT=0.25;this.navGoalX=tx;this.navGoalZ=tz;
+        this.nav=this.navTo(tx,tz);
+      }
+      if(this.nav){tx=this.nav.x;tz=this.nav.z;}
+    }else this.nav=null;
     if(this.staggerT>0){tx=null;}
     if(this.windup>=0){
       this.windup-=dt;
@@ -3366,7 +3563,7 @@ class Zombie{
       let dx=tx-g.position.x,dz=tz-g.position.z;
       const dl=Math.hypot(dx,dz)||1;dx/=dl;dz/=dl;
       let nx=g.position.x+dx*spd*dt,nz=g.position.z+dz*spd*dt;
-      [nx,nz]=collideCircle(nx,nz,g.position.y,this.f,0.38*this.cfg.scale);
+      [nx,nz]=collideCircle(nx,nz,g.position.y,this.f,ZR*this.cfg.scale);
       // keep zombies off the stair lane unless chasing across floors
       if(this.state!=='chase'&&inLane(nx,nz)){nx=g.position.x;nz=g.position.z;}
       // Ji-eun's hiding room is a refuge: they stop at the doorway
@@ -3393,8 +3590,8 @@ class Zombie{
         }
         if(nearDoor){
           this.doorT+=dt;
-          if(this.doorT>0.8&&this.doorT-dt<=0.8)play('clang',{pos:g.position,vol:.55,ref:10,rate:1.5});
-          if(this.doorT>1.6){nearDoor.setOpen(true,true);this.doorT=0;}
+          if(this.doorT>0.5&&this.doorT-dt<=0.5)play('clang',{pos:g.position,vol:.55,ref:10,rate:1.5});
+          if(this.doorT>(this.state==='chase'?0.9:1.6)){nearDoor.setOpen(true,true);this.doorT=0;}   // hunting: it shoulders it open
         }else this.doorT=0;
       }
       // wounded enemies drip (blood / paint)
@@ -3410,10 +3607,25 @@ class Zombie{
       }
       // stuck detection
       this.stuckT+=dt;
+      if(this.stuckT>0.55&&this.state==='chase'&&Math.hypot(g.position.x-ox0,g.position.z-oz0)<spd*dt*0.35){
+        // blocked by a wall or a desk: slide sideways along it for a moment instead of grinding into it
+        this.slideT=(this.slideT||0)>0?this.slideT:0.7;
+        this.slideS=this.slideS||(Math.random()<0.5?1:-1);
+      }
+      if((this.slideT||0)>0){
+        this.slideT-=dt;
+        let sx=g.position.x-dz*this.slideS*spd*dt*1.1,sz=g.position.z+dx*this.slideS*spd*dt*1.1;
+        [sx,sz]=collideCircle(sx,sz,g.position.y,this.f,ZR*this.cfg.scale);
+        if(!inSafeRoom(this.f,sx,sz)||inSafeRoom(this.f,g.position.x,g.position.z)){
+          const gy2=groundAt(sx,sz,g.position.y);
+          if(gy2>-1e6&&gy2<=g.position.y+0.75){g.position.x=sx;g.position.z=sz;}
+        }
+        if(this.slideT<=0)this.slideS=Math.random()<0.5?1:-1;
+      }
       if(this.stuckT>1.4){
         if(dist2(g.position.x,g.position.z,this.lastX,this.lastZ)<0.09){
           let ux=g.position.x+(Math.random()-0.5)*0.6,uz=g.position.z+(Math.random()-0.5)*0.6;
-          [ux,uz]=collideCircle(ux,uz,g.position.y,this.f,0.38*this.cfg.scale); // never teleport through walls
+          [ux,uz]=collideCircle(ux,uz,g.position.y,this.f,ZR*this.cfg.scale); // never teleport through walls
           if(!inSafeRoom(this.f,ux,uz)||inSafeRoom(this.f,g.position.x,g.position.z)){g.position.x=ux;g.position.z=uz;}
           if(this.state==='investigate'){this.state='idle';this.waitT=1;}
         }
@@ -4080,17 +4292,21 @@ function spawnParkZombie(quiet){
 function dealZombieDamage(z){
   // choose damaged human (local player or remotes — host authoritative)
   const dmg=z.cfg.dmg*MD.zDmg*(z.f===CFG.FLOORS&&G.flags.finale?ROOF.DMG:1);
+  const zp=z.g.position;
+  // nothing bites through a wall or a shut door: the swing only lands on what it can actually reach
+  const canReach=(x,zz,f)=>f===z.f&&reachClear(zp.x,zp.z,x,zz,z.f);
   if(!G.mp||G.host){
     const hum=z.nearestHuman();
     const je=companion();
     if(je&&hum&&hum.p==='jieun'){ // it went for Ji-eun
-      if(je.f===z.f&&je.parts.g.position.distanceTo(z.g.position)<1.8*z.cfg.scale)je.damage(dmg);
-    }else if(player.pos.distanceTo(z.g.position)<1.8*z.cfg.scale&&!player.dead&&!player.down){
-      damagePlayer(dmg,z.g.position);
+      const q=je.parts.g.position;
+      if(je.f===z.f&&q.distanceTo(zp)<1.8*z.cfg.scale&&canReach(q.x,q.z,je.f))je.damage(dmg);
+    }else if(player.pos.distanceTo(zp)<1.8*z.cfg.scale&&!player.dead&&!player.down&&canReach(player.pos.x,player.pos.z,player.floor)){
+      damagePlayer(dmg,zp);
     }
     if(G.mp)for(const r of net.remotes.values()){
       if(r.down||r.dead||r.spec||(r.f||0)!==z.f)continue;
-      if(dist2(r.x,r.z,z.g.position.x,z.g.position.z)<(1.8*z.cfg.scale)**2){
+      if(dist2(r.x,r.z,zp.x,zp.z)<(1.8*z.cfg.scale)**2&&canReach(r.x,r.z,r.f||0)){
         netBroadcast({t:'ev',k:'hit',id:r.id,dmg});
       }
     }
@@ -4647,19 +4863,25 @@ function updatePlayer(dt,t){
       }
     }
   }
-  // soft push away from living zombies
+  // soft push away from living zombies — and they give way a little, so a body standing in a
+  // doorway or on the stairs can be shouldered past instead of sealing the way like a wall
   for(const z of world.zombies){
     if(z.dead||z.f!==player.floor)continue;
     const d2z=dist2(z.g.position.x,z.g.position.z,player.pos.x,player.pos.z);
     const rr=0.62*z.cfg.scale;
     if(d2z<rr*rr&&d2z>1e-6){
       const d=Math.sqrt(d2z);
+      const ux=(player.pos.x-z.g.position.x)/d,uz=(player.pos.z-z.g.position.z)/d;
+      const over=rr-d;
+      const give=z.type==='brute'||z.type==='boss'?0.15:0.45;   // the big ones barely budge
       const bx=player.pos.x,bz=player.pos.z;
-      let px2=bx+(bx-z.g.position.x)/d*(rr-d);
-      let pz2=bz+(bz-z.g.position.z)/d*(rr-d);
+      let px2=bx+ux*over*(1-give),pz2=bz+uz*over*(1-give);
       [px2,pz2]=collideCircle(px2,pz2,player.pos.y,player.floor); // push respects walls
       if(Math.hypot(px2-bx,pz2-bz)>0.4){px2=bx;pz2=bz;} // never eject through a wall
       player.pos.x=px2;player.pos.z=pz2;
+      let zx=z.g.position.x-ux*over*give,zz=z.g.position.z-uz*over*give;
+      [zx,zz]=collideCircle(zx,zz,z.g.position.y,z.f,ZR*z.cfg.scale);
+      if(!inSafeRoom(z.f,zx,zz)||inSafeRoom(z.f,z.g.position.x,z.g.position.z)){z.g.position.x=zx;z.g.position.z=zz;}
     }
   }
   // camera
@@ -4960,7 +5182,6 @@ function renderObjective(banner){
 function showHelp(on){
   G.helpOpen=on;
   const mw=$('missionWindow');if(mw)mw.style.display=on?'block':'none';
-  const hk=$('hintKey');if(hk)hk.style.display=on?'block':'none';
   const b=$('helpBtn');if(b)b.innerHTML=T(on?'help_hide':'help_show');
 }
 function objectiveBanner(){
@@ -7265,6 +7486,7 @@ function resetWorld(){
   bursts.length=0;
   world.cols=Array.from({length:CFG.FLOORS+1},()=>[]);
   world.levels=[];world.layout=[];world.items=[];world.doors=[];world.gates=[];world.zombies=[];world.npcs=[];
+  navReset();
   world.furn=[];world.keep=[];world.zmap=new Map();world.flicker=[];world.termMons=[];world.trails=[];
   world.roomDoor={};world.frontWalls=[];world.breakers={};world.terminal=null;world.roofGroup=null;world.heli=null;
   ending=null;G.jTension=0;
@@ -7442,7 +7664,7 @@ function loop(){
 init();
 /* test hook (harmless in-browser; powers the headless simulation harness) */
 window.__game={G,INV,player,world,camera,KEY,mouse,CHECK,CFG,flares,net,scene,renderer,
-  getMD:()=>MD,getXP:()=>extractProg,setXP:v=>{extractProg=v;},drawCCTV,openCCTV,giveJieunMedkit,onKey,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
+  getMD:()=>MD,NAV,navIdx,navMask,navField,getXP:()=>extractProg,setXP:v=>{extractProg=v;},drawCCTV,openCCTV,giveJieunMedkit,onKey,questTarget,waypointDir,getQuest:()=>qi,setQuest:v=>{qi=v;},startWorld,beginGame,saveGame,loadSave,applySave,questCheck,resetWorld,addKeepClear,boxHitsKeepClear,
   QUEST,QI,questAt,npcByKey,startJieunChoice,resolveJieun,companion,doVictory,getEnding:()=>ending,takeItem,giveItem,openGive,micToggle,VOICE,damagePlayer,reviveLocal,playerTurns,onPlayerDown,GUN,MELEE,interactTargets,freeSpot,inSafeRoom,lightRoofFlare,parkTurn,debris,ROOF,T,getExtract:()=>extractProg,getHold:()=>holdAct,workProg,
   spawnZombie,collideCircle,groundAt,losClear,doorPoint,noting:null,getAUD:()=>AUD,ensureAudio,
   step:(n=1)=>{ // headless/suspended-tab testing: run the update pipeline without rAF

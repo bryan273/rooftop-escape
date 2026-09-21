@@ -27,6 +27,8 @@ Bare fists always work, so being caught empty-handed is survivable but slow. Cro
 
 The **rooftop siege** sends up to 34 of them across the 30-second hold — shufflers, sprinters, belly-crawlers, screamers and brutes, through the roof door, over both parapets and up the west face — and around 16 s in, **THE BUTCHER** climbs over the parapet: twice your size and a magazine to put down.
 
+They also **path around** the building instead of at you: each floor is a walkable grid, so a zombie leaves its room through the doorway, comes round a partition and follows you down the corridor. A shut door only buys about a second — a hunting one forces it open. Nothing attacks through a wall or a closed door, and a body in a doorway can be shouldered aside.
+
 ## 🎭 Two game modes
 
 | | 🧟 **NIGHTMARE** | 🤖 **DAYLIGHT DRILL** |
@@ -64,7 +66,7 @@ Every step has to be finished before the next one unlocks. Anything that belongs
 | **Space** | Jump |
 | **E** | Take items · open/close doors · read notes · use the terminal · swipe keycards · talk to survivors (again for the next line) · respawn |
 | **LMB** | Attack. With no weapon you punch — about **4 punches** to put a zombie down, **2 crowbar swings**, **2 SMG rounds** (hits from behind count for more). Hurt enemies show a health bar over their head. |
-| **I** | Mission help: shows how to do the current step **and the objective arrow** (hidden by default, so you explore first) |
+| **I** | Mission help: shows how to do the current step **and the objective arrow** (hidden by default, so you explore first). The key legend in the top-right corner is always on screen. |
 | **Q** | Physical work: **tap** to kick boards in, **hold** to pry boards, pull a breaker, light the flare or revive a friend (let go at any time: progress is kept) · release the shutter in the terminal |
 | **F** | Flashlight (drains battery) |
 | **G** | Throw a flare (lures enemies away; on the roof it pulls attackers off you) |

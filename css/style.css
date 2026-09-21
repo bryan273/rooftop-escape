@@ -299,7 +299,7 @@ body.cine #subtitle{font-size:19px;bottom:14vh}
 #helpBtn{display:inline-block;margin-top:6px;padding:3px 9px;font-size:11.5px;letter-spacing:1px;color:#cfc8bb;background:rgba(4,5,7,.6);border:1px solid #3a3530;cursor:pointer;pointer-events:auto}
 #helpBtn b{color:var(--amber)}
 #helpBtn:hover{color:#fff;border-color:#8b8178}
-#missionWindow,#hintKey{display:none}
+#missionWindow{display:none}   /* [I] opens it; the key legend (#hintKey) stays up all the time */
 
 /* co-op: voice chat, give menu, spectator */
 #voice{display:none;position:fixed;left:22px;bottom:150px;z-index:21;gap:6px;flex-direction:column;align-items:flex-start;pointer-events:auto}
