@@ -159,7 +159,7 @@ Legend: ✅ **Implemented** · 🟡 **Partly implemented** · 🔭 **Planned (fu
 | 10 | **Fully hidden enemies are not drawn** — no more arms poking through thin walls | F11 (getting spoiled), F09 | `f255fc9` |
 | 11 | **Zombies on the wrong floor group** fixed (they appeared on floors you had not reached) | F08 | `8bb092d` |
 | 12 | **[Esc] closes a note instead of opening the pause menu** | F08, F11 | `427932d` |
-| 13 | **Floor arrows** pointed the wrong way; doorways kept clear of loot | F11 | earlier sprint |
+| 13 | **Floor arrows and the stairwell sign** pointed the wrong way; overlapping signs fixed; doorways kept clear of loot | F11 | `8065279`, `8330792` |
 | 14 | **Laptops with touchscreens** were wrongly blocked as "mobile device" | reported while sharing the link | `98aecf8` |
 
 ## 5. Open items / future work
