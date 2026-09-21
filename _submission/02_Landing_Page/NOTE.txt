@@ -1,0 +1,9 @@
+This is a copy of the live landing page (index.html + css/ + assets/promo/).
+Open index.html in a browser to review the layout offline.
+
+The "PLAY" button links to play.html, which is NOT copied here (the game is the
+whole repository). Play the real thing at:
+
+    https://bryan273.github.io/rooftop-escape/
+
+Source: https://github.com/bryan273/rooftop-escape
