@@ -1540,7 +1540,7 @@ class DoorC{
       ?{x0:hx-0.3,x1:hx+0.2,z0:Math.min(hz,hz+s*l),z1:Math.max(hz,hz+s*l),y0:y,y1:y+2.2,los:false,off:false}
       :{x0:Math.min(hx,hx+s*l),x1:Math.max(hx,hx+s*l),z0:hz-0.3,z1:hz+0.2,y0:y,y1:y+2.2,los:false,off:false};
     this.col={...this.colClosed};
-    this.col.isDoor=true;   // pathfinding walks through doorways: a hunting zombie opens them
+    this.col.isDoor=true;this.col.doorOf=this;   // pathfinding walks through a SHUT doorway (they open it), but never through the open leaf
     world.cols[f].push(this.col);
     // keep the doorway and its approach clear for the whole leaf swing
     if(axis==='x')addKeepClear(f,hx+len/2,hz,len+1.4,4.2);
@@ -1560,6 +1560,8 @@ class DoorC{
   setOpen(o,sound){
     this.open=o;
     Object.assign(this.col,o?this.colOpen:this.colClosed);
+    this.col.isDoor=true;this.col.doorOf=this;
+    NAV.mask[this.f]=null;NAV.fields.clear();   // the way through this floor just changed
     this.col.off=false;
     const target=o?(this.axis==='x'?-this.swing*1.85:this.swing*1.85):0;
     this.targetRy=target;
@@ -2530,7 +2532,8 @@ function navMask(f){
   if(NAV.mask[f])return NAV.mask[f];
   const m=new Uint8Array(NAV.w*NAV.h),y=f*CFG.FH,pad=0.18;   // a body needs 1.16 m; a 1.6 m doorway keeps ~1.1 m of grid
   for(const c of world.cols[f]||[]){
-    if(c.off||c.isDoor)continue;                       // an open OR shut door is a way through for them
+    if(c.off)continue;
+    if(c.isDoor&&!(c.doorOf&&c.doorOf.open))continue;   // shut: they shoulder it open. open: the leaf itself is solid
     if(c.y1<y+0.35||c.y0>y+1.7)continue;               // low enough to step over / high enough to duck
     const i0=Math.max(0,Math.floor((c.x0-pad-NAV.x0)/NAV.c)),i1=Math.min(NAV.w-1,Math.floor((c.x1+pad-NAV.x0)/NAV.c));
     const j0=Math.max(0,Math.floor((c.z0-pad-NAV.z0)/NAV.c)),j1=Math.min(NAV.h-1,Math.floor((c.z1+pad-NAV.z0)/NAV.c));
@@ -3359,6 +3362,23 @@ class Zombie{
     const c=navCellPos(best);
     return {x:c.x,z:c.z};
   }
+  /* Collision keeps the BODY out of the wall, but a swinging arm is longer than the body is wide,
+     so a limb used to poke through thin plaster and give the thing away. If the camera cannot see
+     the body or either shoulder, the whole zombie stops being drawn (corpses too). */
+  visTick(dt){
+    this.visT=(this.visT||0)-dt;
+    if(this.visT>0)return;
+    this.visT=rand(0.1,0.18);
+    const g=this.g.position;
+    const cx=player.third?player.pos.x:camera.position.x,cz=player.third?player.pos.z:camera.position.z;   // third person: judge it from the body, not the trailing camera
+    const cf=player.spec?clamp(Math.floor((camera.position.y-0.2)/CFG.FH),0,CFG.FLOORS):player.floor;
+    const d=Math.hypot(g.x-cx,g.z-cz);
+    if(cf!==this.f||d>11||d<0.9){this.g.visible=true;return;}   // other floors are hidden anyway; up close you can see it
+    const r=0.42*this.cfg.scale,ox=-(g.z-cz)/d*r,oz=(g.x-cx)/d*r;   // the two shoulders
+    this.g.visible=losClear(cx,cz,g.x,g.z,this.f)
+      ||losClear(cx,cz,g.x+ox,g.z+oz,this.f)
+      ||losClear(cx,cz,g.x-ox,g.z-oz,this.f);
+  }
   hear(x,z){if(this.dead)return;if(this.state!=='chase'){this.state='investigate';this.invest={x,z};this.investT=8;
     if(Math.random()<0.5)play('snarl',{pos:this.g.position,vol:.6,ref:14});}}
   hit(dmg,byRemote,kind='melee'){
@@ -3409,6 +3429,7 @@ class Zombie{
     const g=this.g;
     this.syncLevel();
     this.tickBar(dt);
+    this.visTick(dt);
     if(this.dead){
       if(this.type==='crawler'&&!this.robot){g.rotation.z=0;return;}
       if(this.corpseT<1){

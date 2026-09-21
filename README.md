@@ -27,7 +27,7 @@ Bare fists always work, so being caught empty-handed is survivable but slow. Cro
 
 The **rooftop siege** sends up to 34 of them across the 30-second hold — shufflers, sprinters, belly-crawlers, screamers and brutes, through the roof door, over both parapets and up the west face — and around 16 s in, **THE BUTCHER** climbs over the parapet: twice your size and a magazine to put down.
 
-They also **path around** the building instead of at you: each floor is a walkable grid, so a zombie leaves its room through the doorway, comes round a partition and follows you down the corridor. A shut door only buys about a second — a hunting one forces it open. Nothing attacks through a wall or a closed door, and a body in a doorway can be shouldered aside.
+They also **path around** the building instead of at you: each floor is a walkable grid, so a zombie leaves its room through the doorway, comes round a partition and follows you down the corridor. A shut door only buys about a second — a hunting one forces it open. Nothing attacks through a wall or a closed door, anything you cannot see is not drawn (no arms poking through the plaster to give it away), and a body in a doorway can be shouldered aside.
 
 ## 🎭 Two game modes
 

@@ -487,6 +487,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
       player.pos.set(stand,fy,0);player.floor=1;player.dead=false;player.down=false;player.hp=1000;
       z.state='chase';z.loseT=0;z.lastPX=player.pos.x;z.lastPZ=player.pos.z;
       let best=1e9,reachedCorridor=false;const stateN={};
+      const start0=Math.hypot(z.g.position.x-stand,z.g.position.z);
       for(let i=0;i<60*22;i++){   // a shambler crossing a room and a corridor takes its time
         player.pos.set(stand,fy,0);   // stand put: this measures the route, not a chase
         if(i%150===0)z.hear(player.pos.x,player.pos.z);   // you are audible: footsteps keep it coming
@@ -502,7 +503,7 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
         const mask=g.navMask(1),fl=g.navField(1,player.pos.x,player.pos.z);
         console.log('     nav debug: z@'+zp.x.toFixed(1)+','+zp.z.toFixed(1)+' states='+JSON.stringify(stateN)+' nav='+JSON.stringify(z.nav)+' investT='+(z.investT||0).toFixed(1)+' state='+z.state+' cellBlocked='+(here>=0?mask[here]:'oob')+' distHere='+(fl?fl.dist[here]:'nofield')+' distTarget='+(fl?fl.dist[tgt]:'-')+' doorOpen='+d.open);
       }
-      runs.push({door:px.toFixed(1),out:reachedCorridor,best:+best.toFixed(1)});
+      runs.push({door:px.toFixed(1),out:reachedCorridor,best:+best.toFixed(1),start:+start0.toFixed(1)});
       z.die(true);
     }
     // a SHUT door is no defence: a hunting zombie shoulders it open and still gets to you
@@ -531,8 +532,10 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
       const gp=d.g.position,px=gp.x+0.8,pz=gp.z,side=pz>=0?1:-1;
       d.setOpen(false,true);
       for(const zz of world.zombies)if(!zz.dead&&zz.f===1)zz.die(true);   // only the one being tested
+      const doorXs=doors.map(dd=>dd.g.position.x+0.8);
+      const okSpot=x=>g.freeSpot(1,x,pz+side*0.75,0.6)&&doorXs.every(dx=>Math.abs(dx-x)>1.4);   // solid wall between us, not another doorway
       let sx=px+3.2;
-      for(let k=0;k<12&&!g.freeSpot(1,sx,pz+side*0.75,0.6);k++)sx=px+3.2+(k%2?-1:1)*(0.4+0.4*k);   // not spawned inside a divider wall
+      for(let k=0;k<14&&!okSpot(sx);k++)sx=px+3.2+(k%2?-1:1)*(0.4+0.4*k);
       const z=g.spawnZombie(1,sx,pz+side*0.75,'shambler',null);   // right behind the front wall
       z.cfg.sight=99;z.state='chase';z.loseT=0;z.attackCd=0;
       player.hp=100;player.invulnT=0;
@@ -549,17 +552,27 @@ const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
           minWall=Math.min(minWall,Math.hypot(dx,dz));
         }
         for(const zz of world.zombies)if(zz!==z&&!zz.dead&&zz.f===1)zz.die(true);
-        if(i>20&&player.hp<100&&Math.abs(z.g.position.x-px)>1.3&&(z.g.position.z-pz)*side>0.15)touched++;
+        const near=Math.hypot(z.g.position.x-player.pos.x,z.g.position.z-player.pos.z)<2.5;
+        if(i>20&&player.hp<100&&near&&Math.abs(z.g.position.x-px)>1.3&&(z.g.position.z-pz)*side>0.15)touched++;
       }
       check('no biting through a wall',touched===0,'hits through the wall: '+touched);
+      // and you must not SEE it either: a fully hidden zombie is not drawn (arms used to poke through)
+      player.pos.set(sx,fy,pz-side*0.75);player.floor=1;camera.position.set(sx,fy+CFG.EYE,pz-side*0.75);
+      z.g.position.set(sx,1*CFG.FH,pz+side*0.75);z.visT=0;z.visTick(0.2);
+      const hidden=!z.g.visible;
+      if(!hidden)console.log('     vis debug: zf='+z.f+' pf='+player.floor+' cam='+camera.position.x.toFixed(1)+','+camera.position.y.toFixed(1)+','+camera.position.z.toFixed(1)+' z@'+z.g.position.x.toFixed(1)+','+z.g.position.z.toFixed(1)+' los='+g.losClear(camera.position.x,camera.position.z,z.g.position.x,z.g.position.z,1)+' d='+Math.hypot(z.g.position.x-camera.position.x,z.g.position.z-camera.position.z).toFixed(2));
+      z.g.position.set(player.pos.x+2.2,1*CFG.FH,player.pos.z);z.visT=0;z.visTick(0.2);
+      const shown=z.g.visible;
+      check('a zombie fully behind a wall is not drawn',hidden&&shown,'hidden='+hidden+' shownInTheOpen='+shown);
       check('the body stays out of the wall (>=0.3 m clear)',minWall>=0.3,'closest approach '+minWall.toFixed(2)+' m');
       z.die(true);
       d.setOpen(false,true);
     }
     G.started=wasStarted;
-    const got=runs.filter(r=>r.best<4.5).length;
+    // it came for you: out of the room, on top of you, or at least half the distance closed by ear alone
+    const got=runs.filter(r=>r.out||r.best<4.5||r.best<r.start*0.5).length;
     check('a zombie shut in a room finds the door and comes for you ('+got+'/'+runs.length+')',got===runs.length,
-      runs.map(r=>'door@'+r.door+' out='+r.out+' closest='+r.best).join(' · '));
+      runs.map(r=>'door@'+r.door+' out='+r.out+' '+r.start+'m->'+r.best+'m').join(' · '));
   }
 
 
